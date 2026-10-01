@@ -1,30 +1,15 @@
-// =========================================================
-// SUPNIK.IN
-// Nikhil & Supriya
-// Interactive wedding website
-// =========================================================
-
-
-// ---------------------------------------------------------
-// 1. ENTER THE CELEBRATION BUTTON
-// ---------------------------------------------------------
-
 const enterButton = document.getElementById("enterButton");
 
 if (enterButton) {
   enterButton.addEventListener("click", () => {
-    document
-      .getElementById("celebration")
-      .scrollIntoView({
-        behavior: "smooth"
-      });
+    document.getElementById("celebration").scrollIntoView({
+      behavior: "smooth"
+    });
   });
 }
 
 
-// ---------------------------------------------------------
-// 2. SCROLL REVEAL
-// ---------------------------------------------------------
+// SCROLL REVEAL
 
 const revealElements = document.querySelectorAll(".reveal");
 
@@ -38,7 +23,7 @@ const revealObserver = new IntersectionObserver(
     });
   },
   {
-    threshold: 0.12
+    threshold: 0.1
   }
 );
 
@@ -47,23 +32,26 @@ revealElements.forEach((element) => {
 });
 
 
-// ---------------------------------------------------------
-// 3. COUNTDOWN
-// Wedding celebrations begin:
-// 21 November 2026 at 10:30 AM IST
-// ---------------------------------------------------------
+// COUNTDOWN
+// Starts 21 November 2026 at 10:30 AM IST
 
 const weddingDate = new Date("2026-11-21T10:30:00+05:30");
 
 function updateCountdown() {
   const now = new Date();
-  const difference = weddingDate - now;
+  const difference = weddingDate.getTime() - now.getTime();
 
   const daysElement = document.getElementById("days");
   const hoursElement = document.getElementById("hours");
   const minutesElement = document.getElementById("minutes");
+  const secondsElement = document.getElementById("seconds");
 
-  if (!daysElement || !hoursElement || !minutesElement) {
+  if (
+    !daysElement ||
+    !hoursElement ||
+    !minutesElement ||
+    !secondsElement
+  ) {
     return;
   }
 
@@ -71,6 +59,7 @@ function updateCountdown() {
     daysElement.textContent = "00";
     hoursElement.textContent = "00";
     minutesElement.textContent = "00";
+    secondsElement.textContent = "00";
     return;
   }
 
@@ -86,6 +75,10 @@ function updateCountdown() {
     (difference / (1000 * 60)) % 60
   );
 
+  const seconds = Math.floor(
+    (difference / 1000) % 60
+  );
+
   daysElement.textContent =
     String(days).padStart(2, "0");
 
@@ -94,35 +87,32 @@ function updateCountdown() {
 
   minutesElement.textContent =
     String(minutes).padStart(2, "0");
+
+  secondsElement.textContent =
+    String(seconds).padStart(2, "0");
 }
 
 updateCountdown();
 
-setInterval(updateCountdown, 60000);
+setInterval(updateCountdown, 1000);
 
 
-// ---------------------------------------------------------
-// 4. ACTIVE MOBILE NAVIGATION
-// ---------------------------------------------------------
+// MOBILE NAVIGATION
 
 const navLinks = document.querySelectorAll(".nav-link");
 
 const sectionMap = [
   {
-    section: document.getElementById("home"),
-    nav: document.querySelector('.nav-link[href="#home"]')
+    section: document.getElementById("home")
   },
   {
-    section: document.getElementById("story"),
-    nav: document.querySelector('.nav-link[href="#story"]')
+    section: document.getElementById("story")
   },
   {
-    section: document.getElementById("events"),
-    nav: document.querySelector('.nav-link[href="#events"]')
+    section: document.getElementById("events")
   },
   {
-    section: document.getElementById("venue"),
-    nav: document.querySelector('.nav-link[href="#venue"]')
+    section: document.getElementById("venue")
   }
 ];
 
@@ -137,8 +127,7 @@ function setActiveNavigation() {
       item.section &&
       item.section.offsetTop <= scrollPosition
     ) {
-      currentSection =
-        item.section.getAttribute("id");
+      currentSection = item.section.getAttribute("id");
     }
   });
 
@@ -163,19 +152,14 @@ window.addEventListener(
 setActiveNavigation();
 
 
-// ---------------------------------------------------------
-// 5. SMOOTH NAVIGATION
-// ---------------------------------------------------------
+// SMOOTH NAVIGATION
 
 navLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
 
-    const targetId =
-      link.getAttribute("href");
-
-    const target =
-      document.querySelector(targetId);
+    const targetId = link.getAttribute("href");
+    const target = document.querySelector(targetId);
 
     if (target) {
       target.scrollIntoView({
@@ -186,9 +170,7 @@ navLinks.forEach((link) => {
 });
 
 
-// ---------------------------------------------------------
-// 6. GENTLE HERO PARALLAX
-// ---------------------------------------------------------
+// GENTLE HERO PARALLAX
 
 const heroContent =
   document.querySelector(".hero-content");
@@ -205,17 +187,17 @@ function updateParallax() {
   if (scroll < window.innerHeight) {
     if (heroContent) {
       heroContent.style.transform =
-        `translateY(${scroll * 0.08}px)`;
+        `translateY(${scroll * 0.06}px)`;
     }
 
     if (jasmineLeft) {
       jasmineLeft.style.marginTop =
-        `${scroll * 0.025}px`;
+        `${scroll * 0.02}px`;
     }
 
     if (jasmineRight) {
       jasmineRight.style.marginTop =
-        `${scroll * 0.04}px`;
+        `${scroll * 0.03}px`;
     }
   }
 }
@@ -227,20 +209,16 @@ window.addEventListener(
 );
 
 
-// ---------------------------------------------------------
-// 7. EVENT CARD TOUCH EFFECT
-// ---------------------------------------------------------
+// EVENT CARD TOUCH EFFECT
 
 const eventCards =
   document.querySelectorAll(".event-card");
 
 eventCards.forEach((card) => {
-
   card.addEventListener(
     "touchstart",
     () => {
-      card.style.transform =
-        "scale(0.985)";
+      card.style.transform = "scale(0.985)";
     },
     { passive: true }
   );
@@ -252,18 +230,11 @@ eventCards.forEach((card) => {
     },
     { passive: true }
   );
-
 });
 
 
-// ---------------------------------------------------------
-// 8. INITIAL PAGE LOAD
-// ---------------------------------------------------------
+// PAGE READY
 
 window.addEventListener("load", () => {
-
-  setTimeout(() => {
-    document.body.classList.add("loaded");
-  }, 100);
-
+  document.body.classList.add("loaded");
 });

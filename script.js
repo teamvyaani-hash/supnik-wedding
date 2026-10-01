@@ -5,440 +5,416 @@
 
 
 /* =========================================================
-   ENTER BUTTON
+   ENTER
 ========================================================= */
 
-const enterCelebration = document.getElementById("enterCelebration");
+const enterButton =
+  document.getElementById(
+    "enterCelebration"
+  );
 
-if (enterCelebration) {
-  enterCelebration.addEventListener("click", () => {
-    document.getElementById("intro")?.scrollIntoView({
-      behavior: "smooth"
-    });
-  });
-}
+enterButton?.addEventListener(
+  "click",
+  () => {
+
+    document
+      .getElementById("intro")
+      ?.scrollIntoView({
+        behavior: "smooth"
+      });
+
+  }
+);
 
 
 /* =========================================================
    COUNTDOWN
 ========================================================= */
 
-const weddingDate = new Date("2026-11-21T10:30:00+05:30");
+const weddingDate =
+  new Date(
+    "2026-11-21T10:30:00+05:30"
+  );
 
-const daysEl = document.getElementById("days");
-const hoursEl = document.getElementById("hours");
-const minutesEl = document.getElementById("minutes");
-const secondsEl = document.getElementById("seconds");
-const countdownMessage = document.getElementById("countdownMessage");
+
+const daysEl =
+  document.getElementById("days");
+
+const hoursEl =
+  document.getElementById("hours");
+
+const minutesEl =
+  document.getElementById("minutes");
+
+const secondsEl =
+  document.getElementById("seconds");
+
+const countdownMessage =
+  document.getElementById(
+    "countdownMessage"
+  );
+
+
+function twoDigits(number) {
+
+  return String(number)
+    .padStart(2, "0");
+
+}
+
 
 function updateCountdown() {
-  const now = new Date();
-  const difference = weddingDate - now;
 
-  if (difference <= 0) {
-    if (daysEl) daysEl.textContent = "00";
-    if (hoursEl) hoursEl.textContent = "00";
-    if (minutesEl) minutesEl.textContent = "00";
-    if (secondsEl) secondsEl.textContent = "00";
+  const now =
+    new Date();
 
-    if (countdownMessage) {
-      countdownMessage.textContent =
-        "Well. The countdown has officially lost its job.";
-    }
+  const distance =
+    weddingDate - now;
+
+
+  if (distance <= 0) {
+
+    daysEl.textContent =
+      "00";
+
+    hoursEl.textContent =
+      "00";
+
+    minutesEl.textContent =
+      "00";
+
+    secondsEl.textContent =
+      "00";
+
+
+    countdownMessage.textContent =
+      "The big day is here.";
 
     return;
+
   }
 
-  const totalSeconds = Math.floor(difference / 1000);
 
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
+  const days =
+    Math.floor(
+      distance /
+      (
+        1000 *
+        60 *
+        60 *
+        24
+      )
+    );
+
+
+  const hours =
+    Math.floor(
+      (
+        distance /
+        (
+          1000 *
+          60 *
+          60
+        )
+      ) % 24
+    );
+
+
+  const minutes =
+    Math.floor(
+      (
+        distance /
+        (
+          1000 *
+          60
+        )
+      ) % 60
+    );
+
+
+  const seconds =
+    Math.floor(
+      (
+        distance /
+        1000
+      ) % 60
+    );
+
 
   /*
-    You asked for 2 digits on days.
-    If it is above 99, it will still show the real number.
-    Once below 100 it will show 99, 98, 07, etc.
+    We are now within 99 days,
+    so DAYS stays visually at
+    two digits as requested.
   */
 
-  if (daysEl) {
-    daysEl.textContent =
-      days < 100
-        ? String(days).padStart(2, "0")
-        : String(days);
-  }
+  daysEl.textContent =
+    twoDigits(days);
 
-  if (hoursEl) {
-    hoursEl.textContent =
-      String(hours).padStart(2, "0");
-  }
+  hoursEl.textContent =
+    twoDigits(hours);
 
-  if (minutesEl) {
-    minutesEl.textContent =
-      String(minutes).padStart(2, "0");
-  }
+  minutesEl.textContent =
+    twoDigits(minutes);
 
-  if (secondsEl) {
-    secondsEl.textContent =
-      String(seconds).padStart(2, "0");
-  }
+  secondsEl.textContent =
+    twoDigits(seconds);
 
-  if (!countdownMessage) return;
 
-  if (days > 100) {
+  if (days > 30) {
+
     countdownMessage.textContent =
-      "Plenty of time. This is what we’re telling ourselves.";
-  } else if (days > 30) {
-    countdownMessage.textContent =
-      "Close enough to be exciting. Far enough away to keep pretending we’re organised.";
+      "Close enough to be exciting.";
+
   } else if (days > 7) {
+
     countdownMessage.textContent =
-      "Okay. This is becoming extremely real.";
+      "Okay. This is getting very real.";
+
   } else if (days > 1) {
+
     countdownMessage.textContent =
-      "This would be an excellent time to remember where your outfit is.";
+      "This would be a good time to locate your outfit.";
+
   } else {
+
     countdownMessage.textContent =
       "See you very, very soon.";
+
   }
+
 }
+
 
 updateCountdown();
 
-setInterval(updateCountdown, 1000);
+setInterval(
+  updateCountdown,
+  1000
+);
 
 
 /* =========================================================
-   REVEAL ON SCROLL
+   REVEAL ANIMATIONS
 ========================================================= */
 
-const revealElements =
-  document.querySelectorAll(".reveal");
+const reveals =
+  document.querySelectorAll(
+    ".reveal"
+  );
 
-if ("IntersectionObserver" in window) {
+
+if (
+  "IntersectionObserver"
+  in window
+) {
+
   const revealObserver =
     new IntersectionObserver(
       (entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
 
-          entry.target.classList.add("visible");
+        entries.forEach(
+          (entry) => {
 
-          observer.unobserve(entry.target);
-        });
+            if (
+              !entry.isIntersecting
+            ) {
+              return;
+            }
+
+
+            entry.target
+              .classList
+              .add("visible");
+
+
+            observer.unobserve(
+              entry.target
+            );
+
+          }
+        );
+
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -35px 0px"
+        threshold: 0.11,
+
+        rootMargin:
+          "0px 0px -35px 0px"
       }
     );
 
-  revealElements.forEach((element) => {
-    revealObserver.observe(element);
-  });
+
+  reveals.forEach(
+    (element, index) => {
+
+      element.style
+        .transitionDelay =
+          `${Math.min(
+            index % 3,
+            2
+          ) * 50}ms`;
+
+
+      revealObserver.observe(
+        element
+      );
+
+    }
+  );
+
 } else {
-  revealElements.forEach((element) => {
-    element.classList.add("visible");
-  });
+
+  reveals.forEach(
+    element => {
+
+      element.classList.add(
+        "visible"
+      );
+
+    }
+  );
+
 }
 
 
 /* =========================================================
-   TEAM NIKHIL / TEAM SUPRIYA
+   HERO SPARKLES
+========================================================= */
+
+const heroSparkles =
+  document.getElementById(
+    "heroSparkles"
+  );
+
+
+if (heroSparkles) {
+
+  for (
+    let i = 0;
+    i < 12;
+    i++
+  ) {
+
+    const sparkle =
+      document.createElement(
+        "span"
+      );
+
+
+    sparkle.className =
+      "hero-sparkle";
+
+
+    sparkle.textContent =
+      Math.random() > 0.5
+        ? "✦"
+        : "·";
+
+
+    sparkle.style.left =
+      `${5 + Math.random() * 90}%`;
+
+
+    sparkle.style.top =
+      `${25 + Math.random() * 65}%`;
+
+
+    sparkle.style.animationDuration =
+      `${4 + Math.random() * 5}s`;
+
+
+    sparkle.style.animationDelay =
+      `${Math.random() * 5}s`;
+
+
+    sparkle.style.fontSize =
+      `${6 + Math.random() * 8}px`;
+
+
+    heroSparkles.appendChild(
+      sparkle
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   TEAM NIKHIL / SUPRIYA
 ========================================================= */
 
 const teamNikhil =
-  document.getElementById("teamNikhil");
+  document.getElementById(
+    "teamNikhil"
+  );
 
 const teamSupriya =
-  document.getElementById("teamSupriya");
+  document.getElementById(
+    "teamSupriya"
+  );
 
 const teamResponse =
-  document.getElementById("teamResponse");
+  document.getElementById(
+    "teamResponse"
+  );
+
 
 let nikhilClicks = 0;
+
 let supriyaClicks = 0;
 
-if (teamNikhil) {
-  teamNikhil.addEventListener("click", () => {
-    nikhilClicks += 1;
 
-    if (!teamResponse) return;
+teamNikhil?.addEventListener(
+  "click",
+  () => {
+
+    nikhilClicks++;
+
 
     if (nikhilClicks >= 5) {
+
       teamResponse.textContent =
         "Okay bro, we get it.";
 
       nikhilClicks = 0;
 
       return;
+
     }
+
 
     teamResponse.textContent =
       "Excellent choice. Slightly questionable judgment, but excellent choice.";
-  });
-}
 
-if (teamSupriya) {
-  teamSupriya.addEventListener("click", () => {
-    supriyaClicks += 1;
+  }
+);
 
-    if (!teamResponse) return;
+
+teamSupriya?.addEventListener(
+  "click",
+  () => {
+
+    supriyaClicks++;
+
 
     if (supriyaClicks >= 5) {
+
       teamResponse.textContent =
         "Commitment noted. Respect.";
 
       supriyaClicks = 0;
 
       return;
+
     }
+
 
     teamResponse.textContent =
       "You clearly know who runs this wedding.";
-  });
-}
 
-
-/* =========================================================
-   SECRET EASTER EGG
-========================================================= */
-
-const secretTrigger =
-  document.getElementById("secretTrigger");
-
-const secretMessage =
-  document.getElementById("secretMessage");
-
-const secretClose =
-  document.getElementById("secretClose");
-
-const heartContainer =
-  document.getElementById("heartContainer");
-
-let heartInterval;
-
-function createHeart() {
-  if (!heartContainer) return;
-
-  const heart =
-    document.createElement("span");
-
-  heart.className =
-    "secret-heart";
-
-  heart.textContent =
-    "♡";
-
-  heart.style.left =
-    `${Math.random() * 100}%`;
-
-  heart.style.fontSize =
-    `${14 + Math.random() * 24}px`;
-
-  heart.style.animationDuration =
-    `${4 + Math.random() * 4}s`;
-
-  heartContainer.appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 8500);
-}
-
-function openSecret() {
-  if (!secretMessage) return;
-
-  secretMessage.classList.add("open");
-
-  secretMessage.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
-  document.body.style.overflow =
-    "hidden";
-
-  clearInterval(heartInterval);
-
-  for (let i = 0; i < 7; i++) {
-    setTimeout(
-      createHeart,
-      i * 130
-    );
-  }
-
-  heartInterval =
-    setInterval(
-      createHeart,
-      700
-    );
-}
-
-function closeSecret() {
-  if (!secretMessage) return;
-
-  secretMessage.classList.remove("open");
-
-  secretMessage.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-  document.body.style.overflow =
-    "";
-
-  clearInterval(heartInterval);
-
-  if (heartContainer) {
-    heartContainer.innerHTML = "";
-  }
-}
-
-secretTrigger?.addEventListener(
-  "click",
-  openSecret
-);
-
-secretClose?.addEventListener(
-  "click",
-  closeSecret
-);
-
-secretMessage?.addEventListener(
-  "click",
-  (event) => {
-    if (
-      event.target ===
-      secretMessage
-    ) {
-      closeSecret();
-    }
   }
 );
-
-document.addEventListener(
-  "keydown",
-  (event) => {
-    if (event.key === "Escape") {
-      closeSecret();
-    }
-  }
-);
-
-
-/* =========================================================
-   STORY SCROLLER
-========================================================= */
-
-const storyScroller =
-  document.getElementById("storyScroller");
-
-const storyDots =
-  document.querySelectorAll(".story-dot");
-
-const storyCards =
-  document.querySelectorAll(".story-card");
-
-function updateStoryState() {
-  if (
-    !storyScroller ||
-    !storyCards.length
-  ) {
-    return;
-  }
-
-  const scrollerCenter =
-    storyScroller.scrollLeft +
-    storyScroller.clientWidth / 2;
-
-  let closestIndex = 0;
-  let closestDistance = Infinity;
-
-  storyCards.forEach(
-    (card, index) => {
-      const cardCenter =
-        card.offsetLeft +
-        card.offsetWidth / 2;
-
-      const distance =
-        Math.abs(
-          scrollerCenter -
-          cardCenter
-        );
-
-      if (
-        distance <
-        closestDistance
-      ) {
-        closestDistance =
-          distance;
-
-        closestIndex =
-          index;
-      }
-    }
-  );
-
-  storyDots.forEach(
-    (dot, index) => {
-      dot.classList.toggle(
-        "active",
-        index === closestIndex
-      );
-    }
-  );
-
-  storyCards.forEach(
-    (card, index) => {
-      if (
-        index === closestIndex
-      ) {
-        card.style.transform =
-          "translateY(-3px)";
-      } else {
-        card.style.transform =
-          "";
-      }
-    }
-  );
-}
-
-if (storyScroller) {
-  storyScroller.addEventListener(
-    "scroll",
-    () => {
-      window.requestAnimationFrame(
-        updateStoryState
-      );
-    },
-    {
-      passive: true
-    }
-  );
-}
-
-storyDots.forEach((dot) => {
-  dot.addEventListener(
-    "click",
-    () => {
-      const index =
-        Number(
-          dot.dataset.slide
-        );
-
-      const targetCard =
-        storyCards[index];
-
-      targetCard?.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest"
-      });
-    }
-  );
-});
 
 
 /* =========================================================
@@ -446,6 +422,7 @@ storyDots.forEach((dot) => {
 ========================================================= */
 
 const quizBank = [
+
   {
     question:
       "Where did this story technically begin?",
@@ -454,7 +431,7 @@ const quizBank = [
       "KPMG",
       "Watson’s",
       "Bangalore traffic",
-      "A very dramatic airport terminal"
+      "An airport"
     ],
 
     answer: 0,
@@ -463,14 +440,15 @@ const quizBank = [
       "Correct. HR was not consulted."
   },
 
+
   {
     question:
       "Where did things become suspiciously less professional?",
 
     options: [
-      "An office meeting room",
+      "A meeting room",
       "Watson’s",
-      "The airport",
+      "An airport",
       "MGM Beach Resort"
     ],
 
@@ -480,22 +458,24 @@ const quizBank = [
       "Exactly. Allegedly just a casual catch-up."
   },
 
+
   {
     question:
-      "What became a recurring feature of the long-distance era?",
+      "What became a recurring feature of the long-distance chapter?",
 
     options: [
       "Flights",
       "Calls",
-      "‘When are you coming?’",
+      "When are you coming?",
       "All of the above"
     ],
 
     answer: 3,
 
     reaction:
-      "Correct. Frequent-flyer points should probably be in the wedding party."
+      "Correct. Frequent-flyer points deserve a wedding invitation."
   },
+
 
   {
     question:
@@ -503,381 +483,498 @@ const quizBank = [
 
     options: [
       "Peace and quiet",
-      "Bangalore traffic jams",
+      "Bangalore traffic",
       "A private jet",
-      "Better life decisions"
+      "Good planning"
     ],
 
     answer: 1,
 
     reaction:
-      "Correct. Romantic? Debatable. Accurate? Unfortunately."
+      "Correct. Romantic? Debatable."
   },
+
 
   {
     question:
-      "Where does the story finally bring everyone together?",
+      "Where are we getting married?",
 
     options: [
-      "Back at KPMG",
+      "KPMG",
       "Goa",
       "MGM Beach Resort",
-      "Another Zoom call"
+      "Watson’s"
     ],
 
     answer: 2,
 
     reaction:
-      "Correct. Considerably better than a conference room."
+      "Correct. Slightly better than a conference room."
   },
+
 
   {
     question:
       "What is the 2026 plot twist?",
 
     options: [
-      "Another long-distance chapter",
-      "Everyone else has to travel now",
-      "We cancel the wedding",
-      "Nobody mentions traffic"
+      "More long distance",
+      "Everyone else travels now",
+      "Nobody mentions traffic",
+      "We move back to KPMG"
     ],
 
     answer: 1,
 
     reaction:
-      "Correct. Our turn to inconvenience everyone else."
+      "Correct. Our turn to inconvenience everyone."
   },
+
 
   {
     question:
       "Which phrase best describes the road from KPMG to Chennai?",
 
     options: [
-      "Efficient and well planned",
-      "Completely straightforward",
+      "Simple",
+      "Efficient",
       "A suspicious amount of logistics",
-      "No travel involved"
+      "Zero travel"
     ],
 
     answer: 2,
 
     reaction:
-      "Correct. There have been spreadsheets. Many spreadsheets."
+      "Correct. There have been spreadsheets."
   },
+
 
   {
     question:
-      "What is the safest prediction for 21–22 November?",
+      "What is the safest prediction for November 21–22?",
 
     options: [
       "Everyone arrives early",
-      "Nobody asks for directions",
+      "Nobody asks directions",
       "Nikhil and Supriya get married",
-      "Zero family WhatsApp messages"
+      "Zero WhatsApp messages"
     ],
 
     answer: 2,
 
     reaction:
-      "Correct. We’re fairly confident about this one."
+      "Correct. We’re reasonably confident about that one."
   }
+
 ];
 
+
 const startQuiz =
-  document.getElementById("startQuiz");
+  document.getElementById(
+    "startQuiz"
+  );
 
 const restartQuiz =
-  document.getElementById("restartQuiz");
+  document.getElementById(
+    "restartQuiz"
+  );
 
 const quizStart =
-  document.getElementById("quizStart");
+  document.getElementById(
+    "quizStart"
+  );
 
 const quizGame =
-  document.getElementById("quizGame");
+  document.getElementById(
+    "quizGame"
+  );
 
 const quizResult =
-  document.getElementById("quizResult");
+  document.getElementById(
+    "quizResult"
+  );
 
 const quizProgress =
-  document.getElementById("quizProgress");
+  document.getElementById(
+    "quizProgress"
+  );
 
-const quizScoreEl =
-  document.getElementById("quizScore");
+const quizScore =
+  document.getElementById(
+    "quizScore"
+  );
 
 const quizQuestion =
-  document.getElementById("quizQuestion");
+  document.getElementById(
+    "quizQuestion"
+  );
 
 const quizOptions =
-  document.getElementById("quizOptions");
+  document.getElementById(
+    "quizOptions"
+  );
 
 const quizReaction =
-  document.getElementById("quizReaction");
+  document.getElementById(
+    "quizReaction"
+  );
 
 const quizResultTitle =
-  document.getElementById("quizResultTitle");
+  document.getElementById(
+    "quizResultTitle"
+  );
 
 const quizResultText =
-  document.getElementById("quizResultText");
-
-let selectedQuestions = [];
-let currentQuestionIndex = 0;
-let score = 0;
-let answerLocked = false;
-
-function shuffle(array) {
-  return [...array].sort(
-    () =>
-      Math.random() - 0.5
+  document.getElementById(
+    "quizResultText"
   );
+
+
+let quizQuestions = [];
+
+let quizIndex = 0;
+
+let score = 0;
+
+let locked = false;
+
+
+function shuffle(
+  array
+) {
+
+  const copy =
+    [...array];
+
+
+  for (
+    let i =
+      copy.length - 1;
+
+    i > 0;
+
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (i + 1)
+      );
+
+
+    [
+      copy[i],
+      copy[j]
+    ] =
+    [
+      copy[j],
+      copy[i]
+    ];
+
+  }
+
+
+  return copy;
+
 }
 
-function startQuizGame() {
-  selectedQuestions =
-    shuffle(quizBank).slice(
+
+function beginQuiz() {
+
+  quizQuestions =
+    shuffle(
+      quizBank
+    ).slice(
       0,
       6
     );
 
-  currentQuestionIndex = 0;
+
+  quizIndex = 0;
+
   score = 0;
-  answerLocked = false;
 
-  quizStart?.classList.add(
-    "hidden"
-  );
+  locked = false;
 
-  quizResult?.classList.add(
-    "hidden"
-  );
 
-  quizGame?.classList.remove(
-    "hidden"
-  );
+  quizStart
+    ?.classList
+    .add("hidden");
 
-  showQuizQuestion();
+
+  quizResult
+    ?.classList
+    .add("hidden");
+
+
+  quizGame
+    ?.classList
+    .remove("hidden");
+
+
+  renderQuestion();
+
 }
 
-function showQuizQuestion() {
-  if (!selectedQuestions.length) {
+
+function renderQuestion() {
+
+  locked = false;
+
+
+  const current =
+    quizQuestions[
+      quizIndex
+    ];
+
+
+  if (!current) {
     return;
   }
 
-  answerLocked = false;
 
-  const currentQuestion =
-    selectedQuestions[
-      currentQuestionIndex
-    ];
+  quizProgress.textContent =
+    `Question ${quizIndex + 1} of 6`;
 
-  if (quizProgress) {
-    quizProgress.textContent =
-      `Question ${currentQuestionIndex + 1} of 6`;
-  }
 
-  if (quizScoreEl) {
-    quizScoreEl.textContent =
-      `${score} correct`;
-  }
+  quizScore.textContent =
+    `${score} correct`;
 
-  if (quizQuestion) {
-    quizQuestion.textContent =
-      currentQuestion.question;
-  }
 
-  if (quizReaction) {
-    quizReaction.textContent =
-      "";
-  }
+  quizQuestion.textContent =
+    current.question;
 
-  if (!quizOptions) return;
+
+  quizReaction.textContent =
+    "";
+
 
   quizOptions.innerHTML =
     "";
 
-  currentQuestion.options.forEach(
-    (option, optionIndex) => {
-      const button =
-        document.createElement(
-          "button"
+
+  current.options
+    .forEach(
+      (
+        option,
+        optionIndex
+      ) => {
+
+        const button =
+          document
+            .createElement(
+              "button"
+            );
+
+
+        button.type =
+          "button";
+
+
+        button.textContent =
+          option;
+
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            answerQuestion(
+              button,
+              optionIndex,
+              current
+            );
+
+          }
         );
 
-      button.type =
-        "button";
 
-      button.textContent =
-        option;
+        quizOptions.appendChild(
+          button
+        );
 
-      button.addEventListener(
-        "click",
-        () => {
-          handleQuizAnswer(
-            button,
-            optionIndex,
-            currentQuestion
-          );
-        }
-      );
+      }
+    );
 
-      quizOptions.appendChild(
-        button
-      );
-    }
-  );
 }
 
-function handleQuizAnswer(
-  clickedButton,
-  selectedIndex,
-  currentQuestion
-) {
-  if (answerLocked) return;
 
-  answerLocked = true;
+function answerQuestion(
+  button,
+  selected,
+  current
+) {
+
+  if (locked) {
+    return;
+  }
+
+
+  locked = true;
+
 
   const buttons =
-    quizOptions?.querySelectorAll(
-      "button"
-    ) || [];
+    quizOptions
+      .querySelectorAll(
+        "button"
+      );
 
-  const isCorrect =
-    selectedIndex ===
-    currentQuestion.answer;
 
-  if (isCorrect) {
-    score += 1;
+  const correct =
+    selected ===
+    current.answer;
 
-    clickedButton.classList.add(
+
+  if (correct) {
+
+    score++;
+
+    button.classList.add(
       "correct"
     );
+
   } else {
-    clickedButton.classList.add(
+
+    button.classList.add(
       "wrong"
     );
 
-    const correctButton =
-      buttons[
-        currentQuestion.answer
-      ];
 
-    correctButton?.classList.add(
-      "correct"
-    );
+    buttons[
+      current.answer
+    ]
+      ?.classList
+      .add(
+        "correct"
+      );
+
   }
 
-  if (quizScoreEl) {
-    quizScoreEl.textContent =
-      `${score} correct`;
-  }
 
-  if (quizReaction) {
-    quizReaction.textContent =
-      isCorrect
-        ? currentQuestion.reaction
-        : "Not quite. We’ll pretend nobody saw that.";
-  }
+  quizScore.textContent =
+    `${score} correct`;
+
+
+  quizReaction.textContent =
+    correct
+      ? current.reaction
+      : "Not quite. We’ll pretend nobody saw that.";
+
 
   buttons.forEach(
-    (button) => {
-      button.disabled = true;
+    btn => {
+
+      btn.disabled =
+        true;
+
     }
   );
+
 
   setTimeout(
     () => {
-      currentQuestionIndex += 1;
+
+      quizIndex++;
+
 
       if (
-        currentQuestionIndex >=
-        selectedQuestions.length
+        quizIndex >=
+        quizQuestions.length
       ) {
+
         finishQuiz();
+
       } else {
-        showQuizQuestion();
+
+        renderQuestion();
+
       }
+
     },
-    1250
+    1100
   );
+
 }
+
 
 function finishQuiz() {
-  quizGame?.classList.add(
-    "hidden"
-  );
 
-  quizResult?.classList.remove(
-    "hidden"
-  );
+  quizGame
+    ?.classList
+    .add(
+      "hidden"
+    );
+
+
+  quizResult
+    ?.classList
+    .remove(
+      "hidden"
+    );
+
 
   if (score === 6) {
-    if (quizResultTitle) {
-      quizResultTitle.textContent =
-        "Suspicious.";
-    }
 
-    if (quizResultText) {
-      quizResultText.textContent =
-        "Perfect score. Either you know us extremely well or you have somehow been studying this website.";
-    }
+    quizResultTitle.textContent =
+      "Suspicious.";
 
-    return;
-  }
+    quizResultText.textContent =
+      "Perfect score. Either you know us extremely well or you studied this website.";
 
-  if (score >= 4) {
-    if (quizResultTitle) {
-      quizResultTitle.textContent =
-        "You actually know us.";
-    }
+  } else if (
+    score >= 4
+  ) {
 
-    if (quizResultText) {
-      quizResultText.textContent =
-        `${score}/6. Respectable. Your invitation remains fully valid.`;
-    }
+    quizResultTitle.textContent =
+      "You actually know us.";
 
-    return;
-  }
+    quizResultText.textContent =
+      `${score}/6. Respectable. Your invitation remains valid.`;
 
-  if (score >= 2) {
-    if (quizResultTitle) {
-      quizResultTitle.textContent =
-        "We’ll allow it.";
-    }
+  } else if (
+    score >= 2
+  ) {
 
-    if (quizResultText) {
-      quizResultText.textContent =
-        `${score}/6. Enough knowledge to attend. Possibly not enough to give a speech.`;
-    }
+    quizResultTitle.textContent =
+      "We’ll allow it.";
 
-    return;
-  }
+    quizResultText.textContent =
+      `${score}/6. Enough knowledge to attend. Probably not enough to give a speech.`;
 
-  if (quizResultTitle) {
+  } else {
+
     quizResultTitle.textContent =
       "Interesting.";
-  }
 
-  if (quizResultText) {
     quizResultText.textContent =
       `${score}/6. Still invited. Barely.`;
+
   }
+
 }
+
 
 startQuiz?.addEventListener(
   "click",
-  startQuizGame
+  beginQuiz
 );
+
 
 restartQuiz?.addEventListener(
   "click",
-  startQuizGame
+  beginQuiz
 );
 
 
 /* =========================================================
-   CALENDAR INVITES
+   CALENDAR FILES
 ========================================================= */
 
 const calendarEvents = {
+
   engagement: {
+
     title:
       "Nikhil & Supriya - Engagement",
 
@@ -891,10 +988,13 @@ const calendarEvents = {
       "Lake Lawn, MGM Beach Resort, ECR, Chennai",
 
     description:
-      "Nikhil & Supriya's Engagement at MGM Beach Resort."
+      "Nikhil & Supriya's Engagement"
+
   },
 
+
   reception: {
+
     title:
       "Nikhil & Supriya - Reception",
 
@@ -908,10 +1008,13 @@ const calendarEvents = {
       "Lake Lawn, MGM Beach Resort, ECR, Chennai",
 
     description:
-      "Nikhil & Supriya's Reception at MGM Beach Resort."
+      "Nikhil & Supriya's Reception"
+
   },
 
+
   muhurtham: {
+
     title:
       "Nikhil & Supriya - Muhurtham",
 
@@ -925,109 +1028,175 @@ const calendarEvents = {
       "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
 
     description:
-      "Nikhil & Supriya's Muhurtham at MGM Beach Resort."
+      "Nikhil & Supriya's Muhurtham"
+
   }
+
 };
 
-function escapeICS(value) {
+
+function escapeICS(
+  value
+) {
+
   return String(value)
-    .replace(/\\/g, "\\\\")
-    .replace(/\n/g, "\\n")
-    .replace(/,/g, "\\,")
-    .replace(/;/g, "\\;");
+
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+
+    .replace(
+      /\n/g,
+      "\\n"
+    )
+
+    .replace(
+      /,/g,
+      "\\,"
+    )
+
+    .replace(
+      /;/g,
+      "\\;"
+    );
+
 }
 
-function downloadICS(eventKey) {
+
+function downloadCalendar(
+  type
+) {
+
   const event =
-    calendarEvents[eventKey];
+    calendarEvents[type];
 
-  if (!event) return;
 
-  const icsContent = [
+  if (!event) {
+    return;
+  }
+
+
+  const stamp =
+    new Date()
+      .toISOString()
+      .replace(
+        /[-:]/g,
+        ""
+      )
+      .replace(
+        /\.\d{3}Z$/,
+        "Z"
+      );
+
+
+  const content = [
+
     "BEGIN:VCALENDAR",
+
     "VERSION:2.0",
+
     "PRODID:-//SUPNIK//Wedding//EN",
+
     "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
 
     "BEGIN:VEVENT",
 
-    `UID:${eventKey}-20261121@supnik.in`,
+    `UID:${type}-2026@supnik.in`,
 
-    `DTSTAMP:${new Date()
-      .toISOString()
-      .replace(/[-:]/g, "")
-      .replace(/\.\d{3}Z$/, "Z")}`,
+    `DTSTAMP:${stamp}`,
 
     `DTSTART:${event.start}`,
+
     `DTEND:${event.end}`,
 
     `SUMMARY:${escapeICS(event.title)}`,
+
     `LOCATION:${escapeICS(event.location)}`,
+
     `DESCRIPTION:${escapeICS(event.description)}`,
 
     "END:VEVENT",
+
     "END:VCALENDAR"
-  ].join("\r\n");
+
+  ].join(
+    "\r\n"
+  );
+
 
   const blob =
     new Blob(
-      [icsContent],
+      [content],
       {
         type:
           "text/calendar;charset=utf-8"
       }
     );
 
+
   const url =
     URL.createObjectURL(
       blob
     );
+
 
   const link =
     document.createElement(
       "a"
     );
 
+
   link.href = url;
 
   link.download =
-    `nikhil-supriya-${eventKey}.ics`;
+    `nikhil-supriya-${type}.ics`;
 
-  document.body.appendChild(
-    link
-  );
+
+  document.body
+    .appendChild(
+      link
+    );
+
 
   link.click();
 
-  document.body.removeChild(
-    link
-  );
+
+  link.remove();
+
 
   setTimeout(
     () => {
+
       URL.revokeObjectURL(
         url
       );
+
     },
     1000
   );
+
 }
+
 
 document
   .querySelectorAll(
     ".calendar-button"
   )
   .forEach(
-    (button) => {
+    button => {
+
       button.addEventListener(
         "click",
         () => {
-          downloadICS(
+
+          downloadCalendar(
             button.dataset.event
           );
+
         }
       );
+
     }
   );
 
@@ -1046,12 +1215,12 @@ const wisdomText =
     "wisdomText"
   );
 
-const wisdomBank = [
+
+const wisdom = [
+
   "If someone says ‘quick photo’, emotionally prepare for seventeen.",
 
   "Never trust anyone who says the family group photo will take five minutes.",
-
-  "The correct wedding arrival time is earlier than whatever time you were planning.",
 
   "Comfortable shoes are a personality trait now.",
 
@@ -1059,73 +1228,85 @@ const wisdomBank = [
 
   "Charge your phone. Someone will eventually ask you to take a photo.",
 
-  "If you hear music from the dance floor, resistance is probably temporary.",
-
   "The phrase ‘we’re almost ready’ has no measurable relationship with time.",
 
-  "If an auntie tells you to eat, the discussion has already ended.",
-
-  "When in doubt, smile and follow the person who looks like they know what’s happening.",
+  "When in doubt, follow the person who looks like they know what is happening.",
 
   "Do not start an IPL argument unless you have cleared your schedule.",
 
-  "Never underestimate the power of one enthusiastic relative with a camera.",
-
   "If Nikhil says everything is under control, confirm independently.",
 
-  "If Supriya says everything is under control, it probably is."
+  "If Supriya says everything is under control, it probably is.",
+
+  "One enthusiastic relative is enough to start a dance floor.",
+
+  "Someone will ask where the venue is despite being sent the location several times."
+
 ];
 
-let previousWisdomIndex =
+
+let lastWisdom =
   -1;
+
 
 wisdomButton?.addEventListener(
   "click",
   () => {
-    if (!wisdomText) return;
 
-    let newIndex;
+    let index;
+
 
     do {
-      newIndex =
+
+      index =
         Math.floor(
           Math.random() *
-          wisdomBank.length
+          wisdom.length
         );
+
     } while (
-      wisdomBank.length > 1 &&
-      newIndex ===
-        previousWisdomIndex
+      index ===
+        lastWisdom &&
+      wisdom.length > 1
     );
 
-    previousWisdomIndex =
-      newIndex;
+
+    lastWisdom =
+      index;
+
 
     wisdomText.style.opacity =
       "0";
 
+
     wisdomText.style.transform =
       "translateY(6px)";
 
+
     setTimeout(
       () => {
+
         wisdomText.textContent =
-          wisdomBank[newIndex];
+          wisdom[index];
+
 
         wisdomText.style.opacity =
           "1";
 
+
         wisdomText.style.transform =
           "translateY(0)";
+
       },
       180
     );
+
   }
 );
 
 
 /* =========================================================
-   FLOATING NAVIGATION
+   FLOATING NAV
 ========================================================= */
 
 const navLinks =
@@ -1133,41 +1314,59 @@ const navLinks =
     ".nav-link"
   );
 
+
 navLinks.forEach(
-  (link) => {
+  link => {
+
     link.addEventListener(
       "click",
-      (event) => {
-        const href =
+      event => {
+
+        const selector =
           link.getAttribute(
             "href"
           );
 
+
         if (
-          !href?.startsWith("#")
+          !selector
+          ?.startsWith("#")
         ) {
           return;
         }
 
+
         const target =
           document.querySelector(
-            href
+            selector
           );
 
-        if (!target) return;
+
+        if (!target) {
+          return;
+        }
+
 
         event.preventDefault();
 
+
         target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
+          behavior:
+            "smooth",
+
+          block:
+            "start"
         });
+
       }
     );
+
   }
 );
 
-const sectionMap = [
+
+const navSections = [
+
   {
     id: "home",
     element:
@@ -1199,71 +1398,68 @@ const sectionMap = [
         "venue"
       )
   }
+
 ].filter(
-  (section) =>
-    section.element
+  item =>
+    item.element
 );
 
-if (
-  "IntersectionObserver" in
-  window
-) {
-  const navObserver =
-    new IntersectionObserver(
-      (entries) => {
-        const visibleEntries =
-          entries
-            .filter(
-              (entry) =>
-                entry.isIntersecting
-            )
-            .sort(
-              (a, b) =>
-                b.intersectionRatio -
-                a.intersectionRatio
-            );
 
-        if (
-          !visibleEntries.length
-        ) {
-          return;
-        }
+function updateActiveNav() {
 
-        const activeId =
-          visibleEntries[0]
-            .target.id;
+  const position =
+    window.scrollY +
+    window.innerHeight *
+    0.38;
 
-        navLinks.forEach(
-          (link) => {
-            link.classList.toggle(
-              "active",
-              link.dataset.section ===
-                activeId
-            );
-          }
-        );
-      },
-      {
-        rootMargin:
-          "-25% 0px -55% 0px",
 
-        threshold: [
-          0.05,
-          0.2,
-          0.4,
-          0.6
-        ]
+  let active =
+    "home";
+
+
+  navSections.forEach(
+    section => {
+
+      if (
+        position >=
+        section.element.offsetTop
+      ) {
+
+        active =
+          section.id;
+
       }
-    );
 
-  sectionMap.forEach(
-    (section) => {
-      navObserver.observe(
-        section.element
-      );
     }
   );
+
+
+  navLinks.forEach(
+    link => {
+
+      link.classList.toggle(
+        "active",
+
+        link.dataset.section ===
+          active
+      );
+
+    }
+  );
+
 }
+
+
+window.addEventListener(
+  "scroll",
+  updateActiveNav,
+  {
+    passive: true
+  }
+);
+
+
+updateActiveNav();
 
 
 /* =========================================================
@@ -1275,14 +1471,20 @@ const backToTop =
     "backToTop"
   );
 
-function updateBackToTop() {
-  if (!backToTop) return;
 
-  backToTop.classList.toggle(
-    "visible",
-    window.scrollY > 650
-  );
+function updateBackToTop() {
+
+  backToTop
+    ?.classList
+    .toggle(
+      "visible",
+
+      window.scrollY >
+        750
+    );
+
 }
+
 
 window.addEventListener(
   "scroll",
@@ -1292,21 +1494,24 @@ window.addEventListener(
   }
 );
 
-updateBackToTop();
 
 backToTop?.addEventListener(
   "click",
   () => {
+
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+
+      behavior:
+        "smooth"
     });
+
   }
 );
 
 
 /* =========================================================
-   HIDE NAV NEAR CLOSING
+   HIDE NAV AT CLOSING
 ========================================================= */
 
 const floatingNav =
@@ -1314,91 +1519,320 @@ const floatingNav =
     "mobileNav"
   );
 
-const closingSection =
+const closing =
   document.querySelector(
     ".closing-section"
   );
 
+
 if (
   floatingNav &&
-  closingSection &&
-  "IntersectionObserver" in window
+  closing &&
+  "IntersectionObserver"
+  in window
 ) {
+
   const closingObserver =
     new IntersectionObserver(
-      (entries) => {
+      entries => {
+
         entries.forEach(
-          (entry) => {
-            floatingNav.classList.toggle(
-              "nav-hidden",
-              entry.isIntersecting &&
+          entry => {
+
+            floatingNav
+              .classList
+              .toggle(
+                "nav-hidden",
+
+                entry.isIntersecting &&
                 entry.intersectionRatio >
-                  0.16
-            );
+                  0.22
+              );
+
           }
         );
+
       },
       {
         threshold: [
           0,
-          0.16,
-          0.35
+          0.22,
+          0.45
         ]
       }
     );
 
+
   closingObserver.observe(
-    closingSection
+    closing
   );
+
 }
 
 
 /* =========================================================
-   HERO PARALLAX
+   SECRET LOGO EASTER EGG
 ========================================================= */
 
-const heroImage =
-  document.querySelector(
-    ".hero-image"
+const secretTrigger =
+  document.getElementById(
+    "secretTrigger"
   );
 
-let heroScrollTicking =
-  false;
+const secretOverlay =
+  document.getElementById(
+    "secretMessage"
+  );
 
-function updateHeroParallax() {
-  if (!heroImage) return;
+const secretClose =
+  document.getElementById(
+    "secretClose"
+  );
 
-  const scrollY =
-    window.scrollY;
+const heartContainer =
+  document.getElementById(
+    "heartContainer"
+  );
 
-  const maxMovement =
-    Math.min(
-      scrollY * 0.035,
-      18
+
+let heartsInterval;
+
+
+function createHeart() {
+
+  if (!heartContainer) {
+    return;
+  }
+
+
+  const heart =
+    document.createElement(
+      "span"
     );
 
-  heroImage.style.backgroundPosition =
-    `center calc(50% + ${maxMovement}px)`;
 
-  heroScrollTicking =
-    false;
+  heart.className =
+    "secret-heart";
+
+
+  heart.textContent =
+    "♡";
+
+
+  heart.style.left =
+    `${Math.random() * 100}%`;
+
+
+  heart.style.fontSize =
+    `${14 + Math.random() * 24}px`;
+
+
+  heart.style.animationDuration =
+    `${4 + Math.random() * 4}s`;
+
+
+  heartContainer.appendChild(
+    heart
+  );
+
+
+  setTimeout(
+    () => {
+
+      heart.remove();
+
+    },
+    8500
+  );
+
 }
+
+
+function openSecret() {
+
+  secretOverlay
+    ?.classList
+    .add("open");
+
+
+  secretOverlay
+    ?.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+  document.body
+    .style
+    .overflow =
+      "hidden";
+
+
+  clearInterval(
+    heartsInterval
+  );
+
+
+  heartsInterval =
+    setInterval(
+      createHeart,
+      700
+    );
+
+
+  for (
+    let i = 0;
+    i < 6;
+    i++
+  ) {
+
+    setTimeout(
+      createHeart,
+      i * 120
+    );
+
+  }
+
+}
+
+
+function closeSecret() {
+
+  secretOverlay
+    ?.classList
+    .remove("open");
+
+
+  secretOverlay
+    ?.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+  document.body
+    .style
+    .overflow =
+      "";
+
+
+  clearInterval(
+    heartsInterval
+  );
+
+
+  if (heartContainer) {
+
+    heartContainer.innerHTML =
+      "";
+
+  }
+
+}
+
+
+secretTrigger?.addEventListener(
+  "click",
+  openSecret
+);
+
+
+secretClose?.addEventListener(
+  "click",
+  closeSecret
+);
+
+
+secretOverlay?.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      secretOverlay
+    ) {
+
+      closeSecret();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Escape"
+    ) {
+
+      closeSecret();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LIGHT HERO PARALLAX
+========================================================= */
+
+const heroBg =
+  document.querySelector(
+    ".hero-bg"
+  );
+
+
+let ticking =
+  false;
+
+
+function heroParallax() {
+
+  if (!heroBg) {
+    return;
+  }
+
+
+  const movement =
+    Math.min(
+      window.scrollY *
+      0.025,
+      15
+    );
+
+
+  heroBg.style.backgroundPosition =
+    `center calc(50% + ${movement}px)`;
+
+
+  ticking =
+    false;
+
+}
+
 
 window.addEventListener(
   "scroll",
   () => {
-    if (
-      heroScrollTicking
-    ) {
+
+    if (ticking) {
       return;
     }
 
-    window.requestAnimationFrame(
-      updateHeroParallax
+
+    ticking =
+      true;
+
+
+    requestAnimationFrame(
+      heroParallax
     );
 
-    heroScrollTicking =
-      true;
   },
   {
     passive: true
@@ -1407,106 +1841,18 @@ window.addEventListener(
 
 
 /* =========================================================
-   SUBTLE DESKTOP HERO MOVEMENT
-========================================================= */
-
-const hero =
-  document.querySelector(
-    ".hero"
-  );
-
-if (
-  hero &&
-  heroImage &&
-  window.matchMedia(
-    "(pointer: fine)"
-  ).matches
-) {
-  hero.addEventListener(
-    "mousemove",
-    (event) => {
-      const rect =
-        hero.getBoundingClientRect();
-
-      const x =
-        (
-          event.clientX -
-          rect.left
-        ) /
-        rect.width -
-        0.5;
-
-      const y =
-        (
-          event.clientY -
-          rect.top
-        ) /
-        rect.height -
-        0.5;
-
-      heroImage.style.backgroundPosition =
-        `${50 + x * 1.5}% ${50 + y * 1.2}%`;
-    }
-  );
-
-  hero.addEventListener(
-    "mouseleave",
-    () => {
-      heroImage.style.backgroundPosition =
-        "center center";
-    }
-  );
-}
-
-
-/* =========================================================
-   EVENT CARD TOUCH EFFECT
-========================================================= */
-
-document
-  .querySelectorAll(
-    ".event-card"
-  )
-  .forEach(
-    (card) => {
-      card.addEventListener(
-        "touchstart",
-        () => {
-          card.style.transform =
-            "translateY(-4px)";
-        },
-        {
-          passive: true
-        }
-      );
-
-      card.addEventListener(
-        "touchend",
-        () => {
-          setTimeout(
-            () => {
-              card.style.transform =
-                "";
-            },
-            160
-          );
-        },
-        {
-          passive: true
-        }
-      );
-    }
-  );
-
-
-/* =========================================================
-   PAGE READY
+   READY
 ========================================================= */
 
 window.addEventListener(
   "load",
   () => {
-    updateStoryState();
+
+    updateCountdown();
+
+    updateActiveNav();
+
     updateBackToTop();
+
   }
 );

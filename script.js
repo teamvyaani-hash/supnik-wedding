@@ -36,7 +36,7 @@ function updateCountdown() {
   const difference = weddingDate - now;
 
   if (difference <= 0) {
-    if (daysEl) daysEl.textContent = "000";
+    if (daysEl) daysEl.textContent = "00";
     if (hoursEl) hoursEl.textContent = "00";
     if (minutesEl) minutesEl.textContent = "00";
     if (secondsEl) secondsEl.textContent = "00";
@@ -56,10 +56,33 @@ function updateCountdown() {
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
-  if (daysEl) daysEl.textContent = String(days).padStart(3, "0");
-  if (hoursEl) hoursEl.textContent = String(hours).padStart(2, "0");
-  if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, "0");
-  if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, "0");
+  /*
+    You asked for 2 digits on days.
+    If it is above 99, it will still show the real number.
+    Once below 100 it will show 99, 98, 07, etc.
+  */
+
+  if (daysEl) {
+    daysEl.textContent =
+      days < 100
+        ? String(days).padStart(2, "0")
+        : String(days);
+  }
+
+  if (hoursEl) {
+    hoursEl.textContent =
+      String(hours).padStart(2, "0");
+  }
+
+  if (minutesEl) {
+    minutesEl.textContent =
+      String(minutes).padStart(2, "0");
+  }
+
+  if (secondsEl) {
+    secondsEl.textContent =
+      String(seconds).padStart(2, "0");
+  }
 
   if (!countdownMessage) return;
 
@@ -82,6 +105,7 @@ function updateCountdown() {
 }
 
 updateCountdown();
+
 setInterval(updateCountdown, 1000);
 
 
@@ -89,22 +113,26 @@ setInterval(updateCountdown, 1000);
    REVEAL ON SCROLL
 ========================================================= */
 
-const revealElements = document.querySelectorAll(".reveal");
+const revealElements =
+  document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+  const revealObserver =
+    new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
           entry.target.classList.add("visible");
+
           observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      threshold: 0.12
-    }
-  );
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -35px 0px"
+      }
+    );
 
   revealElements.forEach((element) => {
     revealObserver.observe(element);
@@ -120,9 +148,14 @@ if ("IntersectionObserver" in window) {
    TEAM NIKHIL / TEAM SUPRIYA
 ========================================================= */
 
-const teamNikhil = document.getElementById("teamNikhil");
-const teamSupriya = document.getElementById("teamSupriya");
-const teamResponse = document.getElementById("teamResponse");
+const teamNikhil =
+  document.getElementById("teamNikhil");
+
+const teamSupriya =
+  document.getElementById("teamSupriya");
+
+const teamResponse =
+  document.getElementById("teamResponse");
 
 let nikhilClicks = 0;
 let supriyaClicks = 0;
@@ -136,7 +169,9 @@ if (teamNikhil) {
     if (nikhilClicks >= 5) {
       teamResponse.textContent =
         "Okay bro, we get it.";
+
       nikhilClicks = 0;
+
       return;
     }
 
@@ -154,7 +189,9 @@ if (teamSupriya) {
     if (supriyaClicks >= 5) {
       teamResponse.textContent =
         "Commitment noted. Respect.";
+
       supriyaClicks = 0;
+
       return;
     }
 
@@ -168,24 +205,40 @@ if (teamSupriya) {
    SECRET EASTER EGG
 ========================================================= */
 
-const secretTrigger = document.getElementById("secretTrigger");
-const secretMessage = document.getElementById("secretMessage");
-const secretClose = document.getElementById("secretClose");
-const heartContainer = document.getElementById("heartContainer");
+const secretTrigger =
+  document.getElementById("secretTrigger");
+
+const secretMessage =
+  document.getElementById("secretMessage");
+
+const secretClose =
+  document.getElementById("secretClose");
+
+const heartContainer =
+  document.getElementById("heartContainer");
 
 let heartInterval;
 
 function createHeart() {
   if (!heartContainer) return;
 
-  const heart = document.createElement("span");
+  const heart =
+    document.createElement("span");
 
-  heart.className = "secret-heart";
-  heart.textContent = "♡";
+  heart.className =
+    "secret-heart";
 
-  heart.style.left = `${Math.random() * 100}%`;
-  heart.style.fontSize = `${14 + Math.random() * 24}px`;
-  heart.style.animationDuration = `${4 + Math.random() * 4}s`;
+  heart.textContent =
+    "♡";
+
+  heart.style.left =
+    `${Math.random() * 100}%`;
+
+  heart.style.fontSize =
+    `${14 + Math.random() * 24}px`;
+
+  heart.style.animationDuration =
+    `${4 + Math.random() * 4}s`;
 
   heartContainer.appendChild(heart);
 
@@ -198,26 +251,43 @@ function openSecret() {
   if (!secretMessage) return;
 
   secretMessage.classList.add("open");
-  secretMessage.setAttribute("aria-hidden", "false");
 
-  document.body.style.overflow = "hidden";
+  secretMessage.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  document.body.style.overflow =
+    "hidden";
 
   clearInterval(heartInterval);
 
-  for (let i = 0; i < 8; i++) {
-    setTimeout(createHeart, i * 130);
+  for (let i = 0; i < 7; i++) {
+    setTimeout(
+      createHeart,
+      i * 130
+    );
   }
 
-  heartInterval = setInterval(createHeart, 650);
+  heartInterval =
+    setInterval(
+      createHeart,
+      700
+    );
 }
 
 function closeSecret() {
   if (!secretMessage) return;
 
   secretMessage.classList.remove("open");
-  secretMessage.setAttribute("aria-hidden", "true");
 
-  document.body.style.overflow = "";
+  secretMessage.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+  document.body.style.overflow =
+    "";
 
   clearInterval(heartInterval);
 
@@ -226,74 +296,148 @@ function closeSecret() {
   }
 }
 
-secretTrigger?.addEventListener("click", openSecret);
-secretClose?.addEventListener("click", closeSecret);
+secretTrigger?.addEventListener(
+  "click",
+  openSecret
+);
 
-secretMessage?.addEventListener("click", (event) => {
-  if (event.target === secretMessage) {
-    closeSecret();
-  }
-});
+secretClose?.addEventListener(
+  "click",
+  closeSecret
+);
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeSecret();
+secretMessage?.addEventListener(
+  "click",
+  (event) => {
+    if (
+      event.target ===
+      secretMessage
+    ) {
+      closeSecret();
+    }
   }
-});
+);
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+    if (event.key === "Escape") {
+      closeSecret();
+    }
+  }
+);
 
 
 /* =========================================================
    STORY SCROLLER
 ========================================================= */
 
-const storyScroller = document.getElementById("storyScroller");
-const storyDots = document.querySelectorAll(".story-dot");
-const storyCards = document.querySelectorAll(".story-card");
+const storyScroller =
+  document.getElementById("storyScroller");
 
-function updateStoryDots() {
-  if (!storyScroller || !storyCards.length) return;
+const storyDots =
+  document.querySelectorAll(".story-dot");
+
+const storyCards =
+  document.querySelectorAll(".story-card");
+
+function updateStoryState() {
+  if (
+    !storyScroller ||
+    !storyCards.length
+  ) {
+    return;
+  }
 
   const scrollerCenter =
-    storyScroller.scrollLeft + storyScroller.clientWidth / 2;
+    storyScroller.scrollLeft +
+    storyScroller.clientWidth / 2;
 
   let closestIndex = 0;
   let closestDistance = Infinity;
 
-  storyCards.forEach((card, index) => {
-    const cardCenter =
-      card.offsetLeft + card.offsetWidth / 2;
+  storyCards.forEach(
+    (card, index) => {
+      const cardCenter =
+        card.offsetLeft +
+        card.offsetWidth / 2;
 
-    const distance =
-      Math.abs(scrollerCenter - cardCenter);
+      const distance =
+        Math.abs(
+          scrollerCenter -
+          cardCenter
+        );
 
-    if (distance < closestDistance) {
-      closestDistance = distance;
-      closestIndex = index;
+      if (
+        distance <
+        closestDistance
+      ) {
+        closestDistance =
+          distance;
+
+        closestIndex =
+          index;
+      }
     }
-  });
+  );
 
-  storyDots.forEach((dot, index) => {
-    dot.classList.toggle("active", index === closestIndex);
-  });
+  storyDots.forEach(
+    (dot, index) => {
+      dot.classList.toggle(
+        "active",
+        index === closestIndex
+      );
+    }
+  );
+
+  storyCards.forEach(
+    (card, index) => {
+      if (
+        index === closestIndex
+      ) {
+        card.style.transform =
+          "translateY(-3px)";
+      } else {
+        card.style.transform =
+          "";
+      }
+    }
+  );
 }
 
 if (storyScroller) {
-  storyScroller.addEventListener("scroll", () => {
-    window.requestAnimationFrame(updateStoryDots);
-  });
+  storyScroller.addEventListener(
+    "scroll",
+    () => {
+      window.requestAnimationFrame(
+        updateStoryState
+      );
+    },
+    {
+      passive: true
+    }
+  );
 }
 
 storyDots.forEach((dot) => {
-  dot.addEventListener("click", () => {
-    const index = Number(dot.dataset.slide);
-    const targetCard = storyCards[index];
+  dot.addEventListener(
+    "click",
+    () => {
+      const index =
+        Number(
+          dot.dataset.slide
+        );
 
-    targetCard?.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest"
-    });
-  });
+      const targetCard =
+        storyCards[index];
+
+      targetCard?.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+        block: "nearest"
+      });
+    }
+  );
 });
 
 
@@ -303,125 +447,177 @@ storyDots.forEach((dot) => {
 
 const quizBank = [
   {
-    question: "Where did this story technically begin?",
+    question:
+      "Where did this story technically begin?",
+
     options: [
       "KPMG",
       "Watson’s",
       "Bangalore traffic",
       "A very dramatic airport terminal"
     ],
+
     answer: 0,
+
     reaction:
       "Correct. HR was not consulted."
   },
 
   {
-    question: "Where did things become suspiciously less professional?",
+    question:
+      "Where did things become suspiciously less professional?",
+
     options: [
       "An office meeting room",
       "Watson’s",
       "The airport",
       "MGM Beach Resort"
     ],
+
     answer: 1,
+
     reaction:
       "Exactly. Allegedly just a casual catch-up."
   },
 
   {
-    question: "What became a recurring feature of the long-distance era?",
+    question:
+      "What became a recurring feature of the long-distance era?",
+
     options: [
       "Flights",
       "Calls",
       "‘When are you coming?’",
       "All of the above"
     ],
+
     answer: 3,
+
     reaction:
       "Correct. Frequent-flyer points should probably be in the wedding party."
   },
 
   {
-    question: "What eventually replaced the boarding passes?",
+    question:
+      "What eventually replaced the boarding passes?",
+
     options: [
       "Peace and quiet",
       "Bangalore traffic jams",
       "A private jet",
       "Better life decisions"
     ],
+
     answer: 1,
+
     reaction:
       "Correct. Romantic? Debatable. Accurate? Unfortunately."
   },
 
   {
-    question: "Where does the corporate-calendar story finally end up?",
+    question:
+      "Where does the story finally bring everyone together?",
+
     options: [
       "Back at KPMG",
       "Goa",
       "MGM Beach Resort",
       "Another Zoom call"
     ],
+
     answer: 2,
+
     reaction:
       "Correct. Considerably better than a conference room."
   },
 
   {
-    question: "What is the 2026 plot twist?",
+    question:
+      "What is the 2026 plot twist?",
+
     options: [
       "Another long-distance chapter",
       "Everyone else has to travel now",
       "We cancel the wedding",
       "Nobody mentions traffic"
     ],
+
     answer: 1,
+
     reaction:
       "Correct. Our turn to inconvenience everyone else."
   },
 
   {
-    question: "Which phrase best describes the road from KPMG to Chennai?",
+    question:
+      "Which phrase best describes the road from KPMG to Chennai?",
+
     options: [
       "Efficient and well planned",
       "Completely straightforward",
       "A suspicious amount of logistics",
       "No travel involved"
     ],
+
     answer: 2,
+
     reaction:
       "Correct. There have been spreadsheets. Many spreadsheets."
   },
 
   {
-    question: "What is the safest prediction for 21–22 November?",
+    question:
+      "What is the safest prediction for 21–22 November?",
+
     options: [
       "Everyone arrives early",
       "Nobody asks for directions",
       "Nikhil and Supriya get married",
       "Zero family WhatsApp messages"
     ],
+
     answer: 2,
+
     reaction:
       "Correct. We’re fairly confident about this one."
   }
 ];
 
-const startQuiz = document.getElementById("startQuiz");
-const restartQuiz = document.getElementById("restartQuiz");
+const startQuiz =
+  document.getElementById("startQuiz");
 
-const quizStart = document.getElementById("quizStart");
-const quizGame = document.getElementById("quizGame");
-const quizResult = document.getElementById("quizResult");
+const restartQuiz =
+  document.getElementById("restartQuiz");
 
-const quizProgress = document.getElementById("quizProgress");
-const quizScoreEl = document.getElementById("quizScore");
-const quizQuestion = document.getElementById("quizQuestion");
-const quizOptions = document.getElementById("quizOptions");
-const quizReaction = document.getElementById("quizReaction");
+const quizStart =
+  document.getElementById("quizStart");
 
-const quizResultTitle = document.getElementById("quizResultTitle");
-const quizResultText = document.getElementById("quizResultText");
+const quizGame =
+  document.getElementById("quizGame");
+
+const quizResult =
+  document.getElementById("quizResult");
+
+const quizProgress =
+  document.getElementById("quizProgress");
+
+const quizScoreEl =
+  document.getElementById("quizScore");
+
+const quizQuestion =
+  document.getElementById("quizQuestion");
+
+const quizOptions =
+  document.getElementById("quizOptions");
+
+const quizReaction =
+  document.getElementById("quizReaction");
+
+const quizResultTitle =
+  document.getElementById("quizResultTitle");
+
+const quizResultText =
+  document.getElementById("quizResultText");
 
 let selectedQuestions = [];
 let currentQuestionIndex = 0;
@@ -429,30 +625,49 @@ let score = 0;
 let answerLocked = false;
 
 function shuffle(array) {
-  return [...array].sort(() => Math.random() - 0.5);
+  return [...array].sort(
+    () =>
+      Math.random() - 0.5
+  );
 }
 
 function startQuizGame() {
-  selectedQuestions = shuffle(quizBank).slice(0, 6);
+  selectedQuestions =
+    shuffle(quizBank).slice(
+      0,
+      6
+    );
 
   currentQuestionIndex = 0;
   score = 0;
   answerLocked = false;
 
-  quizStart?.classList.add("hidden");
-  quizResult?.classList.add("hidden");
-  quizGame?.classList.remove("hidden");
+  quizStart?.classList.add(
+    "hidden"
+  );
+
+  quizResult?.classList.add(
+    "hidden"
+  );
+
+  quizGame?.classList.remove(
+    "hidden"
+  );
 
   showQuizQuestion();
 }
 
 function showQuizQuestion() {
-  if (!selectedQuestions.length) return;
+  if (!selectedQuestions.length) {
+    return;
+  }
 
   answerLocked = false;
 
   const currentQuestion =
-    selectedQuestions[currentQuestionIndex];
+    selectedQuestions[
+      currentQuestionIndex
+    ];
 
   if (quizProgress) {
     quizProgress.textContent =
@@ -470,29 +685,44 @@ function showQuizQuestion() {
   }
 
   if (quizReaction) {
-    quizReaction.textContent = "";
+    quizReaction.textContent =
+      "";
   }
 
   if (!quizOptions) return;
 
-  quizOptions.innerHTML = "";
+  quizOptions.innerHTML =
+    "";
 
-  currentQuestion.options.forEach((option, optionIndex) => {
-    const button = document.createElement("button");
+  currentQuestion.options.forEach(
+    (option, optionIndex) => {
+      const button =
+        document.createElement(
+          "button"
+        );
 
-    button.type = "button";
-    button.textContent = option;
+      button.type =
+        "button";
 
-    button.addEventListener("click", () => {
-      handleQuizAnswer(
-        button,
-        optionIndex,
-        currentQuestion
+      button.textContent =
+        option;
+
+      button.addEventListener(
+        "click",
+        () => {
+          handleQuizAnswer(
+            button,
+            optionIndex,
+            currentQuestion
+          );
+        }
       );
-    });
 
-    quizOptions.appendChild(button);
-  });
+      quizOptions.appendChild(
+        button
+      );
+    }
+  );
 }
 
 function handleQuizAnswer(
@@ -505,21 +735,33 @@ function handleQuizAnswer(
   answerLocked = true;
 
   const buttons =
-    quizOptions?.querySelectorAll("button") || [];
+    quizOptions?.querySelectorAll(
+      "button"
+    ) || [];
 
   const isCorrect =
-    selectedIndex === currentQuestion.answer;
+    selectedIndex ===
+    currentQuestion.answer;
 
   if (isCorrect) {
     score += 1;
-    clickedButton.classList.add("correct");
+
+    clickedButton.classList.add(
+      "correct"
+    );
   } else {
-    clickedButton.classList.add("wrong");
+    clickedButton.classList.add(
+      "wrong"
+    );
 
     const correctButton =
-      buttons[currentQuestion.answer];
+      buttons[
+        currentQuestion.answer
+      ];
 
-    correctButton?.classList.add("correct");
+    correctButton?.classList.add(
+      "correct"
+    );
   }
 
   if (quizScoreEl) {
@@ -534,27 +776,37 @@ function handleQuizAnswer(
         : "Not quite. We’ll pretend nobody saw that.";
   }
 
-  buttons.forEach((button) => {
-    button.disabled = true;
-  });
-
-  setTimeout(() => {
-    currentQuestionIndex += 1;
-
-    if (
-      currentQuestionIndex >=
-      selectedQuestions.length
-    ) {
-      finishQuiz();
-    } else {
-      showQuizQuestion();
+  buttons.forEach(
+    (button) => {
+      button.disabled = true;
     }
-  }, 1300);
+  );
+
+  setTimeout(
+    () => {
+      currentQuestionIndex += 1;
+
+      if (
+        currentQuestionIndex >=
+        selectedQuestions.length
+      ) {
+        finishQuiz();
+      } else {
+        showQuizQuestion();
+      }
+    },
+    1250
+  );
 }
 
 function finishQuiz() {
-  quizGame?.classList.add("hidden");
-  quizResult?.classList.remove("hidden");
+  quizGame?.classList.add(
+    "hidden"
+  );
+
+  quizResult?.classList.remove(
+    "hidden"
+  );
 
   if (score === 6) {
     if (quizResultTitle) {
@@ -609,38 +861,69 @@ function finishQuiz() {
   }
 }
 
-startQuiz?.addEventListener("click", startQuizGame);
-restartQuiz?.addEventListener("click", startQuizGame);
+startQuiz?.addEventListener(
+  "click",
+  startQuizGame
+);
+
+restartQuiz?.addEventListener(
+  "click",
+  startQuizGame
+);
 
 
 /* =========================================================
-   INDIVIDUAL CALENDAR INVITES
+   CALENDAR INVITES
 ========================================================= */
 
 const calendarEvents = {
   engagement: {
-    title: "Nikhil & Supriya - Engagement",
-    start: "20261121T050000Z",
-    end: "20261121T063000Z",
-    location: "Lake Lawn, MGM Beach Resort, ECR, Chennai",
+    title:
+      "Nikhil & Supriya - Engagement",
+
+    start:
+      "20261121T050000Z",
+
+    end:
+      "20261121T063000Z",
+
+    location:
+      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
+
     description:
       "Nikhil & Supriya's Engagement at MGM Beach Resort."
   },
 
   reception: {
-    title: "Nikhil & Supriya - Reception",
-    start: "20261121T123000Z",
-    end: "20261121T160000Z",
-    location: "Lake Lawn, MGM Beach Resort, ECR, Chennai",
+    title:
+      "Nikhil & Supriya - Reception",
+
+    start:
+      "20261121T123000Z",
+
+    end:
+      "20261121T160000Z",
+
+    location:
+      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
+
     description:
       "Nikhil & Supriya's Reception at MGM Beach Resort."
   },
 
   muhurtham: {
-    title: "Nikhil & Supriya - Muhurtham",
-    start: "20261122T030000Z",
-    end: "20261122T043000Z",
-    location: "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
+    title:
+      "Nikhil & Supriya - Muhurtham",
+
+    start:
+      "20261122T030000Z",
+
+    end:
+      "20261122T043000Z",
+
+    location:
+      "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
+
     description:
       "Nikhil & Supriya's Muhurtham at MGM Beach Resort."
   }
@@ -655,7 +938,8 @@ function escapeICS(value) {
 }
 
 function downloadICS(eventKey) {
-  const event = calendarEvents[eventKey];
+  const event =
+    calendarEvents[eventKey];
 
   if (!event) return;
 
@@ -669,6 +953,7 @@ function downloadICS(eventKey) {
     "BEGIN:VEVENT",
 
     `UID:${eventKey}-20261121@supnik.in`,
+
     `DTSTAMP:${new Date()
       .toISOString()
       .replace(/[-:]/g, "")
@@ -685,41 +970,66 @@ function downloadICS(eventKey) {
     "END:VCALENDAR"
   ].join("\r\n");
 
-  const blob = new Blob(
-    [icsContent],
-    {
-      type: "text/calendar;charset=utf-8"
-    }
-  );
+  const blob =
+    new Blob(
+      [icsContent],
+      {
+        type:
+          "text/calendar;charset=utf-8"
+      }
+    );
 
   const url =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
 
   const link =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
   link.href = url;
+
   link.download =
     `nikhil-supriya-${eventKey}.ics`;
 
-  document.body.appendChild(link);
+  document.body.appendChild(
+    link
+  );
 
   link.click();
 
-  document.body.removeChild(link);
+  document.body.removeChild(
+    link
+  );
 
-  setTimeout(() => {
-    URL.revokeObjectURL(url);
-  }, 1000);
+  setTimeout(
+    () => {
+      URL.revokeObjectURL(
+        url
+      );
+    },
+    1000
+  );
 }
 
 document
-  .querySelectorAll(".calendar-button")
-  .forEach((button) => {
-    button.addEventListener("click", () => {
-      downloadICS(button.dataset.event);
-    });
-  });
+  .querySelectorAll(
+    ".calendar-button"
+  )
+  .forEach(
+    (button) => {
+      button.addEventListener(
+        "click",
+        () => {
+          downloadICS(
+            button.dataset.event
+          );
+        }
+      );
+    }
+  );
 
 
 /* =========================================================
@@ -727,59 +1037,91 @@ document
 ========================================================= */
 
 const wisdomButton =
-  document.getElementById("wisdomButton");
+  document.getElementById(
+    "wisdomButton"
+  );
 
 const wisdomText =
-  document.getElementById("wisdomText");
+  document.getElementById(
+    "wisdomText"
+  );
 
 const wisdomBank = [
   "If someone says ‘quick photo’, emotionally prepare for seventeen.",
+
   "Never trust anyone who says the family group photo will take five minutes.",
+
   "The correct wedding arrival time is earlier than whatever time you were planning.",
+
   "Comfortable shoes are a personality trait now.",
+
   "If you are lost, walk confidently. People may assume you are helping.",
+
   "Charge your phone. Someone will eventually ask you to take a photo.",
+
   "If you hear music from the dance floor, resistance is probably temporary.",
+
   "The phrase ‘we’re almost ready’ has no measurable relationship with time.",
+
   "If an auntie tells you to eat, the discussion has already ended.",
+
   "When in doubt, smile and follow the person who looks like they know what’s happening.",
+
   "Do not start an IPL argument unless you have cleared your schedule.",
+
   "Never underestimate the power of one enthusiastic relative with a camera.",
+
   "If Nikhil says everything is under control, confirm independently.",
+
   "If Supriya says everything is under control, it probably is."
 ];
 
-let previousWisdomIndex = -1;
+let previousWisdomIndex =
+  -1;
 
-wisdomButton?.addEventListener("click", () => {
-  if (!wisdomText) return;
+wisdomButton?.addEventListener(
+  "click",
+  () => {
+    if (!wisdomText) return;
 
-  let newIndex;
+    let newIndex;
 
-  do {
-    newIndex =
-      Math.floor(
-        Math.random() * wisdomBank.length
-      );
-  } while (
-    wisdomBank.length > 1 &&
-    newIndex === previousWisdomIndex
-  );
+    do {
+      newIndex =
+        Math.floor(
+          Math.random() *
+          wisdomBank.length
+        );
+    } while (
+      wisdomBank.length > 1 &&
+      newIndex ===
+        previousWisdomIndex
+    );
 
-  previousWisdomIndex =
-    newIndex;
-
-  wisdomText.style.opacity =
-    "0";
-
-  setTimeout(() => {
-    wisdomText.textContent =
-      wisdomBank[newIndex];
+    previousWisdomIndex =
+      newIndex;
 
     wisdomText.style.opacity =
-      "1";
-  }, 180);
-});
+      "0";
+
+    wisdomText.style.transform =
+      "translateY(6px)";
+
+    setTimeout(
+      () => {
+        wisdomText.textContent =
+          wisdomBank[newIndex];
+
+        wisdomText.style.opacity =
+          "1";
+
+        wisdomText.style.transform =
+          "translateY(0)";
+      },
+      180
+    );
+  }
+);
 
 
 /* =========================================================
@@ -787,49 +1129,85 @@ wisdomButton?.addEventListener("click", () => {
 ========================================================= */
 
 const navLinks =
-  document.querySelectorAll(".nav-link");
+  document.querySelectorAll(
+    ".nav-link"
+  );
 
-navLinks.forEach((link) => {
-  link.addEventListener("click", (event) => {
-    const href =
-      link.getAttribute("href");
+navLinks.forEach(
+  (link) => {
+    link.addEventListener(
+      "click",
+      (event) => {
+        const href =
+          link.getAttribute(
+            "href"
+          );
 
-    if (!href?.startsWith("#")) return;
+        if (
+          !href?.startsWith("#")
+        ) {
+          return;
+        }
 
-    const target =
-      document.querySelector(href);
+        const target =
+          document.querySelector(
+            href
+          );
 
-    if (!target) return;
+        if (!target) return;
 
-    event.preventDefault();
+        event.preventDefault();
 
-    target.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  });
-});
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    );
+  }
+);
 
 const sectionMap = [
   {
     id: "home",
-    element: document.getElementById("home")
+    element:
+      document.getElementById(
+        "home"
+      )
   },
+
   {
     id: "story",
-    element: document.getElementById("story")
+    element:
+      document.getElementById(
+        "story"
+      )
   },
+
   {
     id: "events",
-    element: document.getElementById("events")
+    element:
+      document.getElementById(
+        "events"
+      )
   },
+
   {
     id: "venue",
-    element: document.getElementById("venue")
+    element:
+      document.getElementById(
+        "venue"
+      )
   }
-].filter((section) => section.element);
+].filter(
+  (section) =>
+    section.element
+);
 
-if ("IntersectionObserver" in window) {
+if (
+  "IntersectionObserver" in
+  window
+) {
   const navObserver =
     new IntersectionObserver(
       (entries) => {
@@ -845,30 +1223,46 @@ if ("IntersectionObserver" in window) {
                 a.intersectionRatio
             );
 
-        if (!visibleEntries.length) return;
+        if (
+          !visibleEntries.length
+        ) {
+          return;
+        }
 
         const activeId =
-          visibleEntries[0].target.id;
+          visibleEntries[0]
+            .target.id;
 
-        navLinks.forEach((link) => {
-          link.classList.toggle(
-            "active",
-            link.dataset.section === activeId
-          );
-        });
+        navLinks.forEach(
+          (link) => {
+            link.classList.toggle(
+              "active",
+              link.dataset.section ===
+                activeId
+            );
+          }
+        );
       },
       {
         rootMargin:
           "-25% 0px -55% 0px",
 
-        threshold:
-          [0.05, 0.2, 0.4, 0.6]
+        threshold: [
+          0.05,
+          0.2,
+          0.4,
+          0.6
+        ]
       }
     );
 
-  sectionMap.forEach((section) => {
-    navObserver.observe(section.element);
-  });
+  sectionMap.forEach(
+    (section) => {
+      navObserver.observe(
+        section.element
+      );
+    }
+  );
 }
 
 
@@ -877,14 +1271,16 @@ if ("IntersectionObserver" in window) {
 ========================================================= */
 
 const backToTop =
-  document.getElementById("backToTop");
+  document.getElementById(
+    "backToTop"
+  );
 
 function updateBackToTop() {
   if (!backToTop) return;
 
   backToTop.classList.toggle(
     "visible",
-    window.scrollY > 700
+    window.scrollY > 650
   );
 }
 
@@ -910,14 +1306,18 @@ backToTop?.addEventListener(
 
 
 /* =========================================================
-   HIDE FLOATING NAV NEAR CLOSING
+   HIDE NAV NEAR CLOSING
 ========================================================= */
 
 const floatingNav =
-  document.getElementById("mobileNav");
+  document.getElementById(
+    "mobileNav"
+  );
 
 const closingSection =
-  document.querySelector(".closing-section");
+  document.querySelector(
+    ".closing-section"
+  );
 
 if (
   floatingNav &&
@@ -927,32 +1327,43 @@ if (
   const closingObserver =
     new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          floatingNav.classList.toggle(
-            "nav-hidden",
-            entry.isIntersecting &&
-              entry.intersectionRatio > 0.18
-          );
-        });
+        entries.forEach(
+          (entry) => {
+            floatingNav.classList.toggle(
+              "nav-hidden",
+              entry.isIntersecting &&
+                entry.intersectionRatio >
+                  0.16
+            );
+          }
+        );
       },
       {
-        threshold:
-          [0, 0.18, 0.35]
+        threshold: [
+          0,
+          0.16,
+          0.35
+        ]
       }
     );
 
-  closingObserver.observe(closingSection);
+  closingObserver.observe(
+    closingSection
+  );
 }
 
 
 /* =========================================================
-   VERY LIGHT HERO PARALLAX
+   HERO PARALLAX
 ========================================================= */
 
 const heroImage =
-  document.querySelector(".hero-image");
+  document.querySelector(
+    ".hero-image"
+  );
 
-let ticking = false;
+let heroScrollTicking =
+  false;
 
 function updateHeroParallax() {
   if (!heroImage) return;
@@ -961,24 +1372,33 @@ function updateHeroParallax() {
     window.scrollY;
 
   const maxMovement =
-    Math.min(scrollY * 0.06, 25);
+    Math.min(
+      scrollY * 0.035,
+      18
+    );
 
   heroImage.style.backgroundPosition =
     `center calc(50% + ${maxMovement}px)`;
 
-  ticking = false;
+  heroScrollTicking =
+    false;
 }
 
 window.addEventListener(
   "scroll",
   () => {
-    if (!ticking) {
-      window.requestAnimationFrame(
-        updateHeroParallax
-      );
-
-      ticking = true;
+    if (
+      heroScrollTicking
+    ) {
+      return;
     }
+
+    window.requestAnimationFrame(
+      updateHeroParallax
+    );
+
+    heroScrollTicking =
+      true;
   },
   {
     passive: true
@@ -987,41 +1407,106 @@ window.addEventListener(
 
 
 /* =========================================================
-   EVENT CARD TOUCH FEEDBACK
+   SUBTLE DESKTOP HERO MOVEMENT
+========================================================= */
+
+const hero =
+  document.querySelector(
+    ".hero"
+  );
+
+if (
+  hero &&
+  heroImage &&
+  window.matchMedia(
+    "(pointer: fine)"
+  ).matches
+) {
+  hero.addEventListener(
+    "mousemove",
+    (event) => {
+      const rect =
+        hero.getBoundingClientRect();
+
+      const x =
+        (
+          event.clientX -
+          rect.left
+        ) /
+        rect.width -
+        0.5;
+
+      const y =
+        (
+          event.clientY -
+          rect.top
+        ) /
+        rect.height -
+        0.5;
+
+      heroImage.style.backgroundPosition =
+        `${50 + x * 1.5}% ${50 + y * 1.2}%`;
+    }
+  );
+
+  hero.addEventListener(
+    "mouseleave",
+    () => {
+      heroImage.style.backgroundPosition =
+        "center center";
+    }
+  );
+}
+
+
+/* =========================================================
+   EVENT CARD TOUCH EFFECT
 ========================================================= */
 
 document
-  .querySelectorAll(".event-card")
-  .forEach((card) => {
-    card.addEventListener(
-      "touchstart",
-      () => {
-        card.classList.add("touching");
-      },
-      {
-        passive: true
-      }
-    );
+  .querySelectorAll(
+    ".event-card"
+  )
+  .forEach(
+    (card) => {
+      card.addEventListener(
+        "touchstart",
+        () => {
+          card.style.transform =
+            "translateY(-4px)";
+        },
+        {
+          passive: true
+        }
+      );
 
-    card.addEventListener(
-      "touchend",
-      () => {
-        setTimeout(() => {
-          card.classList.remove("touching");
-        }, 160);
-      },
-      {
-        passive: true
-      }
-    );
-  });
+      card.addEventListener(
+        "touchend",
+        () => {
+          setTimeout(
+            () => {
+              card.style.transform =
+                "";
+            },
+            160
+          );
+        },
+        {
+          passive: true
+        }
+      );
+    }
+  );
 
 
 /* =========================================================
    PAGE READY
 ========================================================= */
 
-window.addEventListener("load", () => {
-  updateStoryDots();
-  updateBackToTop();
-});
+window.addEventListener(
+  "load",
+  () => {
+    updateStoryState();
+    updateBackToTop();
+  }
+);

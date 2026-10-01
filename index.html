@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
@@ -38,9 +38,18 @@
 
   <header class="hero" id="home">
 
-    <div class="hero-bg"></div>
+    <div class="hero-bg">
+
+      <img
+        src="images/hero-temple.png"
+        alt="Nikhil and Supriya wedding celebration"
+      >
+
+    </div>
+
 
     <div class="hero-wash"></div>
+
 
     <div
       class="hero-sparkles"
@@ -50,6 +59,7 @@
 
 
     <div class="hero-content">
+
 
       <button
         class="monogram-logo"
@@ -97,9 +107,11 @@
         21 · 22 NOVEMBER 2026
       </p>
 
+
       <p class="hero-venue">
         MGM BEACH RESORT
       </p>
+
 
       <p class="hero-city">
         ECR · CHENNAI
@@ -121,10 +133,6 @@
           ENTER THE CELEBRATION
         </span>
 
-        <small>
-          SCROLL
-        </small>
-
         <b>↓</b>
 
       </button>
@@ -139,7 +147,7 @@
 
 
     <!-- =========================================================
-         SAVE DATE
+         SAVE THE DATE
     ========================================================== -->
 
     <section
@@ -147,50 +155,49 @@
       id="intro"
     >
 
-      <div class="section-inner narrow">
+      <div class="section-inner save-inner">
 
 
-        <div class="gradient-card save-card">
+        <div class="save-card">
 
           <p class="eyebrow">
             SAVE THE DATE
           </p>
 
 
-          <h2 class="invite-heading">
-            A weekend by the sea.
+          <h2>
+            21
+            <span>·</span>
+            22
           </h2>
 
 
-          <p class="invite-copy">
-            This November, we’re bringing our favourite people
-            together in Chennai for a weekend of love, laughter,
-            family and a little bit of chaos.
+          <p class="save-month">
+            NOVEMBER 2026
           </p>
 
 
-          <div class="ornament">
-
-            <span></span>
-
-            <i>✦</i>
-
-            <span></span>
-
+          <div class="save-divider">
+            ✦
           </div>
 
 
-          <div class="save-date-lockup">
+          <p class="save-script">
+            Two families, two cities,<br>
+            one celebration.
+          </p>
 
-            <strong>
-              21 · 22
-            </strong>
 
-            <span>
-              NOVEMBER 2026
-            </span>
+          <p class="save-copy">
+            We’re bringing our favourite people together
+            by the sea in Chennai.
+            We’d really like you to be one of them.
+          </p>
 
-          </div>
+
+          <p class="save-location">
+            MGM BEACH RESORT · ECR · CHENNAI
+          </p>
 
         </div>
 
@@ -204,49 +211,61 @@
          PICK A SIDE
     ========================================================== -->
 
-    <section class="section mini-section reveal">
+    <section class="section team-section reveal">
 
-      <div class="section-inner narrow">
-
-        <p class="eyebrow">
-          BEFORE WE CONTINUE
-        </p>
+      <div class="section-inner team-inner">
 
 
-        <h2 class="section-title">
-          Pick a side.
-        </h2>
+        <div class="team-card">
+
+          <p class="eyebrow">
+            BEFORE WE CONTINUE
+          </p>
 
 
-        <p class="body-copy centered">
-          Choose carefully. This may be remembered.
-        </p>
+          <h2>
+            Pick a side.
+          </h2>
 
 
-        <div class="team-buttons">
+          <p class="team-copy">
+            There is technically no wrong answer.
+            There is, however, an answer we may remember.
+          </p>
 
-          <button
-            class="pill-button"
-            id="teamNikhil"
-          >
-            Team Nikhil
-          </button>
 
-          <button
-            class="pill-button"
-            id="teamSupriya"
-          >
-            Team Supriya
-          </button>
+          <div class="team-buttons">
+
+            <button
+              class="team-button"
+              id="teamNikhil"
+            >
+              Team Nikhil
+            </button>
+
+
+            <span class="team-or">
+              or
+            </span>
+
+
+            <button
+              class="team-button"
+              id="teamSupriya"
+            >
+              Team Supriya
+            </button>
+
+          </div>
+
+
+          <p
+            class="team-response"
+            id="teamResponse"
+            aria-live="polite"
+          ></p>
 
         </div>
-
-
-        <p
-          class="team-response"
-          id="teamResponse"
-          aria-live="polite"
-        ></p>
 
       </div>
 
@@ -260,25 +279,22 @@
 
     <section class="section countdown-section reveal">
 
-      <div class="section-inner narrow">
+      <div class="section-inner countdown-inner">
 
 
-        <div class="gradient-card countdown-card">
+        <div class="countdown-card">
 
           <p class="eyebrow">
             UNTIL THE BIG DAY
           </p>
 
 
-          <h2 class="invite-heading">
-            Counting down.
+          <h2>
+            It’s getting real.
           </h2>
 
 
-          <div
-            class="countdown"
-            id="countdown"
-          >
+          <div class="countdown">
 
 
             <div class="countdown-item">
@@ -335,10 +351,18 @@
           </div>
 
 
-          <p
-            class="countdown-note"
-            id="countdownMessage"
-          ></p>
+          <div class="countdown-joke">
+
+            <span>
+              TODAY’S OFFICIAL UPDATE
+            </span>
+
+
+            <p id="countdownMessage">
+              Loading unnecessary levels of excitement...
+            </p>
+
+          </div>
 
         </div>
 
@@ -357,201 +381,271 @@
       id="story"
     >
 
-      <div class="section-inner story-inner">
+      <div class="section-inner">
 
 
         <div class="story-heading reveal">
 
-          <p class="eyebrow">
-            HOW WE GOT HERE
-          </p>
+          <div>
 
-          <h2 class="section-title">
-            Our story.
-          </h2>
+            <p class="eyebrow">
+              HOW WE GOT HERE
+            </p>
 
-          <p class="story-intro">
-            A corporate beginning, a suspiciously casual catch-up,
-            too many flights and eventually the same city.
-          </p>
+
+            <h2 class="section-title">
+              Our Story
+            </h2>
+
+          </div>
+
+
+          <div class="story-swipe">
+
+            <span>
+              SWIPE
+            </span>
+
+            <b>
+              →
+            </b>
+
+          </div>
 
         </div>
 
 
 
-        <article class="story-chapter reveal">
-
-          <div class="story-number">
-            01
-          </div>
-
-          <div class="story-photo">
-
-            <img
-              src="images/story-kpmg.png"
-              alt="The story begins at KPMG"
-              loading="lazy"
-            >
-
-          </div>
-
-          <div class="story-text">
-
-            <p class="story-location">
-              KPMG
-            </p>
-
-            <h3>
-              Where it started.
-            </h3>
-
-            <p>
-              The corporate world accidentally created
-              something considerably less corporate.
-            </p>
-
-          </div>
-
-        </article>
+        <div
+          class="story-scroller"
+          id="storyScroller"
+        >
 
 
+          <!-- 01 -->
 
-        <article class="story-chapter reveal">
+          <article class="story-card">
 
-          <div class="story-number">
-            02
-          </div>
+            <div class="story-image">
 
-          <div class="story-photo">
+              <img
+                src="images/story-kpmg.png"
+                alt="KPMG"
+                loading="lazy"
+              >
 
-            <img
-              src="images/story-watsons.png"
-              alt="Watson's Bangalore"
-              loading="lazy"
-            >
+              <span class="story-big-number">
+                01
+              </span>
 
-          </div>
+            </div>
 
-          <div class="story-text">
 
-            <p class="story-location">
-              WATSON’S · BANGALORE
-            </p>
+            <div class="story-card-copy">
 
-            <h3>
-              Just a casual catch-up.
-            </h3>
+              <p>
+                KPMG
+              </p>
 
-            <p>
-              Supposedly.
-              Nobody really believes that anymore.
-            </p>
 
-          </div>
+              <h3>
+                Corporate plot twist.
+              </h3>
 
-        </article>
+
+              <span>
+                Where the corporate world accidentally
+                created a relationship.
+                Definitely not in the job description.
+              </span>
+
+            </div>
+
+          </article>
 
 
 
-        <article class="story-chapter reveal">
+          <!-- 02 -->
 
-          <div class="story-number">
-            03
-          </div>
+          <article class="story-card">
 
-          <div class="story-photo">
+            <div class="story-image">
 
-            <img
-              src="images/story-distance.png"
-              alt="Long distance"
-              loading="lazy"
-            >
+              <img
+                src="images/story-watsons.png"
+                alt="Watson's Bangalore"
+                loading="lazy"
+              >
 
-          </div>
+              <span class="story-big-number">
+                02
+              </span>
 
-          <div class="story-text">
-
-            <p class="story-location">
-              SOMEWHERE BETWEEN CITIES
-            </p>
-
-            <h3>
-              Miles apart.
-            </h3>
-
-            <p>
-              Flights, calls and the phrase
-              “when are you coming?” on repeat.
-            </p>
-
-          </div>
-
-        </article>
+            </div>
 
 
+            <div class="story-card-copy">
 
-        <article class="story-chapter reveal">
+              <p>
+                WATSON’S · BANGALORE
+              </p>
 
-          <div class="story-number">
-            04
-          </div>
 
-          <div class="story-photo">
+              <h3>
+                “Just a catch-up.”
+              </h3>
 
-            <img
-              src="images/story-bangalore.png"
-              alt="Together in Bangalore"
-              loading="lazy"
-            >
 
-          </div>
+              <span>
+                Supposedly just a casual catch-up.
+                Nobody believes that anymore.
+              </span>
 
-          <div class="story-text">
+            </div>
 
-            <p class="story-location">
-              BANGALORE
-            </p>
-
-            <h3>
-              Same city.
-            </h3>
-
-            <p>
-              Eventually the maps became simpler,
-              and life together became a little more real.
-            </p>
-
-          </div>
-
-        </article>
+          </article>
 
 
 
-        <article class="story-finale reveal">
+          <!-- 03 -->
 
-          <div class="story-finale-number">
-            05
-          </div>
+          <article class="story-card">
 
-          <span class="story-star">
-            ✦
-          </span>
+            <div class="story-image">
 
-          <p class="story-location">
-            CHENNAI · 2026
-          </p>
+              <img
+                src="images/story-distance.png"
+                alt="Long distance"
+                loading="lazy"
+              >
 
-          <h3>
-            Now, forever.
-          </h3>
+              <span class="story-big-number">
+                03
+              </span>
 
-          <p>
-            And this November, we get to celebrate
-            the next chapter with all of you.
-          </p>
+            </div>
 
-        </article>
 
+            <div class="story-card-copy">
+
+              <p>
+                LONG DISTANCE
+              </p>
+
+
+              <h3>
+                Airports knew us well.
+              </h3>
+
+
+              <span>
+                Flights, calls and the phrase
+                “when are you coming?”
+                on repeat.
+              </span>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- 04 -->
+
+          <article class="story-card">
+
+            <div class="story-image">
+
+              <img
+                src="images/story-bangalore.png"
+                alt="Bangalore"
+                loading="lazy"
+              >
+
+              <span class="story-big-number">
+                04
+              </span>
+
+            </div>
+
+
+            <div class="story-card-copy">
+
+              <p>
+                BANGALORE
+              </p>
+
+
+              <h3>
+                Same city.
+              </h3>
+
+
+              <span>
+                Finally in the same city.
+                We traded boarding passes
+                for Bangalore traffic jams.
+              </span>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- 05 -->
+
+          <article class="story-card story-final-card">
+
+            <div class="story-final-inner">
+
+              <span class="story-star">
+                ✦
+              </span>
+
+
+              <span class="story-final-number">
+                05
+              </span>
+
+
+              <p>
+                CHENNAI · 2026
+              </p>
+
+
+              <h3>
+                Now, forever.
+              </h3>
+
+
+              <span class="story-final-copy">
+                And this November,
+                we get to make all of you travel instead.
+              </span>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+
+
+        <div
+          class="story-dots"
+          id="storyDots"
+          aria-hidden="true"
+        >
+
+          <span class="active"></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+
+        </div>
 
       </div>
 
@@ -568,24 +662,27 @@
       id="quiz"
     >
 
-      <div class="section-inner narrow">
+      <div class="section-inner quiz-inner">
 
 
-        <div class="gradient-card quiz-card">
+        <div class="quiz-card">
 
           <p class="eyebrow">
-            SIX QUESTIONS · MILD JUDGMENT
+            RELATIONSHIP RESEARCH
           </p>
 
 
-          <h2 class="invite-heading">
-            How well do you know us?
+          <h2>
+            How well do you<br>
+            really know us?
           </h2>
 
 
-          <p class="body-copy centered">
-            No Googling. We’ll know.
+          <p class="quiz-intro">
+            No dates. No obvious wedding trivia.
+            This is about knowing the two idiots getting married.
           </p>
+
 
 
           <div
@@ -600,10 +697,11 @@
                 class="dark-button"
                 id="startQuiz"
               >
-                Start the Quiz
+                Test My Knowledge
               </button>
 
             </div>
+
 
 
             <div
@@ -614,11 +712,11 @@
               <div class="quiz-meta">
 
                 <span id="quizProgress">
-                  Question 1 of 6
+                  QUESTION 1 OF 6
                 </span>
 
                 <span id="quizScore">
-                  0 correct
+                  0 CORRECT
                 </span>
 
               </div>
@@ -641,27 +739,32 @@
             </div>
 
 
+
             <div
               class="quiz-result hidden"
               id="quizResult"
             >
 
               <p class="eyebrow">
-                FINAL VERDICT
+                THE VERDICT
               </p>
+
 
               <h3 id="quizResultTitle"></h3>
 
+
               <p id="quizResultText"></p>
 
+
               <button
-                class="pill-button"
+                class="dark-button"
                 id="restartQuiz"
               >
                 Try Again
               </button>
 
             </div>
+
 
           </div>
 
@@ -674,7 +777,7 @@
 
 
     <!-- =========================================================
-         EVENTS
+         CELEBRATIONS
     ========================================================== -->
 
     <section
@@ -691,9 +794,11 @@
             THE CELEBRATIONS
           </p>
 
+
           <h2 class="section-title">
             Three celebrations.
           </h2>
+
 
           <p class="events-script">
             One very full weekend.
@@ -712,16 +817,17 @@
 
             <img
               src="images/engagement.png"
-              alt="Engagement at Lake Lawn"
+              alt="Engagement"
               loading="lazy"
             >
+
 
             <div class="event-photo-shade"></div>
 
 
-            <div class="event-number">
+            <span class="event-number">
               01
-            </div>
+            </span>
 
 
             <div class="event-card-content">
@@ -755,7 +861,7 @@
                 class="calendar-button-photo"
                 data-event="engagement"
               >
-                + Add to Calendar
+                + ADD TO CALENDAR
               </button>
 
             </div>
@@ -770,16 +876,17 @@
 
             <img
               src="images/reception.png"
-              alt="Reception at Lake Lawn"
+              alt="Reception"
               loading="lazy"
             >
+
 
             <div class="event-photo-shade"></div>
 
 
-            <div class="event-number">
+            <span class="event-number">
               02
-            </div>
+            </span>
 
 
             <div class="event-card-content">
@@ -813,7 +920,7 @@
                 class="calendar-button-photo"
                 data-event="reception"
               >
-                + Add to Calendar
+                + ADD TO CALENDAR
               </button>
 
             </div>
@@ -828,16 +935,17 @@
 
             <img
               src="images/muhurtham.png"
-              alt="Muhurtham at Palm Beach Lawn"
+              alt="Muhurtham"
               loading="lazy"
             >
+
 
             <div class="event-photo-shade"></div>
 
 
-            <div class="event-number">
+            <span class="event-number">
               03
-            </div>
+            </span>
 
 
             <div class="event-card-content">
@@ -871,7 +979,7 @@
                 class="calendar-button-photo"
                 data-event="muhurtham"
               >
-                + Add to Calendar
+                + ADD TO CALENDAR
               </button>
 
             </div>
@@ -910,18 +1018,21 @@
               loading="lazy"
             >
 
-            <div class="venue-image-overlay"></div>
+
+            <div class="venue-overlay"></div>
 
 
-            <div class="venue-image-copy">
+            <div class="venue-copy">
 
-              <p>
+              <p class="eyebrow">
                 GET THERE
               </p>
+
 
               <h2>
                 MGM Beach Resort
               </h2>
+
 
               <span>
                 ECR · CHENNAI
@@ -933,11 +1044,11 @@
 
 
 
-          <div class="venue-info">
+          <div class="venue-actions">
 
             <p>
               Sea breeze, lawns and wedding chaos.
-              You just need to find the entrance.
+              We’ll see you there.
             </p>
 
 
@@ -947,7 +1058,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              Take Me There
+              Open in Maps
             </a>
 
 
@@ -955,7 +1066,7 @@
               class="blr-link"
               href="blr-chn.html"
             >
-              Bangalore × Chennai
+              Enter Bangalore × Chennai
               <span>→</span>
             </a>
 
@@ -970,98 +1081,160 @@
 
 
     <!-- =========================================================
-         GUIDE
+         TERMS & CONDITIONS
     ========================================================== -->
 
-    <section class="section guide-section">
+    <section class="section rules-section">
 
       <div class="section-inner">
 
 
-        <div class="guide-heading reveal">
+        <div class="rules-heading reveal">
 
           <p class="eyebrow">
-            IMPORTANT. SORT OF.
+            GUEST TERMS & CONDITIONS
           </p>
 
+
           <h2 class="section-title">
-            Guest Survival Guide.
+            The fine print.
           </h2>
+
+
+          <p>
+            By attending this wedding,
+            you automatically agree to the following.
+          </p>
 
         </div>
 
 
 
-        <div class="guide-grid">
+        <div class="rules-grid">
 
 
-          <article class="guide-card reveal">
+          <article class="rule-card reveal">
 
             <span>
               01
             </span>
 
+
             <h3>
-              Shoes
+              “Five minutes away”
             </h3>
 
+
             <p>
-              Looking good matters.
-              Being able to walk tomorrow matters more.
+              Must eventually result in your physical arrival.
+              Especially if you are from Bangalore.
             </p>
 
           </article>
 
 
-          <article class="guide-card reveal">
+
+          <article class="rule-card reveal">
 
             <span>
               02
             </span>
 
+
             <h3>
-              Photos
+              One good photo
             </h3>
 
+
             <p>
-              Take the photo quickly.
-              Someone behind you is already waiting.
+              Is worth more than forty-seven
+              almost identical photos blocking everyone else.
             </p>
 
           </article>
 
 
-          <article class="guide-card reveal">
+
+          <article class="rule-card reveal">
 
             <span>
               03
             </span>
 
+
             <h3>
               Lost?
             </h3>
 
+
             <p>
-              Check Maps, then the family WhatsApp group,
-              then pretend you knew all along.
+              Use Maps before turning the family WhatsApp group
+              into an emergency command centre.
             </p>
 
           </article>
 
 
-          <article class="guide-card reveal">
+
+          <article class="rule-card reveal">
 
             <span>
               04
             </span>
 
+
             <h3>
-              Dance Floor
+              Dance ability
             </h3>
 
+
             <p>
-              Participation may become compulsory
-              after one enthusiastic relative.
+              Completely optional.
+              Unreasonable confidence is strongly encouraged.
+            </p>
+
+          </article>
+
+
+
+          <article class="rule-card reveal">
+
+            <span>
+              05
+            </span>
+
+
+            <h3>
+              Logistics
+            </h3>
+
+
+            <p>
+              If Nikhil looks stressed,
+              this is probably not the ideal moment
+              to ask him where your room key is.
+            </p>
+
+          </article>
+
+
+
+          <article class="rule-card reveal">
+
+            <span>
+              06
+            </span>
+
+
+            <h3>
+              Most importantly
+            </h3>
+
+
+            <p>
+              Come ready to celebrate.
+              We’ve handled the rest.
+              Mostly.
             </p>
 
           </article>
@@ -1076,40 +1249,68 @@
 
 
     <!-- =========================================================
-         WISDOM
+         WEDDING HELP DESK
     ========================================================== -->
 
-    <section class="section wisdom-section reveal">
+    <section class="section help-section reveal">
 
-      <div class="section-inner narrow">
+      <div class="section-inner help-inner">
 
 
-        <div class="gradient-card wisdom-card">
+        <div class="help-card">
 
           <p class="eyebrow">
-            VERY SERIOUS ADVICE
+            WEDDING HELP DESK
           </p>
 
-          <h2 class="invite-heading">
-            Wedding Wisdom
+
+          <h2>
+            Something gone wrong?
           </h2>
 
 
-          <p
-            class="wisdom-text"
-            id="wisdomText"
-          >
-            Press the button.
-            We accept no responsibility for what happens next.
+          <p class="help-intro">
+            Choose your emergency.
+            Our highly unqualified support department will assist.
           </p>
 
 
-          <button
-            class="dark-button"
-            id="wisdomButton"
+          <div class="help-buttons">
+
+            <button data-help="lost">
+              I’m lost
+            </button>
+
+            <button data-help="late">
+              I’m late
+            </button>
+
+            <button data-help="outfit">
+              Outfit crisis
+            </button>
+
+            <button data-help="confused">
+              I have no idea what’s happening
+            </button>
+
+          </div>
+
+
+          <div
+            class="help-answer"
+            id="helpAnswer"
           >
-            Give Me Wisdom
-          </button>
+
+            <span>
+              STATUS
+            </span>
+
+
+            <p>
+              Surprisingly, everything appears to be under control.
+            </p>
+
+          </div>
 
         </div>
 
@@ -1125,6 +1326,7 @@
 
     <section class="closing-section">
 
+
       <img
         src="images/closing-temple.png"
         alt="Wedding by the sea"
@@ -1132,36 +1334,52 @@
         loading="lazy"
       >
 
-      <div class="closing-wash"></div>
+
+      <div class="closing-overlay"></div>
 
 
       <div class="closing-content reveal">
 
 
-        <div class="closing-logo">
+        <div class="closing-monogram">
           N <i>&</i> S
         </div>
 
 
-        <p class="eyebrow">
+        <p class="closing-date">
           21 · 22 NOVEMBER 2026
         </p>
 
 
         <h2>
-          See you<br>
-          by the sea.
+          We can’t wait<br>
+          to celebrate with you.
         </h2>
 
 
-        <p class="closing-script">
+        <p class="closing-note">
+          From Bangalore to Chennai,
+          from our families to our friends,
+          thank you for being part of the story that brought us here.
+          We’ll see you by the sea.
+        </p>
+
+
+        <p class="closing-names">
           Nikhil & Supriya
         </p>
 
 
-        <a href="blr-chn.html">
-          Bangalore × Chennai →
-        </a>
+        <div class="closing-divider">
+          ✦
+        </div>
+
+
+        <p class="closing-joke">
+          Questions? Ask Nikhil.
+          If Nikhil looks stressed, ask Supriya.
+          If both look stressed, just eat.
+        </p>
 
       </div>
 
@@ -1173,7 +1391,7 @@
 
 
   <!-- =========================================================
-       FLOATING ICON NAV
+       FLOATING NAV
   ========================================================== -->
 
   <nav
@@ -1273,6 +1491,10 @@
 
 
 
+  <!-- =========================================================
+       SECRET
+  ========================================================== -->
+
   <div
     class="secret-overlay"
     id="secretMessage"
@@ -1294,13 +1516,11 @@
         N <i>&</i> S
       </div>
 
-      <p class="secret-script">
-        Nikhil & Supriya
-      </p>
 
       <h2>
         You found the secret bit.
       </h2>
+
 
       <p>
         There is no prize.
@@ -1310,10 +1530,7 @@
     </div>
 
 
-    <div
-      id="heartContainer"
-      aria-hidden="true"
-    ></div>
+    <div id="heartContainer"></div>
 
   </div>
 

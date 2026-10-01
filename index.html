@@ -1,579 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  >
-
-  <meta
-    name="theme-color"
-    content="#fff8f1"
-  >
-
-  <meta
-    name="description"
-    content="Nikhil & Supriya | Wedding | 21–22 November 2026 | MGM Beach Resort, ECR Chennai"
-  >
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Nikhil & Supriya | 21–22 November 2026</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <meta
+    name="description"
+    content="Join Nikhil and Supriya as they celebrate their wedding on 21 & 22 November 2026 at MGM Beach Resort, ECR, Chennai."
+  />
+
+  <meta name="theme-color" content="#fff8f3" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
   <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
     rel="stylesheet"
-  >
+  />
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
-
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 
 <body>
 
+  <!-- =====================================================
+       FLOATING WEDDING DECOR
+  ====================================================== -->
 
-  <!-- FLOATING DECOR -->
+  <div class="floating-decor decor-left" aria-hidden="true">
+    <img src="images/jasmine-left.png" alt="" />
+  </div>
 
-  <div
-    class="floating-decor floating-jasmine-left"
-    aria-hidden="true"
-  >
-    <img
-      src="images/jasmine-left.png"
-      alt=""
-    >
+  <div class="floating-decor decor-right" aria-hidden="true">
+    <img src="images/jasmine-right.png" alt="" />
   </div>
 
 
-  <div
-    class="floating-decor floating-jasmine-right"
-    aria-hidden="true"
-  >
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
+
+  <header class="hero" id="home">
+
     <img
-      src="images/jasmine-right.png"
+      src="images/hero-temple.png"
+      alt="South Indian temple arch overlooking the sea"
+      class="hero-image"
+    />
+
+    <div class="hero-overlay"></div>
+
+    <img
+      src="images/banana-leaves.png"
+      class="banana-leaf banana-left"
       alt=""
-    >
+      aria-hidden="true"
+    />
+
+    <img
+      src="images/banana-leaves.png"
+      class="banana-leaf banana-right"
+      alt=""
+      aria-hidden="true"
+    />
+
+    <div class="hero-content">
+
+      <button
+        class="monogram secret-trigger"
+        id="secretTrigger"
+        type="button"
+        aria-label="Nikhil and Supriya"
+      >
+        N <span>&</span> S
+      </button>
+
+      <p class="secret-hint">psst... tap our initials</p>
+
+      <p class="eyebrow">THE WEDDING OF</p>
+
+      <h1>
+        <span>Nikhil</span>
+        <em>&</em>
+        <span>Supriya</span>
+      </h1>
+
+      <div class="hero-divider"></div>
+
+      <p class="hero-date">21 · 22 NOVEMBER 2026</p>
+
+      <p class="hero-location">
+        MGM BEACH RESORT<br />
+        ECR · CHENNAI
+      </p>
+
+      <p class="hero-tagline">
+        Two families, two cities, one celebration.
+      </p>
+
+      <a href="#celebration" class="primary-button">
+        Enter the Celebration
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       SECRET EASTER EGG
+  ====================================================== -->
+
+  <div class="secret-message" id="secretMessage" aria-hidden="true">
+    <div class="secret-message-card">
+      <span class="secret-flower">✿</span>
+      <p>You found our little secret.</p>
+      <small>A little extra jasmine for you.</small>
+    </div>
   </div>
 
+  <div id="petalContainer" class="petal-container" aria-hidden="true"></div>
 
 
-  <main>
+  <main id="celebration">
 
 
-    <!-- HERO -->
+    <!-- =====================================================
+         SAVE THE DATE
+    ====================================================== -->
 
-    <section
-      class="hero"
-      id="home"
-    >
+    <section class="intro-section section-pad">
 
-      <div class="hero-background">
-
-        <img
-          src="images/hero-temple.png"
-          alt="South Indian temple arch overlooking the sea"
-          class="hero-image"
-        >
-
-        <div class="hero-overlay"></div>
-
+      <div class="section-kicker reveal">
+        SAVE THE DATE
       </div>
 
+      <h2 class="section-title reveal">
+        Chennai is calling.
+      </h2>
 
-      <img
-        src="images/banana-leaves.png"
-        alt=""
-        class="hero-leaves hero-leaves-left"
-        aria-hidden="true"
-      >
+      <p class="section-copy reveal">
+        This November, we are bringing together the people we love most
+        for two days by the sea.
+      </p>
 
-
-      <img
-        src="images/banana-leaves.png"
-        alt=""
-        class="hero-leaves hero-leaves-right"
-        aria-hidden="true"
-      >
-
-
-      <div class="hero-content">
-
-        <div class="hero-monogram">
-          <span>N</span>
-          <small>&</small>
-          <span>S</span>
+      <div class="date-lockup reveal">
+        <span>21</span>
+        <div>
+          <small>NOVEMBER</small>
+          <strong>2026</strong>
         </div>
 
+        <div class="date-line"></div>
 
-        <p class="hero-eyebrow">
-          THE WEDDING OF
-        </p>
-
-
-        <h1>
-
-          <span class="hero-name">
-            Nikhil
-          </span>
-
-          <span class="hero-ampersand">
-            &
-          </span>
-
-          <span class="hero-name">
-            Supriya
-          </span>
-
-        </h1>
-
-
-        <div class="gold-divider">
-          <span></span>
-          <i>✦</i>
-          <span></span>
+        <span>22</span>
+        <div>
+          <small>NOVEMBER</small>
+          <strong>2026</strong>
         </div>
+      </div>
+
+    </section>
 
 
-        <p class="hero-date">
-          21 · 22 NOVEMBER 2026
-        </p>
+    <!-- =====================================================
+         TEAM BRIDE / TEAM GROOM
+    ====================================================== -->
 
+    <section class="team-section section-pad">
 
-        <p class="hero-location">
-          MGM BEACH RESORT
-          <span>ECR · CHENNAI</span>
-        </p>
+      <div class="section-kicker reveal">
+        FIRST THINGS FIRST
+      </div>
 
+      <h2 class="section-title reveal">
+        Who are you here for?
+      </h2>
 
-        <p class="hero-tagline">
-          Two families, two cities,<br>
-          one celebration.
-        </p>
+      <p class="section-copy reveal">
+        Choose carefully. Your answer may be remembered forever.
+      </p>
 
+      <div class="team-buttons reveal">
 
         <button
-          class="primary-button"
-          id="enterButton"
+          type="button"
+          class="team-button"
+          data-team="nikhil"
         >
+          Team Nikhil
+        </button>
 
-          <span>
-            ENTER THE CELEBRATION
-          </span>
+        <span class="team-or">or</span>
 
-          <span class="button-arrow">
-            ↓
-          </span>
-
+        <button
+          type="button"
+          class="team-button"
+          data-team="supriya"
+        >
+          Team Supriya
         </button>
 
       </div>
 
-
-      <div class="hero-scroll">
-
-        <span>
-          SCROLL
-        </span>
-
-        <div class="hero-scroll-line"></div>
-
-      </div>
+      <div
+        class="team-response"
+        id="teamResponse"
+        aria-live="polite"
+      ></div>
 
     </section>
 
 
+    <!-- =====================================================
+         COUNTDOWN
+    ====================================================== -->
 
-    <!-- SAVE THE DATE -->
+    <section class="countdown-section section-pad">
 
-    <section
-      class="intro-section reveal"
-      id="celebration"
-    >
-
-      <div class="section-ornament">
-        ✦
+      <div class="section-kicker reveal">
+        THE COUNTDOWN
       </div>
 
-
-      <p class="section-kicker">
-        SAVE THE DATE
-      </p>
-
-
-      <h2>
-
-        Chennai.<br>
-
-        November.<br>
-
-        <em>
-          And a little bit of forever.
-        </em>
-
+      <h2 class="section-title reveal">
+        Until we say “I do”
       </h2>
 
+      <div class="countdown reveal" id="countdown">
 
-      <p class="intro-copy">
+        <div class="countdown-item">
+          <span id="days">00</span>
+          <small>Days</small>
+        </div>
 
-        We would love for you to join us as two families
-        come together for a weekend of traditions, laughter,
-        food, music and memories by the sea.
+        <div class="countdown-separator">:</div>
 
+        <div class="countdown-item">
+          <span id="hours">00</span>
+          <small>Hours</small>
+        </div>
+
+        <div class="countdown-separator">:</div>
+
+        <div class="countdown-item">
+          <span id="minutes">00</span>
+          <small>Minutes</small>
+        </div>
+
+        <div class="countdown-separator">:</div>
+
+        <div class="countdown-item">
+          <span id="seconds">00</span>
+          <small>Seconds</small>
+        </div>
+
+      </div>
+
+      <p
+        class="countdown-message reveal"
+        id="countdownMessage"
+      >
+        This is getting very real.
       </p>
 
     </section>
 
 
+    <!-- =====================================================
+         OUR STORY
+    ====================================================== -->
 
-    <!-- COUNTDOWN -->
+    <section class="story-section section-pad" id="story">
 
-    <section
-      class="countdown-section reveal"
-      id="countdownSection"
-    >
+      <div class="section-kicker reveal">
+        OUR STORY
+      </div>
 
-      <p class="section-kicker">
-        THE COUNTDOWN IS ON
+      <h2 class="section-title reveal">
+        Somewhere between work and forever.
+      </h2>
+
+      <p class="section-copy story-intro reveal">
+        A few chapters from how we got here.
       </p>
 
 
-      <div
-        class="countdown"
-        id="countdown"
-      >
-
-        <div class="countdown-item">
-
-          <strong id="days">
-            00
-          </strong>
-
-          <span>
-            DAYS
-          </span>
-
-        </div>
+      <div class="story-journey">
 
 
-        <div class="countdown-divider">
-          :
-        </div>
+        <!-- CHAPTER 01 -->
 
+        <article class="story-chapter reveal">
 
-        <div class="countdown-item">
-
-          <strong id="hours">
-            00
-          </strong>
-
-          <span>
-            HOURS
-          </span>
-
-        </div>
-
-
-        <div class="countdown-divider">
-          :
-        </div>
-
-
-        <div class="countdown-item">
-
-          <strong id="minutes">
-            00
-          </strong>
-
-          <span>
-            MINUTES
-          </span>
-
-        </div>
-
-
-        <div class="countdown-divider">
-          :
-        </div>
-
-
-        <div class="countdown-item">
-
-          <strong id="seconds">
-            00
-          </strong>
-
-          <span>
-            SECONDS
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <p class="countdown-caption">
-        until the celebrations begin
-      </p>
-
-
-      <button
-        class="calendar-button"
-        id="calendarButton"
-      >
-
-        <span class="calendar-icon">
-          ◫
-        </span>
-
-        <span class="calendar-text">
-
-          <strong>
-            Add Wedding Weekend
-          </strong>
-
-          <small>
-            to your calendar
-          </small>
-
-        </span>
-
-        <span class="calendar-arrow">
-          ↗
-        </span>
-
-      </button>
-
-    </section>
-
-
-
-    <!-- OUR STORY -->
-
-    <section
-      class="story-section"
-      id="story"
-    >
-
-      <div class="story-heading reveal">
-
-        <p class="section-kicker">
-          OUR STORY
-        </p>
-
-        <h2>
-          A few chapters<br>
-          before forever.
-        </h2>
-
-      </div>
-
-
-      <div class="story-timeline">
-
-
-        <!-- STORY 01 -->
-
-        <article class="story-moment reveal">
+          <div class="story-number">
+            01
+          </div>
 
           <div class="story-image-wrap">
-
             <img
               src="images/story-kpmg.png"
-              alt="Office and city scene representing where Nikhil and Supriya met"
+              alt="The beginning of Nikhil and Supriya's story"
               class="story-image"
-            >
-
+              loading="lazy"
+            />
           </div>
 
-
-          <div class="story-copy">
-
-            <span class="story-number">
-              01
-            </span>
-
-            <p class="story-place">
-              KPMG
-            </p>
-
-            <h3>
-              Where it began.
-            </h3>
+          <div class="story-content">
+            <p class="story-year">THE BEGINNING</p>
+            <h3>KPMG</h3>
 
             <p>
-              Somewhere between work, conversations and
-              ordinary days, something extraordinary
-              quietly started.
+              It started where neither of us expected a love story to begin:
+              work.
             </p>
 
+            <span class="story-caption">
+              Meetings, emails and one very unexpected plot twist.
+            </span>
           </div>
 
         </article>
 
 
+        <div class="story-connector reveal">
+          <span></span>
+          <div class="story-dot"></div>
+          <span></span>
+        </div>
 
-        <!-- STORY 02 -->
 
-        <article class="story-moment story-moment-reverse reveal">
+        <!-- CHAPTER 02 -->
+
+        <article class="story-chapter reveal">
+
+          <div class="story-number">
+            02
+          </div>
 
           <div class="story-image-wrap">
-
             <img
               src="images/story-watsons.png"
-              alt="Warm Bangalore evening scene representing Watson's"
+              alt="Watson's Bangalore"
               class="story-image"
-            >
-
+              loading="lazy"
+            />
           </div>
 
+          <div class="story-content">
+            <p class="story-year">BANGALORE</p>
 
-          <div class="story-copy">
-
-            <span class="story-number">
-              02
-            </span>
-
-            <p class="story-place">
-              WATSON'S · BANGALORE
-            </p>
-
-            <h3>
-              The first meeting.
-            </h3>
+            <h3>Watson’s</h3>
 
             <p>
-              One meeting became another,
-              and then another.
+              Then came Watson’s, Bangalore.
+              Somewhere along the way, the conversation stopped being about work.
             </p>
 
+            <span class="story-caption">
+              Technically just a meeting. Technically.
+            </span>
           </div>
 
         </article>
 
 
+        <div class="story-connector reveal">
+          <span></span>
+          <div class="story-dot"></div>
+          <span></span>
+        </div>
 
-        <!-- STORY 03 -->
 
-        <article class="story-moment reveal">
+        <!-- CHAPTER 03 -->
+
+        <article class="story-chapter reveal">
+
+          <div class="story-number">
+            03
+          </div>
 
           <div class="story-image-wrap">
-
             <img
               src="images/story-distance.png"
-              alt="Travel scene representing the long-distance chapter"
+              alt="Long distance chapter"
               class="story-image"
-            >
-
+              loading="lazy"
+            />
           </div>
 
+          <div class="story-content">
+            <p class="story-year">LONG DISTANCE</p>
 
-          <div class="story-copy">
-
-            <span class="story-number">
-              03
-            </span>
-
-            <p class="story-place">
-              A FEW MILES APART
-            </p>
-
-            <h3>
-              Long distance.
-            </h3>
+            <h3>Flights. Calls. Repeat.</h3>
 
             <p>
-              Calls, plans, flights and finding ways
-              to make distance feel a little smaller.
+              Different cities, endless calls, travel plans and a lot of
+              “when are we meeting next?”
             </p>
 
+            <span class="story-caption">
+              Turns out distance is terrible at taking hints.
+            </span>
           </div>
 
         </article>
 
 
+        <div class="story-connector reveal">
+          <span></span>
+          <div class="story-dot"></div>
+          <span></span>
+        </div>
 
-        <!-- STORY 04 -->
 
-        <article class="story-moment story-moment-reverse reveal">
+        <!-- CHAPTER 04 -->
+
+        <article class="story-chapter reveal">
+
+          <div class="story-number">
+            04
+          </div>
 
           <div class="story-image-wrap">
-
             <img
               src="images/story-bangalore.png"
-              alt="Bangalore sunset cityscape"
+              alt="Bangalore skyline"
               class="story-image"
-            >
-
+              loading="lazy"
+            />
           </div>
 
+          <div class="story-content">
+            <p class="story-year">ONE CITY</p>
 
-          <div class="story-copy">
-
-            <span class="story-number">
-              04
-            </span>
-
-            <p class="story-place">
-              BANGALORE
-            </p>
-
-            <h3>
-              Same city.
-            </h3>
+            <h3>Bangalore, together.</h3>
 
             <p>
-              Eventually the maps became simpler,
-              and life together became a little more real.
+              Eventually, long distance became the same city, ordinary days
+              became our favourite days, and the future started looking a lot
+              clearer.
             </p>
 
+            <span class="story-caption">
+              Finally. No airport required.
+            </span>
           </div>
 
         </article>
 
 
-
-        <!-- STORY 05 -->
-
-        <article class="story-moment story-final reveal">
-
-          <div class="story-final-symbol">
-            ✦
-          </div>
+        <div class="story-connector reveal">
+          <span></span>
+          <div class="story-dot"></div>
+          <span></span>
+        </div>
 
 
-          <div class="story-copy">
+        <!-- CHAPTER 05 -->
 
-            <span class="story-number">
-              05
-            </span>
+        <article class="story-finale reveal">
 
-            <p class="story-place">
-              CHENNAI · 2026
-            </p>
+          <p>AND NOW</p>
 
-            <h3>
-              Now, forever.
-            </h3>
+          <h3>Chennai · 2026</h3>
 
-            <p>
-              And this November, we get to celebrate
-              the next chapter with all of you.
-            </p>
-
-          </div>
+          <span>
+            The next chapter starts by the sea.
+          </span>
 
         </article>
 
@@ -583,267 +479,280 @@
     </section>
 
 
+    <!-- =====================================================
+         COUPLE QUIZ
+    ====================================================== -->
 
-    <!-- EVENTS -->
+    <section class="quiz-section section-pad">
 
-    <section
-      class="events-section"
-      id="events"
-    >
+      <div class="section-kicker reveal">
+        QUICK TEST
+      </div>
 
-      <div class="section-heading reveal">
+      <h2 class="section-title reveal">
+        How well do you know us?
+      </h2>
 
-        <p class="section-kicker">
-          THE CELEBRATIONS
-        </p>
+      <p class="section-copy reveal">
+        No pressure. We will only judge you a little.
+      </p>
 
-        <h2>
 
-          Three moments.<br>
+      <div class="quiz-card reveal" id="quizCard">
 
-          <em>
-            One unforgettable weekend.
-          </em>
+        <div class="quiz-progress">
+          <span id="quizProgress">Question 1 of 5</span>
 
-        </h2>
+          <div class="quiz-progress-track">
+            <div
+              class="quiz-progress-bar"
+              id="quizProgressBar"
+            ></div>
+          </div>
+        </div>
+
+
+        <div id="quizQuestionArea">
+
+          <p class="quiz-question" id="quizQuestion">
+            Loading question...
+          </p>
+
+          <div
+            class="quiz-options"
+            id="quizOptions"
+          ></div>
+
+          <div
+            class="quiz-feedback"
+            id="quizFeedback"
+            aria-live="polite"
+          ></div>
+
+        </div>
+
+
+        <div
+          class="quiz-result"
+          id="quizResult"
+          hidden
+        >
+
+          <p class="quiz-score" id="quizScore"></p>
+
+          <h3 id="quizResultTitle"></h3>
+
+          <p id="quizResultText"></p>
+
+          <button
+            class="secondary-button"
+            id="restartQuiz"
+            type="button"
+          >
+            Play Again
+          </button>
+
+        </div>
 
       </div>
 
+    </section>
 
 
-      <!-- ENGAGEMENT -->
+    <!-- =====================================================
+         EVENTS
+    ====================================================== -->
 
-      <article
-        class="event-card reveal"
-        data-event="engagement"
-      >
+    <section class="events-section section-pad" id="events">
 
-        <div class="event-image-wrap">
+      <div class="section-kicker reveal">
+        THE CELEBRATIONS
+      </div>
+
+      <h2 class="section-title reveal">
+        Two days. Three moments.
+      </h2>
+
+      <p class="section-copy reveal">
+        Come for one, stay for all. We would love to celebrate with you.
+      </p>
+
+
+      <div class="event-grid">
+
+
+        <!-- ENGAGEMENT -->
+
+        <article class="event-card reveal">
 
           <img
             src="images/engagement.png"
-            alt="Morning engagement decor overlooking the sea"
+            alt="Engagement celebration"
             class="event-image"
-          >
+            loading="lazy"
+          />
 
-        </div>
+          <div class="event-overlay"></div>
 
+          <div class="event-content">
 
-        <div class="event-overlay"></div>
+            <p class="event-day">
+              SATURDAY · 21 NOVEMBER
+            </p>
 
+            <h3>Engagement</h3>
 
-        <div class="event-number">
-          01
-        </div>
-
-
-        <div class="event-content">
-
-          <p class="event-day">
-            SATURDAY · 21 NOVEMBER
-          </p>
-
-          <h3>
-            Engagement
-          </h3>
-
-
-          <div class="event-meta">
-
-            <span>
+            <p class="event-time">
               10:30 AM
-            </span>
+            </p>
 
-            <span class="event-meta-dot">
-              •
-            </span>
-
-            <span>
+            <p class="event-place">
               Lake Lawn
-            </span>
+            </p>
+
+            <button
+              type="button"
+              class="calendar-button"
+              data-event="engagement"
+            >
+              Add Engagement to Calendar
+            </button>
 
           </div>
 
-        </div>
-
-      </article>
+        </article>
 
 
+        <!-- RECEPTION -->
 
-      <!-- RECEPTION -->
-
-      <article
-        class="event-card event-card-dark reveal"
-        data-event="reception"
-      >
-
-        <div class="event-image-wrap">
+        <article class="event-card reveal">
 
           <img
             src="images/reception.png"
-            alt="Evening wedding reception by the sea"
+            alt="Wedding reception"
             class="event-image"
-          >
+            loading="lazy"
+          />
 
-        </div>
+          <div class="event-overlay"></div>
 
+          <div class="event-content">
 
-        <div class="event-overlay"></div>
+            <p class="event-day">
+              SATURDAY · 21 NOVEMBER
+            </p>
 
+            <h3>Reception</h3>
 
-        <div class="event-number">
-          02
-        </div>
-
-
-        <div class="event-content">
-
-          <p class="event-day">
-            SATURDAY · 21 NOVEMBER
-          </p>
-
-          <h3>
-            Reception
-          </h3>
-
-
-          <div class="event-meta">
-
-            <span>
+            <p class="event-time">
               6:00 PM
-            </span>
+            </p>
 
-            <span class="event-meta-dot">
-              •
-            </span>
-
-            <span>
+            <p class="event-place">
               Lake Lawn
-            </span>
+            </p>
+
+            <button
+              type="button"
+              class="calendar-button"
+              data-event="reception"
+            >
+              Add Reception to Calendar
+            </button>
 
           </div>
 
-        </div>
-
-      </article>
+        </article>
 
 
+        <!-- MUHURTHAM -->
 
-      <!-- MUHURTHAM -->
-
-      <article
-        class="event-card reveal"
-        data-event="muhurtham"
-      >
-
-        <div class="event-image-wrap">
+        <article class="event-card reveal">
 
           <img
             src="images/muhurtham.png"
-            alt="Traditional South Indian muhurtham mandapam"
+            alt="Wedding muhurtham ceremony"
             class="event-image"
-          >
+            loading="lazy"
+          />
 
-        </div>
+          <div class="event-overlay"></div>
 
+          <div class="event-content">
 
-        <div class="event-overlay"></div>
+            <p class="event-day">
+              SUNDAY · 22 NOVEMBER
+            </p>
 
+            <h3>Muhurtham</h3>
 
-        <div class="event-number">
-          03
-        </div>
-
-
-        <div class="event-content">
-
-          <p class="event-day">
-            SUNDAY · 22 NOVEMBER
-          </p>
-
-          <h3>
-            Muhurtham
-          </h3>
-
-
-          <div class="event-meta">
-
-            <span>
+            <p class="event-time">
               8:30 AM – 10:00 AM
-            </span>
+            </p>
 
-            <span class="event-meta-dot">
-              •
-            </span>
-
-            <span>
+            <p class="event-place">
               Palm Beach Lawn
-            </span>
+            </p>
+
+            <button
+              type="button"
+              class="calendar-button"
+              data-event="muhurtham"
+            >
+              Add Muhurtham to Calendar
+            </button>
 
           </div>
 
-        </div>
+        </article>
 
-      </article>
+
+      </div>
 
     </section>
 
 
+    <!-- =====================================================
+         VENUE
+    ====================================================== -->
 
-    <!-- VENUE -->
+    <section class="venue-section" id="venue">
 
-    <section
-      class="venue-section"
-      id="venue"
-    >
+      <img
+        src="images/venue-coast.png"
+        alt="MGM Beach Resort on the Chennai coast"
+        class="venue-background"
+        loading="lazy"
+      />
 
-      <div class="venue-background">
-
-        <img
-          src="images/venue-coast.png"
-          alt="Coastal wedding resort setting in Chennai"
-          class="venue-image"
-        >
-
-        <div class="venue-overlay"></div>
-
-      </div>
-
+      <div class="venue-overlay"></div>
 
       <div class="venue-content reveal">
 
-        <p class="section-kicker">
-          MEET US BY THE SEA
+        <p class="section-kicker light">
+          THE VENUE
         </p>
-
 
         <h2>
           MGM Beach Resort
         </h2>
 
-
-        <p class="venue-address">
-
-          East Coast Road<br>
-
-          Chennai, Tamil Nadu
-
+        <p class="venue-location">
+          East Coast Road · Chennai
         </p>
 
+        <p>
+          Sea breeze, open lawns, jasmine, music and the people we love.
+          We could not imagine a better place to celebrate.
+        </p>
 
         <a
-          class="direction-button"
-          href="https://www.google.com/maps/search/?api=1&query=MGM+Beach+Resort+Chennai"
+          href="https://www.google.com/maps/search/?api=1&query=MGM+Beach+Resort+ECR+Chennai"
           target="_blank"
           rel="noopener noreferrer"
+          class="venue-button"
         >
-
-          GET DIRECTIONS
-
-          <span>
-            ↗
-          </span>
-
+          Open in Maps
         </a>
 
       </div>
@@ -851,175 +760,113 @@
     </section>
 
 
+    <!-- =====================================================
+         GOOD TO KNOW
+    ====================================================== -->
 
-    <!-- GOOD TO KNOW -->
-
-    <section class="info-section">
+    <section class="info-section section-pad">
 
       <img
         src="images/banana-leaves.png"
+        class="info-leaf info-leaf-left"
         alt=""
-        class="info-leaves"
         aria-hidden="true"
-      >
+      />
 
+      <img
+        src="images/banana-leaves.png"
+        class="info-leaf info-leaf-right"
+        alt=""
+        aria-hidden="true"
+      />
 
-      <div class="section-heading reveal">
-
-        <p class="section-kicker">
-          GOOD TO KNOW
-        </p>
-
-        <h2>
-          Before you join us.
-        </h2>
-
+      <div class="section-kicker reveal">
+        GOOD TO KNOW
       </div>
+
+      <h2 class="section-title reveal">
+        Before you pack.
+      </h2>
 
 
       <div class="info-grid">
 
-
         <article class="info-card reveal">
-
-          <span class="info-number">
-            01
-          </span>
-
-          <div class="info-icon">
-            ◇
-          </div>
-
-          <h3>
-            One venue
-          </h3>
-
+          <span>01</span>
+          <h3>Venue</h3>
           <p>
-            All three celebrations are at
-            MGM Beach Resort, ECR Chennai.
+            MGM Beach Resort<br />
+            ECR, Chennai
           </p>
-
         </article>
 
 
-
         <article class="info-card reveal">
-
-          <span class="info-number">
-            02
-          </span>
-
-          <div class="info-icon">
-            ☼
-          </div>
-
-          <h3>
-            By the sea
-          </h3>
-
+          <span>02</span>
+          <h3>Weather</h3>
           <p>
-            Some celebrations are outdoors,
-            so comfortable footwear is a very good idea.
+            Chennai will be warm and coastal.
+            Light, comfortable clothing is your friend.
           </p>
-
         </article>
 
 
-
         <article class="info-card reveal">
-
-          <span class="info-number">
-            03
-          </span>
-
-          <div class="info-icon">
-            ✦
-          </div>
-
-          <h3>
-            Come hungry
-          </h3>
-
+          <span>03</span>
+          <h3>The Lawns</h3>
           <p>
-            This is a South Indian wedding.
-            We are taking the food very seriously.
+            Most celebrations are outdoors, so plan your footwear accordingly.
           </p>
-
         </article>
 
+
+        <article class="info-card reveal">
+          <span>04</span>
+          <h3>Most Important</h3>
+          <p>
+            Come ready to eat, celebrate and stay on the dance floor longer
+            than you planned.
+          </p>
+        </article>
 
       </div>
 
     </section>
 
 
-
-    <!-- CLOSING -->
+    <!-- =====================================================
+         CLOSING
+    ====================================================== -->
 
     <section class="closing-section">
 
-      <div class="closing-background">
+      <img
+        src="images/closing-temple.png"
+        alt="Temple doorway overlooking the sea at sunset"
+        class="closing-background"
+        loading="lazy"
+      />
 
-        <img
-          src="images/closing-temple.png"
-          alt="Temple doorway overlooking the sea at sunset"
-          class="closing-image"
-        >
+      <div class="closing-overlay"></div>
 
-        <div class="closing-overlay"></div>
+      <div class="closing-content reveal">
 
-      </div>
-
-
-      <div class="closing-content">
-
-        <p class="section-kicker reveal">
-          21 · 22 NOVEMBER 2026
+        <p class="closing-small">
+          WITH LOVE
         </p>
 
-
-        <h2 class="reveal">
-
-          See you<br>
-
-          <em>
-            in Chennai.
-          </em>
-
+        <h2>
+          Nikhil
+          <span>&</span>
+          Supriya
         </h2>
 
-
-        <div class="closing-divider reveal">
-
-          <span></span>
-
-          <i>✦</i>
-
-          <span></span>
-
-        </div>
-
-
-        <p class="closing-names reveal">
-
-          Nikhil
-
-          <span>
-            &
-          </span>
-
-          Supriya
-
+        <p class="closing-date">
+          21 · 22 · 11 · 2026
         </p>
 
-
-        <p class="closing-location reveal">
-          MGM BEACH RESORT · ECR
-        </p>
-
-
-        <p class="closing-domain">
-          SUPNIK.IN
+        <p class="closing-message">
+          We cannot wait to celebrate with you.
         </p>
 
       </div>
@@ -1030,75 +877,26 @@
   </main>
 
 
+  <!-- =====================================================
+       MOBILE NAV
+  ====================================================== -->
 
-  <!-- MOBILE NAVIGATION -->
+  <nav class="mobile-nav" id="mobileNav">
 
-  <nav
-    class="mobile-nav"
-    aria-label="Wedding navigation"
-  >
-
-    <a
-      href="#home"
-      class="nav-link active"
-    >
-
-      <span class="nav-icon">
-        ⌂
-      </span>
-
-      <small>
-        HOME
-      </small>
-
+    <a href="#home" class="nav-link active" data-section="home">
+      Home
     </a>
 
-
-    <a
-      href="#story"
-      class="nav-link"
-    >
-
-      <span class="nav-icon">
-        ♡
-      </span>
-
-      <small>
-        STORY
-      </small>
-
+    <a href="#story" class="nav-link" data-section="story">
+      Story
     </a>
 
-
-    <a
-      href="#events"
-      class="nav-link"
-    >
-
-      <span class="nav-icon">
-        ✦
-      </span>
-
-      <small>
-        EVENTS
-      </small>
-
+    <a href="#events" class="nav-link" data-section="events">
+      Events
     </a>
 
-
-    <a
-      href="#venue"
-      class="nav-link"
-    >
-
-      <span class="nav-icon">
-        ⌖
-      </span>
-
-      <small>
-        VENUE
-      </small>
-
+    <a href="#venue" class="nav-link" data-section="venue">
+      Venue
     </a>
 
   </nav>
@@ -1107,5 +905,4 @@
   <script src="script.js"></script>
 
 </body>
-
 </html>

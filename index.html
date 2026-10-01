@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
 
@@ -15,19 +16,21 @@
 
   <title>Nikhil & Supriya | 21–22 November 2026</title>
 
-  <!-- Fonts -->
+  <!-- Royal typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Manrope:wght@400;500;600;700&family=Oooh+Baby&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
   <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
+
 
   <!-- =========================================================
        HERO
@@ -35,22 +38,8 @@
 
   <header class="hero" id="home">
 
-    <div class="hero-image" aria-hidden="true"></div>
-    <div class="hero-overlay" aria-hidden="true"></div>
-
-    <img
-      src="images/banana-leaves.png"
-      alt=""
-      class="hero-leaf hero-leaf-left"
-      aria-hidden="true"
-    >
-
-    <img
-      src="images/banana-leaves.png"
-      alt=""
-      class="hero-leaf hero-leaf-right"
-      aria-hidden="true"
-    >
+    <div class="hero-image"></div>
+    <div class="hero-overlay"></div>
 
     <div class="hero-content">
 
@@ -68,78 +57,100 @@
 
       <h1 class="hero-names">
         <span>Nikhil</span>
-        <span class="hero-ampersand">&</span>
+
+        <span class="hero-ampersand">
+          &
+        </span>
+
         <span>Supriya</span>
       </h1>
 
-      <div class="hero-date" aria-label="21 and 22 November 2026">
+
+      <div class="hero-date">
 
         <div class="hero-date-numbers">
           <span>21</span>
-          <span class="date-dot">·</span>
+
+          <span class="hero-date-divider"></span>
+
           <span>22</span>
         </div>
 
-        <div class="hero-date-month">
+        <p class="hero-date-month">
           NOVEMBER 2026
-        </div>
+        </p>
 
       </div>
 
+
       <p class="hero-location">
-        MGM Beach Resort
+        MGM BEACH RESORT
         <span>·</span>
         ECR
         <span>·</span>
-        Chennai
+        CHENNAI
       </p>
 
-      <button class="hero-enter" id="enterCelebration">
-        Enter the chaos
-        <span aria-hidden="true">↓</span>
+
+      <button
+        class="hero-enter"
+        id="enterCelebration"
+      >
+        Enter the celebration
+        <span>↓</span>
       </button>
 
-    </div>
-
-    <div class="hero-scroll" aria-hidden="true">
-      <span>SCROLL</span>
-      <div></div>
     </div>
 
   </header>
 
 
-  <!-- =========================================================
-       SAVE THE DATE
-  ========================================================== -->
 
   <main>
 
-    <section class="section intro-section reveal" id="intro">
 
-      <span class="section-number" aria-hidden="true">01</span>
+    <!-- =======================================================
+         SAVE THE DATE
+    ======================================================== -->
 
-      <div class="section-inner narrow">
+    <section
+      class="section intro-section reveal"
+      id="intro"
+    >
+
+      <div class="section-inner intro-inner">
 
         <p class="section-kicker">
           SAVE THE DATE
         </p>
 
-        <h2 class="display-heading">
+        <h2 class="section-title intro-title">
           Two families.<br>
           Two cities.<br>
           One celebration.
         </h2>
 
+
+        <div class="gold-line"></div>
+
+
         <p class="intro-copy">
           We’re getting married by the sea, and we’d love for you
-          to be there for all the love, noise, dancing and
+          to be there for all the love, laughter, dancing and
           completely unnecessary chaos.
         </p>
 
-        <div class="mini-date-lockup">
-          <span class="mini-date-big">21 · 22</span>
-          <span class="mini-date-small">NOVEMBER 2026</span>
+
+        <div class="date-lockup">
+
+          <strong>
+            21 · 22
+          </strong>
+
+          <span>
+            NOVEMBER 2026
+          </span>
+
         </div>
 
       </div>
@@ -147,8 +158,9 @@
     </section>
 
 
+
     <!-- =======================================================
-         TEAM NIKHIL / TEAM SUPRIYA
+         PICK A SIDE
     ======================================================== -->
 
     <section class="section team-section reveal">
@@ -156,34 +168,48 @@
       <div class="section-inner narrow">
 
         <p class="section-kicker">
-          IMPORTANT QUESTION
+          BEFORE WE CONTINUE
         </p>
 
-        <h2 class="display-heading smaller">
+        <h2 class="section-title smaller">
           Pick a side.
         </h2>
 
         <p class="section-copy">
-          Choose carefully. Your answer may be remembered.
+          Choose carefully.
+          Your answer may be remembered.
         </p>
+
 
         <div class="team-buttons">
 
-          <button class="team-button" id="teamNikhil">
+          <button
+            class="team-button"
+            id="teamNikhil"
+          >
             Team Nikhil
           </button>
 
-          <button class="team-button" id="teamSupriya">
+          <button
+            class="team-button"
+            id="teamSupriya"
+          >
             Team Supriya
           </button>
 
         </div>
 
-        <p class="team-response" id="teamResponse" aria-live="polite"></p>
+
+        <p
+          class="team-response"
+          id="teamResponse"
+          aria-live="polite"
+        ></p>
 
       </div>
 
     </section>
+
 
 
     <!-- =======================================================
@@ -195,91 +221,141 @@
       <div class="section-inner">
 
         <p class="section-kicker">
-          THE COUNTDOWN
+          UNTIL THE BIG DAY
         </p>
 
-        <h2 class="display-heading smaller">
-          Apparently this is actually happening.
+        <h2 class="section-title smaller">
+          The countdown is on.
         </h2>
 
-        <div class="countdown" id="countdown">
+
+        <div
+          class="countdown"
+          id="countdown"
+        >
 
           <div class="countdown-unit">
-            <strong id="days">000</strong>
-            <span>Days</span>
+            <strong id="days">
+              000
+            </strong>
+
+            <span>
+              DAYS
+            </span>
           </div>
 
-          <div class="countdown-unit">
-            <strong id="hours">00</strong>
-            <span>Hours</span>
-          </div>
 
           <div class="countdown-unit">
-            <strong id="minutes">00</strong>
-            <span>Minutes</span>
+            <strong id="hours">
+              00
+            </strong>
+
+            <span>
+              HOURS
+            </span>
           </div>
 
+
           <div class="countdown-unit">
-            <strong id="seconds">00</strong>
-            <span>Seconds</span>
+            <strong id="minutes">
+              00
+            </strong>
+
+            <span>
+              MINUTES
+            </span>
+          </div>
+
+
+          <div class="countdown-unit">
+            <strong id="seconds">
+              00
+            </strong>
+
+            <span>
+              SECONDS
+            </span>
           </div>
 
         </div>
 
-        <p class="countdown-message" id="countdownMessage"></p>
+
+        <p
+          class="countdown-message"
+          id="countdownMessage"
+        ></p>
 
       </div>
 
     </section>
 
 
+
     <!-- =======================================================
-         OUR CHAOS
+         OUR STORY
     ======================================================== -->
 
-    <section class="section story-section reveal" id="story">
-
-      <span class="section-number" aria-hidden="true">02</span>
+    <section
+      class="section story-section reveal"
+      id="story"
+    >
 
       <div class="section-inner">
+
 
         <div class="section-heading-row">
 
           <div>
+
             <p class="section-kicker">
               HOW WE GOT HERE
             </p>
 
-            <h2 class="display-heading">
-              Our chaos.
+            <h2 class="section-title">
+              Our Story
             </h2>
+
           </div>
 
-          <p class="section-side-note">
-            Swipe →
+
+          <p class="swipe-note">
+            SWIPE →
           </p>
 
         </div>
 
-        <div class="story-scroller" id="storyScroller">
+
+
+        <div
+          class="story-scroller"
+          id="storyScroller"
+        >
+
+
+          <!-- KPMG -->
 
           <article class="story-card">
 
-            <div class="story-image-wrap">
+            <div class="story-image">
+
               <img
                 src="images/story-kpmg.png"
                 alt="The beginning of Nikhil and Supriya's story"
                 loading="lazy"
               >
+
             </div>
 
-            <div class="story-card-copy">
 
-              <span class="story-year">
+            <div class="story-content">
+
+              <span>
                 THE BEGINNING
               </span>
 
-              <h3>KPMG</h3>
+              <h3>
+                KPMG
+              </h3>
 
               <p>
                 Where the corporate world accidentally created a relationship.
@@ -290,23 +366,31 @@
           </article>
 
 
+
+          <!-- Watson's -->
+
           <article class="story-card">
 
-            <div class="story-image-wrap">
+            <div class="story-image">
+
               <img
                 src="images/story-watsons.png"
-                alt="Nikhil and Supriya's first meeting at Watson's"
+                alt="Nikhil and Supriya at Watson's"
                 loading="lazy"
               >
+
             </div>
 
-            <div class="story-card-copy">
 
-              <span class="story-year">
+            <div class="story-content">
+
+              <span>
                 DEFINITELY CASUAL
               </span>
 
-              <h3>Watson’s</h3>
+              <h3>
+                Watson’s
+              </h3>
 
               <p>
                 Supposedly just a casual catch-up.
@@ -318,23 +402,31 @@
           </article>
 
 
+
+          <!-- Long Distance -->
+
           <article class="story-card">
 
-            <div class="story-image-wrap">
+            <div class="story-image">
+
               <img
                 src="images/story-distance.png"
-                alt="Long distance chapter"
+                alt="The long distance chapter"
                 loading="lazy"
               >
+
             </div>
 
-            <div class="story-card-copy">
 
-              <span class="story-year">
+            <div class="story-content">
+
+              <span>
                 MANY BOARDING PASSES LATER
               </span>
 
-              <h3>Long distance</h3>
+              <h3>
+                Long Distance
+              </h3>
 
               <p>
                 Flights, calls and the phrase
@@ -346,23 +438,31 @@
           </article>
 
 
+
+          <!-- Bangalore -->
+
           <article class="story-card">
 
-            <div class="story-image-wrap">
+            <div class="story-image">
+
               <img
                 src="images/story-bangalore.png"
                 alt="Nikhil and Supriya together in Bangalore"
                 loading="lazy"
               >
+
             </div>
 
-            <div class="story-card-copy">
 
-              <span class="story-year">
+            <div class="story-content">
+
+              <span>
                 FINALLY
               </span>
 
-              <h3>Bangalore</h3>
+              <h3>
+                Bangalore
+              </h3>
 
               <p>
                 Finally in the same city.
@@ -374,23 +474,31 @@
           </article>
 
 
+
+          <!-- Chennai -->
+
           <article class="story-card">
 
-            <div class="story-image-wrap">
+            <div class="story-image">
+
               <img
                 src="images/venue-coast.png"
-                alt="Wedding by the coast in Chennai"
+                alt="The coast in Chennai"
                 loading="lazy"
               >
+
             </div>
 
-            <div class="story-card-copy">
 
-              <span class="story-year">
+            <div class="story-content">
+
+              <span>
                 NOVEMBER 2026
               </span>
 
-              <h3>Chennai</h3>
+              <h3>
+                Chennai
+              </h3>
 
               <p>
                 And now we’re making all of you travel instead.
@@ -403,13 +511,41 @@
         </div>
 
 
-        <div class="story-progress" id="storyDots" aria-label="Story progress">
 
-          <button class="story-dot active" data-slide="0" aria-label="Story 1"></button>
-          <button class="story-dot" data-slide="1" aria-label="Story 2"></button>
-          <button class="story-dot" data-slide="2" aria-label="Story 3"></button>
-          <button class="story-dot" data-slide="3" aria-label="Story 4"></button>
-          <button class="story-dot" data-slide="4" aria-label="Story 5"></button>
+        <div
+          class="story-progress"
+          id="storyDots"
+        >
+
+          <button
+            class="story-dot active"
+            data-slide="0"
+            aria-label="Story 1"
+          ></button>
+
+          <button
+            class="story-dot"
+            data-slide="1"
+            aria-label="Story 2"
+          ></button>
+
+          <button
+            class="story-dot"
+            data-slide="2"
+            aria-label="Story 3"
+          ></button>
+
+          <button
+            class="story-dot"
+            data-slide="3"
+            aria-label="Story 4"
+          ></button>
+
+          <button
+            class="story-dot"
+            data-slide="4"
+            aria-label="Story 5"
+          ></button>
 
         </div>
 
@@ -418,39 +554,87 @@
     </section>
 
 
+
+    <!-- =======================================================
+         CINEMATIC IMAGE BREAK
+    ======================================================== -->
+
+    <section class="image-break reveal">
+
+      <img
+        src="images/venue-coast.png"
+        alt="Wedding by the sea in Chennai"
+        loading="lazy"
+      >
+
+      <div class="image-break-overlay"></div>
+
+
+      <div class="image-break-copy">
+
+        <span>
+          BANGALORE → CHENNAI
+        </span>
+
+        <h2>
+          And now,<br>
+          we celebrate.
+        </h2>
+
+      </div>
+
+    </section>
+
+
+
     <!-- =======================================================
          QUIZ
     ======================================================== -->
 
-    <section class="section quiz-section reveal" id="quiz">
-
-      <span class="section-number" aria-hidden="true">03</span>
+    <section
+      class="section quiz-section reveal"
+      id="quiz"
+    >
 
       <div class="section-inner narrow">
 
         <p class="section-kicker">
-          SIX QUESTIONS. MILD JUDGMENT.
+          SIX QUESTIONS · MILD JUDGMENT
         </p>
 
-        <h2 class="display-heading">
+        <h2 class="section-title">
           How well do you know us?
         </h2>
 
         <p class="section-copy">
-          No studying. No Googling. We’ll know.
+          No studying. No Googling.
+          We’ll know.
         </p>
 
-        <div class="quiz-shell" id="quizShell">
+
+        <div
+          class="quiz-shell"
+          id="quizShell"
+        >
+
 
           <div id="quizStart">
 
-            <button class="primary-button" id="startQuiz">
+            <button
+              class="primary-button"
+              id="startQuiz"
+            >
               Start the quiz
             </button>
 
           </div>
 
-          <div id="quizGame" class="quiz-game hidden">
+
+
+          <div
+            id="quizGame"
+            class="quiz-game hidden"
+          >
 
             <div class="quiz-meta">
 
@@ -464,17 +648,31 @@
 
             </div>
 
+
             <h3 id="quizQuestion">
               Question
             </h3>
 
-            <div class="quiz-options" id="quizOptions"></div>
 
-            <p class="quiz-reaction" id="quizReaction"></p>
+            <div
+              class="quiz-options"
+              id="quizOptions"
+            ></div>
+
+
+            <p
+              class="quiz-reaction"
+              id="quizReaction"
+            ></p>
 
           </div>
 
-          <div id="quizResult" class="quiz-result hidden">
+
+
+          <div
+            id="quizResult"
+            class="quiz-result hidden"
+          >
 
             <p class="section-kicker">
               FINAL VERDICT
@@ -484,7 +682,10 @@
 
             <p id="quizResultText"></p>
 
-            <button class="secondary-button" id="restartQuiz">
+            <button
+              class="secondary-button"
+              id="restartQuiz"
+            >
               Try again
             </button>
 
@@ -497,28 +698,41 @@
     </section>
 
 
+
     <!-- =======================================================
          EVENTS
     ======================================================== -->
 
-    <section class="section events-section reveal" id="events">
-
-      <span class="section-number" aria-hidden="true">04</span>
+    <section
+      class="section events-section reveal"
+      id="events"
+    >
 
       <div class="section-inner">
 
-        <p class="section-kicker">
-          THE ACTUAL PLAN
-        </p>
+        <div class="events-heading">
 
-        <h2 class="display-heading">
-          Be there for this bit.
-        </h2>
+          <p class="section-kicker">
+            THE CELEBRATIONS
+          </p>
+
+          <h2 class="section-title">
+            The Plan
+          </h2>
+
+          <p class="section-copy">
+            Three celebrations.
+            One weekend by the sea.
+          </p>
+
+        </div>
+
+
 
         <div class="event-list">
 
 
-          <!-- Engagement -->
+          <!-- ENGAGEMENT -->
 
           <article class="event-card">
 
@@ -526,21 +740,18 @@
 
               <img
                 src="images/engagement.png"
-                alt="Engagement by the sea"
+                alt="Engagement ceremony by the sea"
                 loading="lazy"
               >
 
-              <span class="event-number">
-                01
-              </span>
-
             </div>
 
-            <div class="event-content">
 
-              <p class="event-day">
+            <div class="event-details">
+
+              <span class="event-day">
                 SATURDAY · 21 NOVEMBER
-              </p>
+              </span>
 
               <h3>
                 Engagement
@@ -550,15 +761,16 @@
                 10:30 AM
               </p>
 
-              <p class="event-place">
-                Lake Lawn · MGM Beach Resort
+              <p class="event-location">
+                Lake Lawn<br>
+                MGM Beach Resort
               </p>
 
               <button
                 class="calendar-button"
                 data-event="engagement"
               >
-                Add Engagement to Calendar
+                Add to Calendar
               </button>
 
             </div>
@@ -566,7 +778,8 @@
           </article>
 
 
-          <!-- Reception -->
+
+          <!-- RECEPTION -->
 
           <article class="event-card event-card-reverse">
 
@@ -574,21 +787,18 @@
 
               <img
                 src="images/reception.png"
-                alt="Wedding reception by the sea"
+                alt="Reception by the sea"
                 loading="lazy"
               >
 
-              <span class="event-number">
-                02
-              </span>
-
             </div>
 
-            <div class="event-content">
 
-              <p class="event-day">
+            <div class="event-details">
+
+              <span class="event-day">
                 SATURDAY · 21 NOVEMBER
-              </p>
+              </span>
 
               <h3>
                 Reception
@@ -598,15 +808,16 @@
                 6:00 PM
               </p>
 
-              <p class="event-place">
-                Lake Lawn · MGM Beach Resort
+              <p class="event-location">
+                Lake Lawn<br>
+                MGM Beach Resort
               </p>
 
               <button
                 class="calendar-button"
                 data-event="reception"
               >
-                Add Reception to Calendar
+                Add to Calendar
               </button>
 
             </div>
@@ -614,7 +825,8 @@
           </article>
 
 
-          <!-- Muhurtham -->
+
+          <!-- MUHURTHAM -->
 
           <article class="event-card">
 
@@ -622,21 +834,18 @@
 
               <img
                 src="images/muhurtham.png"
-                alt="Muhurtham ceremony by the sea"
+                alt="Muhurtham ceremony"
                 loading="lazy"
               >
 
-              <span class="event-number">
-                03
-              </span>
-
             </div>
 
-            <div class="event-content">
 
-              <p class="event-day">
+            <div class="event-details">
+
+              <span class="event-day">
                 SUNDAY · 22 NOVEMBER
-              </p>
+              </span>
 
               <h3>
                 Muhurtham
@@ -646,15 +855,16 @@
                 8:30 AM – 10:00 AM
               </p>
 
-              <p class="event-place">
-                Palm Beach Lawn · MGM Beach Resort
+              <p class="event-location">
+                Palm Beach Lawn<br>
+                MGM Beach Resort
               </p>
 
               <button
                 class="calendar-button"
                 data-event="muhurtham"
               >
-                Add Muhurtham to Calendar
+                Add to Calendar
               </button>
 
             </div>
@@ -668,71 +878,17 @@
     </section>
 
 
-    <!-- =======================================================
-         WEDDING FORECAST
-    ======================================================== -->
-
-    <section class="section forecast-section reveal">
-
-      <span class="section-number" aria-hidden="true">05</span>
-
-      <div class="section-inner">
-
-        <p class="section-kicker">
-          COMPLETELY SCIENTIFIC
-        </p>
-
-        <h2 class="display-heading">
-          Wedding forecast.
-        </h2>
-
-        <div class="forecast-grid">
-
-          <div class="forecast-item">
-            <strong>100%</strong>
-            <span>CHANCE</span>
-            <p>of getting married</p>
-          </div>
-
-          <div class="forecast-item">
-            <strong>HIGH</strong>
-            <span>PROBABILITY</span>
-            <p>of dancing</p>
-          </div>
-
-          <div class="forecast-item">
-            <strong>LIKELY</strong>
-            <span>CONDITIONS</span>
-            <p>some humidity. We choose not to discuss it.</p>
-          </div>
-
-          <div class="forecast-item">
-            <strong>DECLINED</strong>
-            <span>INVITATION</span>
-            <p>rain has not been invited</p>
-          </div>
-
-        </div>
-
-        <p class="forecast-note">
-          For actual weather, please check a real forecast closer to the wedding.
-          This section has no meteorological qualifications whatsoever.
-        </p>
-
-      </div>
-
-    </section>
-
 
     <!-- =======================================================
          VENUE
     ======================================================== -->
 
-    <section class="section venue-section reveal" id="venue">
+    <section
+      class="venue-section reveal"
+      id="venue"
+    >
 
-      <span class="section-number" aria-hidden="true">06</span>
-
-      <div class="venue-photo">
+      <div class="venue-image">
 
         <img
           src="images/venue-coast.png"
@@ -740,26 +896,34 @@
           loading="lazy"
         >
 
+        <div class="venue-overlay"></div>
+
       </div>
 
-      <div class="section-inner venue-content">
+
+      <div class="venue-panel">
 
         <p class="section-kicker">
           GET THERE
         </p>
 
-        <h2 class="display-heading">
+        <h2 class="section-title">
           MGM Beach Resort
         </h2>
 
-        <p class="venue-address">
-          East Coast Road · Chennai
+        <p class="venue-subtitle">
+          EAST COAST ROAD · CHENNAI
         </p>
 
-        <p class="section-copy">
+
+        <div class="gold-line"></div>
+
+
+        <p class="venue-copy">
           Sea breeze, lawns, wedding chaos.
           You only need to find the entrance.
         </p>
+
 
         <div class="venue-actions">
 
@@ -772,6 +936,7 @@
             Take Me There
           </a>
 
+
           <a
             class="secondary-button"
             href="https://www.google.com/maps/search/?api=1&query=MGM+Beach+Resort+Chennai"
@@ -783,7 +948,11 @@
 
         </div>
 
-        <a class="blr-chn-link" href="blr-chn.html">
+
+        <a
+          href="blr-chn.html"
+          class="blr-link"
+        >
           Bangalore × Chennai
           <span>→</span>
         </a>
@@ -793,13 +962,12 @@
     </section>
 
 
+
     <!-- =======================================================
-         SURVIVAL GUIDE
+         GUEST GUIDE
     ======================================================== -->
 
     <section class="section survival-section reveal">
-
-      <span class="section-number" aria-hidden="true">07</span>
 
       <div class="section-inner">
 
@@ -807,42 +975,86 @@
           USEFUL INFORMATION. PROBABLY.
         </p>
 
-        <h2 class="display-heading">
-          Guest survival guide.
+        <h2 class="section-title">
+          Guest Survival Guide
         </h2>
+
 
         <div class="survival-grid">
 
-          <article class="survival-card">
-            <span>01</span>
-            <h3>Shoes</h3>
+
+          <article class="survival-item">
+
+            <span>
+              01
+            </span>
+
+            <h3>
+              Shoes
+            </h3>
+
             <p>
-              Pretty is good. Walking without regretting your life choices is better.
+              Pretty is good.
+              Walking without regretting your life choices is better.
             </p>
+
           </article>
 
-          <article class="survival-card">
-            <span>02</span>
-            <h3>Photos</h3>
+
+
+          <article class="survival-item">
+
+            <span>
+              02
+            </span>
+
+            <h3>
+              Photos
+            </h3>
+
             <p>
-              Take the photo quickly. Someone behind you is already waiting for theirs.
+              Take the photo quickly.
+              Someone behind you is already waiting for theirs.
             </p>
+
           </article>
 
-          <article class="survival-card">
-            <span>03</span>
-            <h3>Lost?</h3>
+
+
+          <article class="survival-item">
+
+            <span>
+              03
+            </span>
+
+            <h3>
+              Lost?
+            </h3>
+
             <p>
-              Check Maps, check the family WhatsApp group, then confidently pretend you knew all along.
+              Check Maps, check the family WhatsApp group,
+              then confidently pretend you knew all along.
             </p>
+
           </article>
 
-          <article class="survival-card">
-            <span>04</span>
-            <h3>Dance floor</h3>
+
+
+          <article class="survival-item">
+
+            <span>
+              04
+            </span>
+
+            <h3>
+              Dance Floor
+            </h3>
+
             <p>
-              Participation may become compulsory after approximately one enthusiastic relative.
+              Participation may become compulsory after approximately
+              one enthusiastic relative.
             </p>
+
           </article>
 
         </div>
@@ -852,13 +1064,12 @@
     </section>
 
 
+
     <!-- =======================================================
          WEDDING WISDOM
     ======================================================== -->
 
     <section class="section wisdom-section reveal">
-
-      <span class="section-number" aria-hidden="true">08</span>
 
       <div class="section-inner narrow">
 
@@ -866,18 +1077,23 @@
           VERY SERIOUS ADVICE
         </p>
 
-        <h2 class="display-heading">
-          Wedding wisdom.
+        <h2 class="section-title smaller">
+          Wedding Wisdom
         </h2>
 
-        <div class="wisdom-card">
+
+        <div class="wisdom-wrap">
 
           <p id="wisdomText">
-            Press the button. We accept no responsibility for the advice provided.
+            Press the button.
+            We accept no responsibility for the advice provided.
           </p>
 
-          <button class="primary-button" id="wisdomButton">
-            Give me wisdom
+          <button
+            class="primary-button"
+            id="wisdomButton"
+          >
+            Give Me Wisdom
           </button>
 
         </div>
@@ -887,69 +1103,77 @@
     </section>
 
 
+
     <!-- =======================================================
-         FINAL QUESTIONS
+         QUESTIONS
     ======================================================== -->
 
-    <section class="section questions-section reveal">
+    <section class="questions-section reveal">
 
-      <div class="section-inner narrow">
-
-        <p class="questions-copy">
-          Questions? Ask Nikhil.
-          If Nikhil looks stressed, ask Supriya.
-          If both look stressed, just pretend you know where you’re going.
-        </p>
-
-      </div>
+      <p>
+        Questions? Ask Nikhil.
+        If Nikhil looks stressed, ask Supriya.
+        If both look stressed, just pretend you know where you’re going.
+      </p>
 
     </section>
 
 
+
     <!-- =======================================================
-         CINEMATIC CLOSING
+         CLOSING
     ======================================================== -->
 
     <section class="closing-section">
 
       <img
         src="images/closing-temple.png"
-        alt="South Indian temple and coastal wedding setting"
+        alt="South Indian wedding setting"
         class="closing-image"
         loading="lazy"
       >
 
       <div class="closing-overlay"></div>
 
+
       <div class="closing-content reveal">
 
-        <p class="closing-script">
-          Nikhil & Supriya
+        <p class="closing-kicker">
+          21 · 22 NOVEMBER 2026
         </p>
 
-        <div class="closing-date">
-          21 · 22 NOVEMBER 2026
-        </div>
-
-        <div class="closing-divider"></div>
-
         <h2>
+          Nikhil
+          <span>&</span>
+          Supriya
+        </h2>
+
+
+        <div class="closing-line"></div>
+
+
+        <h3>
           End of website.<br>
           Beginning of chaos.
-        </h2>
+        </h3>
+
 
         <p>
           If you’ve made it this far, congratulations.
           You’re officially part of the planning committee.
         </p>
 
+
         <strong>
           No salary. Unlimited wedding memories.
         </strong>
 
-        <a href="blr-chn.html" class="closing-link">
+
+        <a href="blr-chn.html">
           Bangalore × Chennai
-          <span>→ enter at your own risk</span>
+          <span>
+            Enter at your own risk →
+          </span>
         </a>
 
       </div>
@@ -959,35 +1183,63 @@
   </main>
 
 
+
   <!-- =========================================================
-       FLOATING NAVIGATION
+       FLOATING NAV
   ========================================================== -->
 
-  <nav class="floating-nav" id="mobileNav" aria-label="Wedding navigation">
+  <nav
+    class="floating-nav"
+    id="mobileNav"
+    aria-label="Wedding navigation"
+  >
 
-    <a href="#home" class="nav-link active" data-section="home">
+    <a
+      href="#home"
+      class="nav-link active"
+      data-section="home"
+    >
       Home
     </a>
 
-    <span class="nav-divider">·</span>
+    <span class="nav-divider">
+      ·
+    </span>
 
-    <a href="#story" class="nav-link" data-section="story">
-      Our Chaos
+    <a
+      href="#story"
+      class="nav-link"
+      data-section="story"
+    >
+      Our Story
     </a>
 
-    <span class="nav-divider">·</span>
+    <span class="nav-divider">
+      ·
+    </span>
 
-    <a href="#events" class="nav-link" data-section="events">
+    <a
+      href="#events"
+      class="nav-link"
+      data-section="events"
+    >
       The Plan
     </a>
 
-    <span class="nav-divider">·</span>
+    <span class="nav-divider">
+      ·
+    </span>
 
-    <a href="#venue" class="nav-link" data-section="venue">
+    <a
+      href="#venue"
+      class="nav-link"
+      data-section="venue"
+    >
       Get There
     </a>
 
   </nav>
+
 
 
   <!-- =========================================================
@@ -1001,6 +1253,7 @@
   >
     ↑
   </button>
+
 
 
   <!-- =========================================================
@@ -1021,6 +1274,7 @@
       ×
     </button>
 
+
     <div class="secret-inner">
 
       <svg
@@ -1031,32 +1285,70 @@
 
         <g class="kolam-lines">
 
-          <circle cx="150" cy="150" r="20"></circle>
-          <circle cx="150" cy="150" r="48"></circle>
-          <circle cx="150" cy="150" r="78"></circle>
+          <circle
+            cx="150"
+            cy="150"
+            r="20"
+          ></circle>
 
-          <path d="M150 48 C180 82, 218 90, 252 150"></path>
-          <path d="M252 150 C218 180, 210 218, 150 252"></path>
-          <path d="M150 252 C120 218, 82 210, 48 150"></path>
-          <path d="M48 150 C82 120, 90 82, 150 48"></path>
+          <circle
+            cx="150"
+            cy="150"
+            r="48"
+          ></circle>
 
-          <path d="M92 92 C126 112, 126 188, 92 208"></path>
-          <path d="M208 92 C174 112, 174 188, 208 208"></path>
+          <circle
+            cx="150"
+            cy="150"
+            r="78"
+          ></circle>
 
-          <path d="M92 92 C112 126, 188 126, 208 92"></path>
-          <path d="M92 208 C112 174, 188 174, 208 208"></path>
+          <path
+            d="M150 48 C180 82, 218 90, 252 150"
+          ></path>
+
+          <path
+            d="M252 150 C218 180, 210 218, 150 252"
+          ></path>
+
+          <path
+            d="M150 252 C120 218, 82 210, 48 150"
+          ></path>
+
+          <path
+            d="M48 150 C82 120, 90 82, 150 48"
+          ></path>
+
+          <path
+            d="M92 92 C126 112, 126 188, 92 208"
+          ></path>
+
+          <path
+            d="M208 92 C174 112, 174 188, 208 208"
+          ></path>
+
+          <path
+            d="M92 92 C112 126, 188 126, 208 92"
+          ></path>
+
+          <path
+            d="M92 208 C112 174, 188 174, 208 208"
+          ></path>
 
         </g>
 
       </svg>
 
-      <p class="secret-script">
+
+      <p class="secret-names">
         Nikhil & Supriya
       </p>
+
 
       <h2>
         You found the secret bit.
       </h2>
+
 
       <p>
         There is no prize.
@@ -1065,12 +1357,18 @@
 
     </div>
 
-    <div id="heartContainer" aria-hidden="true"></div>
+
+    <div
+      id="heartContainer"
+      aria-hidden="true"
+    ></div>
 
   </div>
+
 
 
   <script src="script.js"></script>
 
 </body>
+
 </html>

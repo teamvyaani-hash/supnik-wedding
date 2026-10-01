@@ -1,36 +1,20 @@
 /* =========================================================
    SUPNIK.IN
    Nikhil & Supriya
-   Main Website Interactions
 ========================================================= */
 
 
 /* =========================================================
-   HELPERS
+   ENTER BUTTON
 ========================================================= */
 
-function padNumber(number) {
-  return String(number).padStart(2, "0");
-}
+const enterCelebration = document.getElementById("enterCelebration");
 
-
-/* =========================================================
-   ENTER THE CELEBRATION
-========================================================= */
-
-const enterButton = document.querySelector(".primary-button");
-
-if (enterButton) {
-  enterButton.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    const celebration = document.getElementById("celebration");
-
-    if (celebration) {
-      celebration.scrollIntoView({
-        behavior: "smooth"
-      });
-    }
+if (enterCelebration) {
+  enterCelebration.addEventListener("click", () => {
+    document.getElementById("intro")?.scrollIntoView({
+      behavior: "smooth"
+    });
   });
 }
 
@@ -41,178 +25,94 @@ if (enterButton) {
 
 const weddingDate = new Date("2026-11-21T10:30:00+05:30");
 
-const daysElement = document.getElementById("days");
-const hoursElement = document.getElementById("hours");
-const minutesElement = document.getElementById("minutes");
-const secondsElement = document.getElementById("seconds");
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
 const countdownMessage = document.getElementById("countdownMessage");
 
-
-function updateCountdownMessage(daysLeft) {
-
-  if (!countdownMessage) {
-    return;
-  }
-
-  if (daysLeft > 100) {
-
-    countdownMessage.textContent =
-      "Plenty of time. At least that is what we keep telling ourselves.";
-
-  } else if (daysLeft > 30) {
-
-    countdownMessage.textContent =
-      "This is getting very real.";
-
-  } else if (daysLeft > 7) {
-
-    countdownMessage.textContent =
-      "Outfits ready. Plans questionable. Excellent.";
-
-  } else if (daysLeft > 1) {
-
-    countdownMessage.textContent =
-      "Everybody panic gracefully.";
-
-  } else if (daysLeft === 1) {
-
-    countdownMessage.textContent =
-      "See you tomorrow.";
-
-  } else {
-
-    countdownMessage.textContent =
-      "TODAY'S THE DAY.";
-
-  }
-
-}
-
-
 function updateCountdown() {
-
   const now = new Date();
-
-  const difference =
-    weddingDate.getTime() - now.getTime();
-
+  const difference = weddingDate - now;
 
   if (difference <= 0) {
-
-    if (daysElement) daysElement.textContent = "00";
-    if (hoursElement) hoursElement.textContent = "00";
-    if (minutesElement) minutesElement.textContent = "00";
-    if (secondsElement) secondsElement.textContent = "00";
+    if (daysEl) daysEl.textContent = "000";
+    if (hoursEl) hoursEl.textContent = "00";
+    if (minutesEl) minutesEl.textContent = "00";
+    if (secondsEl) secondsEl.textContent = "00";
 
     if (countdownMessage) {
       countdownMessage.textContent =
-        "TODAY'S THE DAY.";
+        "Well. The countdown has officially lost its job.";
     }
 
     return;
   }
 
+  const totalSeconds = Math.floor(difference / 1000);
 
-  const totalSeconds =
-    Math.floor(difference / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-  const days =
-    Math.floor(totalSeconds / 86400);
+  if (daysEl) daysEl.textContent = String(days).padStart(3, "0");
+  if (hoursEl) hoursEl.textContent = String(hours).padStart(2, "0");
+  if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, "0");
+  if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, "0");
 
-  const hours =
-    Math.floor(
-      (totalSeconds % 86400) / 3600
-    );
+  if (!countdownMessage) return;
 
-  const minutes =
-    Math.floor(
-      (totalSeconds % 3600) / 60
-    );
-
-  const seconds =
-    totalSeconds % 60;
-
-
-  if (daysElement) {
-    daysElement.textContent = padNumber(days);
+  if (days > 100) {
+    countdownMessage.textContent =
+      "Plenty of time. This is what we’re telling ourselves.";
+  } else if (days > 30) {
+    countdownMessage.textContent =
+      "Close enough to be exciting. Far enough away to keep pretending we’re organised.";
+  } else if (days > 7) {
+    countdownMessage.textContent =
+      "Okay. This is becoming extremely real.";
+  } else if (days > 1) {
+    countdownMessage.textContent =
+      "This would be an excellent time to remember where your outfit is.";
+  } else {
+    countdownMessage.textContent =
+      "See you very, very soon.";
   }
-
-  if (hoursElement) {
-    hoursElement.textContent = padNumber(hours);
-  }
-
-  if (minutesElement) {
-    minutesElement.textContent = padNumber(minutes);
-  }
-
-  if (secondsElement) {
-    secondsElement.textContent = padNumber(seconds);
-  }
-
-
-  updateCountdownMessage(days);
 }
 
-
 updateCountdown();
-
-setInterval(
-  updateCountdown,
-  1000
-);
+setInterval(updateCountdown, 1000);
 
 
 /* =========================================================
-   SCROLL REVEALS
+   REVEAL ON SCROLL
 ========================================================= */
 
-const revealElements =
-  document.querySelectorAll(".reveal");
-
+const revealElements = document.querySelectorAll(".reveal");
 
 if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.12
+    }
+  );
 
-  const revealObserver =
-    new IntersectionObserver(
-
-      function (entries, observer) {
-
-        entries.forEach(function (entry) {
-
-          if (entry.isIntersecting) {
-
-            entry.target.classList.add("visible");
-
-            observer.unobserve(entry.target);
-
-          }
-
-        });
-
-      },
-
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -30px 0px"
-      }
-
-    );
-
-
-  revealElements.forEach(function (element) {
-
+  revealElements.forEach((element) => {
     revealObserver.observe(element);
-
   });
-
 } else {
-
-  revealElements.forEach(function (element) {
-
+  revealElements.forEach((element) => {
     element.classList.add("visible");
-
   });
-
 }
 
 
@@ -220,1426 +120,755 @@ if ("IntersectionObserver" in window) {
    TEAM NIKHIL / TEAM SUPRIYA
 ========================================================= */
 
-const teamButtons =
-  document.querySelectorAll(".team-button");
+const teamNikhil = document.getElementById("teamNikhil");
+const teamSupriya = document.getElementById("teamSupriya");
+const teamResponse = document.getElementById("teamResponse");
 
-const teamResponse =
-  document.getElementById("teamResponse");
+let nikhilClicks = 0;
+let supriyaClicks = 0;
 
+if (teamNikhil) {
+  teamNikhil.addEventListener("click", () => {
+    nikhilClicks += 1;
 
-let nikhilTapCount = 0;
-let supriyaTapCount = 0;
+    if (!teamResponse) return;
 
-
-const teamMessages = {
-
-  nikhil:
-    "Excellent choice. Slightly questionable judgment, but excellent choice.",
-
-  supriya:
-    "You clearly know who runs this wedding."
-
-};
-
-
-teamButtons.forEach(function (button) {
-
-  button.addEventListener("click", function () {
-
-    const selectedTeam =
-      button.dataset.team;
-
-
-    teamButtons.forEach(function (item) {
-
-      item.classList.remove("selected");
-
-    });
-
-
-    button.classList.add("selected");
-
-
-    if (selectedTeam === "nikhil") {
-
-      nikhilTapCount += 1;
-
-      supriyaTapCount = 0;
-
-
-      if (nikhilTapCount >= 5) {
-
-        teamResponse.textContent =
-          "Okay bro, we get it.";
-
-        nikhilTapCount = 0;
-
-      } else {
-
-        teamResponse.textContent =
-          teamMessages.nikhil;
-
-      }
-
+    if (nikhilClicks >= 5) {
+      teamResponse.textContent =
+        "Okay bro, we get it.";
+      nikhilClicks = 0;
+      return;
     }
 
-
-    if (selectedTeam === "supriya") {
-
-      supriyaTapCount += 1;
-
-      nikhilTapCount = 0;
-
-
-      if (supriyaTapCount >= 5) {
-
-        teamResponse.textContent =
-          "Commitment noted. Respect.";
-
-        supriyaTapCount = 0;
-
-      } else {
-
-        teamResponse.textContent =
-          teamMessages.supriya;
-
-      }
-
-    }
-
+    teamResponse.textContent =
+      "Excellent choice. Slightly questionable judgment, but excellent choice.";
   });
+}
 
+if (teamSupriya) {
+  teamSupriya.addEventListener("click", () => {
+    supriyaClicks += 1;
+
+    if (!teamResponse) return;
+
+    if (supriyaClicks >= 5) {
+      teamResponse.textContent =
+        "Commitment noted. Respect.";
+      supriyaClicks = 0;
+      return;
+    }
+
+    teamResponse.textContent =
+      "You clearly know who runs this wedding.";
+  });
+}
+
+
+/* =========================================================
+   SECRET EASTER EGG
+========================================================= */
+
+const secretTrigger = document.getElementById("secretTrigger");
+const secretMessage = document.getElementById("secretMessage");
+const secretClose = document.getElementById("secretClose");
+const heartContainer = document.getElementById("heartContainer");
+
+let heartInterval;
+
+function createHeart() {
+  if (!heartContainer) return;
+
+  const heart = document.createElement("span");
+
+  heart.className = "secret-heart";
+  heart.textContent = "♡";
+
+  heart.style.left = `${Math.random() * 100}%`;
+  heart.style.fontSize = `${14 + Math.random() * 24}px`;
+  heart.style.animationDuration = `${4 + Math.random() * 4}s`;
+
+  heartContainer.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 8500);
+}
+
+function openSecret() {
+  if (!secretMessage) return;
+
+  secretMessage.classList.add("open");
+  secretMessage.setAttribute("aria-hidden", "false");
+
+  document.body.style.overflow = "hidden";
+
+  clearInterval(heartInterval);
+
+  for (let i = 0; i < 8; i++) {
+    setTimeout(createHeart, i * 130);
+  }
+
+  heartInterval = setInterval(createHeart, 650);
+}
+
+function closeSecret() {
+  if (!secretMessage) return;
+
+  secretMessage.classList.remove("open");
+  secretMessage.setAttribute("aria-hidden", "true");
+
+  document.body.style.overflow = "";
+
+  clearInterval(heartInterval);
+
+  if (heartContainer) {
+    heartContainer.innerHTML = "";
+  }
+}
+
+secretTrigger?.addEventListener("click", openSecret);
+secretClose?.addEventListener("click", closeSecret);
+
+secretMessage?.addEventListener("click", (event) => {
+  if (event.target === secretMessage) {
+    closeSecret();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeSecret();
+  }
 });
 
 
 /* =========================================================
-   SECRET N & S EASTER EGG
+   STORY SCROLLER
 ========================================================= */
 
-const secretTrigger =
-  document.getElementById("secretTrigger");
-
-const secretMessage =
-  document.getElementById("secretMessage");
-
-const heartContainer =
-  document.getElementById("heartContainer");
-
-
-function createFloatingHearts() {
-
-  if (!heartContainer) {
-    return;
-  }
-
-
-  const hearts = [
-    "♡",
-    "♥",
-    "♡",
-    "♡",
-    "♥"
-  ];
-
-
-  for (let index = 0; index < 14; index += 1) {
-
-    const heart =
-      document.createElement("span");
-
-
-    heart.className =
-      "floating-heart";
-
-
-    heart.textContent =
-      hearts[
-        Math.floor(
-          Math.random() * hearts.length
-        )
-      ];
-
-
-    heart.style.left =
-      `${5 + Math.random() * 90}%`;
-
-
-    heart.style.setProperty(
-      "--drift",
-      `${Math.random() * 160 - 80}px`
-    );
-
-
-    heart.style.animationDuration =
-      `${3 + Math.random() * 2.5}s`;
-
-
-    heart.style.animationDelay =
-      `${Math.random() * 0.8}s`;
-
-
-    heart.style.fontSize =
-      `${14 + Math.random() * 14}px`;
-
-
-    heartContainer.appendChild(heart);
-
-
-    setTimeout(
-      function () {
-        heart.remove();
-      },
-      7000
-    );
-
-  }
-
-}
-
-
-function openSecret() {
-
-  if (!secretMessage) {
-    return;
-  }
-
-
-  secretMessage.classList.add("show");
-
-  secretMessage.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
-
-  createFloatingHearts();
-
-
-  setTimeout(
-    function () {
-
-      secretMessage.classList.remove("show");
-
-      secretMessage.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-
-    },
-    3300
-  );
-
-}
-
-
-if (secretTrigger) {
-
-  secretTrigger.addEventListener(
-    "click",
-    openSecret
-  );
-
-}
-
-
-if (secretMessage) {
-
-  secretMessage.addEventListener(
-    "click",
-    function () {
-
-      secretMessage.classList.remove("show");
-
-      secretMessage.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   HORIZONTAL STORY
-========================================================= */
-
-const storyScroller =
-  document.getElementById("storyScroller");
-
-const storyCards =
-  document.querySelectorAll(".story-card");
-
-const storyDots =
-  document.querySelectorAll(".story-dot");
-
-
-function updateStoryDot() {
-
-  if (
-    !storyScroller ||
-    storyCards.length === 0
-  ) {
-    return;
-  }
-
+const storyScroller = document.getElementById("storyScroller");
+const storyDots = document.querySelectorAll(".story-dot");
+const storyCards = document.querySelectorAll(".story-card");
+
+function updateStoryDots() {
+  if (!storyScroller || !storyCards.length) return;
 
   const scrollerCenter =
-    storyScroller.scrollLeft +
-    storyScroller.clientWidth / 2;
-
+    storyScroller.scrollLeft + storyScroller.clientWidth / 2;
 
   let closestIndex = 0;
   let closestDistance = Infinity;
 
+  storyCards.forEach((card, index) => {
+    const cardCenter =
+      card.offsetLeft + card.offsetWidth / 2;
 
-  storyCards.forEach(
-    function (card, index) {
+    const distance =
+      Math.abs(scrollerCenter - cardCenter);
 
-      const cardCenter =
-        card.offsetLeft +
-        card.offsetWidth / 2;
-
-
-      const distance =
-        Math.abs(
-          cardCenter - scrollerCenter
-        );
-
-
-      if (distance < closestDistance) {
-
-        closestDistance = distance;
-        closestIndex = index;
-
-      }
-
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = index;
     }
-  );
+  });
 
-
-  storyDots.forEach(
-    function (dot, index) {
-
-      dot.classList.toggle(
-        "active",
-        index === closestIndex
-      );
-
-    }
-  );
-
+  storyDots.forEach((dot, index) => {
+    dot.classList.toggle("active", index === closestIndex);
+  });
 }
-
 
 if (storyScroller) {
-
-  let storyScrollTimer;
-
-
-  storyScroller.addEventListener(
-    "scroll",
-    function () {
-
-      clearTimeout(storyScrollTimer);
-
-      storyScrollTimer =
-        setTimeout(
-          updateStoryDot,
-          60
-        );
-
-    },
-    {
-      passive: true
-    }
-  );
-
+  storyScroller.addEventListener("scroll", () => {
+    window.requestAnimationFrame(updateStoryDots);
+  });
 }
 
+storyDots.forEach((dot) => {
+  dot.addEventListener("click", () => {
+    const index = Number(dot.dataset.slide);
+    const targetCard = storyCards[index];
 
-storyDots.forEach(
-  function (dot) {
-
-    dot.addEventListener(
-      "click",
-      function () {
-
-        const index =
-          Number(dot.dataset.storyIndex);
-
-
-        const card =
-          storyCards[index];
-
-
-        if (
-          storyScroller &&
-          card
-        ) {
-
-          storyScroller.scrollTo({
-            left:
-              card.offsetLeft -
-              (
-                storyScroller.clientWidth -
-                card.offsetWidth
-              ) / 2,
-
-            behavior: "smooth"
-          });
-
-        }
-
-      }
-    );
-
-  }
-);
+    targetCard?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest"
+    });
+  });
+});
 
 
 /* =========================================================
-   NIKHIL & SUPRIYA QUIZ
+   QUIZ
 ========================================================= */
 
 const quizBank = [
-
   {
-    question:
-      "Where did this whole story technically begin?",
-
+    question: "Where did this story technically begin?",
     options: [
       "KPMG",
-      "Watson's",
+      "Watson’s",
       "Bangalore traffic",
-      "Someone accidentally replied-all"
+      "A very dramatic airport terminal"
     ],
-
-    answer:
-      "KPMG",
-
+    answer: 0,
     reaction:
-      "Corporate romance. HR was not consulted."
+      "Correct. HR was not consulted."
   },
 
-
   {
-    question:
-      "Where did things start becoming suspiciously less professional?",
-
+    question: "Where did things become suspiciously less professional?",
     options: [
-      "A meeting room",
-      "Watson's, Bangalore",
-      "An office Teams call",
-      "The printer area"
+      "An office meeting room",
+      "Watson’s",
+      "The airport",
+      "MGM Beach Resort"
     ],
-
-    answer:
-      "Watson's, Bangalore",
-
+    answer: 1,
     reaction:
-      "Watson's. Where 'just catching up' started doing a lot of heavy lifting."
+      "Exactly. Allegedly just a casual catch-up."
   },
 
-
   {
-    question:
-      "What became a recurring theme during long distance?",
-
+    question: "What became a recurring feature of the long-distance era?",
     options: [
-      "When are you coming?",
-      "Did you book the tickets?",
-      "How many days?",
+      "Flights",
+      "Calls",
+      "‘When are you coming?’",
       "All of the above"
     ],
-
-    answer:
-      "All of the above",
-
+    answer: 3,
     reaction:
-      "Long distance had excellent repetition value."
+      "Correct. Frequent-flyer points should probably be in the wedding party."
   },
 
-
   {
-    question:
-      "What eventually replaced all those boarding passes?",
-
+    question: "What eventually replaced the boarding passes?",
     options: [
       "Peace and quiet",
-      "Bangalore traffic",
-      "A private helicopter",
-      "More airports"
+      "Bangalore traffic jams",
+      "A private jet",
+      "Better life decisions"
     ],
-
-    answer:
-      "Bangalore traffic",
-
+    answer: 1,
     reaction:
-      "Finally in the same city. We traded boarding passes for Bangalore traffic jams."
+      "Correct. Romantic? Debatable. Accurate? Unfortunately."
   },
 
-
   {
-    question:
-      "Where does the corporate-calendar story eventually end up?",
-
+    question: "Where does the corporate-calendar story finally end up?",
     options: [
-      "Another KPMG meeting",
-      "Watson's again",
+      "Back at KPMG",
+      "Goa",
       "MGM Beach Resort",
-      "A conference room"
+      "Another Zoom call"
     ],
-
-    answer:
-      "MGM Beach Resort",
-
+    answer: 2,
     reaction:
-      "From corporate calendars to wedding calendars. Character development."
+      "Correct. Considerably better than a conference room."
   },
 
-
   {
-    question:
-      "After years of travelling to see each other, what is the 2026 plot twist?",
-
+    question: "What is the 2026 plot twist?",
     options: [
-      "Nobody travels",
-      "We make all of you travel instead",
-      "The wedding moves to Bangalore",
-      "We meet on Teams"
+      "Another long-distance chapter",
+      "Everyone else has to travel now",
+      "We cancel the wedding",
+      "Nobody mentions traffic"
     ],
-
-    answer:
-      "We make all of you travel instead",
-
+    answer: 1,
     reaction:
-      "Our turn. See you in Chennai."
+      "Correct. Our turn to inconvenience everyone else."
   },
 
-
   {
-    question:
-      "What is most likely to survive anything this relationship throws at it?",
-
+    question: "Which phrase best describes the road from KPMG to Chennai?",
     options: [
-      "Flight schedules",
-      "Bangalore traffic",
-      "The two of us",
-      "Airport Wi-Fi"
+      "Efficient and well planned",
+      "Completely straightforward",
+      "A suspicious amount of logistics",
+      "No travel involved"
     ],
-
-    answer:
-      "The two of us",
-
+    answer: 2,
     reaction:
-      "Correct. Slightly sentimental. We'll allow it."
+      "Correct. There have been spreadsheets. Many spreadsheets."
   },
 
-
   {
-    question:
-      "What is the safest prediction for 21–22 November 2026?",
-
+    question: "What is the safest prediction for 21–22 November?",
     options: [
-      "Everything runs exactly to schedule",
-      "Nobody changes anything",
-      "Chennai has zero humidity",
-      "Nikhil and Supriya get married regardless"
+      "Everyone arrives early",
+      "Nobody asks for directions",
+      "Nikhil and Supriya get married",
+      "Zero family WhatsApp messages"
     ],
-
-    answer:
-      "Nikhil and Supriya get married regardless",
-
+    answer: 2,
     reaction:
-      "Finally, one requirement that cannot be changed."
+      "Correct. We’re fairly confident about this one."
   }
-
 ];
 
+const startQuiz = document.getElementById("startQuiz");
+const restartQuiz = document.getElementById("restartQuiz");
 
-/*
-   We have 8 questions in the bank.
+const quizStart = document.getElementById("quizStart");
+const quizGame = document.getElementById("quizGame");
+const quizResult = document.getElementById("quizResult");
 
-   Each play selects 6 at random.
+const quizProgress = document.getElementById("quizProgress");
+const quizScoreEl = document.getElementById("quizScore");
+const quizQuestion = document.getElementById("quizQuestion");
+const quizOptions = document.getElementById("quizOptions");
+const quizReaction = document.getElementById("quizReaction");
 
-   Play again and you may get a slightly
-   different set.
-*/
+const quizResultTitle = document.getElementById("quizResultTitle");
+const quizResultText = document.getElementById("quizResultText");
 
+let selectedQuestions = [];
+let currentQuestionIndex = 0;
+let score = 0;
+let answerLocked = false;
 
-function shuffleArray(array) {
-
-  const copy =
-    [...array];
-
-
-  for (
-    let index = copy.length - 1;
-    index > 0;
-    index -= 1
-  ) {
-
-    const randomIndex =
-      Math.floor(
-        Math.random() * (index + 1)
-      );
-
-
-    [
-      copy[index],
-      copy[randomIndex]
-    ] = [
-      copy[randomIndex],
-      copy[index]
-    ];
-
-  }
-
-
-  return copy;
-
+function shuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5);
 }
 
+function startQuizGame() {
+  selectedQuestions = shuffle(quizBank).slice(0, 6);
 
-let quizQuestions =
-  shuffleArray(quizBank).slice(0, 6);
+  currentQuestionIndex = 0;
+  score = 0;
+  answerLocked = false;
 
-let currentQuestionIndex = 0;
-let quizScore = 0;
-let questionLocked = false;
+  quizStart?.classList.add("hidden");
+  quizResult?.classList.add("hidden");
+  quizGame?.classList.remove("hidden");
 
+  showQuizQuestion();
+}
 
-const quizProgress =
-  document.getElementById("quizProgress");
+function showQuizQuestion() {
+  if (!selectedQuestions.length) return;
 
-const quizProgressBar =
-  document.getElementById("quizProgressBar");
-
-const quizQuestion =
-  document.getElementById("quizQuestion");
-
-const quizOptions =
-  document.getElementById("quizOptions");
-
-const quizFeedback =
-  document.getElementById("quizFeedback");
-
-const quizQuestionArea =
-  document.getElementById("quizQuestionArea");
-
-const quizResult =
-  document.getElementById("quizResult");
-
-const quizScoreElement =
-  document.getElementById("quizScore");
-
-const quizResultTitle =
-  document.getElementById("quizResultTitle");
-
-const quizResultText =
-  document.getElementById("quizResultText");
-
-const restartQuiz =
-  document.getElementById("restartQuiz");
-
-
-function loadQuizQuestion() {
+  answerLocked = false;
 
   const currentQuestion =
-    quizQuestions[currentQuestionIndex];
-
-
-  if (!currentQuestion) {
-    return;
-  }
-
-
-  questionLocked = false;
-
+    selectedQuestions[currentQuestionIndex];
 
   if (quizProgress) {
-
     quizProgress.textContent =
-      `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
-
+      `Question ${currentQuestionIndex + 1} of 6`;
   }
 
-
-  if (quizProgressBar) {
-
-    quizProgressBar.style.width =
-      `${
-        (
-          (currentQuestionIndex + 1) /
-          quizQuestions.length
-        ) * 100
-      }%`;
-
+  if (quizScoreEl) {
+    quizScoreEl.textContent =
+      `${score} correct`;
   }
-
 
   if (quizQuestion) {
-
     quizQuestion.textContent =
       currentQuestion.question;
-
   }
 
-
-  if (quizFeedback) {
-
-    quizFeedback.textContent = "";
-
+  if (quizReaction) {
+    quizReaction.textContent = "";
   }
 
-
-  if (!quizOptions) {
-    return;
-  }
-
+  if (!quizOptions) return;
 
   quizOptions.innerHTML = "";
 
+  currentQuestion.options.forEach((option, optionIndex) => {
+    const button = document.createElement("button");
 
-  currentQuestion.options.forEach(
-    function (option) {
+    button.type = "button";
+    button.textContent = option;
 
-      const button =
-        document.createElement("button");
-
-
-      button.type = "button";
-
-      button.className =
-        "quiz-option";
-
-      button.textContent =
-        option;
-
-
-      button.addEventListener(
-        "click",
-        function () {
-
-          chooseQuizAnswer(
-            button,
-            option,
-            currentQuestion
-          );
-
-        }
+    button.addEventListener("click", () => {
+      handleQuizAnswer(
+        button,
+        optionIndex,
+        currentQuestion
       );
+    });
 
-
-      quizOptions.appendChild(button);
-
-    }
-  );
-
+    quizOptions.appendChild(button);
+  });
 }
 
-
-function chooseQuizAnswer(
-  selectedButton,
-  selectedAnswer,
+function handleQuizAnswer(
+  clickedButton,
+  selectedIndex,
   currentQuestion
 ) {
+  if (answerLocked) return;
 
-  if (questionLocked) {
-    return;
-  }
-
-
-  questionLocked = true;
-
+  answerLocked = true;
 
   const buttons =
-    quizOptions.querySelectorAll(
-      ".quiz-option"
-    );
+    quizOptions?.querySelectorAll("button") || [];
 
+  const isCorrect =
+    selectedIndex === currentQuestion.answer;
 
-  buttons.forEach(
-    function (button) {
-
-      button.disabled = true;
-
-
-      if (
-        button.textContent ===
-        currentQuestion.answer
-      ) {
-
-        button.classList.add(
-          "correct"
-        );
-
-      }
-
-    }
-  );
-
-
-  if (
-    selectedAnswer ===
-    currentQuestion.answer
-  ) {
-
-    quizScore += 1;
-
-    selectedButton.classList.add(
-      "correct"
-    );
-
-
-    if (quizFeedback) {
-
-      quizFeedback.textContent =
-        currentQuestion.reaction;
-
-    }
-
+  if (isCorrect) {
+    score += 1;
+    clickedButton.classList.add("correct");
   } else {
+    clickedButton.classList.add("wrong");
 
-    selectedButton.classList.add(
-      "wrong"
-    );
+    const correctButton =
+      buttons[currentQuestion.answer];
 
-
-    if (quizFeedback) {
-
-      quizFeedback.textContent =
-        `Not quite. ${currentQuestion.reaction}`;
-
-    }
-
+    correctButton?.classList.add("correct");
   }
 
+  if (quizScoreEl) {
+    quizScoreEl.textContent =
+      `${score} correct`;
+  }
 
-  setTimeout(
-    function () {
+  if (quizReaction) {
+    quizReaction.textContent =
+      isCorrect
+        ? currentQuestion.reaction
+        : "Not quite. We’ll pretend nobody saw that.";
+  }
 
-      currentQuestionIndex += 1;
+  buttons.forEach((button) => {
+    button.disabled = true;
+  });
 
+  setTimeout(() => {
+    currentQuestionIndex += 1;
 
-      if (
-        currentQuestionIndex <
-        quizQuestions.length
-      ) {
-
-        loadQuizQuestion();
-
-      } else {
-
-        showQuizResult();
-
-      }
-
-    },
-    1700
-  );
-
+    if (
+      currentQuestionIndex >=
+      selectedQuestions.length
+    ) {
+      finishQuiz();
+    } else {
+      showQuizQuestion();
+    }
+  }, 1300);
 }
 
+function finishQuiz() {
+  quizGame?.classList.add("hidden");
+  quizResult?.classList.remove("hidden");
 
-function showQuizResult() {
+  if (score === 6) {
+    if (quizResultTitle) {
+      quizResultTitle.textContent =
+        "Suspicious.";
+    }
 
-  if (quizQuestionArea) {
-    quizQuestionArea.hidden = true;
-  }
+    if (quizResultText) {
+      quizResultText.textContent =
+        "Perfect score. Either you know us extremely well or you have somehow been studying this website.";
+    }
 
-
-  if (quizResult) {
-    quizResult.hidden = false;
-  }
-
-
-  if (quizScoreElement) {
-
-    quizScoreElement.textContent =
-      `${quizScore} / ${quizQuestions.length}`;
-
-  }
-
-
-  if (
-    !quizResultTitle ||
-    !quizResultText
-  ) {
     return;
   }
 
+  if (score >= 4) {
+    if (quizResultTitle) {
+      quizResultTitle.textContent =
+        "You actually know us.";
+    }
 
-  if (quizScore === 6) {
+    if (quizResultText) {
+      quizResultText.textContent =
+        `${score}/6. Respectable. Your invitation remains fully valid.`;
+    }
 
-    quizResultTitle.textContent =
-      "Suspicious.";
+    return;
+  }
 
-    quizResultText.textContent =
-      "Perfect score. You know far too much. We are keeping an eye on you.";
+  if (score >= 2) {
+    if (quizResultTitle) {
+      quizResultTitle.textContent =
+        "We’ll allow it.";
+    }
 
-  } else if (quizScore >= 4) {
+    if (quizResultText) {
+      quizResultText.textContent =
+        `${score}/6. Enough knowledge to attend. Possibly not enough to give a speech.`;
+    }
 
-    quizResultTitle.textContent =
-      "You actually know us.";
+    return;
+  }
 
-    quizResultText.textContent =
-      "Very respectable. Your invitation remains completely safe.";
-
-  } else if (quizScore >= 2) {
-
-    quizResultTitle.textContent =
-      "We'll allow it.";
-
-    quizResultText.textContent =
-      "Not terrible. A little revision before November wouldn't hurt.";
-
-  } else {
-
+  if (quizResultTitle) {
     quizResultTitle.textContent =
       "Interesting.";
+  }
 
+  if (quizResultText) {
     quizResultText.textContent =
-      "Still invited. Barely.";
-
+      `${score}/6. Still invited. Barely.`;
   }
-
 }
 
-
-function resetQuiz() {
-
-  quizQuestions =
-    shuffleArray(quizBank).slice(0, 6);
-
-  currentQuestionIndex = 0;
-
-  quizScore = 0;
-
-  questionLocked = false;
-
-
-  if (quizQuestionArea) {
-    quizQuestionArea.hidden = false;
-  }
-
-
-  if (quizResult) {
-    quizResult.hidden = true;
-  }
-
-
-  loadQuizQuestion();
-
-}
-
-
-if (restartQuiz) {
-
-  restartQuiz.addEventListener(
-    "click",
-    resetQuiz
-  );
-
-}
-
-
-if (
-  quizQuestion &&
-  quizOptions
-) {
-
-  loadQuizQuestion();
-
-}
+startQuiz?.addEventListener("click", startQuizGame);
+restartQuiz?.addEventListener("click", startQuizGame);
 
 
 /* =========================================================
    INDIVIDUAL CALENDAR INVITES
 ========================================================= */
 
-/*
-   Times below are in UTC.
-
-   Chennai is UTC +05:30.
-
-   Engagement:
-   10:30 AM IST
-
-   Reception:
-   6:00 PM IST
-
-   Muhurtham:
-   8:30 AM - 10:00 AM IST
-*/
-
-
 const calendarEvents = {
-
   engagement: {
-
-    fileName:
-      "Nikhil-Supriya-Engagement.ics",
-
-    title:
-      "Nikhil & Supriya | Engagement",
-
-    start:
-      "20261121T050000Z",
-
-    duration:
-      "PT90M",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai, Tamil Nadu",
-
+    title: "Nikhil & Supriya - Engagement",
+    start: "20261121T050000Z",
+    end: "20261121T063000Z",
+    location: "Lake Lawn, MGM Beach Resort, ECR, Chennai",
     description:
-      "Engagement celebration of Nikhil and Supriya. Saturday, 21 November 2026 at 10:30 AM."
+      "Nikhil & Supriya's Engagement at MGM Beach Resort."
   },
-
 
   reception: {
-
-    fileName:
-      "Nikhil-Supriya-Reception.ics",
-
-    title:
-      "Nikhil & Supriya | Reception",
-
-    start:
-      "20261121T123000Z",
-
-    duration:
-      "PT3H30M",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai, Tamil Nadu",
-
+    title: "Nikhil & Supriya - Reception",
+    start: "20261121T123000Z",
+    end: "20261121T160000Z",
+    location: "Lake Lawn, MGM Beach Resort, ECR, Chennai",
     description:
-      "Wedding reception of Nikhil and Supriya. Saturday, 21 November 2026 at 6:00 PM."
+      "Nikhil & Supriya's Reception at MGM Beach Resort."
   },
 
-
   muhurtham: {
-
-    fileName:
-      "Nikhil-Supriya-Muhurtham.ics",
-
-    title:
-      "Nikhil & Supriya | Muhurtham",
-
-    start:
-      "20261122T030000Z",
-
-    end:
-      "20261122T043000Z",
-
-    location:
-      "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai, Tamil Nadu",
-
+    title: "Nikhil & Supriya - Muhurtham",
+    start: "20261122T030000Z",
+    end: "20261122T043000Z",
+    location: "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
     description:
-      "Muhurtham ceremony of Nikhil and Supriya. Sunday, 22 November 2026 from 8:30 AM to 10:00 AM."
+      "Nikhil & Supriya's Muhurtham at MGM Beach Resort."
   }
-
 };
 
-
-function escapeICSText(text) {
-
-  return text
+function escapeICS(value) {
+  return String(value)
     .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
     .replace(/,/g, "\\,")
-    .replace(/;/g, "\\;")
-    .replace(/\n/g, "\\n");
-
+    .replace(/;/g, "\\;");
 }
 
+function downloadICS(eventKey) {
+  const event = calendarEvents[eventKey];
 
-function downloadCalendarEvent(
-  eventData
-) {
+  if (!event) return;
 
-  const now =
-    new Date()
-      .toISOString()
-      .replace(/[-:]/g, "")
-      .replace(/\.\d{3}Z$/, "Z");
-
-
-  const uid =
-    `${Date.now()}-${Math.random()
-      .toString(36)
-      .slice(2)}@supnik.in`;
-
-
-  const lines = [
-
+  const icsContent = [
     "BEGIN:VCALENDAR",
-
     "VERSION:2.0",
-
-    "PRODID:-//SUPNIK.IN//Nikhil and Supriya Wedding//EN",
-
+    "PRODID:-//SUPNIK//Wedding//EN",
     "CALSCALE:GREGORIAN",
-
     "METHOD:PUBLISH",
 
     "BEGIN:VEVENT",
 
-    `UID:${uid}`,
+    `UID:${eventKey}-20261121@supnik.in`,
+    `DTSTAMP:${new Date()
+      .toISOString()
+      .replace(/[-:]/g, "")
+      .replace(/\.\d{3}Z$/, "Z")}`,
 
-    `DTSTAMP:${now}`,
+    `DTSTART:${event.start}`,
+    `DTEND:${event.end}`,
 
-    `DTSTART:${eventData.start}`
-
-  ];
-
-
-  if (eventData.end) {
-
-    lines.push(
-      `DTEND:${eventData.end}`
-    );
-
-  } else if (eventData.duration) {
-
-    lines.push(
-      `DURATION:${eventData.duration}`
-    );
-
-  }
-
-
-  lines.push(
-
-    `SUMMARY:${escapeICSText(
-      eventData.title
-    )}`,
-
-    `LOCATION:${escapeICSText(
-      eventData.location
-    )}`,
-
-    `DESCRIPTION:${escapeICSText(
-      eventData.description
-    )}`,
-
-    "URL:https://supnik.in",
-
-    "STATUS:CONFIRMED",
+    `SUMMARY:${escapeICS(event.title)}`,
+    `LOCATION:${escapeICS(event.location)}`,
+    `DESCRIPTION:${escapeICS(event.description)}`,
 
     "END:VEVENT",
-
     "END:VCALENDAR"
+  ].join("\r\n");
 
+  const blob = new Blob(
+    [icsContent],
+    {
+      type: "text/calendar;charset=utf-8"
+    }
   );
-
-
-  const calendarContent =
-    lines.join("\r\n");
-
-
-  const blob =
-    new Blob(
-      [calendarContent],
-      {
-        type:
-          "text/calendar;charset=utf-8"
-      }
-    );
-
 
   const url =
     URL.createObjectURL(blob);
 
-
   const link =
     document.createElement("a");
 
-
   link.href = url;
-
   link.download =
-    eventData.fileName;
-
+    `nikhil-supriya-${eventKey}.ics`;
 
   document.body.appendChild(link);
 
   link.click();
 
-  link.remove();
+  document.body.removeChild(link);
 
-
-  setTimeout(
-    function () {
-      URL.revokeObjectURL(url);
-    },
-    500
-  );
-
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 1000);
 }
 
-
-const calendarButtons =
-  document.querySelectorAll(
-    ".calendar-button"
-  );
-
-
-calendarButtons.forEach(
-  function (button) {
-
-    button.addEventListener(
-      "click",
-      function () {
-
-        const eventName =
-          button.dataset.event;
-
-
-        const eventData =
-          calendarEvents[eventName];
-
-
-        if (eventData) {
-
-          downloadCalendarEvent(
-            eventData
-          );
-
-        }
-
-      }
-    );
-
-  }
-);
+document
+  .querySelectorAll(".calendar-button")
+  .forEach((button) => {
+    button.addEventListener("click", () => {
+      downloadICS(button.dataset.event);
+    });
+  });
 
 
 /* =========================================================
    WEDDING WISDOM
 ========================================================= */
 
-const weddingWisdom = [
+const wisdomButton =
+  document.getElementById("wisdomButton");
 
-  "Never trust the phrase 'five minutes away.'",
+const wisdomText =
+  document.getElementById("wisdomText");
 
-  "A confident walk can disguise the fact that you have absolutely no idea where you're going.",
-
-  "The schedule is a document. Reality is a separate department.",
-
-  "If someone says 'one quick photo', mentally clear the next fifteen minutes.",
-
-  "If you don't know what's happening, find someone who looks confident and stand next to them.",
-
-  "When someone says 'small change only', prepare emotionally.",
-
-  "If the DJ plays your song, pretending you didn't hear it will not save you.",
-
-  "Nobody truly knows what time everyone is leaving. Accept this early.",
-
-  "If three different relatives give you three different instructions, congratulations. The wedding has begun.",
-
-  "Walk with purpose. Nobody needs to know you're lost."
-
+const wisdomBank = [
+  "If someone says ‘quick photo’, emotionally prepare for seventeen.",
+  "Never trust anyone who says the family group photo will take five minutes.",
+  "The correct wedding arrival time is earlier than whatever time you were planning.",
+  "Comfortable shoes are a personality trait now.",
+  "If you are lost, walk confidently. People may assume you are helping.",
+  "Charge your phone. Someone will eventually ask you to take a photo.",
+  "If you hear music from the dance floor, resistance is probably temporary.",
+  "The phrase ‘we’re almost ready’ has no measurable relationship with time.",
+  "If an auntie tells you to eat, the discussion has already ended.",
+  "When in doubt, smile and follow the person who looks like they know what’s happening.",
+  "Do not start an IPL argument unless you have cleared your schedule.",
+  "Never underestimate the power of one enthusiastic relative with a camera.",
+  "If Nikhil says everything is under control, confirm independently.",
+  "If Supriya says everything is under control, it probably is."
 ];
 
+let previousWisdomIndex = -1;
 
-const wisdomButton =
-  document.getElementById(
-    "wisdomButton"
+wisdomButton?.addEventListener("click", () => {
+  if (!wisdomText) return;
+
+  let newIndex;
+
+  do {
+    newIndex =
+      Math.floor(
+        Math.random() * wisdomBank.length
+      );
+  } while (
+    wisdomBank.length > 1 &&
+    newIndex === previousWisdomIndex
   );
 
-const wisdomResult =
-  document.getElementById(
-    "wisdomResult"
-  );
+  previousWisdomIndex =
+    newIndex;
 
+  wisdomText.style.opacity =
+    "0";
 
-let lastWisdomIndex = -1;
+  setTimeout(() => {
+    wisdomText.textContent =
+      wisdomBank[newIndex];
 
-
-if (
-  wisdomButton &&
-  wisdomResult
-) {
-
-  wisdomButton.addEventListener(
-    "click",
-    function () {
-
-      let randomIndex;
-
-
-      do {
-
-        randomIndex =
-          Math.floor(
-            Math.random() *
-            weddingWisdom.length
-          );
-
-      } while (
-        randomIndex ===
-          lastWisdomIndex &&
-        weddingWisdom.length > 1
-      );
-
-
-      lastWisdomIndex =
-        randomIndex;
-
-
-      wisdomResult.style.opacity =
-        "0";
-
-
-      wisdomResult.style.transform =
-        "translateY(8px)";
-
-
-      setTimeout(
-        function () {
-
-          wisdomResult.textContent =
-            weddingWisdom[randomIndex];
-
-
-          wisdomResult.style.opacity =
-            "1";
-
-
-          wisdomResult.style.transform =
-            "translateY(0)";
-
-        },
-        180
-      );
-
-  });
-
-}
+    wisdomText.style.opacity =
+      "1";
+  }, 180);
+});
 
 
 /* =========================================================
-   MOBILE NAV
+   FLOATING NAVIGATION
 ========================================================= */
-
-const mobileNav =
-  document.getElementById(
-    "mobileNav"
-  );
 
 const navLinks =
-  document.querySelectorAll(
-    ".nav-link"
-  );
+  document.querySelectorAll(".nav-link");
 
+navLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const href =
+      link.getAttribute("href");
 
-navLinks.forEach(
-  function (link) {
+    if (!href?.startsWith("#")) return;
 
-    link.addEventListener(
-      "click",
-      function (event) {
+    const target =
+      document.querySelector(href);
 
-        event.preventDefault();
+    if (!target) return;
 
+    event.preventDefault();
 
-        const selector =
-          link.getAttribute("href");
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+});
 
-
-        const target =
-          document.querySelector(selector);
-
-
-        if (target) {
-
-          target.scrollIntoView({
-            behavior: "smooth"
-          });
-
-        }
-
-      }
-    );
-
+const sectionMap = [
+  {
+    id: "home",
+    element: document.getElementById("home")
+  },
+  {
+    id: "story",
+    element: document.getElementById("story")
+  },
+  {
+    id: "events",
+    element: document.getElementById("events")
+  },
+  {
+    id: "venue",
+    element: document.getElementById("venue")
   }
-);
-
-
-/* =========================================================
-   ACTIVE NAV SECTION
-========================================================= */
-
-const navSections = [
-
-  document.getElementById("home"),
-
-  document.getElementById("story"),
-
-  document.getElementById("events"),
-
-  document.getElementById("venue")
-
-].filter(Boolean);
-
+].filter((section) => section.element);
 
 if ("IntersectionObserver" in window) {
-
-  const navigationObserver =
+  const navObserver =
     new IntersectionObserver(
-
-      function (entries) {
-
-        entries.forEach(
-          function (entry) {
-
-            if (!entry.isIntersecting) {
-              return;
-            }
-
-
-            const id =
-              entry.target.id;
-
-
-            navLinks.forEach(
-              function (link) {
-
-                link.classList.toggle(
-                  "active",
-                  link.dataset.section === id
-                );
-
-              }
+      (entries) => {
+        const visibleEntries =
+          entries
+            .filter(
+              (entry) =>
+                entry.isIntersecting
+            )
+            .sort(
+              (a, b) =>
+                b.intersectionRatio -
+                a.intersectionRatio
             );
 
-          }
-        );
+        if (!visibleEntries.length) return;
 
+        const activeId =
+          visibleEntries[0].target.id;
+
+        navLinks.forEach((link) => {
+          link.classList.toggle(
+            "active",
+            link.dataset.section === activeId
+          );
+        });
       },
-
       {
-        threshold: 0.38
-      }
+        rootMargin:
+          "-25% 0px -55% 0px",
 
+        threshold:
+          [0.05, 0.2, 0.4, 0.6]
+      }
     );
 
-
-  navSections.forEach(
-    function (section) {
-
-      navigationObserver.observe(
-        section
-      );
-
-    }
-  );
-
+  sectionMap.forEach((section) => {
+    navObserver.observe(section.element);
+  });
 }
 
 
@@ -1648,42 +877,16 @@ if ("IntersectionObserver" in window) {
 ========================================================= */
 
 const backToTop =
-  document.getElementById(
-    "backToTop"
-  );
-
+  document.getElementById("backToTop");
 
 function updateBackToTop() {
-
-  if (!backToTop) {
-    return;
-  }
-
+  if (!backToTop) return;
 
   backToTop.classList.toggle(
-    "show",
-    window.scrollY > 900
+    "visible",
+    window.scrollY > 700
   );
-
 }
-
-
-if (backToTop) {
-
-  backToTop.addEventListener(
-    "click",
-    function () {
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-    }
-  );
-
-}
-
 
 window.addEventListener(
   "scroll",
@@ -1693,118 +896,89 @@ window.addEventListener(
   }
 );
 
-
 updateBackToTop();
 
-
-/* =========================================================
-   HIDE NAV NEAR VERY BOTTOM
-========================================================= */
-
-function updateNavVisibility() {
-
-  if (!mobileNav) {
-    return;
-  }
-
-
-  const distanceFromBottom =
-
-    document.documentElement.scrollHeight -
-
-    (
-      window.scrollY +
-      window.innerHeight
-    );
-
-
-  mobileNav.classList.toggle(
-    "hidden",
-    distanceFromBottom < 160
-  );
-
-}
-
-
-window.addEventListener(
-  "scroll",
-  updateNavVisibility,
-  {
-    passive: true
+backToTop?.addEventListener(
+  "click",
+  () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 );
 
 
-updateNavVisibility();
+/* =========================================================
+   HIDE FLOATING NAV NEAR CLOSING
+========================================================= */
+
+const floatingNav =
+  document.getElementById("mobileNav");
+
+const closingSection =
+  document.querySelector(".closing-section");
+
+if (
+  floatingNav &&
+  closingSection &&
+  "IntersectionObserver" in window
+) {
+  const closingObserver =
+    new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          floatingNav.classList.toggle(
+            "nav-hidden",
+            entry.isIntersecting &&
+              entry.intersectionRatio > 0.18
+          );
+        });
+      },
+      {
+        threshold:
+          [0, 0.18, 0.35]
+      }
+    );
+
+  closingObserver.observe(closingSection);
+}
 
 
 /* =========================================================
-   LIGHT HERO PARALLAX
+   VERY LIGHT HERO PARALLAX
 ========================================================= */
 
 const heroImage =
-  document.querySelector(
-    ".hero-image"
-  );
+  document.querySelector(".hero-image");
 
-const heroContent =
-  document.querySelector(
-    ".hero-content"
-  );
+let ticking = false;
 
-
-let scrollTicking = false;
-
-
-function updateHeroMovement() {
+function updateHeroParallax() {
+  if (!heroImage) return;
 
   const scrollY =
     window.scrollY;
 
+  const maxMovement =
+    Math.min(scrollY * 0.06, 25);
 
-  if (
-    scrollY <
-    window.innerHeight * 1.1
-  ) {
+  heroImage.style.backgroundPosition =
+    `center calc(50% + ${maxMovement}px)`;
 
-    if (heroImage) {
-
-      heroImage.style.transform =
-        `translateY(${scrollY * 0.045}px) scale(1.035)`;
-
-    }
-
-
-    if (heroContent) {
-
-      heroContent.style.transform =
-        `translateY(${scrollY * 0.018}px)`;
-
-    }
-
-  }
-
-
-  scrollTicking = false;
-
+  ticking = false;
 }
-
 
 window.addEventListener(
   "scroll",
-  function () {
-
-    if (!scrollTicking) {
-
+  () => {
+    if (!ticking) {
       window.requestAnimationFrame(
-        updateHeroMovement
+        updateHeroParallax
       );
 
-
-      scrollTicking = true;
-
+      ticking = true;
     }
-
   },
   {
     passive: true
@@ -1813,94 +987,41 @@ window.addEventListener(
 
 
 /* =========================================================
-   EVENT TOUCH EFFECT
+   EVENT CARD TOUCH FEEDBACK
 ========================================================= */
 
-const eventCards =
-  document.querySelectorAll(
-    ".event-card"
-  );
-
-
-eventCards.forEach(
-  function (card) {
-
+document
+  .querySelectorAll(".event-card")
+  .forEach((card) => {
     card.addEventListener(
       "touchstart",
-      function () {
-
-        const image =
-          card.querySelector(
-            ".event-image"
-          );
-
-
-        if (image) {
-
-          image.style.transform =
-            "scale(1.035)";
-
-        }
-
+      () => {
+        card.classList.add("touching");
       },
       {
         passive: true
       }
     );
-
 
     card.addEventListener(
       "touchend",
-      function () {
-
-        const image =
-          card.querySelector(
-            ".event-image"
-          );
-
-
-        if (image) {
-
-          setTimeout(
-            function () {
-
-              image.style.transform =
-                "";
-
-            },
-            250
-          );
-
-        }
-
+      () => {
+        setTimeout(() => {
+          card.classList.remove("touching");
+        }, 160);
       },
       {
         passive: true
       }
     );
-
-  }
-);
+  });
 
 
 /* =========================================================
    PAGE READY
 ========================================================= */
 
-window.addEventListener(
-  "load",
-  function () {
-
-    document.body.classList.add(
-      "loaded"
-    );
-
-
-    updateStoryDot();
-
-    updateBackToTop();
-
-    updateNavVisibility();
-
-  }
-);
+window.addEventListener("load", () => {
+  updateStoryDots();
+  updateBackToTop();
+});

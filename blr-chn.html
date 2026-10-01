@@ -1,1 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
+  <title>Bangalore × Chennai | Nikhil & Supriya</title>
+
+  <meta
+    name="description"
+    content="The completely unnecessary Bangalore × Chennai corner of Nikhil and Supriya's wedding website."
+  />
+
+  <meta
+    name="theme-color"
+    content="#fff8f3"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --ivory: #fffaf5;
+      --ivory-deep: #f6eee8;
+      --blush: #f1d7d5;
+      --rose: #b97773;
+      --gold: #b88b47;
+      --gold-light: #dfc48f;
+      --brown: #4a342f;
+      --brown-soft: #735951;
+      --white: #ffffff;
+      --shadow: 0 18px 55px rgba(79, 53, 45, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--ivory);
+      color: var(--brown);
+      font-family: "Manrope", sans-serif;
+      overflow-x: hidden;
+    }
+
+    button,
+    a {
+      font: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .page-shell {
+      width: min(100%, 1100px);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 0;
+    }
+
+    .back-link {
+      color: var(--brown);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .mini-monogram {
+      font-family: "Italiana", serif;
+      font-size: 1.3rem;
+    }
+
+    .hero {
+      padding: 70px 0 85px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin-bottom: 14px;
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 22px auto 0;
+      color: var(--brown-soft);
+      line-height: 1.8;
+    }
+
+    .hero strong {
+      display: block;
+      margin-top: 22px;
+      color: var(--brown);
+      font-family: "Playfair Display", serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.2rem, 7vw, 4rem);
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .section-copy {
+      max-width: 650px;
+      margin: 18px auto 0;
+      color: var(--brown-soft);
+      line-height: 1.75;
+      text-align: center;
+    }
+
+    /* =====================================================
+       CHOOSE YOUR PROBLEM
+    ====================================================== */
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 44px;
+    }
+
+    .problem-button {
+      min-height: 82px;
+      padding: 16px;
+      border: 1px solid rgba(184, 139, 71, 0.25);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--brown);
+      font-weight: 700;
+      box-shadow: 0 10px 32px rgba(74, 52, 47, 0.06);
+      transition:
+        transform 0.22s ease,
+        background 0.22s ease;
+    }
+
+    .problem-button:hover {
+      transform: translateY(-3px);
+      background: var(--brown);
+      color: var(--white);
+    }
+
+    /* =====================================================
+       ROAST ME
+    ====================================================== */
+
+    .roast-section {
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(241, 215, 213, 0.5),
+          transparent 60%
+        );
+    }
+
+    .roast-box {
+      width: min(100%, 700px);
+      margin: 42px auto 0;
+      padding: 36px 28px;
+      border: 1px solid rgba(184, 139, 71, 0.22);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .roast-result {
+      min-height: 120px;
+      display: grid;
+      place-items: center;
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.35rem, 4vw, 2rem);
+      line-height: 1.5;
+    }
+
+    .roast-button {
+      min-height: 52px;
+      margin-top: 22px;
+      padding: 0 26px;
+      border: 1px solid var(--brown);
+      border-radius: 999px;
+      background: var(--brown);
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .roast-counter {
+      margin-top: 14px;
+      color: var(--brown-soft);
+      font-size: 0.72rem;
+    }
+
+    /* =====================================================
+       LANGUAGE
+    ====================================================== */
+
+    .language-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 44px;
+    }
+
+    .language-panel {
+      padding: 28px;
+      border: 1px solid rgba(184, 139, 71, 0.2);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 12px 36px rgba(74, 52, 47, 0.06);
+    }
+
+    .language-panel h3 {
+      margin-bottom: 8px;
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+      font-weight: 400;
+    }
+
+    .language-panel > p {
+      margin-bottom: 24px;
+      color: var(--brown-soft);
+      line-height: 1.6;
+    }
+
+    .phrase {
+      padding: 18px 0;
+      border-top: 1px solid rgba(184, 139, 71, 0.17);
+    }
+
+    .phrase:first-of-type {
+      border-top: 0;
+    }
+
+    .phrase-word {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--brown);
+      font-family: "Playfair Display", serif;
+      font-size: 1.25rem;
+    }
+
+    .phrase-meaning {
+      color: var(--brown-soft);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .phrase-joke {
+      display: block;
+      margin-top: 6px;
+      color: var(--rose);
+      font-family: "Playfair Display", serif;
+      font-size: 0.86rem;
+      font-style: italic;
+    }
+
+    /* =====================================================
+       CITY ROASTS
+    ====================================================== */
+
+    .city-roasts {
+      background: var(--brown);
+      color: var(--white);
+    }
+
+    .city-roasts .section-title {
+      color: var(--white);
+    }
+
+    .city-roasts .section-copy {
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .city-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 44px;
+    }
+
+    .city-card {
+      padding: 30px 26px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .city-card h3 {
+      margin-bottom: 18px;
+      color: var(--gold-light);
+      font-family: "Playfair Display", serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+    }
+
+    .city-card p {
+      padding: 14px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.6;
+    }
+
+    .city-card p:first-of-type {
+      border-top: 0;
+    }
+
+    /* =====================================================
+       IPL
+    ====================================================== */
+
+    .ipl-card {
+      width: min(100%, 760px);
+      margin: 44px auto 0;
+      padding: 38px 28px;
+      border: 1px solid rgba(184, 139, 71, 0.22);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .ipl-card h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+      font-weight: 400;
+    }
+
+    .ipl-card p {
+      margin-top: 16px;
+      color: var(--brown-soft);
+      line-height: 1.7;
+    }
+
+    .ipl-card strong {
+      display: block;
+      margin-top: 22px;
+      color: var(--rose);
+      font-family: "Playfair Display", serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* =====================================================
+       EXIT
+    ====================================================== */
+
+    .exit-section {
+      padding: 90px 20px;
+      background: #241a17;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .exit-section h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.3rem, 7vw, 4.5rem);
+      font-weight: 400;
+    }
+
+    .exit-section p {
+      max-width: 560px;
+      margin: 18px auto 0;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.7;
+    }
+
+    .exit-link {
+      display: inline-flex;
+      min-height: 50px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 28px;
+      padding: 0 24px;
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 999px;
+      color: var(--white);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        padding-top: 45px;
+      }
+
+      .problem-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .language-grid,
+      .city-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 65px 0;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .problem-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .roast-box,
+      .language-panel,
+      .city-card,
+      .ipl-card {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-shell">
+
+    <div class="topbar">
+
+      <a
+        href="index.html"
+        class="back-link"
+      >
+        ← Back to the wedding
+      </a>
+
+      <div class="mini-monogram">
+        N & S
+      </div>
+
+    </div>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <p class="eyebrow">
+        THE UNOFFICIAL CORNER
+      </p>
+
+      <h1>
+        Bangalore × Chennai
+      </h1>
+
+      <p>
+        Two states. Two languages. One wedding.
+        A completely unnecessary guide to keeping everyone peaceful for 48 hours.
+      </p>
+
+      <strong>
+        Oh good. You found this page.
+        Since you're already here, we may as well judge you.
+      </strong>
+
+    </section>
+
+
+    <!-- CHOOSE -->
+
+    <section class="section">
+
+      <h2 class="section-title">
+        Choose your problem.
+      </h2>
+
+      <p class="section-copy">
+        None of these options will improve your life.
+      </p>
+
+      <div class="problem-grid">
+
+        <button
+          class="problem-button"
+          type="button"
+          data-scroll="roast"
+        >
+          Roast Me
+        </button>
+
+        <button
+          class="problem-button"
+          type="button"
+          data-scroll="language"
+        >
+          Teach Me Tamil
+        </button>
+
+        <button
+          class="problem-button"
+          type="button"
+          data-scroll="language"
+        >
+          Teach Me Kannada
+        </button>
+
+        <button
+          class="problem-button"
+          type="button"
+          data-scroll="ipl"
+        >
+          IPL Peace Treaty
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ROAST ME -->
+
+    <section
+      class="section roast-section"
+      id="roast"
+    >
+
+      <h2 class="section-title">
+        Roast Me
+      </h2>
+
+      <p class="section-copy">
+        You voluntarily pressed this button.
+        Please remember that.
+      </p>
+
+      <div class="roast-box">
+
+        <div
+          class="roast-result"
+          id="roastResult"
+        >
+          You came here for wedding information and somehow volunteered to be insulted.
+        </div>
+
+        <button
+          class="roast-button"
+          id="roastButton"
+          type="button"
+        >
+          Roast Me Again
+        </button>
+
+        <p
+          class="roast-counter"
+          id="roastCounter"
+        >
+          Bad decisions made: 0
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- LANGUAGES -->
+
+    <section
+      class="section"
+      id="language"
+    >
+
+      <h2 class="section-title">
+        Diplomatic Language Training
+      </h2>
+
+      <p class="section-copy">
+        Enough language to make friends.
+        Not enough to get yourself into serious trouble.
+      </p>
+
+
+      <div class="language-grid">
+
+
+        <!-- TAMIL -->
+
+        <article class="language-panel">
+
+          <h3>
+            Chennai teaches Bangalore
+          </h3>
+
+          <p>
+            A few Tamil phrases worth knowing before you attempt diplomacy.
+          </p>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Vanakkam
+            </span>
+
+            <span class="phrase-meaning">
+              Hello / greetings.
+            </span>
+
+            <span class="phrase-joke">
+              Start here. Confidence will arrive later.
+            </span>
+
+          </div>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Nandri
+            </span>
+
+            <span class="phrase-meaning">
+              Thank you.
+            </span>
+
+            <span class="phrase-joke">
+              Surprisingly useful at weddings.
+            </span>
+
+          </div>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Semma!
+            </span>
+
+            <span class="phrase-meaning">
+              Amazing / excellent.
+            </span>
+
+            <span class="phrase-joke">
+              Works for outfits, music and any situation where you need to sound impressed.
+            </span>
+
+          </div>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Konjam adjust pannunga
+            </span>
+
+            <span class="phrase-meaning">
+              Please adjust a little.
+            </span>
+
+            <span class="phrase-joke">
+              Chennai's version of a universally Indian operating system.
+            </span>
+
+          </div>
+
+        </article>
+
+
+        <!-- KANNADA -->
+
+        <article class="language-panel">
+
+          <h3>
+            Bangalore teaches Chennai
+          </h3>
+
+          <p>
+            Enough Kannada to make it look like you prepared for this.
+          </p>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Namaskara
+            </span>
+
+            <span class="phrase-meaning">
+              Hello / greetings.
+            </span>
+
+            <span class="phrase-joke">
+              Say this confidently and you've already exceeded expectations.
+            </span>
+
+          </div>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Dhanyavadagalu
+            </span>
+
+            <span class="phrase-meaning">
+              Thank you.
+            </span>
+
+            <span class="phrase-joke">
+              Difficult spelling. Excellent intentions.
+            </span>
+
+          </div>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Sakkath!
+            </span>
+
+            <span class="phrase-meaning">
+              Awesome / excellent.
+            </span>
+
+            <span class="phrase-joke">
+              Deploy generously.
+            </span>
+
+          </div>
+
+
+          <div class="phrase">
+
+            <span class="phrase-word">
+              Swalpa adjust maadi
+            </span>
+
+            <span class="phrase-meaning">
+              Please adjust a little.
+            </span>
+
+            <span class="phrase-joke">
+              Bangalore's unofficial constitution.
+            </span>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- CITY ROASTS -->
+
+    <section class="section city-roasts">
+
+      <h2 class="section-title">
+        Since both sides are here...
+      </h2>
+
+      <p class="section-copy">
+        Equal-opportunity roasting. Nobody leaves clean.
+      </p>
+
+
+      <div class="city-grid">
+
+        <article class="city-card">
+
+          <h3>
+            Bangalore delegation
+          </h3>
+
+          <p>
+            You survived Silk Board. You can survive this wedding.
+          </p>
+
+          <p>
+            “Twenty minutes away” is not a measurement of time in Bangalore.
+          </p>
+
+          <p>
+            Yes, the weather is nice.
+            We know.
+            You may stop mentioning it now.
+          </p>
+
+          <p>
+            Half of you are going to say “bro” to someone you met thirty seconds ago.
+          </p>
+
+        </article>
+
+
+        <article class="city-card">
+
+          <h3>
+            Chennai delegation
+          </h3>
+
+          <p>
+            Thirty-four degrees is not “actually quite pleasant.”
+          </p>
+
+          <p>
+            Humidity is not a personality-building exercise.
+          </p>
+
+          <p>
+            Filter coffee opinions will be accepted only with supporting evidence.
+          </p>
+
+          <p>
+            You are legally allowed to admit that Bangalore has decent weather.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- IPL -->
+
+    <section
+      class="section"
+      id="ipl"
+    >
+
+      <h2 class="section-title">
+        IPL Non-Aggression Pact
+      </h2>
+
+      <p class="section-copy">
+        We are trying to unite two sides here.
+        Please behave.
+      </p>
+
+
+      <div class="ipl-card">
+
+        <h3>
+          RCB × CSK
+        </h3>
+
+        <p>
+          Bangalore × Chennai diplomatic relations remain valid
+          until the next RCB–CSK match.
+        </p>
+
+        <p>
+          Discussions are permitted.
+          Emotional speeches are discouraged.
+          Historical statistics may be introduced at your own risk.
+        </p>
+
+        <strong>
+          SUPNIK.IN accepts no responsibility for IPL-related diplomatic incidents.
+        </strong>
+
+      </div>
+
+    </section>
+
+
+    <!-- EXIT -->
+
+    <section class="exit-section">
+
+      <h2>
+        You've wasted enough time here.
+      </h2>
+
+      <p>
+        Go back and check the wedding timings.
+        Statistically, at least one of you has already forgotten them.
+      </p>
+
+      <a
+        href="index.html"
+        class="exit-link"
+      >
+        Back to Nikhil & Supriya
+      </a>
+
+    </section>
+
+  </div>
+
+
+  <script>
+
+    /* =====================================================
+       SCROLL BUTTONS
+    ====================================================== */
+
+    const problemButtons =
+      document.querySelectorAll(".problem-button");
+
+
+    problemButtons.forEach(function (button) {
+
+      button.addEventListener("click", function () {
+
+        const targetId =
+          button.dataset.scroll;
+
+        const target =
+          document.getElementById(targetId);
+
+        if (target) {
+
+          target.scrollIntoView({
+            behavior: "smooth"
+          });
+
+        }
+
+      });
+
+    });
+
+
+    /* =====================================================
+       ROAST ENGINE
+    ====================================================== */
+
+    const roastButton =
+      document.getElementById("roastButton");
+
+    const roastResult =
+      document.getElementById("roastResult");
+
+    const roastCounter =
+      document.getElementById("roastCounter");
+
+
+    const roasts = [
+
+      "You opened the wedding website and somehow ended up here. Excellent decision-making.",
+
+      "You definitely have at least fourteen unread WhatsApp groups right now.",
+
+      "You look like the kind of person who asks 'what time are we leaving?' while still not dressed.",
+
+      "You'll take thirty-seven photos at this wedding and post the same three.",
+
+      "You are absolutely going to ask someone where the venue is after we literally put a map on the website.",
+
+      "You came here for useful information and voluntarily pressed 'Roast Me'. This one's on you.",
+
+      "If confidence was punctuality, you'd still somehow be late.",
+
+      "You probably say 'I know the route' and open Google Maps two minutes later.",
+
+      "Your ability to look busy while doing absolutely nothing is genuinely impressive.",
+
+      "You have definitely opened a family WhatsApp message, decided to reply later and never returned.",
+
+      "You look like someone who says 'I'm downstairs' while still looking for their shoes.",
+
+      "Your phone battery will somehow be at twelve percent exactly when everyone needs you.",
+
+      "You will ask for the Wi-Fi password before asking where the washroom is.",
+
+      "You are reading this instead of doing something you were actually supposed to be doing.",
+
+      "This page knows absolutely nothing about you, yet somehow this still feels personal.",
+
+      "You definitely have one outfit that you believe works for every possible function.",
+
+      "You will arrive saying 'traffic was mad' whether there was traffic or not.",
+
+      "You have strong 'I'll remember where I parked' energy.",
+
+      "You are going to confidently walk in the wrong direction and hope nobody notices.",
+
+      "Your greatest skill is making 'five more minutes' sound believable."
+
+    ];
+
+
+    const escalationRoasts = {
+
+      3:
+        "Still here? This is becoming a personal choice.",
+
+      5:
+        "Five times. At this point, you clearly enjoy being attacked by a wedding website.",
+
+      7:
+        "At this point Nikhil isn't roasting you. You're doing this to yourself.",
+
+      10:
+        "Enough. Go check the wedding timings again. You clearly need supervision.",
+
+      15:
+        "Fifteen roasts. Please put the phone down and speak to another human being.",
+
+      20:
+        "Twenty. We officially have concerns."
+
+    };
+
+
+    let roastCount = 0;
+    let lastRoastIndex = -1;
+
+
+    function getRandomRoast() {
+
+      let randomIndex;
+
+      do {
+
+        randomIndex =
+          Math.floor(
+            Math.random() * roasts.length
+          );
+
+      } while (
+        randomIndex === lastRoastIndex &&
+        roasts.length > 1
+      );
+
+
+      lastRoastIndex =
+        randomIndex;
+
+      return roasts[randomIndex];
+
+    }
+
+
+    if (
+      roastButton &&
+      roastResult &&
+      roastCounter
+    ) {
+
+      roastButton.addEventListener(
+        "click",
+        function () {
+
+          roastCount += 1;
+
+
+          if (
+            escalationRoasts[roastCount]
+          ) {
+
+            roastResult.textContent =
+              escalationRoasts[roastCount];
+
+          } else {
+
+            roastResult.textContent =
+              getRandomRoast();
+
+          }
+
+
+          roastCounter.textContent =
+            `Bad decisions made: ${roastCount}`;
+
+
+          roastResult.animate(
+
+            [
+              {
+                opacity: 0,
+                transform: "translateY(8px)"
+              },
+
+              {
+                opacity: 1,
+                transform: "translateY(0)"
+              }
+            ],
+
+            {
+              duration: 300,
+              easing: "ease-out"
+            }
+
+          );
+
+        }
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>

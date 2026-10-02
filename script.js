@@ -9,8 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
      HELPERS
   ======================================================= */
 
-  const $ = (selector) =>
-    document.querySelector(selector);
+  const $ = (selector) => document.querySelector(selector);
 
   const $$ = (selector) =>
     Array.from(document.querySelectorAll(selector));
@@ -25,8 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  function getFirstName(value) {
-    return cleanName(value).split(" ")[0] || "friend";
+  function firstName(value) {
+    const cleaned = cleanName(value);
+
+    if (!cleaned) {
+      return "friend";
+    }
+
+    return cleaned.split(" ")[0];
   }
 
 
@@ -43,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       localStorage.setItem(key, value);
     } catch (error) {
-      /* Site still works without storage */
+      /* Website continues without saved storage */
     }
   }
 
@@ -52,13 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      /* Nothing needed */
+      /* Nothing required */
     }
   }
 
 
   /* =======================================================
-     GUEST STATE
+     GUEST DATA
   ======================================================= */
 
   const NAME_KEY = "nsGuestName";
@@ -69,12 +74,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   const guestGate = $("#guestGate");
-  const guestNameStep = $("#guestNameStep");
-  const guestSideStep = $("#guestSideStep");
-  const guestWelcomeStep = $("#guestWelcomeStep");
+  const nameStep = $("#guestNameStep");
+  const sideStep = $("#guestSideStep");
+  const welcomeStep = $("#guestWelcomeStep");
 
-  const guestNameForm = $("#guestNameForm");
-  const guestNameInput = $("#guestNameInput");
+  const nameForm = $("#guestNameForm");
+  const nameInput = $("#guestNameInput");
 
   const gateGuestName = $("#gateGuestName");
   const welcomeGuestName = $("#welcomeGuestName");
@@ -87,39 +92,65 @@ document.addEventListener("DOMContentLoaded", function () {
      PERSONALISATION
   ======================================================= */
 
-  function relationshipLine(side, name) {
+  function entranceMessage(side, name) {
 
     if (side === "groom") {
-      return `${name}. Team Nikhil confirmed. Supriya has been notified of your questionable judgement.`;
+      return (
+        `${name}. Team Nikhil confirmed. ` +
+        `Supriya has been notified of your questionable judgement.`
+      );
     }
+
 
     if (side === "bride") {
-      return `${name}. Team Supriya confirmed. Excellent. Someone here is making sensible decisions.`;
+      return (
+        `${name}. Team Supriya confirmed. ` +
+        `Excellent. Someone here is making sensible decisions.`
+      );
     }
 
-    return `${name}. You know both of them? Then you already know what you're getting into. Diplomatic immunity granted.`;
+
+    return (
+      `${name}. You know both of them? ` +
+      `Then you already know what you're getting into. ` +
+      `Diplomatic immunity granted.`
+    );
   }
 
 
-  function blrRelationshipLine(side, name) {
+  function blrMessage(side, name) {
 
     if (side === "groom") {
-      return `${name}, you came here through Nikhil. Expectations have been adjusted accordingly.`;
+      return (
+        `${name}, you came here through Nikhil. ` +
+        `Expectations have been adjusted accordingly.`
+      );
     }
+
 
     if (side === "bride") {
-      return `${name}, you came here through Supriya. We expected you to read the instructions.`;
+      return (
+        `${name}, you came here through Supriya. ` +
+        `We expected you to read the instructions.`
+      );
     }
 
-    return `${name}, neutral party detected. That probably won't last long.`;
+
+    return (
+      `${name}, neutral party detected. ` +
+      `That probably won't last long.`
+    );
   }
 
 
   function applyPersonalisation() {
 
-    if (!guestName) return;
+    if (!guestName) {
+      return;
+    }
 
-    const name = getFirstName(guestName);
+
+    const name = firstName(guestName);
 
     const heroPersonal = $("#heroPersonal");
     const countdownHeading = $("#countdownHeading");
@@ -148,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (blrPersonal) {
       blrPersonal.textContent =
-        blrRelationshipLine(guestSide, name);
+        blrMessage(guestSide, name);
     }
 
 
@@ -165,40 +196,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =======================================================
-     GUEST ENTRANCE
+     ENTRANCE
   ======================================================= */
 
   function showNameStep() {
 
-    if (!guestGate) return;
+    if (!guestGate) {
+      return;
+    }
 
-    guestGate.style.display = "";
 
+    guestGate.style.display = "flex";
     guestGate.classList.remove("gate-leaving");
 
-    guestNameStep?.classList.remove("hidden");
-    guestSideStep?.classList.add("hidden");
-    guestWelcomeStep?.classList.add("hidden");
+    nameStep?.classList.remove("hidden");
+    sideStep?.classList.add("hidden");
+    welcomeStep?.classList.add("hidden");
 
     document.body.classList.add("gate-open");
 
-    setTimeout(() => {
-      guestNameInput?.focus();
-    }, 200);
+
+    setTimeout(function () {
+      nameInput?.focus();
+    }, 150);
   }
 
 
   function showSideStep() {
 
-    const name = getFirstName(guestName);
+    const name = firstName(guestName);
 
     if (gateGuestName) {
       gateGuestName.textContent = name;
     }
 
-    guestNameStep?.classList.add("hidden");
-    guestWelcomeStep?.classList.add("hidden");
-    guestSideStep?.classList.remove("hidden");
+
+    nameStep?.classList.add("hidden");
+    welcomeStep?.classList.add("hidden");
+    sideStep?.classList.remove("hidden");
   }
 
 
@@ -206,47 +241,106 @@ document.addEventListener("DOMContentLoaded", function () {
 
     guestSide = side;
 
-    storageSet(SIDE_KEY, guestSide);
+    storageSet(SIDE_KEY, side);
 
-    const name = getFirstName(guestName);
+
+    const name = firstName(guestName);
+
 
     if (welcomeGuestName) {
       welcomeGuestName.textContent =
         `${name}. There you are.`;
     }
 
+
     if (gateWelcomeMessage) {
       gateWelcomeMessage.textContent =
-        relationshipLine(side, name);
+        entranceMessage(side, name);
     }
 
-    guestNameStep?.classList.add("hidden");
-    guestSideStep?.classList.add("hidden");
-    guestWelcomeStep?.classList.remove("hidden");
+
+    nameStep?.classList.add("hidden");
+    sideStep?.classList.add("hidden");
+    welcomeStep?.classList.remove("hidden");
+
 
     applyPersonalisation();
 
 
-    setTimeout(() => {
+    setTimeout(function () {
 
       guestGate?.classList.add("gate-leaving");
 
       document.body.classList.remove("gate-open");
 
 
-      setTimeout(() => {
+      setTimeout(function () {
 
         if (guestGate) {
           guestGate.style.display = "none";
         }
 
-      }, 750);
+      }, 700);
 
     }, 1250);
   }
 
 
-  /* Returning guest */
+  /* NAME SUBMIT */
+
+  nameForm?.addEventListener(
+    "submit",
+    function (event) {
+
+      event.preventDefault();
+
+
+      const enteredName =
+        cleanName(nameInput?.value);
+
+
+      if (!enteredName) {
+
+        nameInput?.focus();
+
+        return;
+      }
+
+
+      guestName = enteredName;
+
+      storageSet(
+        NAME_KEY,
+        guestName
+      );
+
+
+      showSideStep();
+    }
+  );
+
+
+  /* SIDE CHOICE */
+
+  $$("[data-guest-side]").forEach(
+    function (button) {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          const side =
+            button.dataset.guestSide || "both";
+
+
+          finishEntrance(side);
+        }
+      );
+    }
+  );
+
+
+  /* RETURNING GUEST */
 
   if (guestName && guestSide) {
 
@@ -258,77 +352,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
     applyPersonalisation();
 
+  } else if (guestName && !guestSide) {
+
+    if (guestGate) {
+      guestGate.style.display = "flex";
+    }
+
+    document.body.classList.add("gate-open");
+
+    showSideStep();
+
   } else {
 
     showNameStep();
   }
 
 
-  /* Name form */
+  /* CHANGE GUEST */
 
-  guestNameForm?.addEventListener("submit", function (event) {
+  changeGuest?.addEventListener(
+    "click",
+    function () {
 
-    event.preventDefault();
+      storageRemove(NAME_KEY);
+      storageRemove(SIDE_KEY);
 
-    const enteredName =
-      cleanName(guestNameInput?.value);
+      guestName = "";
+      guestSide = "";
 
-    if (!enteredName) {
-      guestNameInput?.focus();
-      return;
+
+      if (nameInput) {
+        nameInput.value = "";
+      }
+
+
+      showNameStep();
     }
-
-    guestName = enteredName;
-
-    storageSet(NAME_KEY, guestName);
-
-    showSideStep();
-  });
-
-
-  /* Relationship choice */
-
-  $$("[data-guest-side]").forEach((button) => {
-
-    button.addEventListener("click", function () {
-
-      const side =
-        button.dataset.guestSide || "both";
-
-      finishEntrance(side);
-    });
-  });
-
-
-  /* Change guest */
-
-  changeGuest?.addEventListener("click", function () {
-
-    storageRemove(NAME_KEY);
-    storageRemove(SIDE_KEY);
-
-    guestName = "";
-    guestSide = "";
-
-    if (guestNameInput) {
-      guestNameInput.value = "";
-    }
-
-    showNameStep();
-  });
+  );
 
 
   /* =======================================================
      ENTER CELEBRATION
   ======================================================= */
 
-  $("#enterCelebration")?.addEventListener("click", function () {
+  $("#enterCelebration")?.addEventListener(
+    "click",
+    function () {
 
-    $("#intro")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  });
+      $("#intro")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  );
 
 
   /* =======================================================
@@ -342,58 +418,103 @@ document.addEventListener("DOMContentLoaded", function () {
   const dailyMessages = [
 
     "Fifty days. Plenty of time to pretend the outfit is already sorted.",
+
     "Forty-nine days. Somewhere, a family WhatsApp group has started warming up.",
+
     "Forty-eight days. The wedding is officially close enough to mention in every conversation.",
+
     "Forty-seven days. Still enough time to say you'll shop next weekend.",
+
     "Forty-six days. Outfit confidence remains suspiciously high.",
+
     "Forty-five days. The countdown has become mildly threatening.",
+
     "Forty-four days. You may now begin asking everyone else what they're wearing.",
+
     "Forty-three days. “I'll figure it out” remains technically available.",
+
     "Forty-two days. Six weeks sounded much further away.",
+
     "Forty-one days. Your calendar would like to remind you this is actually happening.",
 
     "Forty days. Nice round number. Absolutely no reason to panic.",
+
     "Thirty-nine days. If tailoring is involved, procrastination is becoming a strategy.",
+
     "Thirty-eight days. Pinterest boards are becoming operational documents.",
+
     "Thirty-seven days. Someone already has three outfits and a backup.",
+
     "Thirty-six days. “I'll order it online” is becoming increasingly adventurous.",
+
     "Thirty-five days. Five weeks. Future-you has started judging present-you.",
+
     "Thirty-four days. This website remains calmer than the people organising the wedding.",
+
     "Thirty-three days. Still time. We repeat: still time.",
+
     "Thirty-two days. Approximately 4,000 wedding photos are approaching.",
+
     "Thirty-one days. The word “soon” is now legally accurate.",
 
     "Thirty days. ONE MONTH. Please locate your wedding clothes.",
+
     "Twenty-nine days. Less than a month. That sentence was intentionally alarming.",
+
     "Twenty-eight days. Somewhere, a tailor just sensed a disturbance.",
+
     "Twenty-seven days. Start breaking in the shoes you claimed were comfortable.",
+
     "Twenty-six days. Ironing everything on the wedding morning is not a plan.",
+
     "Twenty-five days. Halfway from fifty. Things are getting suspiciously real.",
+
     "Twenty-four days. The phrase “I'll sort it later” is losing credibility.",
+
     "Twenty-three days. Family group-chat activity is expected to increase sharply.",
+
     "Twenty-two days. If your outfit says “out for delivery,” we wish you strength.",
+
     "Twenty-one days. Three weeks. Serious calendar territory.",
 
     "Twenty days. Chennai is about to become considerably better dressed.",
+
     "Nineteen days. Begin practising the family-photo smile.",
+
     "Eighteen days. Somewhere, an aunty has started asking who is arriving when.",
+
     "Seventeen days. Your suitcase can no longer remain theoretical.",
+
     "Sixteen days. “I'll do it later” has officially been discontinued.",
+
     "Fifteen days. Locate jewellery, shoes, chargers and patience.",
+
     "Fourteen days. TWO WEEKS. This is not a drill.",
+
     "Thirteen days. The final fortnight has begun. Good luck to everyone involved.",
+
     "Twelve days. No outfit yet? Your confidence is inspiring.",
+
     "Eleven days. We're now counting with rocket-launch intensity.",
 
     "Ten days. SINGLE DIGITS TOMORROW.",
+
     "Nine days. Single digits. Casual behaviour is no longer authorised.",
+
     "Eight days. One week and one bonus day. Chennai, prepare yourself.",
+
     "Seven days. ONE WEEK. We hope you know where your clothes are.",
+
     "Six days. “Next weekend” has become dangerously relevant.",
+
     "Five days. Wedding machinery is operating at full Indian-family capacity.",
+
     "Four days. If you've forgotten something, now would be a lovely time to remember it.",
+
     "Three days. Suitcases. Chargers. Clothes. Sanity. Check.",
+
     "Two days. We are officially entering chaos mode.",
+
     "One day. TOMORROW. We hope you're more prepared than this website."
 
   ];
@@ -402,68 +523,117 @@ document.addEventListener("DOMContentLoaded", function () {
   const hourlyMessages = [
 
     "48 hours. Everyone remain calm. Nobody is going to do that.",
+
     "47 hours. The wedding is closer than your next sensible life decision.",
+
     "46 hours. Somewhere, somebody is asking where the safety pins are.",
+
     "45 hours. Every phone call now begins with “small thing.”",
+
     "44 hours. Empty suitcase? We admire the confidence.",
+
     "43 hours. Family WhatsApp groups are approaching maximum capacity.",
+
     "42 hours. Confirm that you actually know where MGM Beach Resort is.",
+
     "41 hours. Somebody has asked what time everyone is leaving. Nobody knows.",
+
     "40 hours. The spreadsheet people are thriving.",
+
     "39 hours. The non-spreadsheet people are pretending everything is fine.",
 
     "38 hours. Charge your phone. There will be photos. Many photos.",
+
     "37 hours. Somewhere, an outfit is being altered at dangerous speed.",
+
     "36 hours. Tomorrow-adjacent territory.",
+
     "35 hours. Have you packed? That pause was concerning.",
+
     "34 hours. Someone is saying “we'll leave on time” without evidence.",
+
     "33 hours. Incoming calls are increasing. Allegedly normal.",
+
     "32 hours. Reminder: ECR traffic is not fictional.",
+
     "31 hours. Time is now being measured in ceremonies and outfit changes.",
+
     "30 hours. Enough time to sleep. Whether anyone does is another matter.",
+
     "29 hours. Somebody's mother has already told them to leave earlier.",
 
     "28 hours. Logistics have reached air-traffic-control complexity.",
+
     "27 hours. Forgot something? Decide whether you truly needed it.",
+
     "26 hours. “Where are you?” will soon become the official greeting.",
+
     "25 hours. One hour until the dramatic 24-hour announcement.",
+
     "24 hours. TOMORROW. Procrastination privileges have been revoked.",
+
     "23 hours. If you're still shopping, we have questions.",
+
     "22 hours. Somewhere, someone is steaming an outfit and regretting everything.",
+
     "21 hours. The countdown has stopped being cute.",
+
     "20 hours. Please begin moving toward preparedness.",
+
     "19 hours. Even the website is checking whether you're ready.",
 
     "18 hours. Alarms are being set. Some will later be ignored.",
+
     "17 hours. We hope the outfit fits. Awful time to discover otherwise.",
+
     "16 hours. Chennai is warming up. Literally and metaphorically.",
+
     "15 hours. Someone packed everything except the thing they actually need.",
+
     "14 hours. Sleep is becoming an ambitious proposal.",
+
     "13 hours. The calm before the extremely well-dressed storm.",
+
     "12 hours. TWELVE HOURS. Capital-letter territory.",
+
     "11 hours. Future-you would appreciate it if you went to bed.",
+
     "10 hours. If you're reading this at an unreasonable hour, that's between you and your decisions.",
+
     "9 hours. The wedding is basically loading.",
 
     "8 hours. Coffee is becoming a strategic resource.",
+
     "7 hours. Someone's alarm is preparing to ruin their morning.",
+
     "6 hours. Good morning to everyone except whoever stayed up too late.",
+
     "5 hours. The getting-ready Olympics have begun.",
+
     "4 hours. Hair. Clothes. Jewellery. Phone. Dignity. Let's move.",
+
     "3 hours. If you're not getting ready, we'd love to hear the strategy.",
+
     "2 hours. Please stop reading this website and start moving.",
+
     "1 hour. WHY ARE YOU STILL HERE? GO GET READY."
 
   ];
 
 
-  function countdownMessage(diff) {
+  function getCountdownMessage(diff) {
 
-    const hour = 60 * 60 * 1000;
-    const day = 24 * hour;
+    const hour =
+      60 * 60 * 1000;
+
+    const day =
+      24 * hour;
+
 
     if (diff <= 0) {
-      return "It's wedding time. Stop scrolling. Come say hi.";
+      return (
+        "It's wedding time. Stop scrolling. Come say hi."
+      );
     }
 
 
@@ -479,8 +649,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const index =
         Math.max(
           0,
-          Math.min(47, 48 - hoursLeft)
+          Math.min(
+            47,
+            48 - hoursLeft
+          )
         );
+
 
       return hourlyMessages[index];
     }
@@ -491,14 +665,20 @@ document.addEventListener("DOMContentLoaded", function () {
       const index =
         Math.max(
           0,
-          Math.min(49, 50 - daysLeft)
+          Math.min(
+            49,
+            50 - daysLeft
+          )
         );
+
 
       return dailyMessages[index];
     }
 
 
-    return "The outfits have time. The group chats do not need to panic yet.";
+    return (
+      "The outfits have time. The group chats do not need to panic yet."
+    );
   }
 
 
@@ -511,23 +691,43 @@ document.addEventListener("DOMContentLoaded", function () {
       now.getTime();
 
 
-    const daysEl = $("#days");
-    const hoursEl = $("#hours");
-    const minutesEl = $("#minutes");
-    const secondsEl = $("#seconds");
-    const messageEl = $("#countdownMessage");
+    const daysElement =
+      $("#days");
+
+    const hoursElement =
+      $("#hours");
+
+    const minutesElement =
+      $("#minutes");
+
+    const secondsElement =
+      $("#seconds");
+
+    const messageElement =
+      $("#countdownMessage");
 
 
     if (diff <= 0) {
 
-      if (daysEl) daysEl.textContent = "00";
-      if (hoursEl) hoursEl.textContent = "00";
-      if (minutesEl) minutesEl.textContent = "00";
-      if (secondsEl) secondsEl.textContent = "00";
+      if (daysElement) {
+        daysElement.textContent = "00";
+      }
 
-      if (messageEl) {
-        messageEl.textContent =
-          countdownMessage(diff);
+      if (hoursElement) {
+        hoursElement.textContent = "00";
+      }
+
+      if (minutesElement) {
+        minutesElement.textContent = "00";
+      }
+
+      if (secondsElement) {
+        secondsElement.textContent = "00";
+      }
+
+      if (messageElement) {
+        messageElement.textContent =
+          getCountdownMessage(diff);
       }
 
       return;
@@ -537,81 +737,103 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalSeconds =
       Math.floor(diff / 1000);
 
+
     const days =
-      Math.floor(totalSeconds / 86400);
+      Math.floor(
+        totalSeconds / 86400
+      );
+
 
     const hours =
       Math.floor(
-        (totalSeconds % 86400) / 3600
+        (totalSeconds % 86400) /
+        3600
       );
+
 
     const minutes =
       Math.floor(
-        (totalSeconds % 3600) / 60
+        (totalSeconds % 3600) /
+        60
       );
+
 
     const seconds =
       totalSeconds % 60;
 
 
-    if (daysEl) {
-      daysEl.textContent =
+    if (daysElement) {
+      daysElement.textContent =
         String(days).padStart(2, "0");
     }
 
-    if (hoursEl) {
-      hoursEl.textContent =
+
+    if (hoursElement) {
+      hoursElement.textContent =
         String(hours).padStart(2, "0");
     }
 
-    if (minutesEl) {
-      minutesEl.textContent =
+
+    if (minutesElement) {
+      minutesElement.textContent =
         String(minutes).padStart(2, "0");
     }
 
-    if (secondsEl) {
-      secondsEl.textContent =
+
+    if (secondsElement) {
+      secondsElement.textContent =
         String(seconds).padStart(2, "0");
     }
 
-    if (messageEl) {
-      messageEl.textContent =
-        countdownMessage(diff);
+
+    if (messageElement) {
+      messageElement.textContent =
+        getCountdownMessage(diff);
     }
   }
 
 
   updateCountdown();
 
-  setInterval(updateCountdown, 1000);
+  setInterval(
+    updateCountdown,
+    1000
+  );
 
 
   /* =======================================================
-     REVEAL SECTIONS
+     REVEAL ANIMATION
   ======================================================= */
 
-  const revealElements = $$(".reveal");
+  const revealElements =
+    $$(".reveal");
 
 
-  if ("IntersectionObserver" in window) {
+  if (
+    "IntersectionObserver" in window
+  ) {
 
-    const revealObserver =
+    const observer =
       new IntersectionObserver(
         function (entries) {
 
-          entries.forEach(function (entry) {
+          entries.forEach(
+            function (entry) {
 
-            if (entry.isIntersecting) {
+              if (
+                entry.isIntersecting
+              ) {
 
-              entry.target.classList.add(
-                "visible"
-              );
+                entry.target.classList.add(
+                  "visible"
+                );
 
-              revealObserver.unobserve(
-                entry.target
-              );
+                observer.unobserve(
+                  entry.target
+                );
+              }
             }
-          });
+          );
 
         },
         {
@@ -620,15 +842,21 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-    revealElements.forEach(function (element) {
-      revealObserver.observe(element);
-    });
+    revealElements.forEach(
+      function (element) {
+        observer.observe(element);
+      }
+    );
 
   } else {
 
-    revealElements.forEach(function (element) {
-      element.classList.add("visible");
-    });
+    revealElements.forEach(
+      function (element) {
+        element.classList.add(
+          "visible"
+        );
+      }
+    );
   }
 
 
@@ -636,51 +864,70 @@ document.addEventListener("DOMContentLoaded", function () {
      OUR STORY
   ======================================================= */
 
-  const storyScroller = $("#storyScroller");
-  const storyCards = $$(".story-card");
-  const storyDots = $("#storyDots");
+  const storyScroller =
+    $("#storyScroller");
+
+  const storyCards =
+    $$(".story-card");
+
+  const storyDots =
+    $("#storyDots");
 
   const dotElements = [];
 
 
   if (
     storyScroller &&
-    storyCards.length &&
-    storyDots
+    storyDots &&
+    storyCards.length
   ) {
 
-    storyCards.forEach(function (card, index) {
+    storyCards.forEach(
+      function (card, index) {
 
-      const dot =
-        document.createElement("button");
+        const dot =
+          document.createElement(
+            "button"
+          );
 
-      dot.type = "button";
-      dot.className = "story-dot";
 
-      dot.setAttribute(
-        "aria-label",
-        `Story ${index + 1}`
-      );
+        dot.type = "button";
 
-      if (index === 0) {
-        dot.classList.add("active");
+        dot.className =
+          "story-dot";
+
+
+        dot.setAttribute(
+          "aria-label",
+          `Story ${index + 1}`
+        );
+
+
+        if (index === 0) {
+          dot.classList.add(
+            "active"
+          );
+        }
+
+
+        dot.addEventListener(
+          "click",
+          function () {
+
+            card.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+              inline: "center"
+            });
+          }
+        );
+
+
+        storyDots.appendChild(dot);
+
+        dotElements.push(dot);
       }
-
-
-      dot.addEventListener("click", function () {
-
-        card.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center"
-        });
-      });
-
-
-      storyDots.appendChild(dot);
-
-      dotElements.push(dot);
-    });
+    );
 
 
     function updateStoryDots() {
@@ -689,49 +936,65 @@ document.addEventListener("DOMContentLoaded", function () {
         storyScroller.scrollLeft +
         storyScroller.clientWidth / 2;
 
-      let closest = 0;
+
+      let closestIndex = 0;
       let closestDistance = Infinity;
 
 
-      storyCards.forEach(function (card, index) {
+      storyCards.forEach(
+        function (card, index) {
 
-        const cardCenter =
-          card.offsetLeft +
-          card.offsetWidth / 2;
+          const cardCenter =
+            card.offsetLeft +
+            card.offsetWidth / 2;
 
-        const distance =
-          Math.abs(center - cardCenter);
 
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closest = index;
+          const distance =
+            Math.abs(
+              center - cardCenter
+            );
+
+
+          if (
+            distance <
+            closestDistance
+          ) {
+
+            closestDistance =
+              distance;
+
+            closestIndex =
+              index;
+          }
         }
-      });
+      );
 
 
-      dotElements.forEach(function (dot, index) {
+      dotElements.forEach(
+        function (dot, index) {
 
-        dot.classList.toggle(
-          "active",
-          index === closest
-        );
-      });
+          dot.classList.toggle(
+            "active",
+            index === closestIndex
+          );
+        }
+      );
     }
 
 
     storyScroller.addEventListener(
       "scroll",
       updateStoryDots,
-      { passive: true }
+      {
+        passive: true
+      }
     );
   }
 
 
   /* =======================================================
      COUPLE QUIZ
-
-     No right/wrong answers.
-     Guests are simply making accusations.
+     NO RIGHT OR WRONG ANSWERS
   ======================================================= */
 
   const quizQuestions = [
@@ -761,51 +1024,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function shuffle(array) {
 
-    const copy = [...array];
+    const copy =
+      [...array];
+
 
     for (
-      let i = copy.length - 1;
-      i > 0;
-      i--
+      let index =
+        copy.length - 1;
+
+      index > 0;
+
+      index--
     ) {
 
-      const j =
+      const randomIndex =
         Math.floor(
-          Math.random() * (i + 1)
+          Math.random() *
+          (index + 1)
         );
 
-      [copy[i], copy[j]] =
-        [copy[j], copy[i]];
+
+      [
+        copy[index],
+        copy[randomIndex]
+      ] = [
+        copy[randomIndex],
+        copy[index]
+      ];
     }
+
 
     return copy;
   }
 
 
   let quizSet = [];
+
   let quizIndex = 0;
 
-  let quizVotes = {
+  let quizLocked = false;
+
+
+  let votes = {
     nikhil: 0,
     supriya: 0,
     both: 0
   };
 
-  let quizLocked = false;
 
+  const quizStart =
+    $("#quizStart");
 
-  const quizStart = $("#quizStart");
-  const quizGame = $("#quizGame");
-  const quizResult = $("#quizResult");
+  const quizGame =
+    $("#quizGame");
 
-  const startQuiz = $("#startQuiz");
-  const restartQuiz = $("#restartQuiz");
+  const quizResult =
+    $("#quizResult");
 
-  const quizProgress = $("#quizProgress");
-  const quizScore = $("#quizScore");
-  const quizQuestion = $("#quizQuestion");
-  const quizOptions = $("#quizOptions");
-  const quizReaction = $("#quizReaction");
+  const startQuiz =
+    $("#startQuiz");
+
+  const restartQuiz =
+    $("#restartQuiz");
+
+  const quizProgress =
+    $("#quizProgress");
+
+  const quizScore =
+    $("#quizScore");
+
+  const quizQuestion =
+    $("#quizQuestion");
+
+  const quizOptions =
+    $("#quizOptions");
+
+  const quizReaction =
+    $("#quizReaction");
 
   const quizResultTitle =
     $("#quizResultTitle");
@@ -817,21 +1112,35 @@ document.addEventListener("DOMContentLoaded", function () {
   function beginQuiz() {
 
     quizSet =
-      shuffle(quizQuestions).slice(0, 6);
+      shuffle(
+        quizQuestions
+      ).slice(0, 6);
+
 
     quizIndex = 0;
 
-    quizVotes = {
+    quizLocked = false;
+
+
+    votes = {
       nikhil: 0,
       supriya: 0,
       both: 0
     };
 
-    quizLocked = false;
 
-    quizStart?.classList.add("hidden");
-    quizResult?.classList.add("hidden");
-    quizGame?.classList.remove("hidden");
+    quizStart?.classList.add(
+      "hidden"
+    );
+
+    quizResult?.classList.add(
+      "hidden"
+    );
+
+    quizGame?.classList.remove(
+      "hidden"
+    );
+
 
     renderQuiz();
   }
@@ -839,175 +1148,269 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function renderQuiz() {
 
-    if (quizIndex >= quizSet.length) {
+    if (
+      quizIndex >=
+      quizSet.length
+    ) {
+
       finishQuiz();
+
       return;
     }
 
+
     quizLocked = false;
+
 
     if (quizProgress) {
       quizProgress.textContent =
         `${quizIndex + 1} / 6`;
     }
 
+
     if (quizScore) {
       quizScore.textContent =
         `ACCUSATION · ${quizIndex + 1}`;
     }
+
 
     if (quizQuestion) {
       quizQuestion.textContent =
         quizSet[quizIndex];
     }
 
+
     if (quizReaction) {
-      quizReaction.textContent = "";
+      quizReaction.textContent =
+        "";
     }
 
-    if (!quizOptions) return;
 
-    quizOptions.innerHTML = "";
+    if (!quizOptions) {
+      return;
+    }
 
 
-    const choices = [
+    quizOptions.innerHTML =
+      "";
+
+
+    const options = [
+
       {
         label: "Nikhil",
         value: "nikhil"
       },
+
       {
         label: "Supriya",
         value: "supriya"
       },
+
       {
         label: "Both. Obviously.",
         value: "both"
       }
+
     ];
 
 
-    choices.forEach(function (choice) {
+    options.forEach(
+      function (option) {
 
-      const button =
-        document.createElement("button");
-
-      button.type = "button";
-      button.className = "quiz-option";
-      button.textContent = choice.label;
-
-
-      button.addEventListener("click", function () {
-
-        if (quizLocked) return;
-
-        quizLocked = true;
-
-        quizVotes[choice.value]++;
+        const button =
+          document.createElement(
+            "button"
+          );
 
 
-        if (choice.value === "nikhil") {
+        button.type =
+          "button";
 
-          quizReaction.textContent =
-            "A confident Nikhil accusation. Filed without comment.";
+        button.className =
+          "quiz-option";
 
-        } else if (choice.value === "supriya") {
-
-          quizReaction.textContent =
-            "Supriya gets the vote. The official record has been updated.";
-
-        } else {
-
-          quizReaction.textContent =
-            "Diplomatic answer. Strong wedding-survival instincts.";
-        }
+        button.textContent =
+          option.label;
 
 
-        button.style.background =
-          "#493631";
+        button.addEventListener(
+          "click",
+          function () {
 
-        button.style.color =
-          "#ffffff";
-
-
-        setTimeout(function () {
-
-          quizIndex++;
-
-          renderQuiz();
-
-        }, 800);
-      });
+            if (quizLocked) {
+              return;
+            }
 
 
-      quizOptions.appendChild(button);
-    });
+            quizLocked = true;
+
+            votes[
+              option.value
+            ]++;
+
+
+            if (
+              option.value ===
+              "nikhil"
+            ) {
+
+              quizReaction.textContent =
+                "A confident Nikhil accusation. Filed without comment.";
+
+            } else if (
+              option.value ===
+              "supriya"
+            ) {
+
+              quizReaction.textContent =
+                "Supriya gets the vote. The official record has been updated.";
+
+            } else {
+
+              quizReaction.textContent =
+                "Diplomatic answer. Strong wedding-survival instincts.";
+            }
+
+
+            button.style.background =
+              "#49332d";
+
+            button.style.color =
+              "#ffffff";
+
+
+            setTimeout(
+              function () {
+
+                quizIndex++;
+
+                renderQuiz();
+
+              },
+              750
+            );
+          }
+        );
+
+
+        quizOptions.appendChild(
+          button
+        );
+      }
+    );
   }
 
 
   function finishQuiz() {
 
-    quizGame?.classList.add("hidden");
-    quizResult?.classList.remove("hidden");
+    quizGame?.classList.add(
+      "hidden"
+    );
+
+    quizResult?.classList.remove(
+      "hidden"
+    );
+
 
     const name =
-      getFirstName(guestName);
+      firstName(guestName);
 
 
     const highest =
       Math.max(
-        quizVotes.nikhil,
-        quizVotes.supriya,
-        quizVotes.both
+        votes.nikhil,
+        votes.supriya,
+        votes.both
       );
 
 
     const leaders =
-      Object.keys(quizVotes).filter(
-        key => quizVotes[key] === highest
+      Object.keys(
+        votes
+      ).filter(
+        function (key) {
+
+          return (
+            votes[key] ===
+            highest
+          );
+        }
       );
 
 
-    if (leaders.length > 1) {
+    if (
+      leaders.length > 1
+    ) {
 
-      quizResultTitle.textContent =
-        `${name}, perfectly balanced.`;
+      if (quizResultTitle) {
+        quizResultTitle.textContent =
+          `${name}, perfectly balanced.`;
+      }
 
-      quizResultText.textContent =
-        "Six questions and you still refused to establish a clear pattern. Excellent diplomatic instincts.";
+
+      if (quizResultText) {
+        quizResultText.textContent =
+          "Six questions and you still refused to establish a clear pattern. Excellent diplomatic instincts.";
+      }
+
 
       return;
     }
 
 
-    if (leaders[0] === "nikhil") {
+    if (
+      leaders[0] ===
+      "nikhil"
+    ) {
 
-      quizResultTitle.textContent =
-        `${name}, you kept pointing at Nikhil.`;
+      if (quizResultTitle) {
+        quizResultTitle.textContent =
+          `${name}, you kept pointing at Nikhil.`;
+      }
 
-      quizResultText.textContent =
-        "We are not confirming or denying anything. Your voting record has been permanently preserved.";
+
+      if (quizResultText) {
+        quizResultText.textContent =
+          "We are not confirming or denying anything. Your voting record has been noted.";
+      }
+
 
       return;
     }
 
 
-    if (leaders[0] === "supriya") {
+    if (
+      leaders[0] ===
+      "supriya"
+    ) {
 
-      quizResultTitle.textContent =
-        `${name}, Supriya received most of your accusations.`;
+      if (quizResultTitle) {
+        quizResultTitle.textContent =
+          `${name}, Supriya received most of your accusations.`;
+      }
 
-      quizResultText.textContent =
-        "Interesting. Very interesting. This information may or may not be used against you at the wedding.";
+
+      if (quizResultText) {
+        quizResultText.textContent =
+          "Interesting. Very interesting. This information may or may not be used against you at the wedding.";
+      }
+
 
       return;
     }
 
 
-    quizResultTitle.textContent =
-      `${name}, diplomacy wins.`;
+    if (quizResultTitle) {
+      quizResultTitle.textContent =
+        `${name}, diplomacy wins.`;
+    }
 
-    quizResultText.textContent =
-      "You spent six questions blaming both of them equally. This is probably the safest possible strategy.";
+
+    if (quizResultText) {
+      quizResultText.textContent =
+        "You spent six questions blaming both of them equally. Probably the safest possible strategy.";
+    }
   }
 
 
@@ -1015,6 +1418,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "click",
     beginQuiz
   );
+
 
   restartQuiz?.addEventListener(
     "click",
@@ -1031,35 +1435,47 @@ document.addEventListener("DOMContentLoaded", function () {
     engagement: {
       title:
         "Nikhil & Supriya — Engagement",
+
       start:
         "20261121T050000Z",
+
       end:
         "20261121T063000Z",
+
       location:
         "Lake Lawn, MGM Beach Resort, ECR, Chennai"
     },
+
 
     reception: {
       title:
         "Nikhil & Supriya — Reception",
+
       start:
         "20261121T123000Z",
+
       end:
         "20261121T160000Z",
+
       location:
         "Lake Lawn, MGM Beach Resort, ECR, Chennai"
     },
 
+
     muhurtham: {
       title:
         "Nikhil & Supriya — Muhurtham",
+
       start:
         "20261122T030000Z",
+
       end:
         "20261122T043000Z",
+
       location:
         "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai"
     }
+
   };
 
 
@@ -1078,23 +1494,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const event =
       calendarEvents[key];
 
-    if (!event) return;
+
+    if (!event) {
+      return;
+    }
 
 
     const ics = [
+
       "BEGIN:VCALENDAR",
+
       "VERSION:2.0",
+
       "PRODID:-//Nikhil and Supriya Wedding//EN",
+
       "CALSCALE:GREGORIAN",
+
       "BEGIN:VEVENT",
+
       `UID:${key}-2026@supnik.in`,
+
       `DTSTART:${event.start}`,
+
       `DTEND:${event.end}`,
+
       `SUMMARY:${escapeICS(event.title)}`,
+
       `LOCATION:${escapeICS(event.location)}`,
+
       "DESCRIPTION:Nikhil & Supriya · 21–22 November 2026",
+
       "END:VEVENT",
+
       "END:VCALENDAR"
+
     ].join("\r\n");
 
 
@@ -1109,46 +1542,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     const url =
-      URL.createObjectURL(blob);
+      URL.createObjectURL(
+        blob
+      );
 
 
     const link =
-      document.createElement("a");
+      document.createElement(
+        "a"
+      );
+
 
     link.href = url;
 
     link.download =
       `${key}-nikhil-supriya.ics`;
 
-    document.body.appendChild(link);
+
+    document.body.appendChild(
+      link
+    );
+
 
     link.click();
 
     link.remove();
 
 
-    setTimeout(function () {
-      URL.revokeObjectURL(url);
-    }, 1000);
+    setTimeout(
+      function () {
+
+        URL.revokeObjectURL(
+          url
+        );
+
+      },
+      1000
+    );
   }
 
 
-  $$("[data-calendar]").forEach(function (button) {
+  $$("[data-calendar]").forEach(
+    function (button) {
 
-    button.addEventListener("click", function () {
+      button.addEventListener(
+        "click",
+        function () {
 
-      downloadCalendar(
-        button.dataset.calendar
+          downloadCalendar(
+            button.dataset.calendar
+          );
+        }
       );
-    });
-  });
+    }
+  );
 
 
   /* =======================================================
-     WEDDING HELP DESK
+     HELP DESK
   ======================================================= */
 
-  const helpStatus = $("#helpStatus");
+  const helpStatus =
+    $("#helpStatus");
 
 
   const helpResponses = {
@@ -1168,76 +1623,109 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
 
-  $$("[data-help]").forEach(function (button) {
+  $$("[data-help]").forEach(
+    function (button) {
 
-    button.addEventListener("click", function () {
+      button.addEventListener(
+        "click",
+        function () {
 
-      if (!helpStatus) return;
+          if (!helpStatus) {
+            return;
+          }
 
-      const name =
-        getFirstName(guestName);
 
-      const type =
-        button.dataset.help;
+          const name =
+            firstName(guestName);
 
-      helpStatus.textContent =
-        `${name}, ${helpResponses[type]}`;
-    });
-  });
+
+          const response =
+            helpResponses[
+              button.dataset.help
+            ];
+
+
+          helpStatus.textContent =
+            `${name}, ${response}`;
+        }
+      );
+    }
+  );
 
 
   /* =======================================================
      NAVIGATION
   ======================================================= */
 
-  const navLinks = $$(".nav-link");
+  const navLinks =
+    $$(".nav-link");
 
 
-  navLinks.forEach(function (link) {
+  navLinks.forEach(
+    function (link) {
 
-    link.addEventListener("click", function (event) {
+      link.addEventListener(
+        "click",
+        function (event) {
 
-      const href =
-        link.getAttribute("href");
+          const href =
+            link.getAttribute(
+              "href"
+            );
 
-      if (
-        !href ||
-        !href.startsWith("#")
-      ) {
-        return;
-      }
 
-      const target = $(href);
+          if (
+            !href ||
+            !href.startsWith("#")
+          ) {
+            return;
+          }
 
-      if (!target) return;
 
-      event.preventDefault();
+          const target =
+            $(href);
 
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  });
+
+          if (!target) {
+            return;
+          }
+
+
+          event.preventDefault();
+
+
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      );
+    }
+  );
 
 
   const navSections = [
+
     {
       id: "home",
       nav: "home"
     },
+
     {
       id: "story",
       nav: "story"
     },
+
     {
       id: "events",
       nav: "events"
     },
+
     {
       id: "venue",
       nav: "venue"
     }
+
   ];
 
 
@@ -1245,34 +1733,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const position =
       window.scrollY +
-      window.innerHeight * 0.4;
+      window.innerHeight *
+      0.4;
 
-    let active = "home";
+
+    let active =
+      "home";
 
 
-    navSections.forEach(function (section) {
+    navSections.forEach(
+      function (section) {
 
-      const element =
-        document.getElementById(
-          section.id
-        );
+        const element =
+          document.getElementById(
+            section.id
+          );
 
-      if (
-        element &&
-        element.offsetTop <= position
-      ) {
-        active = section.nav;
+
+        if (
+          element &&
+          element.offsetTop <=
+          position
+        ) {
+
+          active =
+            section.nav;
+        }
       }
-    });
+    );
 
 
-    navLinks.forEach(function (link) {
+    navLinks.forEach(
+      function (link) {
 
-      link.classList.toggle(
-        "active",
-        link.dataset.nav === active
-      );
-    });
+        link.classList.toggle(
+          "active",
+          link.dataset.nav ===
+          active
+        );
+      }
+    );
   }
 
 
@@ -1320,14 +1820,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   updateNavigation();
+
   updateBackToTop();
 
 
   /* =======================================================
-     SECRET N&S EASTER EGG
+     SECRET EASTER EGG
   ======================================================= */
 
   let secretClicks = 0;
+
   let secretReset;
 
 
@@ -1337,15 +1839,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
       secretClicks++;
 
-      clearTimeout(secretReset);
+
+      clearTimeout(
+        secretReset
+      );
+
 
       secretReset =
-        setTimeout(function () {
-          secretClicks = 0;
-        }, 1800);
+        setTimeout(
+          function () {
+
+            secretClicks = 0;
+
+          },
+          1800
+        );
 
 
-      if (secretClicks < 5) {
+      if (
+        secretClicks < 5
+      ) {
         return;
       }
 
@@ -1357,35 +1870,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
       const toast =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       toast.className =
         "secret-toast";
 
 
       const title =
-        document.createElement("strong");
+        document.createElement(
+          "strong"
+        );
+
 
       title.textContent =
         "You found the secret.";
 
 
-      const text =
-        document.createElement("span");
+      const message =
+        document.createElement(
+          "span"
+        );
 
-      text.textContent =
+
+      message.textContent =
         "There is no prize. We spent the budget on the wedding.";
 
 
-      toast.appendChild(title);
-      toast.appendChild(text);
+      toast.appendChild(
+        title
+      );
 
-      document.body.appendChild(toast);
+      toast.appendChild(
+        message
+      );
 
 
-      setTimeout(function () {
-        toast.remove();
-      }, 3500);
+      document.body.appendChild(
+        toast
+      );
+
+
+      setTimeout(
+        function () {
+
+          toast.remove();
+
+        },
+        3500
+      );
     }
   );
 

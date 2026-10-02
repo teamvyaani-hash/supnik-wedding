@@ -1,2190 +1,1399 @@
 /* =========================================================
    NIKHIL & SUPRIYA
-   MAIN WEBSITE SCRIPT
+   WEDDING WEBSITE
 ========================================================= */
 
+document.addEventListener("DOMContentLoaded", function () {
 
-/* =========================================================
-   HELPERS
-========================================================= */
+  /* =======================================================
+     HELPERS
+  ======================================================= */
 
-const $ = (selector) =>
-  document.querySelector(selector);
+  const $ = (selector) =>
+    document.querySelector(selector);
 
-const $$ = (selector) =>
-  [...document.querySelectorAll(selector)];
-
-
-function safeName(value) {
-  return value
-    .replace(/[<>]/g, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 30);
-}
+  const $$ = (selector) =>
+    Array.from(document.querySelectorAll(selector));
 
 
-function firstName(value) {
-  return safeName(value).split(" ")[0] || "friend";
-}
-
-
-/* =========================================================
-   GUEST PERSONALISATION
-========================================================= */
-
-const STORAGE_NAME = "nsGuestName";
-const STORAGE_SIDE = "nsGuestSide";
-const STORAGE_TEAM = "nsGuestTeam";
-
-
-let guestName =
-  localStorage.getItem(STORAGE_NAME) || "";
-
-let guestSide =
-  localStorage.getItem(STORAGE_SIDE) || "";
-
-let guestTeam =
-  localStorage.getItem(STORAGE_TEAM) || "";
-
-
-const guestGate =
-  $("#guestGate");
-
-const guestNameStep =
-  $("#guestNameStep");
-
-const guestSideStep =
-  $("#guestSideStep");
-
-const guestWelcomeStep =
-  $("#guestWelcomeStep");
-
-const guestNameForm =
-  $("#guestNameForm");
-
-const guestNameInput =
-  $("#guestNameInput");
-
-const gateGuestName =
-  $("#gateGuestName");
-
-const welcomeGuestName =
-  $("#welcomeGuestName");
-
-const gateWelcomeMessage =
-  $("#gateWelcomeMessage");
-
-const changeGuest =
-  $("#changeGuest");
-
-
-function getSideWelcome(side, name) {
-
-  if (side === "bride") {
-    return `${name}, Supriya has excellent taste in people. We're assuming you're evidence.`;
-  }
-
-  if (side === "groom") {
-    return `${name}, thank you for agreeing to supervise Nikhil for the weekend.`;
-  }
-
-  return `${name}, diplomatic immunity granted. Choose your alliances carefully.`;
-}
-
-
-function applyPersonalisation() {
-
-  const name =
-    firstName(guestName);
-
-
-  const heroPersonal =
-    $("#heroPersonal");
-
-  const countdownHeading =
-    $("#countdownHeading");
-
-  const quizIntroTitle =
-    $("#quizIntroTitle");
-
-  const blrPersonal =
-    $("#blrPersonal");
-
-  const closingGuestName =
-    $("#closingGuestName");
-
-
-  if (heroPersonal) {
-    heroPersonal.textContent =
-      `${name}, we're really glad you're here.`;
+  function cleanName(value) {
+    return String(value || "")
+      .replace(/[<>]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 30);
   }
 
 
-  if (countdownHeading) {
-    countdownHeading.textContent =
-      `${name}, the countdown is officially on.`;
+  function getFirstName(value) {
+    return cleanName(value).split(" ")[0] || "friend";
   }
 
 
-  if (quizIntroTitle) {
-    quizIntroTitle.textContent =
-      `Alright ${name}, how well do you know us?`;
+  function storageGet(key) {
+    try {
+      return localStorage.getItem(key) || "";
+    } catch (error) {
+      return "";
+    }
   }
 
 
-  if (blrPersonal) {
-    blrPersonal.textContent =
-      `${name}, your completely unofficial cultural orientation awaits.`;
+  function storageSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (error) {
+      /* Site still works without storage */
+    }
   }
 
 
-  if (closingGuestName) {
-    closingGuestName.textContent =
-      name;
-  }
-
-}
-
-
-function hideGateImmediately() {
-
-  if (!guestGate) {
-    return;
-  }
-
-  guestGate.style.display =
-    "none";
-
-  document.body.classList.remove(
-    "gate-open"
-  );
-
-}
-
-
-function openWebsite() {
-
-  applyPersonalisation();
-
-
-  if (!guestGate) {
-    return;
+  function storageRemove(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (error) {
+      /* Nothing needed */
+    }
   }
 
 
-  guestGate.classList.add(
-    "gate-leaving"
-  );
+  /* =======================================================
+     GUEST STATE
+  ======================================================= */
+
+  const NAME_KEY = "nsGuestName";
+  const SIDE_KEY = "nsGuestSide";
+
+  let guestName = storageGet(NAME_KEY);
+  let guestSide = storageGet(SIDE_KEY);
 
 
-  document.body.classList.remove(
-    "gate-open"
-  );
+  const guestGate = $("#guestGate");
+  const guestNameStep = $("#guestNameStep");
+  const guestSideStep = $("#guestSideStep");
+  const guestWelcomeStep = $("#guestWelcomeStep");
+
+  const guestNameForm = $("#guestNameForm");
+  const guestNameInput = $("#guestNameInput");
+
+  const gateGuestName = $("#gateGuestName");
+  const welcomeGuestName = $("#welcomeGuestName");
+  const gateWelcomeMessage = $("#gateWelcomeMessage");
+
+  const changeGuest = $("#changeGuest");
 
 
-  setTimeout(() => {
+  /* =======================================================
+     PERSONALISATION
+  ======================================================= */
 
-    guestGate.style.display =
-      "none";
+  function relationshipLine(side, name) {
 
-  }, 800);
+    if (side === "groom") {
+      return `${name}. Team Nikhil confirmed. Supriya has been notified of your questionable judgement.`;
+    }
 
-}
+    if (side === "bride") {
+      return `${name}. Team Supriya confirmed. Excellent. Someone here is making sensible decisions.`;
+    }
 
-
-function showWelcomeStep() {
-
-  const name =
-    firstName(guestName);
-
-
-  guestNameStep?.classList.add(
-    "hidden"
-  );
-
-  guestSideStep?.classList.add(
-    "hidden"
-  );
-
-  guestWelcomeStep?.classList.remove(
-    "hidden"
-  );
-
-
-  if (welcomeGuestName) {
-    welcomeGuestName.textContent =
-      name;
+    return `${name}. You know both of them? Then you already know what you're getting into. Diplomatic immunity granted.`;
   }
 
 
-  if (gateWelcomeMessage) {
-    gateWelcomeMessage.textContent =
-      getSideWelcome(
-        guestSide,
-        name
-      );
+  function blrRelationshipLine(side, name) {
+
+    if (side === "groom") {
+      return `${name}, you came here through Nikhil. Expectations have been adjusted accordingly.`;
+    }
+
+    if (side === "bride") {
+      return `${name}, you came here through Supriya. We expected you to read the instructions.`;
+    }
+
+    return `${name}, neutral party detected. That probably won't last long.`;
   }
 
 
-  setTimeout(
-    openWebsite,
-    1800
-  );
+  function applyPersonalisation() {
 
-}
+    if (!guestName) return;
 
+    const name = getFirstName(guestName);
 
-/* =========================================================
-   INITIAL GUEST STATE
-========================================================= */
-
-if (
-  guestName &&
-  guestSide
-) {
-
-  hideGateImmediately();
-
-  applyPersonalisation();
-
-} else {
-
-  document.body.classList.add(
-    "gate-open"
-  );
-
-}
+    const heroPersonal = $("#heroPersonal");
+    const countdownHeading = $("#countdownHeading");
+    const quizIntroTitle = $("#quizIntroTitle");
+    const blrPersonal = $("#blrPersonal");
+    const closingGuestName = $("#closingGuestName");
 
 
-/* =========================================================
-   NAME FORM
-========================================================= */
+    if (heroPersonal) {
+      heroPersonal.textContent =
+        `${name}, we're really glad you're here.`;
+    }
 
-guestNameForm?.addEventListener(
-  "submit",
-  (event) => {
+
+    if (countdownHeading) {
+      countdownHeading.textContent =
+        `${name}, the countdown is officially on.`;
+    }
+
+
+    if (quizIntroTitle) {
+      quizIntroTitle.textContent =
+        `Alright ${name}, let's make some accusations.`;
+    }
+
+
+    if (blrPersonal) {
+      blrPersonal.textContent =
+        blrRelationshipLine(guestSide, name);
+    }
+
+
+    if (closingGuestName) {
+      closingGuestName.textContent = name;
+    }
+
+
+    if (changeGuest) {
+      changeGuest.textContent =
+        `Not ${name}? Change guest`;
+    }
+  }
+
+
+  /* =======================================================
+     GUEST ENTRANCE
+  ======================================================= */
+
+  function showNameStep() {
+
+    if (!guestGate) return;
+
+    guestGate.style.display = "";
+
+    guestGate.classList.remove("gate-leaving");
+
+    guestNameStep?.classList.remove("hidden");
+    guestSideStep?.classList.add("hidden");
+    guestWelcomeStep?.classList.add("hidden");
+
+    document.body.classList.add("gate-open");
+
+    setTimeout(() => {
+      guestNameInput?.focus();
+    }, 200);
+  }
+
+
+  function showSideStep() {
+
+    const name = getFirstName(guestName);
+
+    if (gateGuestName) {
+      gateGuestName.textContent = name;
+    }
+
+    guestNameStep?.classList.add("hidden");
+    guestWelcomeStep?.classList.add("hidden");
+    guestSideStep?.classList.remove("hidden");
+  }
+
+
+  function finishEntrance(side) {
+
+    guestSide = side;
+
+    storageSet(SIDE_KEY, guestSide);
+
+    const name = getFirstName(guestName);
+
+    if (welcomeGuestName) {
+      welcomeGuestName.textContent =
+        `${name}. There you are.`;
+    }
+
+    if (gateWelcomeMessage) {
+      gateWelcomeMessage.textContent =
+        relationshipLine(side, name);
+    }
+
+    guestNameStep?.classList.add("hidden");
+    guestSideStep?.classList.add("hidden");
+    guestWelcomeStep?.classList.remove("hidden");
+
+    applyPersonalisation();
+
+
+    setTimeout(() => {
+
+      guestGate?.classList.add("gate-leaving");
+
+      document.body.classList.remove("gate-open");
+
+
+      setTimeout(() => {
+
+        if (guestGate) {
+          guestGate.style.display = "none";
+        }
+
+      }, 750);
+
+    }, 1250);
+  }
+
+
+  /* Returning guest */
+
+  if (guestName && guestSide) {
+
+    if (guestGate) {
+      guestGate.style.display = "none";
+    }
+
+    document.body.classList.remove("gate-open");
+
+    applyPersonalisation();
+
+  } else {
+
+    showNameStep();
+  }
+
+
+  /* Name form */
+
+  guestNameForm?.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
-
     const enteredName =
-      safeName(
-        guestNameInput?.value || ""
-      );
-
+      cleanName(guestNameInput?.value);
 
     if (!enteredName) {
       guestNameInput?.focus();
       return;
     }
 
+    guestName = enteredName;
 
-    guestName =
-      enteredName;
+    storageSet(NAME_KEY, guestName);
 
-
-    localStorage.setItem(
-      STORAGE_NAME,
-      guestName
-    );
+    showSideStep();
+  });
 
 
-    if (gateGuestName) {
-      gateGuestName.textContent =
-        firstName(guestName);
+  /* Relationship choice */
+
+  $$("[data-guest-side]").forEach((button) => {
+
+    button.addEventListener("click", function () {
+
+      const side =
+        button.dataset.guestSide || "both";
+
+      finishEntrance(side);
+    });
+  });
+
+
+  /* Change guest */
+
+  changeGuest?.addEventListener("click", function () {
+
+    storageRemove(NAME_KEY);
+    storageRemove(SIDE_KEY);
+
+    guestName = "";
+    guestSide = "";
+
+    if (guestNameInput) {
+      guestNameInput.value = "";
     }
 
-
-    guestNameStep?.classList.add(
-      "hidden"
-    );
-
-    guestSideStep?.classList.remove(
-      "hidden"
-    );
-
-  }
-);
+    showNameStep();
+  });
 
 
-/* =========================================================
-   BRIDE / GROOM / BOTH
-========================================================= */
+  /* =======================================================
+     ENTER CELEBRATION
+  ======================================================= */
 
-$$("[data-guest-side]").forEach(
-  button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        guestSide =
-          button.dataset.guestSide || "both";
-
-
-        localStorage.setItem(
-          STORAGE_SIDE,
-          guestSide
-        );
-
-
-        showWelcomeStep();
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   CHANGE GUEST
-========================================================= */
-
-changeGuest?.addEventListener(
-  "click",
-  () => {
-
-    localStorage.removeItem(
-      STORAGE_NAME
-    );
-
-    localStorage.removeItem(
-      STORAGE_SIDE
-    );
-
-    localStorage.removeItem(
-      STORAGE_TEAM
-    );
-
-
-    window.location.reload();
-
-  }
-);
-
-
-/* =========================================================
-   ENTER CELEBRATION
-========================================================= */
-
-$("#enterCelebration")?.addEventListener(
-  "click",
-  () => {
+  $("#enterCelebration")?.addEventListener("click", function () {
 
     $("#intro")?.scrollIntoView({
-      behavior: "smooth"
+      behavior: "smooth",
+      block: "start"
     });
-
-  }
-);
+  });
 
 
-/* =========================================================
-   PICK A SIDE
-========================================================= */
+  /* =======================================================
+     COUNTDOWN
+  ======================================================= */
 
-const teamNikhil =
-  $("#teamNikhil");
-
-const teamSupriya =
-  $("#teamSupriya");
-
-const teamResponse =
-  $("#teamResponse");
+  const weddingDate =
+    new Date("2026-11-21T10:30:00+05:30");
 
 
-function selectTeam(team) {
+  const dailyMessages = [
 
-  guestTeam =
-    team;
+    "Fifty days. Plenty of time to pretend the outfit is already sorted.",
+    "Forty-nine days. Somewhere, a family WhatsApp group has started warming up.",
+    "Forty-eight days. The wedding is officially close enough to mention in every conversation.",
+    "Forty-seven days. Still enough time to say you'll shop next weekend.",
+    "Forty-six days. Outfit confidence remains suspiciously high.",
+    "Forty-five days. The countdown has become mildly threatening.",
+    "Forty-four days. You may now begin asking everyone else what they're wearing.",
+    "Forty-three days. “I'll figure it out” remains technically available.",
+    "Forty-two days. Six weeks sounded much further away.",
+    "Forty-one days. Your calendar would like to remind you this is actually happening.",
+
+    "Forty days. Nice round number. Absolutely no reason to panic.",
+    "Thirty-nine days. If tailoring is involved, procrastination is becoming a strategy.",
+    "Thirty-eight days. Pinterest boards are becoming operational documents.",
+    "Thirty-seven days. Someone already has three outfits and a backup.",
+    "Thirty-six days. “I'll order it online” is becoming increasingly adventurous.",
+    "Thirty-five days. Five weeks. Future-you has started judging present-you.",
+    "Thirty-four days. This website remains calmer than the people organising the wedding.",
+    "Thirty-three days. Still time. We repeat: still time.",
+    "Thirty-two days. Approximately 4,000 wedding photos are approaching.",
+    "Thirty-one days. The word “soon” is now legally accurate.",
+
+    "Thirty days. ONE MONTH. Please locate your wedding clothes.",
+    "Twenty-nine days. Less than a month. That sentence was intentionally alarming.",
+    "Twenty-eight days. Somewhere, a tailor just sensed a disturbance.",
+    "Twenty-seven days. Start breaking in the shoes you claimed were comfortable.",
+    "Twenty-six days. Ironing everything on the wedding morning is not a plan.",
+    "Twenty-five days. Halfway from fifty. Things are getting suspiciously real.",
+    "Twenty-four days. The phrase “I'll sort it later” is losing credibility.",
+    "Twenty-three days. Family group-chat activity is expected to increase sharply.",
+    "Twenty-two days. If your outfit says “out for delivery,” we wish you strength.",
+    "Twenty-one days. Three weeks. Serious calendar territory.",
+
+    "Twenty days. Chennai is about to become considerably better dressed.",
+    "Nineteen days. Begin practising the family-photo smile.",
+    "Eighteen days. Somewhere, an aunty has started asking who is arriving when.",
+    "Seventeen days. Your suitcase can no longer remain theoretical.",
+    "Sixteen days. “I'll do it later” has officially been discontinued.",
+    "Fifteen days. Locate jewellery, shoes, chargers and patience.",
+    "Fourteen days. TWO WEEKS. This is not a drill.",
+    "Thirteen days. The final fortnight has begun. Good luck to everyone involved.",
+    "Twelve days. No outfit yet? Your confidence is inspiring.",
+    "Eleven days. We're now counting with rocket-launch intensity.",
+
+    "Ten days. SINGLE DIGITS TOMORROW.",
+    "Nine days. Single digits. Casual behaviour is no longer authorised.",
+    "Eight days. One week and one bonus day. Chennai, prepare yourself.",
+    "Seven days. ONE WEEK. We hope you know where your clothes are.",
+    "Six days. “Next weekend” has become dangerously relevant.",
+    "Five days. Wedding machinery is operating at full Indian-family capacity.",
+    "Four days. If you've forgotten something, now would be a lovely time to remember it.",
+    "Three days. Suitcases. Chargers. Clothes. Sanity. Check.",
+    "Two days. We are officially entering chaos mode.",
+    "One day. TOMORROW. We hope you're more prepared than this website."
+
+  ];
 
 
-  localStorage.setItem(
-    STORAGE_TEAM,
-    team
-  );
+  const hourlyMessages = [
+
+    "48 hours. Everyone remain calm. Nobody is going to do that.",
+    "47 hours. The wedding is closer than your next sensible life decision.",
+    "46 hours. Somewhere, somebody is asking where the safety pins are.",
+    "45 hours. Every phone call now begins with “small thing.”",
+    "44 hours. Empty suitcase? We admire the confidence.",
+    "43 hours. Family WhatsApp groups are approaching maximum capacity.",
+    "42 hours. Confirm that you actually know where MGM Beach Resort is.",
+    "41 hours. Somebody has asked what time everyone is leaving. Nobody knows.",
+    "40 hours. The spreadsheet people are thriving.",
+    "39 hours. The non-spreadsheet people are pretending everything is fine.",
+
+    "38 hours. Charge your phone. There will be photos. Many photos.",
+    "37 hours. Somewhere, an outfit is being altered at dangerous speed.",
+    "36 hours. Tomorrow-adjacent territory.",
+    "35 hours. Have you packed? That pause was concerning.",
+    "34 hours. Someone is saying “we'll leave on time” without evidence.",
+    "33 hours. Incoming calls are increasing. Allegedly normal.",
+    "32 hours. Reminder: ECR traffic is not fictional.",
+    "31 hours. Time is now being measured in ceremonies and outfit changes.",
+    "30 hours. Enough time to sleep. Whether anyone does is another matter.",
+    "29 hours. Somebody's mother has already told them to leave earlier.",
+
+    "28 hours. Logistics have reached air-traffic-control complexity.",
+    "27 hours. Forgot something? Decide whether you truly needed it.",
+    "26 hours. “Where are you?” will soon become the official greeting.",
+    "25 hours. One hour until the dramatic 24-hour announcement.",
+    "24 hours. TOMORROW. Procrastination privileges have been revoked.",
+    "23 hours. If you're still shopping, we have questions.",
+    "22 hours. Somewhere, someone is steaming an outfit and regretting everything.",
+    "21 hours. The countdown has stopped being cute.",
+    "20 hours. Please begin moving toward preparedness.",
+    "19 hours. Even the website is checking whether you're ready.",
+
+    "18 hours. Alarms are being set. Some will later be ignored.",
+    "17 hours. We hope the outfit fits. Awful time to discover otherwise.",
+    "16 hours. Chennai is warming up. Literally and metaphorically.",
+    "15 hours. Someone packed everything except the thing they actually need.",
+    "14 hours. Sleep is becoming an ambitious proposal.",
+    "13 hours. The calm before the extremely well-dressed storm.",
+    "12 hours. TWELVE HOURS. Capital-letter territory.",
+    "11 hours. Future-you would appreciate it if you went to bed.",
+    "10 hours. If you're reading this at an unreasonable hour, that's between you and your decisions.",
+    "9 hours. The wedding is basically loading.",
+
+    "8 hours. Coffee is becoming a strategic resource.",
+    "7 hours. Someone's alarm is preparing to ruin their morning.",
+    "6 hours. Good morning to everyone except whoever stayed up too late.",
+    "5 hours. The getting-ready Olympics have begun.",
+    "4 hours. Hair. Clothes. Jewellery. Phone. Dignity. Let's move.",
+    "3 hours. If you're not getting ready, we'd love to hear the strategy.",
+    "2 hours. Please stop reading this website and start moving.",
+    "1 hour. WHY ARE YOU STILL HERE? GO GET READY."
+
+  ];
 
 
-  const name =
-    firstName(guestName);
+  function countdownMessage(diff) {
 
+    const hour = 60 * 60 * 1000;
+    const day = 24 * hour;
 
-  teamNikhil?.classList.remove(
-    "selected"
-  );
-
-  teamSupriya?.classList.remove(
-    "selected"
-  );
-
-
-  if (team === "nikhil") {
-
-    teamNikhil?.classList.add(
-      "selected"
-    );
-
-
-    if (teamResponse) {
-      teamResponse.textContent =
-        `${name} chose Team Nikhil. A bold decision. This information has been forwarded to Supriya.`;
+    if (diff <= 0) {
+      return "It's wedding time. Stop scrolling. Come say hi.";
     }
+
+
+    const hoursLeft =
+      Math.ceil(diff / hour);
+
+    const daysLeft =
+      Math.ceil(diff / day);
+
+
+    if (hoursLeft <= 48) {
+
+      const index =
+        Math.max(
+          0,
+          Math.min(47, 48 - hoursLeft)
+        );
+
+      return hourlyMessages[index];
+    }
+
+
+    if (daysLeft <= 50) {
+
+      const index =
+        Math.max(
+          0,
+          Math.min(49, 50 - daysLeft)
+        );
+
+      return dailyMessages[index];
+    }
+
+
+    return "The outfits have time. The group chats do not need to panic yet.";
+  }
+
+
+  function updateCountdown() {
+
+    const now = new Date();
+
+    const diff =
+      weddingDate.getTime() -
+      now.getTime();
+
+
+    const daysEl = $("#days");
+    const hoursEl = $("#hours");
+    const minutesEl = $("#minutes");
+    const secondsEl = $("#seconds");
+    const messageEl = $("#countdownMessage");
+
+
+    if (diff <= 0) {
+
+      if (daysEl) daysEl.textContent = "00";
+      if (hoursEl) hoursEl.textContent = "00";
+      if (minutesEl) minutesEl.textContent = "00";
+      if (secondsEl) secondsEl.textContent = "00";
+
+      if (messageEl) {
+        messageEl.textContent =
+          countdownMessage(diff);
+      }
+
+      return;
+    }
+
+
+    const totalSeconds =
+      Math.floor(diff / 1000);
+
+    const days =
+      Math.floor(totalSeconds / 86400);
+
+    const hours =
+      Math.floor(
+        (totalSeconds % 86400) / 3600
+      );
+
+    const minutes =
+      Math.floor(
+        (totalSeconds % 3600) / 60
+      );
+
+    const seconds =
+      totalSeconds % 60;
+
+
+    if (daysEl) {
+      daysEl.textContent =
+        String(days).padStart(2, "0");
+    }
+
+    if (hoursEl) {
+      hoursEl.textContent =
+        String(hours).padStart(2, "0");
+    }
+
+    if (minutesEl) {
+      minutesEl.textContent =
+        String(minutes).padStart(2, "0");
+    }
+
+    if (secondsEl) {
+      secondsEl.textContent =
+        String(seconds).padStart(2, "0");
+    }
+
+    if (messageEl) {
+      messageEl.textContent =
+        countdownMessage(diff);
+    }
+  }
+
+
+  updateCountdown();
+
+  setInterval(updateCountdown, 1000);
+
+
+  /* =======================================================
+     REVEAL SECTIONS
+  ======================================================= */
+
+  const revealElements = $$(".reveal");
+
+
+  if ("IntersectionObserver" in window) {
+
+    const revealObserver =
+      new IntersectionObserver(
+        function (entries) {
+
+          entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add(
+                "visible"
+              );
+
+              revealObserver.unobserve(
+                entry.target
+              );
+            }
+          });
+
+        },
+        {
+          threshold: 0.08
+        }
+      );
+
+
+    revealElements.forEach(function (element) {
+      revealObserver.observe(element);
+    });
 
   } else {
 
-    teamSupriya?.classList.add(
-      "selected"
-    );
-
-
-    if (teamResponse) {
-      teamResponse.textContent =
-        `${name} chose Team Supriya. Sensible. Nikhil has requested an investigation.`;
-    }
-
-  }
-
-}
-
-
-teamNikhil?.addEventListener(
-  "click",
-  () => selectTeam("nikhil")
-);
-
-
-teamSupriya?.addEventListener(
-  "click",
-  () => selectTeam("supriya")
-);
-
-
-if (guestTeam) {
-  selectTeam(guestTeam);
-}
-
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-const weddingDate =
-  new Date(
-    "2026-11-21T10:30:00+05:30"
-  );
-
-
-/*
-   ONE DIFFERENT LINE FOR EACH OF
-   THE FINAL 50 DAYS.
-*/
-
-const final50DayLines = [
-
-  "50 days. Plenty of time to plan your outfit. Probably.",
-
-  "49 days. The wedding is now close enough to start pretending you've planned everything.",
-
-  "48 days. Somewhere, somebody has already started a wedding WhatsApp group.",
-
-  "47 days. Still enough time to say you'll shop next weekend.",
-
-  "46 days. Outfit confidence remains suspiciously high for someone who hasn't bought anything.",
-
-  "45 days. The countdown has officially become mildly threatening.",
-
-  "44 days. You may now begin asking people what they're wearing.",
-
-  "43 days. The phrase “I'll figure it out” remains technically available.",
-
-  "42 days. Six weeks. That sounded much further away when we said fifty days.",
-
-  "41 days. Your calendar would like to remind you this is actually happening.",
-
-  "40 days. Forty. Nice round number. Absolutely no reason to panic.",
-
-  "39 days. If you need tailoring, this would be an excellent time to stop procrastinating.",
-
-  "38 days. The wedding Pinterest boards are becoming operational documents.",
-
-  "37 days. Someone has already planned three outfits and a backup. Learn from them.",
-
-  "36 days. We're approaching the point where “I'll order it online” becomes a gamble.",
-
-  "35 days. Five weeks. Your future self is beginning to judge your current self.",
-
-  "34 days. This website remains calmer than the people organising the wedding.",
-
-  "33 days. You still have time. We repeat: you still have time.",
-
-  "32 days. Thirty-two days until several hundred photos nobody was emotionally prepared for.",
-
-  "31 days. One month-ish. The word “soon” is now legally accurate.",
-
-  "30 days. ONE MONTH. Please locate your wedding clothes.",
-
-  "29 days. Less than a month. That sentence was intentionally alarming.",
-
-  "28 days. Four weeks. Somewhere, a tailor has just sensed a disturbance.",
-
-  "27 days. Start breaking in the shoes you claimed were comfortable.",
-
-  "26 days. This is your reminder that ironing clothes on the wedding morning is not a plan.",
-
-  "25 days. Halfway from fifty. Things are getting suspiciously real.",
-
-  "24 days. Have you booked what needs booking? This website is judging silently.",
-
-  "23 days. The group chats are about to become significantly more active.",
-
-  "22 days. If your outfit still says “out for delivery,” we wish you strength.",
-
-  "21 days. Three weeks. We have entered serious calendar territory.",
-
-  "20 days. Twenty days until Chennai gets considerably better dressed.",
-
-  "19 days. You may now begin practising your family-photo smile.",
-
-  "18 days. Somewhere an aunty is already asking who is arriving when.",
-
-  "17 days. Your suitcase can no longer remain a theoretical concept.",
-
-  "16 days. Two weeks and change. “I'll do it later” has been officially discontinued.",
-
-  "15 days. Fifteen days. Locate jewellery, shoes, chargers and patience.",
-
-  "14 days. TWO WEEKS. This is not a drill. It is, however, still a wedding.",
-
-  "13 days. The final fortnight has begun. Good luck to everyone involved.",
-
-  "12 days. If you haven't decided what you're wearing, congratulations on your confidence.",
-
-  "11 days. Eleven. We're now counting with the intensity of a rocket launch.",
-
-  "10 days. SINGLE DIGITS TOMORROW. Somebody inform the family WhatsApp groups.",
-
-  "9 days. Single digits. There is officially no room left for casual behaviour.",
-
-  "8 days. One week and one bonus day. Chennai, prepare yourself.",
-
-  "7 days. ONE WEEK. We hope you know where your clothes are.",
-
-  "6 days. Less than a week. The phrase “next weekend” has become dangerously relevant.",
-
-  "5 days. Five. The wedding machinery is now operating at full Indian-family capacity.",
-
-  "4 days. Four days. If you've forgotten something, now is an excellent time to remember it.",
-
-  "3 days. THREE DAYS. Suitcases. Chargers. Clothes. Sanity. Check.",
-
-  "2 days. Forty-eight hours. We are officially entering chaos mode.",
-
-  "1 day. Tomorrow. TOMORROW. We hope you're more prepared than this website."
-
-];
-
-
-/*
-   FINAL 48 HOURS:
-   A DIFFERENT LINE FOR EACH HOUR.
-*/
-
-const final48HourLines = [
-
-  "48 hours. Two days. Everyone remain completely calm. Nobody is going to do that.",
-
-  "47 hours. The wedding is now closer than your next sensible life decision.",
-
-  "46 hours. Somewhere, somebody is asking where the safety pins are.",
-
-  "45 hours. We have entered the phase where every phone call begins with “small thing.”",
-
-  "44 hours. If your suitcase is still empty, we admire the confidence.",
-
-  "43 hours. The family WhatsApp groups are approaching maximum operating capacity.",
-
-  "42 hours. This would be an excellent time to confirm you actually know where MGM Beach Resort is.",
-
-  "41 hours. Somebody has already asked what time everyone is leaving. Nobody knows.",
-
-  "40 hours. Less than two days. The spreadsheet people are thriving.",
-
-  "39 hours. The non-spreadsheet people are pretending everything is fine.",
-
-  "38 hours. Please charge your phone. There will be approximately 4,000 photos.",
-
-  "37 hours. Somewhere, an outfit is being altered at a speed not recommended by professionals.",
-
-  "36 hours. A day and a half. The wedding has officially become tomorrow-adjacent.",
-
-  "35 hours. Have you packed? That pause before answering was concerning.",
-
-  "34 hours. Someone is currently saying “we'll leave on time” without evidence.",
-
-  "33 hours. The number of incoming calls is increasing. This is normal. Allegedly.",
-
-  "32 hours. Reminder: “ECR traffic” is not a fictional concept.",
-
-  "31 hours. We are now measuring time in outfits and ceremonies.",
-
-  "30 hours. Thirty hours. Enough time to sleep. Whether anyone actually will is another matter.",
-
-  "29 hours. Somebody's mother has already asked them to leave earlier.",
-
-  "28 hours. Wedding logistics have officially reached air-traffic-control complexity.",
-
-  "27 hours. If you forgot something, decide now whether you truly needed it.",
-
-  "26 hours. The phrase “where are you?” will soon become the weekend's official greeting.",
-
-  "25 hours. Twenty-five hours. One final hour before the dramatic 24-hour announcement.",
-
-  "24 hours. TOMORROW. There is no longer any respectable amount of procrastination available.",
-
-  "23 hours. Under one day. If you're still shopping, we have questions.",
-
-  "22 hours. Somewhere, somebody is steaming an outfit and regretting every life choice.",
-
-  "21 hours. The countdown has stopped being cute.",
-
-  "20 hours. Twenty hours. Please begin moving in the general direction of preparedness.",
-
-  "19 hours. At this point even the website is checking whether you're ready.",
-
-  "18 hours. The alarms are being set. The alarms will later be ignored.",
-
-  "17 hours. We hope your clothes fit. This is a terrible time to discover otherwise.",
-
-  "16 hours. Sixteen hours. Chennai is warming up. Literally and metaphorically.",
-
-  "15 hours. Somewhere, somebody has packed everything except the one thing they actually need.",
-
-  "14 hours. Fourteen hours. Sleep is becoming an increasingly ambitious proposal.",
-
-  "13 hours. The calm before the extremely well-dressed storm.",
-
-  "12 hours. TWELVE HOURS. We have reached capital-letter territory.",
-
-  "11 hours. Your future self would appreciate it if you went to bed.",
-
-  "10 hours. Ten. If you're awake reading this at an unreasonable hour, that's between you and your decisions.",
-
-  "9 hours. Nine hours. The wedding is basically loading.",
-
-  "8 hours. Eight. Coffee is about to become a strategic resource.",
-
-  "7 hours. Seven hours. Someone's alarm is already preparing to ruin their morning.",
-
-  "6 hours. SIX HOURS. Good morning to everyone except whoever stayed up too late.",
-
-  "5 hours. Five hours. The getting-ready Olympics have begun.",
-
-  "4 hours. Four hours. Hair, clothes, jewellery, phone, dignity. Let's move.",
-
-  "3 hours. THREE HOURS. If you're not getting ready, we'd love to hear the strategy.",
-
-  "2 hours. TWO HOURS. Please stop reading the website and start moving.",
-
-  "1 hour. ONE HOUR. Why are you still here? GO GET READY."
-
-];
-
-
-/* =========================================================
-   COUNTDOWN MESSAGE
-========================================================= */
-
-function getCountdownMessage(diff) {
-
-  const name =
-    firstName(guestName);
-
-
-  const hour =
-    60 * 60 * 1000;
-
-  const day =
-    24 * hour;
-
-
-  if (diff <= 0) {
-
-    return `${name}, the celebration has begun. See you by the sea.`;
-
+    revealElements.forEach(function (element) {
+      element.classList.add("visible");
+    });
   }
 
 
-  const hoursRemaining =
-    Math.ceil(diff / hour);
+  /* =======================================================
+     OUR STORY
+  ======================================================= */
 
-  const daysRemaining =
-    Math.ceil(diff / day);
+  const storyScroller = $("#storyScroller");
+  const storyCards = $$(".story-card");
+  const storyDots = $("#storyDots");
 
+  const dotElements = [];
 
-  /*
-     FINAL 48 HOURS
-  */
 
-  if (hoursRemaining <= 48) {
+  if (
+    storyScroller &&
+    storyCards.length &&
+    storyDots
+  ) {
 
-    const index =
-      Math.max(
-        0,
-        Math.min(
-          47,
-          48 - hoursRemaining
-        )
-      );
-
-
-    return `${name}, ${final48HourLines[index]}`;
-
-  }
-
-
-  /*
-     FINAL 50 DAYS
-  */
-
-  if (daysRemaining <= 50) {
-
-    const index =
-      Math.max(
-        0,
-        Math.min(
-          49,
-          50 - daysRemaining
-        )
-      );
-
-
-    return `${name}, ${final50DayLines[index]}`;
-
-  }
-
-
-  /*
-     MORE THAN 50 DAYS
-  */
-
-  return `${name}, plenty of time. Please don't use that as an excuse to leave everything until November.`;
-
-}
-
-
-/* =========================================================
-   UPDATE COUNTDOWN
-========================================================= */
-
-function updateCountdown() {
-
-  const now =
-    new Date();
-
-
-  const diff =
-    weddingDate.getTime() -
-    now.getTime();
-
-
-  const daysElement =
-    $("#days");
-
-  const hoursElement =
-    $("#hours");
-
-  const minutesElement =
-    $("#minutes");
-
-  const secondsElement =
-    $("#seconds");
-
-  const messageElement =
-    $("#countdownMessage");
-
-
-  if (diff <= 0) {
-
-    if (daysElement) {
-      daysElement.textContent = "00";
-    }
-
-    if (hoursElement) {
-      hoursElement.textContent = "00";
-    }
-
-    if (minutesElement) {
-      minutesElement.textContent = "00";
-    }
-
-    if (secondsElement) {
-      secondsElement.textContent = "00";
-    }
-
-    if (messageElement) {
-      messageElement.textContent =
-        getCountdownMessage(diff);
-    }
-
-    return;
-
-  }
-
-
-  const totalSeconds =
-    Math.floor(diff / 1000);
-
-
-  const days =
-    Math.floor(
-      totalSeconds / 86400
-    );
-
-
-  const hours =
-    Math.floor(
-      (totalSeconds % 86400) /
-      3600
-    );
-
-
-  const minutes =
-    Math.floor(
-      (totalSeconds % 3600) /
-      60
-    );
-
-
-  const seconds =
-    totalSeconds % 60;
-
-
-  if (daysElement) {
-    daysElement.textContent =
-      String(days).padStart(2, "0");
-  }
-
-
-  if (hoursElement) {
-    hoursElement.textContent =
-      String(hours).padStart(2, "0");
-  }
-
-
-  if (minutesElement) {
-    minutesElement.textContent =
-      String(minutes).padStart(2, "0");
-  }
-
-
-  if (secondsElement) {
-    secondsElement.textContent =
-      String(seconds).padStart(2, "0");
-  }
-
-
-  if (messageElement) {
-    messageElement.textContent =
-      getCountdownMessage(diff);
-  }
-
-}
-
-
-updateCountdown();
-
-setInterval(
-  updateCountdown,
-  1000
-);
-
-
-/* =========================================================
-   REVEAL ANIMATIONS
-========================================================= */
-
-const revealElements =
-  $$(".reveal");
-
-
-if ("IntersectionObserver" in window) {
-
-  const revealObserver =
-    new IntersectionObserver(
-      entries => {
-
-        entries.forEach(entry => {
-
-          if (entry.isIntersecting) {
-
-            entry.target.classList.add(
-              "visible"
-            );
-
-
-            revealObserver.unobserve(
-              entry.target
-            );
-
-          }
-
-        });
-
-      },
-      {
-        threshold: 0.10
-      }
-    );
-
-
-  revealElements.forEach(element => {
-
-    revealObserver.observe(
-      element
-    );
-
-  });
-
-} else {
-
-  revealElements.forEach(element => {
-
-    element.classList.add(
-      "visible"
-    );
-
-  });
-
-}
-
-
-/* =========================================================
-   STORY SCROLLER + DOTS
-========================================================= */
-
-const storyScroller =
-  $("#storyScroller");
-
-const storyCards =
-  $$(".story-card");
-
-const storyDots =
-  $("#storyDots");
-
-
-let storyDotElements = [];
-
-
-if (
-  storyScroller &&
-  storyCards.length &&
-  storyDots
-) {
-
-  storyCards.forEach(
-    (_, index) => {
+    storyCards.forEach(function (card, index) {
 
       const dot =
-        document.createElement(
-          "button"
-        );
+        document.createElement("button");
 
-
-      dot.className =
-        "story-dot";
-
-
-      dot.type =
-        "button";
-
+      dot.type = "button";
+      dot.className = "story-dot";
 
       dot.setAttribute(
         "aria-label",
-        `Go to story ${index + 1}`
+        `Story ${index + 1}`
       );
-
 
       if (index === 0) {
         dot.classList.add("active");
       }
 
 
-      dot.addEventListener(
-        "click",
-        () => {
+      dot.addEventListener("click", function () {
 
-          storyCards[index].scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center"
-          });
-
-        }
-      );
+        card.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center"
+        });
+      });
 
 
       storyDots.appendChild(dot);
 
-      storyDotElements.push(dot);
-
-    }
-  );
+      dotElements.push(dot);
+    });
 
 
-  function updateStoryDots() {
+    function updateStoryDots() {
 
-    const scrollerCenter =
-      storyScroller.scrollLeft +
-      storyScroller.clientWidth / 2;
+      const center =
+        storyScroller.scrollLeft +
+        storyScroller.clientWidth / 2;
 
-
-    let closestIndex = 0;
-
-    let closestDistance =
-      Infinity;
+      let closest = 0;
+      let closestDistance = Infinity;
 
 
-    storyCards.forEach(
-      (card, index) => {
+      storyCards.forEach(function (card, index) {
 
         const cardCenter =
           card.offsetLeft +
           card.offsetWidth / 2;
 
-
         const distance =
-          Math.abs(
-            scrollerCenter -
-            cardCenter
-          );
-
+          Math.abs(center - cardCenter);
 
         if (distance < closestDistance) {
-
-          closestDistance =
-            distance;
-
-          closestIndex =
-            index;
-
+          closestDistance = distance;
+          closest = index;
         }
-
-      }
-    );
+      });
 
 
-    storyDotElements.forEach(
-      (dot, index) => {
+      dotElements.forEach(function (dot, index) {
 
         dot.classList.toggle(
           "active",
-          index === closestIndex
+          index === closest
+        );
+      });
+    }
+
+
+    storyScroller.addEventListener(
+      "scroll",
+      updateStoryDots,
+      { passive: true }
+    );
+  }
+
+
+  /* =======================================================
+     COUPLE QUIZ
+
+     No right/wrong answers.
+     Guests are simply making accusations.
+  ======================================================= */
+
+  const quizQuestions = [
+
+    "Who is more likely to say “I'm ready” while clearly not being ready?",
+
+    "Who is more likely to remember exactly what you said three years ago?",
+
+    "Who is more likely to turn a quick errand into a full itinerary?",
+
+    "Who is more likely to create the spreadsheet?",
+
+    "Who is more likely to start dancing first?",
+
+    "Who is more likely to insist they know the route while Google Maps is already open?",
+
+    "Who is more likely to say “I'm not hungry” and then immediately reconsider?",
+
+    "Who is more likely to make a five-minute decision require a forty-minute discussion?",
+
+    "Who is more likely to befriend a complete stranger while waiting somewhere?",
+
+    "Who is more likely to say “keep it simple” immediately before making it more elaborate?"
+
+  ];
+
+
+  function shuffle(array) {
+
+    const copy = [...array];
+
+    for (
+      let i = copy.length - 1;
+      i > 0;
+      i--
+    ) {
+
+      const j =
+        Math.floor(
+          Math.random() * (i + 1)
         );
 
-      }
-    );
-
-  }
-
-
-  storyScroller.addEventListener(
-    "scroll",
-    updateStoryDots,
-    {
-      passive: true
+      [copy[i], copy[j]] =
+        [copy[j], copy[i]];
     }
-  );
 
-}
-
-
-/* =========================================================
-   COUPLE QUIZ
-
-   These are intentionally personality-style questions,
-   not obvious KPMG / Watson's trivia.
-========================================================= */
-
-const quizQuestions = [
-
-  {
-    question:
-      "Who is more likely to say “I'm ready” while very clearly not being ready?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both. Obviously."
-    ],
-    answer:
-      "Both. Obviously.",
-    reaction:
-      "Correct. Time is a flexible concept."
-  },
-
-  {
-    question:
-      "Who is more likely to turn a five-minute decision into a full committee meeting?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Nikhil",
-    reaction:
-      "The committee has accepted your answer."
-  },
-
-  {
-    question:
-      "Who is more likely to remember the tiny detail everybody else forgot?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Neither. That's why phones exist."
-    ],
-    answer:
-      "Supriya",
-    reaction:
-      "Somebody has to keep this operation functional."
-  },
-
-  {
-    question:
-      "Who is more likely to say “we don't need anything else” and then buy something else?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Both",
-    reaction:
-      "Financial discipline has left the chat."
-  },
-
-  {
-    question:
-      "Who is more likely to start planning something way earlier than necessary?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both, but in completely different ways"
-    ],
-    answer:
-      "Both, but in completely different ways",
-    reaction:
-      "This website itself may be supporting evidence."
-  },
-
-  {
-    question:
-      "Who is more likely to insist they know the route and then quietly check Google Maps?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Nikhil",
-    reaction:
-      "Google Maps appreciates the eventual recognition."
-  },
-
-  {
-    question:
-      "Who is more likely to notice immediately when something is slightly out of place?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Depends who moved it"
-    ],
-    answer:
-      "Supriya",
-    reaction:
-      "Nothing escapes quality control."
-  },
-
-  {
-    question:
-      "Who is more likely to say “keep it simple” immediately before making it more elaborate?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Nikhil",
-    reaction:
-      "Please observe: this entire wedding website."
-  }
-
-];
-
-
-/* =========================================================
-   SHUFFLE
-========================================================= */
-
-function shuffleArray(array) {
-
-  const copy =
-    [...array];
-
-
-  for (
-    let i = copy.length - 1;
-    i > 0;
-    i--
-  ) {
-
-    const j =
-      Math.floor(
-        Math.random() *
-        (i + 1)
-      );
-
-
-    [
-      copy[i],
-      copy[j]
-    ] = [
-      copy[j],
-      copy[i]
-    ];
-
+    return copy;
   }
 
 
-  return copy;
+  let quizSet = [];
+  let quizIndex = 0;
 
-}
+  let quizVotes = {
+    nikhil: 0,
+    supriya: 0,
+    both: 0
+  };
 
-
-/* =========================================================
-   QUIZ STATE
-========================================================= */
-
-let activeQuizQuestions = [];
-
-let currentQuizIndex = 0;
-
-let quizScore = 0;
-
-let quizLocked = false;
+  let quizLocked = false;
 
 
-const quizStart =
-  $("#quizStart");
+  const quizStart = $("#quizStart");
+  const quizGame = $("#quizGame");
+  const quizResult = $("#quizResult");
 
-const quizGame =
-  $("#quizGame");
+  const startQuiz = $("#startQuiz");
+  const restartQuiz = $("#restartQuiz");
 
-const quizResult =
-  $("#quizResult");
+  const quizProgress = $("#quizProgress");
+  const quizScore = $("#quizScore");
+  const quizQuestion = $("#quizQuestion");
+  const quizOptions = $("#quizOptions");
+  const quizReaction = $("#quizReaction");
 
-const startQuizButton =
-  $("#startQuiz");
+  const quizResultTitle =
+    $("#quizResultTitle");
 
-const restartQuizButton =
-  $("#restartQuiz");
-
-const quizProgress =
-  $("#quizProgress");
-
-const quizScoreElement =
-  $("#quizScore");
-
-const quizQuestion =
-  $("#quizQuestion");
-
-const quizOptions =
-  $("#quizOptions");
-
-const quizReaction =
-  $("#quizReaction");
-
-const quizResultTitle =
-  $("#quizResultTitle");
-
-const quizResultText =
-  $("#quizResultText");
+  const quizResultText =
+    $("#quizResultText");
 
 
-/* =========================================================
-   START QUIZ
-========================================================= */
+  function beginQuiz() {
 
-function startQuiz() {
+    quizSet =
+      shuffle(quizQuestions).slice(0, 6);
 
-  activeQuizQuestions =
-    shuffleArray(
-      quizQuestions
-    ).slice(0, 6);
+    quizIndex = 0;
 
+    quizVotes = {
+      nikhil: 0,
+      supriya: 0,
+      both: 0
+    };
 
-  currentQuizIndex = 0;
+    quizLocked = false;
 
-  quizScore = 0;
+    quizStart?.classList.add("hidden");
+    quizResult?.classList.add("hidden");
+    quizGame?.classList.remove("hidden");
 
-  quizLocked = false;
-
-
-  quizStart?.classList.add(
-    "hidden"
-  );
-
-
-  quizResult?.classList.add(
-    "hidden"
-  );
+    renderQuiz();
+  }
 
 
-  quizGame?.classList.remove(
-    "hidden"
-  );
+  function renderQuiz() {
+
+    if (quizIndex >= quizSet.length) {
+      finishQuiz();
+      return;
+    }
+
+    quizLocked = false;
+
+    if (quizProgress) {
+      quizProgress.textContent =
+        `${quizIndex + 1} / 6`;
+    }
+
+    if (quizScore) {
+      quizScore.textContent =
+        `ACCUSATION · ${quizIndex + 1}`;
+    }
+
+    if (quizQuestion) {
+      quizQuestion.textContent =
+        quizSet[quizIndex];
+    }
+
+    if (quizReaction) {
+      quizReaction.textContent = "";
+    }
+
+    if (!quizOptions) return;
+
+    quizOptions.innerHTML = "";
 
 
-  renderQuizQuestion();
-
-}
-
-
-/* =========================================================
-   RENDER QUESTION
-========================================================= */
-
-function renderQuizQuestion() {
-
-  const current =
-    activeQuizQuestions[
-      currentQuizIndex
+    const choices = [
+      {
+        label: "Nikhil",
+        value: "nikhil"
+      },
+      {
+        label: "Supriya",
+        value: "supriya"
+      },
+      {
+        label: "Both. Obviously.",
+        value: "both"
+      }
     ];
 
 
-  if (!current) {
-    finishQuiz();
-    return;
-  }
-
-
-  quizLocked = false;
-
-
-  if (quizProgress) {
-
-    quizProgress.textContent =
-      `${currentQuizIndex + 1} / ${activeQuizQuestions.length}`;
-
-  }
-
-
-  if (quizScoreElement) {
-
-    quizScoreElement.textContent =
-      `SCORE · ${quizScore}`;
-
-  }
-
-
-  if (quizQuestion) {
-
-    quizQuestion.textContent =
-      current.question;
-
-  }
-
-
-  if (quizReaction) {
-
-    quizReaction.textContent = "";
-
-  }
-
-
-  if (!quizOptions) {
-    return;
-  }
-
-
-  quizOptions.innerHTML = "";
-
-
-  current.options.forEach(
-    optionText => {
+    choices.forEach(function (choice) {
 
       const button =
-        document.createElement(
-          "button"
-        );
+        document.createElement("button");
+
+      button.type = "button";
+      button.className = "quiz-option";
+      button.textContent = choice.label;
 
 
-      button.type =
-        "button";
+      button.addEventListener("click", function () {
+
+        if (quizLocked) return;
+
+        quizLocked = true;
+
+        quizVotes[choice.value]++;
 
 
-      button.className =
-        "quiz-option";
+        if (choice.value === "nikhil") {
+
+          quizReaction.textContent =
+            "A confident Nikhil accusation. Filed without comment.";
+
+        } else if (choice.value === "supriya") {
+
+          quizReaction.textContent =
+            "Supriya gets the vote. The official record has been updated.";
+
+        } else {
+
+          quizReaction.textContent =
+            "Diplomatic answer. Strong wedding-survival instincts.";
+        }
 
 
-      button.textContent =
-        optionText;
+        button.style.background =
+          "#493631";
+
+        button.style.color =
+          "#ffffff";
 
 
-      button.addEventListener(
-        "click",
-        () => {
+        setTimeout(function () {
 
-          handleQuizAnswer(
-            optionText,
-            button
-          );
+          quizIndex++;
 
+          renderQuiz();
+
+        }, 800);
+      });
+
+
+      quizOptions.appendChild(button);
+    });
+  }
+
+
+  function finishQuiz() {
+
+    quizGame?.classList.add("hidden");
+    quizResult?.classList.remove("hidden");
+
+    const name =
+      getFirstName(guestName);
+
+
+    const highest =
+      Math.max(
+        quizVotes.nikhil,
+        quizVotes.supriya,
+        quizVotes.both
+      );
+
+
+    const leaders =
+      Object.keys(quizVotes).filter(
+        key => quizVotes[key] === highest
+      );
+
+
+    if (leaders.length > 1) {
+
+      quizResultTitle.textContent =
+        `${name}, perfectly balanced.`;
+
+      quizResultText.textContent =
+        "Six questions and you still refused to establish a clear pattern. Excellent diplomatic instincts.";
+
+      return;
+    }
+
+
+    if (leaders[0] === "nikhil") {
+
+      quizResultTitle.textContent =
+        `${name}, you kept pointing at Nikhil.`;
+
+      quizResultText.textContent =
+        "We are not confirming or denying anything. Your voting record has been permanently preserved.";
+
+      return;
+    }
+
+
+    if (leaders[0] === "supriya") {
+
+      quizResultTitle.textContent =
+        `${name}, Supriya received most of your accusations.`;
+
+      quizResultText.textContent =
+        "Interesting. Very interesting. This information may or may not be used against you at the wedding.";
+
+      return;
+    }
+
+
+    quizResultTitle.textContent =
+      `${name}, diplomacy wins.`;
+
+    quizResultText.textContent =
+      "You spent six questions blaming both of them equally. This is probably the safest possible strategy.";
+  }
+
+
+  startQuiz?.addEventListener(
+    "click",
+    beginQuiz
+  );
+
+  restartQuiz?.addEventListener(
+    "click",
+    beginQuiz
+  );
+
+
+  /* =======================================================
+     CALENDAR DOWNLOADS
+  ======================================================= */
+
+  const calendarEvents = {
+
+    engagement: {
+      title:
+        "Nikhil & Supriya — Engagement",
+      start:
+        "20261121T050000Z",
+      end:
+        "20261121T063000Z",
+      location:
+        "Lake Lawn, MGM Beach Resort, ECR, Chennai"
+    },
+
+    reception: {
+      title:
+        "Nikhil & Supriya — Reception",
+      start:
+        "20261121T123000Z",
+      end:
+        "20261121T160000Z",
+      location:
+        "Lake Lawn, MGM Beach Resort, ECR, Chennai"
+    },
+
+    muhurtham: {
+      title:
+        "Nikhil & Supriya — Muhurtham",
+      start:
+        "20261122T030000Z",
+      end:
+        "20261122T043000Z",
+      location:
+        "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai"
+    }
+  };
+
+
+  function escapeICS(value) {
+
+    return String(value)
+      .replace(/\\/g, "\\\\")
+      .replace(/,/g, "\\,")
+      .replace(/;/g, "\\;")
+      .replace(/\n/g, "\\n");
+  }
+
+
+  function downloadCalendar(key) {
+
+    const event =
+      calendarEvents[key];
+
+    if (!event) return;
+
+
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Nikhil and Supriya Wedding//EN",
+      "CALSCALE:GREGORIAN",
+      "BEGIN:VEVENT",
+      `UID:${key}-2026@supnik.in`,
+      `DTSTART:${event.start}`,
+      `DTEND:${event.end}`,
+      `SUMMARY:${escapeICS(event.title)}`,
+      `LOCATION:${escapeICS(event.location)}`,
+      "DESCRIPTION:Nikhil & Supriya · 21–22 November 2026",
+      "END:VEVENT",
+      "END:VCALENDAR"
+    ].join("\r\n");
+
+
+    const blob =
+      new Blob(
+        [ics],
+        {
+          type:
+            "text/calendar;charset=utf-8"
         }
       );
 
 
-      quizOptions.appendChild(
-        button
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      `${key}-nikhil-supriya.ics`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 1000);
+  }
+
+
+  $$("[data-calendar]").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+      downloadCalendar(
+        button.dataset.calendar
       );
-
-    }
-  );
-
-}
+    });
+  });
 
 
-/* =========================================================
-   QUIZ ANSWER
-========================================================= */
+  /* =======================================================
+     WEDDING HELP DESK
+  ======================================================= */
 
-function handleQuizAnswer(
-  selectedAnswer,
-  selectedButton
-) {
-
-  if (quizLocked) {
-    return;
-  }
+  const helpStatus = $("#helpStatus");
 
 
-  quizLocked = true;
+  const helpResponses = {
+
+    late:
+      "Running late? Congratulations. You have unlocked the authentic Indian-wedding guest experience. Please still leave now.",
+
+    outfit:
+      "Wear the thing you almost chose first. Confidence is now the official dress code.",
+
+    lost:
+      "MGM Beach Resort, ECR, Chennai. Open Maps. Trust Maps. This is not the moment for intuition.",
+
+    hungry:
+      "A wedding guest asking about food? Completely unprecedented. Please maintain composure."
+
+  };
 
 
-  const current =
-    activeQuizQuestions[
-      currentQuizIndex
-    ];
+  $$("[data-help]").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+      if (!helpStatus) return;
+
+      const name =
+        getFirstName(guestName);
+
+      const type =
+        button.dataset.help;
+
+      helpStatus.textContent =
+        `${name}, ${helpResponses[type]}`;
+    });
+  });
 
 
-  const correct =
-    selectedAnswer ===
-    current.answer;
+  /* =======================================================
+     NAVIGATION
+  ======================================================= */
+
+  const navLinks = $$(".nav-link");
 
 
-  if (correct) {
+  navLinks.forEach(function (link) {
 
-    quizScore++;
+    link.addEventListener("click", function (event) {
 
-
-    selectedButton.style.background =
-      "#493631";
-
-
-    selectedButton.style.color =
-      "#ffffff";
-
-
-    if (quizReaction) {
-
-      quizReaction.textContent =
-        current.reaction;
-
-    }
-
-  } else {
-
-    selectedButton.style.opacity =
-      "0.58";
-
-
-    if (quizReaction) {
-
-      quizReaction.textContent =
-        `Interesting choice. The official answer is “${current.answer}.” We will allow it.`;
-
-    }
-
-  }
-
-
-  if (quizScoreElement) {
-
-    quizScoreElement.textContent =
-      `SCORE · ${quizScore}`;
-
-  }
-
-
-  setTimeout(
-    () => {
-
-      currentQuizIndex++;
-
+      const href =
+        link.getAttribute("href");
 
       if (
-        currentQuizIndex >=
-        activeQuizQuestions.length
+        !href ||
+        !href.startsWith("#")
       ) {
-
-        finishQuiz();
-
-      } else {
-
-        renderQuizQuestion();
-
+        return;
       }
 
+      const target = $(href);
+
+      if (!target) return;
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  });
+
+
+  const navSections = [
+    {
+      id: "home",
+      nav: "home"
     },
-    1450
-  );
-
-}
-
-
-/* =========================================================
-   QUIZ RESULT
-========================================================= */
-
-function finishQuiz() {
-
-  quizGame?.classList.add(
-    "hidden"
-  );
-
-
-  quizResult?.classList.remove(
-    "hidden"
-  );
-
-
-  const name =
-    firstName(guestName);
-
-
-  if (
-    !quizResultTitle ||
-    !quizResultText
-  ) {
-    return;
-  }
-
-
-  if (quizScore === 6) {
-
-    quizResultTitle.textContent =
-      `${name} knows too much.`;
-
-
-    quizResultText.textContent =
-      "6/6. Impressive. Slightly concerning. We may need to review exactly what we've told you.";
-
-    return;
-
-  }
-
-
-  if (quizScore >= 4) {
-
-    quizResultTitle.textContent =
-      `Not bad, ${name}.`;
-
-
-    quizResultText.textContent =
-      `${quizScore}/6. You may attend the wedding with full guest privileges.`;
-
-    return;
-
-  }
-
-
-  if (quizScore >= 2) {
-
-    quizResultTitle.textContent =
-      `${name}, we need to talk.`;
-
-
-    quizResultText.textContent =
-      `${quizScore}/6. You're still invited, but this performance has been documented.`;
-
-    return;
-
-  }
-
-
-  quizResultTitle.textContent =
-    `This is concerning, ${name}.`;
-
-
-  quizResultText.textContent =
-    `${quizScore}/6. Please spend more time with us before November.`;
-
-}
-
-
-startQuizButton?.addEventListener(
-  "click",
-  startQuiz
-);
-
-
-restartQuizButton?.addEventListener(
-  "click",
-  startQuiz
-);
-
-
-/* =========================================================
-   CALENDAR EVENTS
-========================================================= */
-
-const calendarEvents = {
-
-  engagement: {
-
-    title:
-      "Nikhil & Supriya — Engagement",
-
-    start:
-      "20261121T050000Z",
-
-    end:
-      "20261121T063000Z",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Engagement celebration for Nikhil & Supriya."
-
-  },
-
-
-  reception: {
-
-    title:
-      "Nikhil & Supriya — Reception",
-
-    start:
-      "20261121T123000Z",
-
-    end:
-      "20261121T160000Z",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Wedding reception for Nikhil & Supriya."
-
-  },
-
-
-  muhurtham: {
-
-    title:
-      "Nikhil & Supriya — Muhurtham",
-
-    start:
-      "20261122T030000Z",
-
-    end:
-      "20261122T043000Z",
-
-    location:
-      "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Muhurtham ceremony for Nikhil & Supriya."
-
-  }
-
-};
-
-
-/* =========================================================
-   ICS DOWNLOAD
-========================================================= */
-
-function escapeICS(value) {
-
-  return value
-    .replace(/\\/g, "\\\\")
-    .replace(/,/g, "\\,")
-    .replace(/;/g, "\\;")
-    .replace(/\n/g, "\\n");
-
-}
-
-
-function downloadCalendarEvent(
-  eventKey
-) {
-
-  const event =
-    calendarEvents[eventKey];
-
-
-  if (!event) {
-    return;
-  }
-
-
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Nikhil and Supriya Wedding//EN",
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
-    "BEGIN:VEVENT",
-    `UID:${eventKey}-2026@supnik.in`,
-    `DTSTAMP:${new Date()
-      .toISOString()
-      .replace(/[-:]/g, "")
-      .replace(/\.\d{3}/, "")}`,
-    `DTSTART:${event.start}`,
-    `DTEND:${event.end}`,
-    `SUMMARY:${escapeICS(event.title)}`,
-    `LOCATION:${escapeICS(event.location)}`,
-    `DESCRIPTION:${escapeICS(event.description)}`,
-    "END:VEVENT",
-    "END:VCALENDAR"
-  ].join("\r\n");
-
-
-  const blob =
-    new Blob(
-      [ics],
-      {
-        type:
-          "text/calendar;charset=utf-8"
-      }
-    );
-
-
-  const url =
-    URL.createObjectURL(blob);
-
-
-  const anchor =
-    document.createElement("a");
-
-
-  anchor.href =
-    url;
-
-
-  anchor.download =
-    `${eventKey}-nikhil-supriya.ics`;
-
-
-  document.body.appendChild(
-    anchor
-  );
-
-
-  anchor.click();
-
-
-  anchor.remove();
-
-
-  setTimeout(
-    () => URL.revokeObjectURL(url),
-    1000
-  );
-
-}
-
-
-$$("[data-calendar]").forEach(
-  button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        downloadCalendarEvent(
-          button.dataset.calendar
-        );
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   WEDDING HELP DESK
-========================================================= */
-
-const helpStatus =
-  $("#helpStatus");
-
-
-const helpResponses = {
-
-  late:
-    "Running late? Excellent. You have unlocked the authentic Indian-wedding experience. Please still come.",
-
-  outfit:
-    "Outfit crisis detected. Official guidance: wear the thing you feel best in and walk in like it was always the plan.",
-
-  lost:
-    "Lost? Search MGM Beach Resort, ECR, Chennai in Maps. If you somehow reach Bangalore, you've gone too far.",
-
-  hungry:
-    "The most important question on this website. Please proceed toward the celebration and trust the process."
-
-};
-
-
-$$("[data-help]").forEach(
-  button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const type =
-          button.dataset.help;
-
-
-        const name =
-          firstName(guestName);
-
-
-        if (helpStatus) {
-
-          helpStatus.textContent =
-            `${name}: ${helpResponses[type] || "We are escalating this to the appropriate wedding department."}`;
-
-        }
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   FLOATING NAVIGATION
-========================================================= */
-
-const navLinks =
-  $$(".nav-link");
-
-
-navLinks.forEach(
-  link => {
-
-    link.addEventListener(
-      "click",
-      event => {
-
-        const href =
-          link.getAttribute("href");
-
-
-        if (
-          !href ||
-          !href.startsWith("#")
-        ) {
-          return;
-        }
-
-
-        const target =
-          $(href);
-
-
-        if (!target) {
-          return;
-        }
-
-
-        event.preventDefault();
-
-
-        target.scrollIntoView({
-          behavior: "smooth"
-        });
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   ACTIVE NAV ITEM
-========================================================= */
-
-const navigationSections = [
-
-  {
-    id: "home",
-    nav: "home"
-  },
-
-  {
-    id: "story",
-    nav: "story"
-  },
-
-  {
-    id: "events",
-    nav: "events"
-  },
-
-  {
-    id: "venue",
-    nav: "venue"
-  }
-
-];
-
-
-function updateActiveNavigation() {
-
-  const scrollPosition =
-    window.scrollY +
-    window.innerHeight * 0.42;
-
-
-  let active =
-    "home";
-
-
-  navigationSections.forEach(
-    section => {
+    {
+      id: "story",
+      nav: "story"
+    },
+    {
+      id: "events",
+      nav: "events"
+    },
+    {
+      id: "venue",
+      nav: "venue"
+    }
+  ];
+
+
+  function updateNavigation() {
+
+    const position =
+      window.scrollY +
+      window.innerHeight * 0.4;
+
+    let active = "home";
+
+
+    navSections.forEach(function (section) {
 
       const element =
         document.getElementById(
           section.id
         );
 
-
       if (
         element &&
-        element.offsetTop <=
-        scrollPosition
+        element.offsetTop <= position
       ) {
-
-        active =
-          section.nav;
-
+        active = section.nav;
       }
-
-    }
-  );
+    });
 
 
-  navLinks.forEach(
-    link => {
+    navLinks.forEach(function (link) {
 
       link.classList.toggle(
         "active",
         link.dataset.nav === active
       );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   BACK TO TOP
-========================================================= */
-
-const backToTop =
-  $("#backToTop");
-
-
-function updateBackToTop() {
-
-  if (!backToTop) {
-    return;
-  }
-
-
-  backToTop.classList.toggle(
-    "visible",
-    window.scrollY > 650
-  );
-
-}
-
-
-backToTop?.addEventListener(
-  "click",
-  () => {
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
     });
-
   }
-);
 
 
-/* =========================================================
-   SCROLL EVENTS
-========================================================= */
+  /* =======================================================
+     BACK TO TOP
+  ======================================================= */
 
-let scrollTicking = false;
+  const backToTop =
+    $("#backToTop");
 
 
-window.addEventListener(
-  "scroll",
-  () => {
+  function updateBackToTop() {
 
-    if (scrollTicking) {
-      return;
+    backToTop?.classList.toggle(
+      "visible",
+      window.scrollY > 650
+    );
+  }
+
+
+  backToTop?.addEventListener(
+    "click",
+    function () {
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     }
+  );
 
 
-    scrollTicking = true;
+  window.addEventListener(
+    "scroll",
+    function () {
+
+      updateNavigation();
+      updateBackToTop();
+
+    },
+    {
+      passive: true
+    }
+  );
 
 
-    requestAnimationFrame(
-      () => {
-
-        updateActiveNavigation();
-
-        updateBackToTop();
-
-        scrollTicking = false;
-
-      }
-    );
-
-  },
-  {
-    passive: true
-  }
-);
+  updateNavigation();
+  updateBackToTop();
 
 
-updateActiveNavigation();
+  /* =======================================================
+     SECRET N&S EASTER EGG
+  ======================================================= */
 
-updateBackToTop();
-
-
-/* =========================================================
-   SECRET N&S EASTER EGG
-========================================================= */
-
-let secretClicks = 0;
-
-let secretTimer = null;
+  let secretClicks = 0;
+  let secretReset;
 
 
-$("#secretTrigger")?.addEventListener(
-  "click",
-  () => {
+  $("#secretTrigger")?.addEventListener(
+    "click",
+    function () {
 
-    secretClicks++;
+      secretClicks++;
 
+      clearTimeout(secretReset);
 
-    clearTimeout(
-      secretTimer
-    );
-
-
-    secretTimer =
-      setTimeout(
-        () => {
-
+      secretReset =
+        setTimeout(function () {
           secretClicks = 0;
-
-        },
-        1800
-      );
+        }, 1800);
 
 
-    if (secretClicks < 5) {
-      return;
-    }
+      if (secretClicks < 5) {
+        return;
+      }
 
 
-    secretClicks = 0;
+      secretClicks = 0;
 
 
-    const existing =
-      $(".secret-toast");
+      $(".secret-toast")?.remove();
 
 
-    if (existing) {
-      existing.remove();
-    }
+      const toast =
+        document.createElement("div");
+
+      toast.className =
+        "secret-toast";
 
 
-    const toast =
-      document.createElement(
-        "div"
-      );
+      const title =
+        document.createElement("strong");
+
+      title.textContent =
+        "You found the secret.";
 
 
-    toast.className =
-      "secret-toast";
+      const text =
+        document.createElement("span");
+
+      text.textContent =
+        "There is no prize. We spent the budget on the wedding.";
 
 
-    toast.innerHTML = `
-      <strong>You found it.</strong>
-      <span>
-        There is no prize.
-        We spent the budget on the wedding.
-      </span>
-    `;
+      toast.appendChild(title);
+      toast.appendChild(text);
+
+      document.body.appendChild(toast);
 
 
-    document.body.appendChild(
-      toast
-    );
-
-
-    setTimeout(
-      () => {
-
+      setTimeout(function () {
         toast.remove();
-
-      },
-      3500
-    );
-
-  }
-);
-
-
-/* =========================================================
-   PERSONALISE AGAIN ON PAGE LOAD
-========================================================= */
-
-window.addEventListener(
-  "load",
-  () => {
-
-    if (guestName) {
-      applyPersonalisation();
+      }, 3500);
     }
+  );
 
-  }
-);
+
+  /* =======================================================
+     FINAL PERSONALISATION
+  ======================================================= */
+
+  applyPersonalisation();
+
+});

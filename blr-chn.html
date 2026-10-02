@@ -1,893 +1,2140 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#fff9f4">
+
+  <meta
+    name="description"
+    content="Bangalore meets Chennai — emergency language training, city diplomacy and completely unnecessary wedding roasts."
+  >
+
+  <title>Bangalore × Chennai | Nikhil & Supriya</title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
 
-/* =========================================================
-   BLR × CHN
-   ROAST ENGINE + NAV + REVEALS
-========================================================= */
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
+  <style>
 
-/* =========================================================
-   100 ROASTS
-========================================================= */
+    /* =====================================================
+       BASE
+    ===================================================== */
 
-const roasts = [
+    :root {
+      --cream: #fff9f4;
+      --cream-2: #fffdf9;
+      --blush: #f4dfdc;
+      --blush-light: #faefeb;
+      --champagne: #ead6b7;
+      --gold: #ad8247;
+      --brown: #493632;
+      --brown-dark: #352522;
+      --muted: #7d6964;
+      --white: #ffffff;
 
-  "You say ‘five minutes’ with the confidence of someone who has not even started getting ready.",
+      --serif: "Cinzel", serif;
+      --sans: "Manrope", sans-serif;
 
-  "Your screen-time report arrives every Sunday like a legal notice.",
+      --shadow:
+        0 18px 50px rgba(74, 52, 45, 0.10);
 
-  "You are the human equivalent of forty-seven browser tabs and nobody knows where the music is coming from.",
+      --soft-shadow:
+        0 10px 30px rgba(74, 52, 45, 0.07);
+    }
 
-  "You open WhatsApp, forget why, close it, then open it again immediately.",
 
-  "You have definitely said ‘I’m on the way’ while still inside your house.",
+    * {
+      box-sizing: border-box;
+    }
 
-  "Your biggest contribution to group planning is asking what everyone else decided.",
 
-  "You can turn a two-minute story into a six-part limited series.",
+    html {
+      scroll-behavior: smooth;
+      background: var(--cream);
+    }
 
-  "You say ‘quick question’ and immediately ruin somebody’s next twenty minutes.",
 
-  "Your phone battery and your planning skills are both permanently on low power mode.",
+    body {
+      margin: 0;
+      overflow-x: hidden;
 
-  "You have refreshed an app even though literally nothing changed.",
+      background:
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(244, 223, 220, 0.55),
+          transparent 25%
+        ),
+        radial-gradient(
+          circle at 90% 35%,
+          rgba(234, 214, 183, 0.26),
+          transparent 28%
+        ),
+        linear-gradient(
+          180deg,
+          #fffaf6 0%,
+          #fbf1eb 48%,
+          #fffaf6 100%
+        );
 
+      color: var(--brown);
 
-  /* 11–20 */
+      font-family: var(--sans);
+      line-height: 1.65;
 
-  "You say ‘coming in five minutes’ with the confidence of someone still wearing a towel.",
+      -webkit-font-smoothing: antialiased;
+    }
 
-  "Your family WhatsApp group has more active management than several companies.",
 
-  "You have definitely asked ‘veg ah, non-veg ah?’ before asking where the venue is.",
+    button,
+    a {
+      font: inherit;
+    }
 
-  "You treat ‘swalpa adjust maadi’ like a complete urban planning strategy.",
 
-  "You have survived Bangalore traffic long enough to stop measuring distance in kilometres.",
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
 
-  "You hear ‘small function only’ and somehow arrive at an event with six hundred people.",
 
-  "You have at least one relative who knows your life updates before you do.",
+    a {
+      color: inherit;
+    }
 
-  "You say ‘one plate only’ at a wedding buffet like anybody believes you.",
 
-  "Your definition of ‘nearby’ changes dramatically depending on whether you are in Bangalore or Chennai.",
+    h1,
+    h2,
+    h3 {
+      margin-top: 0;
 
-  "You have absolutely used ‘signal illa’ as a defence when you simply did not want to answer.",
+      font-family: var(--serif);
+      font-weight: 500;
+      line-height: 1.1;
+    }
 
 
-  /* 21–30 */
+    p {
+      margin-top: 0;
+    }
 
-  "You say ‘I’m downstairs’ while the lift has not even reached your floor.",
 
-  "You can identify the exact relative who will ask ‘so, next is your turn?’ from across the hall.",
+    .page {
+      width: min(920px, calc(100% - 34px));
+      margin: 0 auto;
+    }
 
-  "You have attended enough Indian weddings to know the printed time and actual time are distant cousins.",
 
-  "You complain about Chennai heat and then order hot filter coffee without seeing the contradiction.",
+    .eyebrow {
+      margin-bottom: 12px;
 
-  "You complain about Bangalore traffic while actively contributing to Bangalore traffic.",
+      color: var(--gold);
 
-  "You own one wedding outfit that has attended more functions than some relatives.",
+      font-size: 0.69rem;
+      font-weight: 700;
 
-  "You hear ‘family photo’ and immediately know your next twenty minutes are gone.",
+      letter-spacing: 0.23em;
+      text-transform: uppercase;
+    }
 
-  "Your parents have forwarded you a WhatsApp message beginning with ‘VERY IMPORTANT’ at least once.",
 
-  "You have said ‘just one dosa’ and then behaved like mathematics no longer applies.",
+    /* =====================================================
+       TOP BAR
+    ===================================================== */
 
-  "You understand that ‘adjust’ can mean move, wait, squeeze, tolerate, compromise or simply accept your fate.",
+    .topbar {
+      position: sticky;
+      z-index: 100;
 
+      top: 12px;
 
-  /* 31–40 */
+      width: min(920px, calc(100% - 28px));
 
-  "You have definitely been given directions involving a temple, a bakery and ‘after that one signal’.",
+      min-height: 58px;
 
-  "You say ‘I know the route’ because admitting Google Maps is helping would damage your reputation.",
+      margin: 12px auto 0;
 
-  "You have entered an auto, heard the fare and briefly reconsidered the entire journey.",
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-  "You have heard ‘come home sometime’ from somebody who would be shocked if you actually did.",
+      padding: 8px 10px 8px 17px;
 
-  "You have at least one aunty who can obtain confidential information faster than intelligence agencies.",
+      border:
+        1px solid rgba(255, 255, 255, 0.8);
 
-  "You have been asked whether you ate within thirty seconds of entering somebody’s house.",
+      border-radius: 999px;
 
-  "You have definitely judged a wedding based on parking before seeing the bride and groom.",
+      background:
+        rgba(255, 251, 247, 0.87);
 
-  "You call it ‘light rain’ in Bangalore until traffic stops moving for two hours.",
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
 
-  "You have spent fifteen minutes discussing where to have chai and five minutes actually drinking it.",
+      box-shadow: var(--soft-shadow);
+    }
 
-  "You know perfectly well that ‘we are leaving now’ in an Indian family means nobody has worn their shoes yet.",
 
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-  /* 41–50 */
+      color: var(--brown);
 
-  "Your procrastination deserves its own project manager.",
+      font-size: 0.72rem;
+      font-weight: 700;
 
-  "You make plans with the confidence of somebody who has never met your future self.",
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
 
-  "You say ‘I’ll remember’ instead of setting a reminder and history keeps humiliating you.",
 
-  "You treat your alarm clock like it is offering optional feedback.",
+    .mini-logo {
+      width: 40px;
+      height: 40px;
 
-  "You have checked the fridge twice hoping new food would magically appear.",
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  "You have spent longer choosing what to watch than actually watching anything.",
+      border:
+        1px solid rgba(173, 130, 71, 0.35);
 
-  "One minor inconvenience and suddenly the entire day needs to be cancelled.",
+      border-radius: 50%;
 
-  "You do not need another coffee. You need consequences.",
+      color: var(--gold);
 
-  "You have typed a long message, deleted it, rewritten it and eventually sent ‘okay’.",
+      font-family: var(--serif);
+      font-size: 0.65rem;
+    }
 
-  "Your personal brand is confidently misunderstanding the assignment.",
 
+    /* =====================================================
+       HERO
+    ===================================================== */
 
-  /* 51–60 */
+    .hero {
+      min-height: 76svh;
 
-  "You have said ‘I know a shortcut’ moments before making the journey longer.",
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  "You treat unread emails like decorative furniture.",
+      padding: 80px 0 65px;
 
-  "You have nodded through an explanation while understanding absolutely nothing.",
+      text-align: center;
+    }
 
-  "You have an impressive ability to look busy without producing evidence of activity.",
 
-  "You say ‘we should definitely do that’ knowing nobody involved will ever do it.",
+    .hero-inner {
+      max-width: 760px;
+      margin: auto;
+    }
 
-  "You have survived largely on vibes and passwords you barely remember.",
 
-  "There is at least one notification you have been strategically ignoring for days.",
+    .hero-mark {
+      width: 80px;
+      height: 80px;
 
-  "Closing an app does not count as solving the problem, but you keep trying.",
+      margin: 0 auto 28px;
 
-  "Your attention span has the structural integrity of wet tissue paper.",
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-  "You have Googled something you already knew because your brain suddenly lost confidence.",
+      border:
+        1px solid rgba(173, 130, 71, 0.35);
 
+      border-radius: 50%;
 
-  /* 61–70 */
+      background:
+        rgba(255, 255, 255, 0.4);
 
-  "You cannot remember why you entered the room, but you remember something embarrassing from 2014.",
+      color: var(--gold);
 
-  "You say ‘no worries’ while internally producing a three-season series about the worries.",
+      font-family: var(--serif);
+      font-size: 1.25rem;
 
-  "Your organisation system is moving one pile of chaos into a cleaner-looking pile of chaos.",
+      box-shadow: var(--soft-shadow);
+    }
 
-  "You have screenshots you do not remember taking and will never look at again.",
 
-  "You have a folder called ‘Important’ containing nothing remotely important.",
+    .hero h1 {
+      margin-bottom: 20px;
 
-  "You can miss a turn while Google Maps is literally speaking directly to you.",
+      color: var(--brown);
 
-  "You have been ‘about to leave’ for periods measurable by geologists.",
+      font-size:
+        clamp(3.1rem, 10vw, 7rem);
 
-  "You treat deadlines like distant relatives: aware of them but hoping not to interact.",
+      letter-spacing: -0.055em;
+    }
 
-  "Your calendar contains events that somehow still surprise you.",
 
-  "You own clothes you refuse to throw away because an imaginary future version of you might need them.",
+    .hero h1 span {
+      color: var(--gold);
+    }
 
 
-  /* 71–80 */
+    .hero-copy {
+      max-width: 610px;
 
-  "You have blamed Wi-Fi for something that was very clearly your fault.",
+      margin: 0 auto 30px;
 
-  "You say ‘one second’ and disappear like a character written out of the show.",
+      color: var(--muted);
 
-  "You will spend twenty minutes looking for something currently in your hand.",
+      font-size: 1rem;
+    }
 
-  "Your relationship with punctuality is best described as long-distance.",
 
-  "You own multiple chargers because remembering one was apparently too ambitious.",
+    .hero-note {
+      display: inline-block;
 
-  "You have asked where something is while standing directly beside it.",
+      padding: 12px 18px;
 
-  "You are dangerously comfortable saying ‘we’ll figure it out’.",
+      border:
+        1px solid rgba(173, 130, 71, 0.16);
 
-  "Your notes app would deeply confuse a forensic investigator.",
+      border-radius: 999px;
 
-  "You take screenshots so you do not forget things, then forget the screenshots exist.",
+      background:
+        rgba(255, 255, 255, 0.55);
 
-  "You have pretended your phone was on silent when you simply ignored the call.",
+      color: var(--brown);
 
+      font-size: 0.72rem;
+      font-weight: 700;
 
-  /* 81–90 */
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-  "You say ‘I’m listening’ immediately after asking somebody to repeat themselves.",
 
-  "Forgetting passwords has become one of your annual traditions.",
+    .down-arrow {
+      display: block;
 
-  "You can waste thirty minutes trying to save five.",
+      margin-top: 30px;
 
-  "You have said ‘I’m nearly done’ while technically still beginning.",
+      color: var(--gold);
 
-  "Your ability to underestimate travel time should be studied by transport authorities.",
+      font-size: 1.4rem;
 
-  "You possess a supernatural ability to choose the slowest queue.",
+      animation:
+        bounce 1.8s ease-in-out infinite;
+    }
 
-  "You have walked confidently in the wrong direction because turning around immediately felt embarrassing.",
 
-  "You read terms and conditions with the same commitment you bring to instruction manuals: absolutely none.",
+    /* =====================================================
+       LANGUAGE SCHOOL
+    ===================================================== */
 
-  "You have said ‘I’ll just rest my eyes’ and accidentally travelled two hours into the future.",
+    .language-intro {
+      margin-bottom: 28px;
 
-  "You are emotionally attached to browser tabs you have not opened in months.",
+      text-align: center;
+    }
 
 
-  /* 91–100 */
+    .language-intro h2 {
+      margin-bottom: 13px;
 
-  "You say ‘I don’t care where we eat’ and then reject every restaurant suggested.",
+      font-size:
+        clamp(2.1rem, 6vw, 4rem);
+    }
 
-  "You have added something to your cart primarily for emotional support.",
 
-  "You treat the snooze button like a diplomatic negotiation.",
+    .language-intro p:last-child {
+      max-width: 600px;
 
-  "You have said ‘I’ll call you back’ without any operational plan to call anybody back.",
+      margin-inline: auto;
 
-  "You can ignore a problem for three weeks and then act shocked that it still exists.",
+      color: var(--muted);
+    }
 
-  "You say ‘I’m flexible’ and immediately introduce seven conditions.",
 
-  "You do not lose things. You strategically distribute them across your environment.",
+    .language-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
 
-  "You can turn a simple decision into a parliamentary committee meeting.",
+      gap: 16px;
 
-  "You say ‘let’s keep it simple’ immediately before making everything unnecessarily complicated.",
+      margin-bottom: 80px;
+    }
 
-  "You willingly pressed a button asking to be insulted one hundred times. The roast now writes itself."
 
-];
+    .language-card {
+      padding: 35px;
 
+      border:
+        1px solid rgba(173, 130, 71, 0.13);
 
-/* =========================================================
-   ROAST ELEMENTS
-========================================================= */
+      border-radius: 32px;
 
-const roastButton =
-  document.getElementById(
-    "roastButton"
-  );
+      box-shadow: var(--shadow);
+    }
 
-const roastText =
-  document.getElementById(
-    "roastText"
-  );
 
-const roastCounter =
-  document.getElementById(
-    "roastCounter"
-  );
+    .tamil-card {
+      background:
+        linear-gradient(
+          145deg,
+          #f5ddda,
+          #fff9f5
+        );
+    }
 
-const roastMilestone =
-  document.getElementById(
-    "roastMilestone"
-  );
 
+    .kannada-card {
+      background:
+        linear-gradient(
+          145deg,
+          #f2e5ce,
+          #fffaf5
+        );
+    }
 
-let roastDeck = [];
 
-let roastCount = 0;
+    .language-card h3 {
+      margin-bottom: 8px;
 
-let roastFinished = false;
+      font-size: 2rem;
+    }
 
 
-/* =========================================================
-   SHUFFLE
-========================================================= */
+    .language-subtitle {
+      margin-bottom: 27px;
 
-function shuffleArray(array) {
+      color: var(--muted);
 
-  const copy =
-    [...array];
+      font-size: 0.82rem;
+    }
 
 
-  for (
-    let i = copy.length - 1;
-    i > 0;
-    i--
-  ) {
+    .phrase {
+      padding: 18px 0;
 
-    const j =
-      Math.floor(
-        Math.random() *
-        (i + 1)
-      );
+      border-bottom:
+        1px solid rgba(73, 54, 50, 0.10);
+    }
 
 
-    [
-      copy[i],
-      copy[j]
-    ] =
-    [
-      copy[j],
-      copy[i]
-    ];
+    .phrase:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
 
-  }
 
+    .phrase-word {
+      display: block;
 
-  return copy;
+      margin-bottom: 4px;
 
-}
+      color: var(--brown);
 
+      font-family: var(--serif);
+      font-size: 1.08rem;
+    }
 
-/* =========================================================
-   BUILD DECK
-========================================================= */
 
-function buildRoastDeck() {
+    .phrase-meaning {
+      color: var(--muted);
 
-  roastDeck =
-    shuffleArray(
-      roasts
-    );
+      font-size: 0.78rem;
+    }
 
-}
 
+    .phrase.special {
+      margin-top: 8px;
+      padding: 17px;
 
-buildRoastDeck();
+      border: 0;
+      border-radius: 19px;
 
+      background:
+        rgba(255, 255, 255, 0.58);
+    }
 
-/* =========================================================
-   EVERY 10 ROASTS
-========================================================= */
 
-const milestones = {
+    .phrase.special .phrase-meaning {
+      display: block;
+      margin-top: 5px;
+    }
 
-  10:
-    "10 roasts. You’re still here? Even your mother would tell you to do something useful.",
 
-  20:
-    "20. Seriously? Somebody in your family has definitely asked what you’re doing on your phone.",
+    /* =====================================================
+       CITY DIPLOMACY
+    ===================================================== */
 
-  30:
-    "30. This commitment is stronger than most people’s gym membership.",
+    .city-section {
+      margin-bottom: 80px;
+    }
 
-  40:
-    "40. Bro. There is an entire wedding website outside this button.",
 
-  50:
-    "50. HALFWAY. Go drink water. Or chai. Obviously chai.",
+    .section-heading {
+      margin-bottom: 28px;
 
-  60:
-    "60. This has become the digital equivalent of sitting at a wedding after everyone else has left.",
+      text-align: center;
+    }
 
-  70:
-    "70. Your relatives would be proud if you applied this persistence to literally anything useful.",
 
-  80:
-    "80. Even an Indian wedding photographer would have stopped taking pictures by now.",
+    .section-heading h2 {
+      margin-bottom: 12px;
 
-  90:
-    "90. Ten more. You have come too far to suddenly develop self-respect.",
+      font-size:
+        clamp(2.2rem, 6vw, 4rem);
+    }
 
-  100:
-    "100. You actually finished it. Somewhere, one aunty is still asking when you’re getting married."
 
-};
+    .section-heading p:last-child {
+      max-width: 620px;
 
+      margin-inline: auto;
 
-/* =========================================================
-   BUTTON TEXT GETS WORSE
-========================================================= */
+      color: var(--muted);
+    }
 
-function updateRoastButton() {
 
-  if (
-    roastCount >= 100
-  ) {
+    .city-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
 
-    roastButton.textContent =
-      "I Regret Nothing. Start Again.";
+      gap: 14px;
+    }
 
-    return;
-  }
 
+    .city-card {
+      padding: 27px;
 
-  if (
-    roastCount >= 90
-  ) {
+      border:
+        1px solid rgba(173, 130, 71, 0.13);
 
-    roastButton.textContent =
-      "Finish What I Started";
+      border-radius: 26px;
 
-    return;
-  }
+      background:
+        rgba(255, 253, 249, 0.78);
 
+      box-shadow: var(--soft-shadow);
+    }
 
-  if (
-    roastCount >= 75
-  ) {
 
-    roastButton.textContent =
-      "I Have Come Too Far";
+    .city-icon {
+      display: block;
 
-    return;
-  }
+      margin-bottom: 18px;
 
+      color: var(--gold);
 
-  if (
-    roastCount >= 60
-  ) {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+    }
 
-    roastButton.textContent =
-      "This Is A Problem";
 
-    return;
-  }
+    .city-card h3 {
+      margin-bottom: 8px;
 
+      font-size: 1.25rem;
+    }
 
-  if (
-    roastCount >= 50
-  ) {
 
-    roastButton.textContent =
-      "Apparently I Need More";
+    .city-card p {
+      margin: 0;
 
-    return;
-  }
+      color: var(--muted);
 
+      font-size: 0.85rem;
+    }
 
-  if (
-    roastCount >= 40
-  ) {
 
-    roastButton.textContent =
-      "Seriously? Again.";
+    /* =====================================================
+       IPL TREATY
+    ===================================================== */
 
-    return;
-  }
+    .ipl-card {
+      margin-bottom: 80px;
 
+      padding: 50px 38px;
 
-  if (
-    roastCount >= 30
-  ) {
+      border-radius: 34px;
 
-    roastButton.textContent =
-      "Still Here";
+      background:
+        linear-gradient(
+          145deg,
+          #4c3935,
+          #694b45
+        );
 
-    return;
-  }
+      color: #fff;
 
+      box-shadow: var(--shadow);
 
-  if (
-    roastCount >= 20
-  ) {
+      text-align: center;
+    }
 
-    roastButton.textContent =
-      "One More";
 
-    return;
-  }
+    .ipl-card .eyebrow {
+      color: #e4c58e;
+    }
 
 
-  if (
-    roastCount >= 10
-  ) {
+    .ipl-card h2 {
+      margin-bottom: 18px;
 
-    roastButton.textContent =
-      "Again";
+      color: #fff;
 
-    return;
-  }
+      font-size:
+        clamp(2rem, 6vw, 3.8rem);
+    }
 
 
-  roastButton.textContent =
-    "Do Your Worst";
+    .ipl-card > p:not(.eyebrow) {
+      max-width: 650px;
 
-}
+      margin-inline: auto;
 
+      color:
+        rgba(255, 255, 255, 0.78);
+    }
 
-/* =========================================================
-   RESET AFTER 100
-========================================================= */
 
-function resetRoasts() {
+    .treaty {
+      max-width: 630px;
 
-  roastCount = 0;
+      margin: 30px auto 0;
 
-  roastFinished = false;
+      display: grid;
 
+      gap: 9px;
+    }
 
-  buildRoastDeck();
 
+    .treaty-item {
+      padding: 15px 18px;
 
-  roastText.textContent =
-    "You came back after surviving all 100. This is now entirely your fault.";
+      border:
+        1px solid rgba(255, 255, 255, 0.11);
 
+      border-radius: 17px;
 
-  roastCounter.textContent =
-    "0 / 100 ROASTS SURVIVED";
+      background:
+        rgba(255, 255, 255, 0.07);
 
+      color:
+        rgba(255, 255, 255, 0.88);
 
-  roastMilestone.textContent =
-    "Round two. Your family would like a word.";
+      font-size: 0.82rem;
+    }
 
 
-  updateRoastButton();
+    /* =====================================================
+       ROAST SECTION
+    ===================================================== */
 
-}
+    .roast-section {
+      margin-bottom: 80px;
 
+      padding: 60px 38px;
 
-/* =========================================================
-   ROAST CLICK
-========================================================= */
+      border:
+        1px solid rgba(173, 130, 71, 0.14);
 
-roastButton?.addEventListener(
-  "click",
-  () => {
+      border-radius: 38px;
 
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 253, 249, 0.96),
+          rgba(245, 222, 218, 0.86)
+        );
 
-    /*
-       After 100:
-       button explicitly starts over.
-    */
+      box-shadow: var(--shadow);
 
-    if (roastFinished) {
+      text-align: center;
+    }
 
-      resetRoasts();
 
-      return;
+    .roast-section h2 {
+      margin-bottom: 13px;
+
+      font-size:
+        clamp(2.4rem, 7vw, 4.5rem);
+    }
+
+
+    .roast-intro {
+      max-width: 620px;
+
+      margin: 0 auto 32px;
+
+      color: var(--muted);
+    }
+
+
+    .roast-counter {
+      display: inline-block;
+
+      margin-bottom: 18px;
+
+      color: var(--gold);
+
+      font-size: 0.68rem;
+      font-weight: 700;
+
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+
+    .roast-display {
+      min-height: 180px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      max-width: 690px;
+
+      margin: 0 auto 25px;
+
+      padding: 35px 28px;
+
+      border:
+        1px solid rgba(73, 54, 50, 0.10);
+
+      border-radius: 27px;
+
+      background:
+        rgba(255, 255, 255, 0.63);
+    }
+
+
+    #roastText {
+      margin: 0;
+
+      color: var(--brown);
+
+      font-family: var(--serif);
+      font-size:
+        clamp(1.15rem, 3vw, 1.65rem);
+
+      line-height: 1.55;
+    }
+
+
+    #roastButton,
+    #restartRoasts {
+      min-height: 56px;
+
+      padding: 0 27px;
+
+      border: 0;
+      border-radius: 999px;
+
+      background: var(--brown);
+
+      color: #fff;
+
+      font-size: 0.74rem;
+      font-weight: 700;
+
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    #roastButton:hover,
+    #restartRoasts:hover {
+      transform: translateY(-2px);
+
+      background: var(--brown-dark);
+    }
+
+
+    #restartRoasts {
+      display: none;
+    }
+
+
+    .milestone {
+      min-height: 58px;
+
+      max-width: 630px;
+
+      margin: 23px auto 0;
+
+      color: var(--gold);
+
+      font-size: 0.84rem;
+      font-weight: 600;
+
+      line-height: 1.6;
+    }
+
+
+    /* =====================================================
+       CLOSING
+    ===================================================== */
+
+    .closing {
+      padding: 30px 0 130px;
+
+      text-align: center;
+    }
+
+
+    .closing-mark {
+      width: 70px;
+      height: 70px;
+
+      margin: 0 auto 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px solid rgba(173, 130, 71, 0.30);
+
+      border-radius: 50%;
+
+      color: var(--gold);
+
+      font-family: var(--serif);
+    }
+
+
+    .closing h2 {
+      margin-bottom: 15px;
+
+      font-size:
+        clamp(2rem, 6vw, 3.6rem);
+    }
+
+
+    .closing p {
+      max-width: 590px;
+
+      margin: 0 auto 26px;
+
+      color: var(--muted);
+    }
+
+
+    .return-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 54px;
+
+      padding: 0 25px;
+
+      border-radius: 999px;
+
+      background: var(--brown);
+
+      color: #fff;
+
+      font-size: 0.72rem;
+      font-weight: 700;
+
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+
+    /* =====================================================
+       REVEALS
+    ===================================================== */
+
+    .reveal {
+      opacity: 0;
+
+      transform: translateY(18px);
+
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+    }
+
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+    @keyframes bounce {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(7px);
+      }
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 700px) {
+
+      .page {
+        width: calc(100% - 28px);
+      }
+
+
+      .topbar {
+        top: 8px;
+
+        width: calc(100% - 20px);
+
+        margin-top: 8px;
+      }
+
+
+      .hero {
+        min-height: 72svh;
+
+        padding: 65px 5px 55px;
+      }
+
+
+      .hero-mark {
+        width: 70px;
+        height: 70px;
+
+        margin-bottom: 23px;
+      }
+
+
+      .hero h1 {
+        font-size:
+          clamp(3rem, 15vw, 4.8rem);
+      }
+
+
+      .hero-copy {
+        font-size: 0.9rem;
+      }
+
+
+      .language-grid,
+      .city-grid {
+        grid-template-columns: 1fr;
+      }
+
+
+      .language-grid {
+        margin-bottom: 62px;
+      }
+
+
+      .language-card {
+        padding: 28px 23px;
+
+        border-radius: 28px;
+      }
+
+
+      .city-section,
+      .ipl-card,
+      .roast-section {
+        margin-bottom: 62px;
+      }
+
+
+      .city-card {
+        padding: 23px;
+
+        border-radius: 23px;
+      }
+
+
+      .ipl-card {
+        padding: 40px 22px;
+
+        border-radius: 30px;
+      }
+
+
+      .roast-section {
+        padding: 43px 19px;
+
+        border-radius: 30px;
+      }
+
+
+      .roast-display {
+        min-height: 210px;
+
+        padding: 28px 20px;
+      }
+
+
+      #roastText {
+        font-size: 1.12rem;
+      }
+
+
+      #roastButton,
+      #restartRoasts {
+        width: 100%;
+      }
+
+
+      .closing {
+        padding-bottom: 80px;
+      }
 
     }
 
 
-    roastText.classList.add(
-      "changing"
-    );
+    @media (
+      prefers-reduced-motion: reduce
+    ) {
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+
+        animation-duration:
+          0.01ms !important;
+
+        animation-iteration-count:
+          1 !important;
+
+        transition-duration:
+          0.01ms !important;
+      }
+
+    }
+
+  </style>
+</head>
 
 
-    setTimeout(
-      () => {
+<body>
 
 
-        roastText.textContent =
-          roastDeck[
-            roastCount
-          ];
+  <!-- ===================================================
+       TOP BAR
+  ==================================================== -->
+
+  <nav class="topbar">
+
+    <a
+      class="back-link"
+      href="index.html"
+    >
+      ← Back to Wedding
+    </a>
 
 
-        roastText.classList.remove(
-          "changing"
+    <div class="mini-logo">
+      N&S
+    </div>
+
+  </nav>
+
+
+
+  <main class="page">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="hero">
+
+      <div class="hero-inner">
+
+        <div class="hero-mark">
+          ×
+        </div>
+
+
+        <p class="eyebrow">
+          THE TWO-CITY SURVIVAL GUIDE
+        </p>
+
+
+        <h1>
+          Bangalore
+          <span>×</span>
+          Chennai
+        </h1>
+
+
+        <p class="hero-copy">
+          One wedding. Two cities.
+          Several languages. Strong opinions.
+          This is your completely unofficial
+          orientation programme.
+        </p>
+
+
+        <div class="hero-note">
+          Emergency language training begins below
+        </div>
+
+
+        <span
+          class="down-arrow"
+          aria-hidden="true"
+        >
+          ↓
+        </span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         LANGUAGE INTRO
+    ================================================== -->
+
+    <section class="language-intro reveal">
+
+      <p class="eyebrow">
+        FIRST THINGS FIRST
+      </p>
+
+
+      <h2>
+        Speak like you belong here.
+      </h2>
+
+
+      <p>
+        Four phrases from each city.
+        Enough to be polite, impressive,
+        and mildly dangerous.
+      </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         TAMIL + KANNADA
+    ================================================== -->
+
+    <section class="language-grid">
+
+
+      <!-- TAMIL -->
+
+      <article class="language-card tamil-card reveal">
+
+        <p class="eyebrow">
+          CHENNAI MODE
+        </p>
+
+
+        <h3>
+          Tamil
+        </h3>
+
+
+        <p class="language-subtitle">
+          Your emergency starter pack.
+        </p>
+
+
+        <div class="phrase">
+
+          <span class="phrase-word">
+            Vanakkam
+          </span>
+
+          <span class="phrase-meaning">
+            Hello / Greetings
+          </span>
+
+        </div>
+
+
+        <div class="phrase">
+
+          <span class="phrase-word">
+            Nandri
+          </span>
+
+          <span class="phrase-meaning">
+            Thank you
+          </span>
+
+        </div>
+
+
+        <div class="phrase">
+
+          <span class="phrase-word">
+            Semma!
+          </span>
+
+          <span class="phrase-meaning">
+            Excellent / Amazing
+          </span>
+
+        </div>
+
+
+        <div class="phrase special">
+
+          <span class="phrase-word">
+            Konjam adjust pannunga
+          </span>
+
+          <span class="phrase-meaning">
+            Please adjust a little.
+            A phrase capable of solving
+            approximately 74% of Indian problems.
+          </span>
+
+        </div>
+
+      </article>
+
+
+
+      <!-- KANNADA -->
+
+      <article class="language-card kannada-card reveal">
+
+        <p class="eyebrow">
+          BANGALORE MODE
+        </p>
+
+
+        <h3>
+          Kannada
+        </h3>
+
+
+        <p class="language-subtitle">
+          Also essential for survival.
+        </p>
+
+
+        <div class="phrase">
+
+          <span class="phrase-word">
+            Namaskara
+          </span>
+
+          <span class="phrase-meaning">
+            Hello / Greetings
+          </span>
+
+        </div>
+
+
+        <div class="phrase">
+
+          <span class="phrase-word">
+            Dhanyavadagalu
+          </span>
+
+          <span class="phrase-meaning">
+            Thank you
+          </span>
+
+        </div>
+
+
+        <div class="phrase">
+
+          <span class="phrase-word">
+            Sakkath!
+          </span>
+
+          <span class="phrase-meaning">
+            Excellent / Amazing
+          </span>
+
+        </div>
+
+
+        <div class="phrase special">
+
+          <span class="phrase-word">
+            Swalpa adjust maadi
+          </span>
+
+          <span class="phrase-meaning">
+            Please adjust a little.
+            Bangalore's unofficial urban
+            planning strategy.
+          </span>
+
+        </div>
+
+      </article>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CITY NONSENSE
+    ================================================== -->
+
+    <section class="city-section reveal">
+
+      <div class="section-heading">
+
+        <p class="eyebrow">
+          CITY DIPLOMACY
+        </p>
+
+
+        <h2>
+          A few things we should settle.
+        </h2>
+
+
+        <p>
+          We are bringing Bangalore and Chennai
+          together for an entire weekend.
+          Some ground rules are therefore necessary.
+        </p>
+
+      </div>
+
+
+      <div class="city-grid">
+
+
+        <article class="city-card">
+
+          <span class="city-icon">
+            01
+          </span>
+
+
+          <h3>
+            “I'm five minutes away.”
+          </h3>
+
+
+          <p>
+            In Bangalore, this is a philosophical
+            statement and should not be interpreted
+            as a measurement of time.
+          </p>
+
+        </article>
+
+
+
+        <article class="city-card">
+
+          <span class="city-icon">
+            02
+          </span>
+
+
+          <h3>
+            Chennai weather.
+          </h3>
+
+
+          <p>
+            You may complain about the heat.
+            You may then immediately drink
+            hot filter coffee. This is normal.
+          </p>
+
+        </article>
+
+
+
+        <article class="city-card">
+
+          <span class="city-icon">
+            03
+          </span>
+
+
+          <h3>
+            Directions.
+          </h3>
+
+
+          <p>
+            “After the temple, before that bakery,
+            take the road near that one signal”
+            remains a valid navigation system.
+          </p>
+
+        </article>
+
+
+
+        <article class="city-card">
+
+          <span class="city-icon">
+            04
+          </span>
+
+
+          <h3>
+            “Small function.”
+          </h3>
+
+
+          <p>
+            Could mean 40 people.
+            Could mean 600.
+            No further information will be provided.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         IPL
+    ================================================== -->
+
+    <section class="ipl-card reveal">
+
+      <p class="eyebrow">
+        TEMPORARY PEACE AGREEMENT
+      </p>
+
+
+      <h2>
+        The IPL Treaty
+      </h2>
+
+
+      <p>
+        For the duration of the wedding,
+        cricket-related city rivalry will be
+        managed under the following internationally
+        unrecognised agreement.
+      </p>
+
+
+      <div class="treaty">
+
+        <div class="treaty-item">
+          No historical scorecards during ceremonies.
+        </div>
+
+
+        <div class="treaty-item">
+          No franchise arguments while somebody
+          is trying to take a family photo.
+        </div>
+
+
+        <div class="treaty-item">
+          “This year is our year” may be used
+          only at your own emotional risk.
+        </div>
+
+
+        <div class="treaty-item">
+          All disputes must be temporarily
+          suspended when the buffet opens.
+        </div>
+
+
+        <div class="treaty-item">
+          The wedding couple accepts no liability
+          for cricket opinions expressed by guests.
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ROAST ME
+    ================================================== -->
+
+    <section
+      class="roast-section reveal"
+      id="roast"
+    >
+
+      <p class="eyebrow">
+        YOU HAVE BEEN WARNED
+      </p>
+
+
+      <h2>
+        Roast Me.
+      </h2>
+
+
+      <p class="roast-intro">
+        There are 100.
+        They will not repeat until you have
+        made all 100 poor decisions.
+      </p>
+
+
+      <span
+        class="roast-counter"
+        id="roastCounter"
+      >
+        0 / 100 ROASTS
+      </span>
+
+
+      <div class="roast-display">
+
+        <p id="roastText">
+          Press the button.
+          Nothing bad will happen.
+          This sentence may not be legally binding.
+        </p>
+
+      </div>
+
+
+      <button
+        id="roastButton"
+        type="button"
+      >
+        ROAST ME
+      </button>
+
+
+      <button
+        id="restartRoasts"
+        type="button"
+      >
+        I REGRET NOTHING. START AGAIN.
+      </button>
+
+
+      <p
+        class="milestone"
+        id="milestone"
+        aria-live="polite"
+      ></p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         CLOSING
+    ================================================== -->
+
+    <section class="closing reveal">
+
+      <div class="closing-mark">
+        N&S
+      </div>
+
+
+      <p class="eyebrow">
+        ENOUGH NONSENSE
+      </p>
+
+
+      <h2>
+        Back to the wedding.
+      </h2>
+
+
+      <p>
+        You have completed your completely
+        unofficial Bangalore × Chennai orientation.
+        No certificate will be issued.
+      </p>
+
+
+      <a
+        class="return-button"
+        href="index.html"
+      >
+        ← RETURN TO THE WEDDING
+      </a>
+
+    </section>
+
+  </main>
+
+
+
+  <script>
+
+    /* =====================================================
+       REVEAL ANIMATION
+    ===================================================== */
+
+    const revealElements =
+      document.querySelectorAll(".reveal");
+
+
+    if ("IntersectionObserver" in window) {
+
+      const observer =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(entry => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add(
+                  "visible"
+                );
+
+                observer.unobserve(
+                  entry.target
+                );
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.12
+          }
         );
 
 
-        roastCount++;
+      revealElements.forEach(element => {
+        observer.observe(element);
+      });
+
+    } else {
+
+      revealElements.forEach(element => {
+        element.classList.add("visible");
+      });
+
+    }
 
 
-        roastCounter.textContent =
-          `${roastCount} / 100 ROASTS SURVIVED`;
+
+    /* =====================================================
+       100 UNIQUE ROASTS
+    ===================================================== */
+
+    const roasts = [
+
+      "You say “coming in five minutes” with the confidence of someone who has not even started getting ready.",
+
+      "Your screen-time report arrives every week just to personally insult you.",
+
+      "You have opened the fridge, stared inside, closed it, and returned thirty seconds later expecting new inventory.",
+
+      "Your family WhatsApp group has more active management than most companies.",
+
+      "You don't procrastinate. You simply give problems enough time to develop character.",
+
+      "You have definitely asked “veg ah, non-veg ah?” before asking where the venue is.",
+
+      "Your phone battery has more trust issues than you do.",
+
+      "You treat “swalpa adjust maadi” like a complete urban-planning strategy.",
+
+      "You have survived Bangalore traffic long enough to stop measuring distance in kilometres.",
+
+      "You hear “small function only” and somehow arrive at an event with 600 people.",
 
 
-        /*
-           Every 10 clicks,
-           aggressively question
-           their life choices.
-        */
+      "You have at least one relative who knows your life updates before you do.",
 
-        if (
-          milestones[
-            roastCount
-          ]
-        ) {
+      "Your alarm clock has learned that its opinion does not matter.",
 
-          roastMilestone.textContent =
-            milestones[
-              roastCount
-            ];
+      "You say “one plate only” at a wedding buffet like anyone believes you.",
 
-        } else {
+      "Your definition of “nearby” changes dramatically depending on whether you are in Bangalore or Chennai.",
 
-          roastMilestone.textContent =
-            "";
+      "You have used “signal illa” as a defence when you simply did not want to answer.",
 
-        }
+      "You don't need more browser tabs. You need closure.",
+
+      "You say “I'm downstairs” while the lift has not even reached your floor.",
+
+      "You can identify the relative who will ask “so, next is your turn?” from across the hall.",
+
+      "Your to-do list is less of a plan and more of a historical archive.",
+
+      "You have spent longer choosing what to watch than actually watching it.",
 
 
-        /*
-           100 means stop.
-           No silent restart.
-        */
+      "Indian wedding printed time and actual time are distant cousins who meet occasionally.",
 
-        if (
-          roastCount >= 100
-        ) {
+      "You complain about Chennai heat and then voluntarily order hot filter coffee.",
 
-          roastFinished =
-            true;
+      "You complain about Bangalore traffic while actively contributing to Bangalore traffic.",
 
+      "One of your wedding outfits has attended more functions than some relatives.",
+
+      "You say “quick call?” like you aren't about to steal forty-five minutes of someone's life.",
+
+      "The phrase “family photo” has already taken twenty minutes from your future.",
+
+      "Your parents have forwarded you at least one message marked “VERY IMPORTANT” that absolutely was not.",
+
+      "You have said “just one dosa” and then allowed mathematics to stop applying.",
+
+      "You don't lose things. You place them in locations that future-you has not unlocked yet.",
+
+      "You have 47 photos of the same thing because apparently one of them may become historically significant.",
+
+
+      "In India, “adjust” can mean move, wait, squeeze, tolerate, compromise, or simply accept your fate.",
+
+      "You have received directions involving a temple, a bakery and “after that one signal.”",
+
+      "You have said “I know the route” while Google Maps quietly saved your reputation.",
+
+      "You have entered an auto, heard the fare, and briefly reconsidered whether the journey was necessary.",
+
+      "Your relationship with online shopping is less shopping and more surprise financial archaeology.",
+
+      "You have told someone “come home sometime” and would be genuinely shocked if they actually arrived.",
+
+      "There is an aunty somewhere who could obtain confidential information faster than an intelligence agency.",
+
+      "You have been asked whether you ate within thirty seconds of entering an Indian household.",
+
+      "You have judged a wedding based on parking before even seeing the couple.",
+
+      "Your ability to ignore a notification disappears the moment you are supposed to be working.",
+
+
+      "You call it “light rain” in Bangalore until traffic stops moving for two hours.",
+
+      "You have spent fifteen minutes discussing where to have chai and five minutes actually drinking it.",
+
+      "When your family says “we are leaving now,” nobody has worn their shoes yet.",
+
+      "Your camera roll is 20% memories and 80% screenshots you promised yourself you'd need.",
+
+      "You have checked your phone for the time and immediately forgotten what time it was.",
+
+      "You own a chair that has slowly been promoted to full-time clothes storage.",
+
+      "You have written “haha” while maintaining a completely neutral facial expression.",
+
+      "You have started cleaning your room because the task you were avoiding somehow seemed worse.",
+
+      "You have opened an app, forgotten why, closed it, and immediately reopened it.",
+
+      "You have said “I'll remember” instead of writing something down. You did not remember.",
+
+
+      "Your confidence when giving directions is completely unrelated to your actual knowledge of the route.",
+
+      "You have replied “on my way” while still deciding what to wear.",
+
+      "You own at least one charger that only works when positioned according to ancient geometry.",
+
+      "You have put something somewhere “safe” and successfully protected it from yourself.",
+
+      "You don't have unread emails. You have a digital museum.",
+
+      "Your ability to hear your name from across a crowded room is stronger than your ability to hear someone asking you to do chores.",
+
+      "You have mentally spent money that has not reached your bank account yet.",
+
+      "You have googled something you absolutely already knew just to confirm you were right.",
+
+      "You have sent “??” after waiting an amount of time that was not remotely reasonable.",
+
+      "You have carried every grocery bag in one trip because making two trips would apparently damage your honour.",
+
+
+      "You have looked at the weather app, disagreed with it, and dressed according to your own fictional forecast.",
+
+      "You say “I'll sleep early tonight” with the optimism of someone unfamiliar with your own behaviour.",
+
+      "You have watched a delivery map like your staring could make the driver move faster.",
+
+      "You have rehearsed an argument in the shower that will never happen.",
+
+      "You have bought something because it was on sale and somehow described this as saving money.",
+
+      "You have opened a message from the notification preview specifically so you wouldn't have to reply.",
+
+      "You have had a full conversation with someone while remembering absolutely none of it five minutes later.",
+
+      "You have taken a screenshot instead of remembering one simple piece of information.",
+
+      "You have started a sentence with “technically” because you knew you were about to become annoying.",
+
+      "You have searched the entire house for something that was in your hand.",
+
+
+      "You have turned the music down in the car because apparently your ears were interfering with your eyesight.",
+
+      "You have refreshed a tracking page as though the package might become intimidated.",
+
+      "You have said “I don't care where we eat” and then rejected every suggestion.",
+
+      "You have a favourite burner on the stove and will defend this preference without evidence.",
+
+      "You have walked into a room and immediately forgotten the entire purpose of the journey.",
+
+      "You have put your phone on silent and then complained that nobody called you.",
+
+      "You have read a menu online before arriving and still taken fifteen minutes to order.",
+
+      "You have an outfit you call “new” because only three people have seen it.",
+
+      "You have watched one short video and somehow emerged forty minutes later with no explanation.",
+
+      "You have typed a long message, deleted it, and replied “okay.”",
+
+
+      "You have used the calculator for arithmetic you absolutely could have done yourself.",
+
+      "You have waited for someone else to cross the road first because apparently they were appointed safety inspector.",
+
+      "You have smelled milk instead of checking the date because you trust your nose more than regulated labelling.",
+
+      "You have planned a productive Sunday and then accidentally experienced Sunday instead.",
+
+      "You have a drawer containing cables for devices humanity no longer remembers.",
+
+      "You have tried to unlock your front door with your car remote at least once in spirit.",
+
+      "You have complained that nobody takes good photos of you after rejecting seventeen perfectly normal photos.",
+
+      "You have eaten something directly from the fridge because using a plate felt unnecessarily bureaucratic.",
+
+      "You have answered “nothing” when asked what you want to eat and then become deeply involved in the final decision.",
+
+      "You have told yourself “one more episode” with the credibility of a politician during campaign season.",
+
+
+      "You have lowered your phone brightness to 1% and still acted personally attacked when somebody turned on the bedroom light.",
+
+      "You have a password variation system that would make a cybersecurity professional quietly leave the room.",
+
+      "You have checked whether a door is locked, walked away, and immediately wondered whether you checked it.",
+
+      "You have pretended not to see someone in public because the social energy budget was already exhausted.",
+
+      "You have started explaining something and realised halfway through that you don't actually know how it works.",
+
+      "You have sent a risky message and immediately thrown your phone away as though distance changes the outcome.",
+
+      "You have said “I'm listening” while your brain was very clearly attending another meeting.",
+
+      "You have chosen the longest checkout line with a statistical consistency worth studying.",
+
+      "You have opened the front camera by accident and received information you were not emotionally prepared for.",
+
+      "You have now pressed a button 100 times on a wedding website. I genuinely have nothing left to say. Please go outside."
+
+    ];
+
+
+
+    /* =====================================================
+       SHUFFLE
+    ===================================================== */
+
+    function shuffle(array) {
+
+      const copy = [...array];
+
+      for (
+        let i = copy.length - 1;
+        i > 0;
+        i--
+      ) {
+
+        const j =
+          Math.floor(
+            Math.random() * (i + 1)
+          );
+
+        [
+          copy[i],
+          copy[j]
+        ] = [
+          copy[j],
+          copy[i]
+        ];
+
+      }
+
+      return copy;
+
+    }
+
+
+
+    let roastQueue = shuffle(roasts);
+
+    let roastCount = 0;
+
+
+
+    const roastText =
+      document.getElementById(
+        "roastText"
+      );
+
+
+    const roastButton =
+      document.getElementById(
+        "roastButton"
+      );
+
+
+    const restartButton =
+      document.getElementById(
+        "restartRoasts"
+      );
+
+
+    const roastCounter =
+      document.getElementById(
+        "roastCounter"
+      );
+
+
+    const milestone =
+      document.getElementById(
+        "milestone"
+      );
+
+
+
+    /* =====================================================
+       MILESTONES
+    ===================================================== */
+
+    const milestones = {
+
+      10:
+        "10 roasts. You're still here? Even your mother would tell you to do something useful.",
+
+      20:
+        "20. At this point somebody in your family has definitely asked what you're doing on your phone.",
+
+      30:
+        "30. This commitment is stronger than most people's gym membership.",
+
+      40:
+        "40. Bro, there is an entire wedding website outside this button.",
+
+      50:
+        "50. Halfway. Go drink water. Or chai. Obviously chai.",
+
+      60:
+        "60. This has now become the digital equivalent of sitting at a wedding after everyone else has left.",
+
+      70:
+        "70. Your relatives would be proud of this level of persistence if it were applied to literally anything useful.",
+
+      80:
+        "80. Even an Indian wedding photographer would have stopped taking pictures by now.",
+
+      90:
+        "90. Ten more. You have come too far to suddenly develop self-respect.",
+
+      100:
+        "100. Finished. Somewhere, one aunty is still asking when you're getting married."
+
+    };
+
+
+
+    /* =====================================================
+       BUTTON LABELS
+    ===================================================== */
+
+    function getButtonLabel(count) {
+
+      if (count < 10) {
+        return "AGAIN";
+      }
+
+      if (count < 30) {
+        return "STILL HERE";
+      }
+
+      if (count < 50) {
+        return "SERIOUSLY?";
+      }
+
+      if (count < 70) {
+        return "YOU NEED HELP";
+      }
+
+      return "I HAVE COME TOO FAR";
+
+    }
+
+
+
+    /* =====================================================
+       SHOW ROAST
+    ===================================================== */
+
+    function showRoast() {
+
+      if (roastCount >= 100) {
+        return;
+      }
+
+
+      roastText.style.opacity = "0";
+
+
+      setTimeout(() => {
+
+        roastText.textContent =
+          roastQueue[roastCount];
+
+        roastText.style.opacity = "1";
+
+      }, 120);
+
+
+      roastCount++;
+
+
+      roastCounter.textContent =
+        `${roastCount} / 100 ROASTS`;
+
+
+      if (milestones[roastCount]) {
+
+        milestone.textContent =
+          milestones[roastCount];
+
+      } else {
+
+        milestone.textContent = "";
+
+      }
+
+
+      if (roastCount === 100) {
+
+        setTimeout(() => {
 
           roastText.textContent =
             "You survived all 100. There are no more roasts. Please return to the wedding like a functioning adult.";
 
+        }, 450);
 
-          roastCounter.textContent =
-            "100 / 100 · SOMEHOW SURVIVED";
 
-        }
+        roastButton.style.display =
+          "none";
 
+        restartButton.style.display =
+          "inline-flex";
 
-        updateRoastButton();
+      } else {
 
-
-      },
-      170
-    );
-
-  }
-);
-
-
-/* =========================================================
-   SMOOTH INTERNAL LINKS
-========================================================= */
-
-document
-  .querySelectorAll(
-    'a[href^="#"]'
-  )
-  .forEach(
-    link => {
-
-      link.addEventListener(
-        "click",
-        event => {
-
-          const targetId =
-            link.getAttribute(
-              "href"
-            );
-
-
-          if (
-            !targetId ||
-            targetId === "#"
-          ) {
-            return;
-          }
-
-
-          const target =
-            document.querySelector(
-              targetId
-            );
-
-
-          if (!target) {
-            return;
-          }
-
-
-          event.preventDefault();
-
-
-          target.scrollIntoView({
-            behavior:
-              "smooth",
-
-            block:
-              "start"
-          });
-
-        }
-      );
-
-    }
-  );
-
-
-/* =========================================================
-   REVEALS
-========================================================= */
-
-const reveals =
-  document.querySelectorAll(
-    ".reveal"
-  );
-
-
-if (
-  "IntersectionObserver"
-  in window
-) {
-
-  const revealObserver =
-    new IntersectionObserver(
-      (
-        entries,
-        observer
-      ) => {
-
-        entries.forEach(
-          entry => {
-
-            if (
-              !entry.isIntersecting
-            ) {
-              return;
-            }
-
-
-            entry.target
-              .classList
-              .add(
-                "visible"
-              );
-
-
-            observer.unobserve(
-              entry.target
-            );
-
-          }
-        );
-
-      },
-      {
-        threshold: 0.11,
-
-        rootMargin:
-          "0px 0px -30px 0px"
-      }
-    );
-
-
-  reveals.forEach(
-    element => {
-
-      revealObserver.observe(
-        element
-      );
-
-    }
-  );
-
-} else {
-
-  reveals.forEach(
-    element => {
-
-      element.classList.add(
-        "visible"
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   FLOATING NAV
-========================================================= */
-
-const navLinks =
-  document.querySelectorAll(
-    ".nav-link[data-nav]"
-  );
-
-
-const navSections = [
-
-  {
-    id: "languages",
-
-    element:
-      document.getElementById(
-        "languages"
-      )
-  },
-
-  {
-    id: "cities",
-
-    element:
-      document.getElementById(
-        "cities"
-      )
-  },
-
-  {
-    id: "ipl",
-
-    element:
-      document.getElementById(
-        "ipl"
-      )
-  },
-
-  {
-    id: "roast",
-
-    element:
-      document.getElementById(
-        "roast"
-      )
-  }
-
-].filter(
-  item =>
-    item.element
-);
-
-
-/* =========================================================
-   ACTIVE NAV
-========================================================= */
-
-function updateNavigation() {
-
-  const position =
-    window.scrollY +
-    window.innerHeight *
-    0.43;
-
-
-  let active =
-    "languages";
-
-
-  navSections.forEach(
-    section => {
-
-      if (
-        position >=
-        section.element.offsetTop
-      ) {
-
-        active =
-          section.id;
+        roastButton.textContent =
+          getButtonLabel(roastCount);
 
       }
 
     }
-  );
 
 
-  navLinks.forEach(
-    link => {
 
-      link.classList.toggle(
-        "active",
+    /* =====================================================
+       RESTART
+    ===================================================== */
 
-        link.dataset.nav ===
-          active
-      );
+    function restartRoasts() {
+
+      roastQueue =
+        shuffle(roasts);
+
+      roastCount = 0;
+
+
+      roastCounter.textContent =
+        "0 / 100 ROASTS";
+
+
+      roastText.textContent =
+        "You came back? Incredible. Press the button and make the same 100 mistakes again.";
+
+
+      milestone.textContent = "";
+
+
+      roastButton.textContent =
+        "ROAST ME";
+
+
+      roastButton.style.display =
+        "inline-flex";
+
+
+      restartButton.style.display =
+        "none";
 
     }
-  );
-
-}
 
 
-window.addEventListener(
-  "scroll",
-  updateNavigation,
-  {
-    passive: true
-  }
-);
+
+    roastButton.addEventListener(
+      "click",
+      showRoast
+    );
 
 
-updateNavigation();
+    restartButton.addEventListener(
+      "click",
+      restartRoasts
+    );
 
+  </script>
 
-/* =========================================================
-   PAGE READY
-========================================================= */
-
-window.addEventListener(
-  "load",
-  () => {
-
-    updateNavigation();
-
-    updateRoastButton();
-
-  }
-);
-
-</script>
+</body>
+</html>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -10,77 +8,48 @@
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
-  <meta
-    name="theme-color"
-    content="#fff9f4"
-  >
+  <meta name="theme-color" content="#fff9f4">
 
   <meta
     name="description"
     content="Nikhil & Supriya — 21 & 22 November 2026 — MGM Beach Resort, ECR Chennai."
   >
 
-  <title>
-    Nikhil & Supriya
-  </title>
+  <title>Nikhil & Supriya</title>
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
-  <link
-    rel="stylesheet"
-    href="style.css?v=20261002-5"
-  >
-
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 
-<body>
+<body class="gate-open">
 
 
 <!-- =====================================================
      PERSONALISED ENTRANCE
 ===================================================== -->
 
-<div
-  class="guest-gate"
-  id="guestGate"
->
+<div class="guest-gate" id="guestGate">
 
-  <div
-    class="gate-decoration gate-decoration-left"
-    aria-hidden="true"
-  >
+  <div class="gate-decoration gate-decoration-left" aria-hidden="true">
     ✦
   </div>
 
-  <div
-    class="gate-decoration gate-decoration-right"
-    aria-hidden="true"
-  >
+  <div class="gate-decoration gate-decoration-right" aria-hidden="true">
     ✦
   </div>
 
 
-  <!-- STEP 1 — NAME -->
+  <!-- NAME -->
 
-  <div
-    class="gate-panel"
-    id="guestNameStep"
-  >
+  <div class="gate-panel" id="guestNameStep">
 
     <div class="gate-monogram">
       N &amp; S
@@ -98,11 +67,7 @@
       What should we call you?
     </p>
 
-
-    <form
-      class="guest-name-form"
-      id="guestNameForm"
-    >
+    <form class="guest-name-form" id="guestNameForm">
 
       <input
         class="guest-name-input"
@@ -114,15 +79,11 @@
         required
       >
 
-      <button
-        class="gate-button"
-        type="submit"
-      >
+      <button class="gate-button" type="submit">
         CONTINUE →
       </button>
 
     </form>
-
 
     <p class="gate-small">
       No passwords. We already have enough wedding logistics.
@@ -131,12 +92,9 @@
   </div>
 
 
-  <!-- STEP 2 — HOW DO YOU KNOW US -->
+  <!-- HOW DO YOU KNOW US -->
 
-  <div
-    class="gate-panel hidden"
-    id="guestSideStep"
-  >
+  <div class="gate-panel hidden" id="guestSideStep">
 
     <div class="gate-monogram">
       N &amp; S
@@ -153,16 +111,13 @@
       How did you get dragged into this?
     </h2>
 
-
     <div class="guest-side-options">
-
 
       <button
         class="side-choice"
         type="button"
         data-guest-side="groom"
       >
-
         <span class="side-choice-title">
           I KNOW NIKHIL
         </span>
@@ -170,7 +125,6 @@
         <span class="side-choice-copy">
           Proceed at your own risk.
         </span>
-
       </button>
 
 
@@ -179,7 +133,6 @@
         type="button"
         data-guest-side="bride"
       >
-
         <span class="side-choice-title">
           I KNOW SUPRIYA
         </span>
@@ -187,7 +140,6 @@
         <span class="side-choice-copy">
           The sensible option.
         </span>
-
       </button>
 
 
@@ -196,7 +148,6 @@
         type="button"
         data-guest-side="both"
       >
-
         <span class="side-choice-title">
           I KNOW BOTH
         </span>
@@ -204,21 +155,16 @@
         <span class="side-choice-copy">
           I refuse to take sides.
         </span>
-
       </button>
-
 
     </div>
 
   </div>
 
 
-  <!-- STEP 3 — WELCOME -->
+  <!-- PERSONALISED WELCOME -->
 
-  <div
-    class="gate-panel hidden"
-    id="guestWelcomeStep"
-  >
+  <div class="gate-panel hidden" id="guestWelcomeStep">
 
     <div class="gate-monogram">
       N &amp; S
@@ -228,78 +174,60 @@
       ACCESS GRANTED
     </p>
 
-    <h2 class="gate-title">
-      <span id="welcomeGuestName">
-        There you are.
-      </span>
+    <h2 class="gate-title" id="welcomeGuestName">
+      There you are.
     </h2>
 
-    <p
-      class="gate-welcome-message"
-      id="gateWelcomeMessage"
-    >
+    <p class="gate-welcome-message" id="gateWelcomeMessage">
       Welcome to the chaos.
     </p>
 
-    <div
-      class="gate-sparkle"
-      aria-hidden="true"
-    >
+    <div class="gate-sparkle" aria-hidden="true">
       ✦
     </div>
 
   </div>
-
 
 </div>
 
 
 
 <!-- =====================================================
-     MAIN SITE
+     WEBSITE
 ===================================================== -->
 
-<div
-  class="site-shell"
-  id="siteShell"
->
+<main id="siteShell">
 
 
 <!-- =====================================================
      HERO
 ===================================================== -->
 
-<header
-  class="hero"
-  id="home"
->
+<section class="hero" id="home">
 
   <img
     class="hero-background"
-    src="images/hero-temple.png"
+    src="./images/hero-temple.png"
     alt=""
   >
-
 
   <div class="hero-overlay"></div>
 
 
   <img
     class="hero-banana hero-banana-left"
-    src="images/banana-leaves.png"
+    src="./images/banana-leaves.png"
     alt=""
   >
 
-
   <img
     class="hero-banana hero-banana-right"
-    src="images/banana-leaves.png"
+    src="./images/banana-leaves.png"
     alt=""
   >
 
 
   <div class="hero-content">
-
 
     <button
       class="monogram-seal"
@@ -318,25 +246,16 @@
 
     <h1 class="hero-names">
 
-      <span>
-        Nikhil
-      </span>
+      <span>Nikhil</span>
 
-      <b>
-        &amp;
-      </b>
+      <b>&amp;</b>
 
-      <span>
-        Supriya
-      </span>
+      <span>Supriya</span>
 
     </h1>
 
 
-    <div
-      class="hero-spark"
-      aria-hidden="true"
-    >
+    <div class="hero-spark" aria-hidden="true">
       ✦
     </div>
 
@@ -358,10 +277,7 @@
     </p>
 
 
-    <p
-      class="hero-personal"
-      id="heroPersonal"
-    >
+    <p class="hero-personal" id="heroPersonal">
       We're really glad you're here.
     </p>
 
@@ -371,13 +287,8 @@
       id="enterCelebration"
       type="button"
     >
-
       ENTER THE CELEBRATION
-
-      <span aria-hidden="true">
-        ↓
-      </span>
-
+      <span aria-hidden="true">↓</span>
     </button>
 
 
@@ -389,10 +300,9 @@
       Not you? Change guest
     </button>
 
-
   </div>
 
-</header>
+</section>
 
 
 
@@ -400,53 +310,38 @@
      SAVE THE DATE
 ===================================================== -->
 
-<section
-  class="save-date-section reveal"
-  id="intro"
->
+<section class="save-date-section reveal" id="intro">
 
-  <div class="save-date-inner">
-
+  <div class="section-inner narrow save-date-inner">
 
     <p class="section-kicker">
       SAVE THE DATE
     </p>
 
-
     <h2 class="save-date-title">
       Chennai is calling.
     </h2>
 
-
     <p class="save-date-copy">
-      Clear the weekend.
-      Pack something nice.
+      Clear the weekend. Pack something nice.
       We're getting married by the sea.
     </p>
 
-
-    <div
-      class="date-ornament"
-      aria-hidden="true"
-    >
+    <div class="date-ornament" aria-hidden="true">
       ✦
     </div>
-
 
     <div class="big-date">
       21 · 22
     </div>
 
-
     <p class="date-month">
       NOVEMBER · 2026
     </p>
 
-
     <p class="date-venue">
       MGM Beach Resort · ECR · Chennai
     </p>
-
 
   </div>
 
@@ -458,93 +353,47 @@
      COUNTDOWN
 ===================================================== -->
 
-<section
-  class="countdown-section reveal"
-  id="countdown"
->
+<section class="countdown-section reveal" id="countdown">
 
   <div class="section-inner narrow">
-
 
     <p class="section-kicker light">
       UNTIL WE SAY I DO
     </p>
 
-
-    <h2
-      class="countdown-heading"
-      id="countdownHeading"
-    >
+    <h2 class="countdown-heading" id="countdownHeading">
       The countdown is officially on.
     </h2>
 
 
     <div class="countdown-grid">
 
-
       <div class="countdown-unit">
-
-        <strong id="days">
-          00
-        </strong>
-
-        <span>
-          DAYS
-        </span>
-
+        <strong id="days">00</strong>
+        <span>DAYS</span>
       </div>
 
-
       <div class="countdown-unit">
-
-        <strong id="hours">
-          00
-        </strong>
-
-        <span>
-          HOURS
-        </span>
-
+        <strong id="hours">00</strong>
+        <span>HOURS</span>
       </div>
 
-
       <div class="countdown-unit">
-
-        <strong id="minutes">
-          00
-        </strong>
-
-        <span>
-          MINUTES
-        </span>
-
+        <strong id="minutes">00</strong>
+        <span>MINUTES</span>
       </div>
 
-
       <div class="countdown-unit">
-
-        <strong id="seconds">
-          00
-        </strong>
-
-        <span>
-          SECONDS
-        </span>
-
+        <strong id="seconds">00</strong>
+        <span>SECONDS</span>
       </div>
-
 
     </div>
 
 
-    <p
-      class="countdown-message"
-      id="countdownMessage"
-    >
-      Plenty of time.
-      Absolutely no reason to panic.
+    <p class="countdown-message" id="countdownMessage">
+      Plenty of time. Absolutely no reason to panic.
     </p>
-
 
   </div>
 
@@ -556,57 +405,40 @@
      OUR STORY
 ===================================================== -->
 
-<section
-  class="story-section reveal"
-  id="story"
->
-
+<section class="story-section reveal" id="story">
 
   <div class="story-heading">
-
 
     <p class="section-kicker">
       OUR STORY
     </p>
 
-
     <h2>
       How we got here.
     </h2>
 
-
     <p>
-      Swipe sideways.
-      The relationship took longer.
+      Swipe sideways. The relationship took longer.
     </p>
-
 
   </div>
 
 
+  <div class="story-scroller" id="storyScroller">
 
-  <div
-    class="story-scroller"
-    id="storyScroller"
-  >
-
-
-    <!-- STORY 01 -->
 
     <article class="story-card">
 
       <img
-        src="images/story-kpmg.png"
-        alt="Nikhil and Supriya's story begins"
+        src="./images/story-kpmg.png"
+        alt="The beginning of Nikhil and Supriya's story"
       >
 
       <div class="story-shade"></div>
 
-
       <span class="story-number">
         01
       </span>
-
 
       <div class="story-content">
 
@@ -629,22 +461,18 @@
 
 
 
-    <!-- STORY 02 -->
-
     <article class="story-card">
 
       <img
-        src="images/story-watsons.png"
+        src="./images/story-watsons.png"
         alt="Watson's Bangalore"
       >
 
       <div class="story-shade"></div>
 
-
       <span class="story-number">
         02
       </span>
-
 
       <div class="story-content">
 
@@ -658,8 +486,8 @@
 
         <p>
           Our first proper meet.
-          Neither of us knew this would eventually require
-          a wedding website.
+          Neither of us knew this would eventually
+          require a wedding website.
         </p>
 
       </div>
@@ -668,22 +496,18 @@
 
 
 
-    <!-- STORY 03 -->
-
     <article class="story-card">
 
       <img
-        src="images/story-distance.png"
+        src="./images/story-distance.png"
         alt="Long-distance chapter"
       >
 
       <div class="story-shade"></div>
 
-
       <span class="story-number">
         03
       </span>
-
 
       <div class="story-content">
 
@@ -696,8 +520,7 @@
         </h3>
 
         <p>
-          Different cities.
-          Too many calls.
+          Different cities. Too many calls.
           Too many boarding passes.
           Somehow, still us.
         </p>
@@ -708,22 +531,18 @@
 
 
 
-    <!-- STORY 04 -->
-
     <article class="story-card">
 
       <img
-        src="images/story-bangalore.png"
+        src="./images/story-bangalore.png"
         alt="Bangalore chapter"
       >
 
       <div class="story-shade"></div>
 
-
       <span class="story-number">
         04
       </span>
-
 
       <div class="story-content">
 
@@ -737,7 +556,8 @@
 
         <p>
           Finally in the same city.
-          We traded boarding passes for Bangalore traffic jams.
+          We traded boarding passes
+          for Bangalore traffic jams.
         </p>
 
       </div>
@@ -746,22 +566,18 @@
 
 
 
-    <!-- STORY 05 -->
-
-    <article class="story-card story-final-card">
+    <article class="story-card">
 
       <img
-        src="images/closing-temple.png"
+        src="./images/closing-temple.png"
         alt="Wedding by the sea"
       >
 
       <div class="story-shade"></div>
 
-
       <span class="story-number">
         05
       </span>
-
 
       <div class="story-content">
 
@@ -775,13 +591,13 @@
 
         <p>
           And this November,
-          we finally get to make all of you travel instead.
+          we finally get to make all of you
+          travel instead.
         </p>
 
       </div>
 
     </article>
-
 
   </div>
 
@@ -792,7 +608,6 @@
     aria-label="Story navigation"
   ></div>
 
-
 </section>
 
 
@@ -801,34 +616,25 @@
      COUPLE QUIZ
 ===================================================== -->
 
-<section
-  class="quiz-section reveal"
-  id="quiz"
->
+<section class="quiz-section reveal" id="quiz">
 
   <div class="section-inner narrow">
 
 
-    <!-- QUIZ START -->
-
     <div id="quizStart">
-
 
       <p class="section-kicker">
         VERY IMPORTANT RESEARCH
       </p>
 
-
       <h2 id="quizIntroTitle">
         How well do you know us?
       </h2>
 
-
       <p class="section-copy">
-        Six completely scientific questions.
+        Six completely scientific accusations.
         Absolutely no useful conclusions.
       </p>
-
 
       <button
         class="primary-button"
@@ -838,18 +644,11 @@
         BEGIN THE INVESTIGATION →
       </button>
 
-
     </div>
 
 
 
-    <!-- QUIZ GAME -->
-
-    <div
-      class="quiz-game hidden"
-      id="quizGame"
-    >
-
+    <div class="quiz-game hidden" id="quizGame">
 
       <div class="quiz-meta">
 
@@ -858,7 +657,7 @@
         </span>
 
         <span id="quizScore">
-          QUESTION · 1
+          ACCUSATION · 1
         </span>
 
       </div>
@@ -881,33 +680,23 @@
         id="quizReaction"
       ></p>
 
-
     </div>
 
 
 
-    <!-- QUIZ RESULT -->
-
-    <div
-      class="quiz-result hidden"
-      id="quizResult"
-    >
-
+    <div class="quiz-result hidden" id="quizResult">
 
       <p class="section-kicker">
         OFFICIAL RESULT
       </p>
 
-
       <h2 id="quizResultTitle">
         Interesting.
       </h2>
 
-
       <p id="quizResultText">
         We have learned absolutely nothing useful.
       </p>
-
 
       <button
         class="primary-button"
@@ -917,9 +706,7 @@
         TRY AGAIN
       </button>
 
-
     </div>
-
 
   </div>
 
@@ -928,35 +715,26 @@
 
 
 <!-- =====================================================
-     CELEBRATIONS
+     EVENTS
 ===================================================== -->
 
-<section
-  class="events-section reveal"
-  id="events"
->
-
+<section class="events-section reveal" id="events">
 
   <div class="events-heading">
-
 
     <p class="section-kicker">
       THE CELEBRATIONS
     </p>
 
-
     <h2>
       Three reasons to dress up.
     </h2>
 
-
     <p>
-      Two days.
-      Three celebrations.
+      Two days. Three celebrations.
       Consider this your official excuse
       to bring the good outfits.
     </p>
-
 
   </div>
 
@@ -965,17 +743,14 @@
   <div class="event-grid">
 
 
-    <!-- ENGAGEMENT -->
-
     <article class="event-card">
 
       <img
-        src="images/engagement.png"
+        src="./images/engagement.png"
         alt="Engagement by the sea"
       >
 
       <div class="event-shade"></div>
-
 
       <div class="event-content">
 
@@ -999,7 +774,6 @@
           Lake Lawn
         </p>
 
-
         <button
           class="calendar-button"
           type="button"
@@ -1014,17 +788,14 @@
 
 
 
-    <!-- RECEPTION -->
-
     <article class="event-card">
 
       <img
-        src="images/reception.png"
+        src="./images/reception.png"
         alt="Reception celebration"
       >
 
       <div class="event-shade"></div>
-
 
       <div class="event-content">
 
@@ -1048,7 +819,6 @@
           Lake Lawn
         </p>
 
-
         <button
           class="calendar-button"
           type="button"
@@ -1063,17 +833,14 @@
 
 
 
-    <!-- MUHURTHAM -->
-
     <article class="event-card">
 
       <img
-        src="images/muhurtham.png"
+        src="./images/muhurtham.png"
         alt="Muhurtham ceremony"
       >
 
       <div class="event-shade"></div>
-
 
       <div class="event-content">
 
@@ -1097,7 +864,6 @@
           Palm Beach Lawn
         </p>
 
-
         <button
           class="calendar-button"
           type="button"
@@ -1113,7 +879,6 @@
 
   </div>
 
-
 </section>
 
 
@@ -1122,23 +887,16 @@
      VENUE
 ===================================================== -->
 
-<section
-  class="venue-section reveal"
-  id="venue"
->
-
+<section class="venue-section reveal" id="venue">
 
   <div class="venue-visual">
 
-
     <img
-      src="images/venue-coast.png"
+      src="./images/venue-coast.png"
       alt="MGM Beach Resort ECR Chennai"
     >
 
-
     <div class="venue-image-shade"></div>
-
 
     <div class="venue-image-title">
 
@@ -1152,31 +910,24 @@
 
     </div>
 
-
   </div>
 
 
-
   <div class="venue-card">
-
 
     <p class="venue-small">
       MGM BEACH RESORT
     </p>
 
-
     <h3>
       ECR · Chennai
     </h3>
 
-
     <p>
       Sea breeze, wedding clothes,
-      questionable humidity
-      and all our favourite people
-      in one place.
+      questionable humidity and all our
+      favourite people in one place.
     </p>
-
 
     <a
       class="venue-button"
@@ -1187,9 +938,7 @@
       OPEN IN MAPS →
     </a>
 
-
   </div>
-
 
 </section>
 
@@ -1199,19 +948,13 @@
      BANGALORE × CHENNAI
 ===================================================== -->
 
-<section
-  class="blr-feature reveal"
-  id="blrChnFeature"
->
-
+<section class="blr-feature reveal" id="blrChnFeature">
 
   <div class="blr-feature-inner">
-
 
     <p class="section-kicker">
       BEFORE YOU GO...
     </p>
-
 
     <p
       class="blr-personal"
@@ -1234,70 +977,37 @@
     </p>
 
 
-
     <div class="blr-teasers">
 
-
       <div>
-
-        <span>
-          01
-        </span>
-
-        <p>
-          Learn enough Tamil to survive.
-        </p>
-
+        <span>01</span>
+        <p>Learn enough Tamil to survive.</p>
       </div>
 
-
       <div>
-
-        <span>
-          02
-        </span>
-
-        <p>
-          Learn enough Kannada to negotiate.
-        </p>
-
+        <span>02</span>
+        <p>Learn enough Kannada to negotiate.</p>
       </div>
 
-
       <div>
-
-        <span>
-          03
-        </span>
-
-        <p>
-          Review the completely unofficial IPL treaty.
-        </p>
-
+        <span>03</span>
+        <p>Review the completely unofficial IPL treaty.</p>
       </div>
 
-
       <div>
-
-        <span>
-          04
-        </span>
-
+        <span>04</span>
         <p>
           Get roasted 100 times,
           if your self-esteem permits.
         </p>
-
       </div>
-
 
     </div>
 
 
-
     <a
       class="blr-enter-button"
-      href="blr-chn.html"
+      href="./blr-chn.html"
     >
       ENTER THE CHAOS →
     </a>
@@ -1308,9 +1018,7 @@
       for what happens in there.
     </p>
 
-
   </div>
-
 
 </section>
 
@@ -1320,23 +1028,17 @@
      WEDDING HELP DESK
 ===================================================== -->
 
-<section
-  class="wedding-help reveal"
-  id="help"
->
+<section class="wedding-help reveal" id="help">
 
   <div class="section-inner narrow">
-
 
     <p class="section-kicker">
       WEDDING HELP DESK
     </p>
 
-
     <h2>
       Something has gone terribly wrong.
     </h2>
-
 
     <p class="section-copy">
       Choose the emergency that best describes
@@ -1344,41 +1046,23 @@
     </p>
 
 
-
     <div class="help-options">
 
-
-      <button
-        type="button"
-        data-help="late"
-      >
+      <button type="button" data-help="late">
         I'M RUNNING LATE
       </button>
 
-
-      <button
-        type="button"
-        data-help="outfit"
-      >
+      <button type="button" data-help="outfit">
         OUTFIT CRISIS
       </button>
 
-
-      <button
-        type="button"
-        data-help="lost"
-      >
+      <button type="button" data-help="lost">
         I'M LOST
       </button>
 
-
-      <button
-        type="button"
-        data-help="hungry"
-      >
+      <button type="button" data-help="hungry">
         WHEN IS THE FOOD?
       </button>
-
 
     </div>
 
@@ -1387,7 +1071,6 @@
       class="help-status"
       id="helpStatus"
     ></p>
-
 
   </div>
 
@@ -1399,28 +1082,21 @@
      CLOSING
 ===================================================== -->
 
-<section
-  class="closing-section reveal"
-  id="closing"
->
-
+<section class="closing-section reveal" id="closing">
 
   <img
-    src="images/closing-temple.png"
+    src="./images/closing-temple.png"
     alt=""
   >
-
 
   <div class="closing-shade"></div>
 
 
   <div class="closing-content">
 
-
     <p class="section-kicker light">
       21 · 22 NOVEMBER 2026
     </p>
-
 
     <h2>
       See you by the sea,
@@ -1429,44 +1105,36 @@
       </span>.
     </h2>
 
-
     <p>
       We have spent a lot of time imagining
-      these two days,
-      but the part we're looking forward to most
-      is having our favourite people there with us.
+      these two days, but the part we're looking
+      forward to most is having our favourite
+      people there with us.
     </p>
-
 
     <p>
       Thanks for being part of our story.
     </p>
 
-
     <div class="closing-signature">
       Nikhil &amp; Supriya
     </div>
 
-
     <p class="closing-ps">
-      P.S. If you're late,
-      the website will know.
+      P.S. If you're late, the website will know.
     </p>
 
-
   </div>
-
 
 </section>
 
 
-
-</div>
+</main>
 
 
 
 <!-- =====================================================
-     FLOATING NAVIGATION
+     FLOATING NAV
 ===================================================== -->
 
 <nav
@@ -1474,27 +1142,18 @@
   aria-label="Wedding navigation"
 >
 
-
   <a
     class="nav-link active"
     href="#home"
     data-nav="home"
   >
-
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M3 11.5L12 4l9 7.5"></path>
       <path d="M5.5 10v9h13v-9"></path>
     </svg>
 
-    <span>
-      Home
-    </span>
-
+    <span>Home</span>
   </a>
-
 
 
   <a
@@ -1502,20 +1161,12 @@
     href="#story"
     data-nav="story"
   >
-
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.4A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path>
     </svg>
 
-    <span>
-      Story
-    </span>
-
+    <span>Story</span>
   </a>
-
 
 
   <a
@@ -1523,11 +1174,7 @@
     href="#events"
     data-nav="events"
   >
-
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
       <rect
         x="4"
         y="5"
@@ -1541,12 +1188,8 @@
       <path d="M4 10h16"></path>
     </svg>
 
-    <span>
-      Events
-    </span>
-
+    <span>Events</span>
   </a>
-
 
 
   <a
@@ -1554,25 +1197,13 @@
     href="#venue"
     data-nav="venue"
   >
-
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11z"></path>
-      <circle
-        cx="12"
-        cy="10"
-        r="2"
-      ></circle>
+      <circle cx="12" cy="10" r="2"></circle>
     </svg>
 
-    <span>
-      Venue
-    </span>
-
+    <span>Venue</span>
   </a>
-
 
 </nav>
 
@@ -1594,11 +1225,10 @@
 
 
 <!-- =====================================================
-     SCRIPT
+     JAVASCRIPT
 ===================================================== -->
 
-<script src="script.js?v=20261002-5"></script>
-
+<script src="./script.js"></script>
 
 </body>
 </html>

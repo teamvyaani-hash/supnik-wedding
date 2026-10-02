@@ -1,6 +1,5 @@
 /* =========================================================
    SUPNIK.IN
-   Nikhil & Supriya
 ========================================================= */
 
 
@@ -12,6 +11,7 @@ const enterButton =
   document.getElementById(
     "enterCelebration"
   );
+
 
 enterButton?.addEventListener(
   "click",
@@ -55,7 +55,7 @@ const countdownMessage =
   );
 
 
-function twoDigits(number) {
+function pad(number) {
 
   return String(number)
     .padStart(2, "0");
@@ -63,16 +63,233 @@ function twoDigits(number) {
 }
 
 
+/*
+   One different line for
+   each of the final 50 days.
+*/
+
+const dailyCountdownLines = [
+
+  "Fifty days. Plenty of time. This confidence will age badly.",
+
+  "Forty-nine days. Someone has definitely started a wedding spreadsheet.",
+
+  "Forty-eight days. We still believe everything is under control. Adorable.",
+
+  "Forty-seven days. Outfit decisions are entering committee review.",
+
+  "Forty-six days. Family WhatsApp activity has increased by approximately 800%.",
+
+  "Forty-five days. The phrase ‘small change’ is becoming increasingly dangerous.",
+
+  "Forty-four days. Somebody has asked about the guest list again.",
+
+  "Forty-three days. We are still accepting unsolicited opinions. Unfortunately.",
+
+  "Forty-two days. The answer to life, the universe and whether the décor is final: apparently no.",
+
+  "Forty-one days. Nikhil has probably opened another tab.",
+
+  "Forty days. We have entered the ‘that’s actually quite soon’ phase.",
+
+  "Thirty-nine days. The wedding is now closer than several unfinished tasks would prefer.",
+
+  "Thirty-eight days. Someone somewhere is saying, ‘We have time.’",
+
+  "Thirty-seven days. This is your reminder to stop saying you’ll buy the outfit next week.",
+
+  "Thirty-six days. We are officially too close to casually change the entire plan.",
+
+  "Thirty-five days. Five weeks. That sounded better before we calculated it.",
+
+  "Thirty-four days. Family coordination is now a competitive sport.",
+
+  "Thirty-three days. The wedding group chats have developed subplots.",
+
+  "Thirty-two days. Someone has absolutely forgotten to book something.",
+
+  "Thirty-one days. One month-ish. Excellent time to begin mild panic.",
+
+  "Thirty days. This is no longer a future event. This is a situation.",
+
+  "Twenty-nine days. If your outfit is still ‘almost decided’, good luck.",
+
+  "Twenty-eight days. Four weeks. Suddenly everyone has questions.",
+
+  "Twenty-seven days. We have begun using the phrase ‘after the wedding’ as a scheduling system.",
+
+  "Twenty-six days. Someone just suggested one tiny last-minute addition.",
+
+  "Twenty-five days. Halfway through the final fifty. Dignity remains optional.",
+
+  "Twenty-four days. The calendar is starting to look personally threatening.",
+
+  "Twenty-three days. Everybody remain calm. Especially the people telling everyone to remain calm.",
+
+  "Twenty-two days. The number of screenshots in the wedding folder is concerning.",
+
+  "Twenty-one days. Three weeks. If you are still deciding what to wear, this message is about you.",
+
+  "Twenty days. Twenty. That is not a lot of days.",
+
+  "Nineteen days. Somebody has started checking the weather far too early.",
+
+  "Eighteen days. We have reached the point where every phone call begins with ‘quick thing’.",
+
+  "Seventeen days. No new ideas. Please. We have enough ideas.",
+
+  "Sixteen days. Everything is fine, provided nobody asks a follow-up question.",
+
+  "Fifteen days. Two weeks and change. The change is panic.",
+
+  "Fourteen days. Two weeks. This website is now emotionally invested.",
+
+  "Thirteen days. Bad luck only if you still haven’t sorted your outfit.",
+
+  "Twelve days. We are now measuring time in sleeps.",
+
+  "Eleven days. Somebody say something reassuring.",
+
+  "Ten days. DOUBLE DIGITS ARE OVER AFTER TODAY.",
+
+  "Nine days. Single digits. We would like to unsubscribe.",
+
+  "Eight days. The wedding is closer than your next lazy Sunday.",
+
+  "Seven days. ONE WEEK. Nobody make any new plans.",
+
+  "Six days. This is officially happening whether we are ready or not.",
+
+  "Five days. If you need Nikhil, perhaps reconsider.",
+
+  "Four days. There are now too many people asking ‘anything I can help with?’",
+
+  "Three days. Sleep is becoming more of a concept.",
+
+  "Two days. Pack. Charge your phone. Locate your clothes. Good luck.",
+
+  "Tomorrow. TOMORROW. This website is no longer calm."
+
+];
+
+
+/*
+   Final 48 hours.
+   One line for every hour.
+*/
+
+const final48Lines = [
+
+  "48 hours. We have entered the no-new-ideas zone.",
+
+  "47 hours. Somewhere, a garment bag is being aggressively zipped.",
+
+  "46 hours. Someone has just asked a question that was answered three weeks ago.",
+
+  "45 hours. Phone battery anxiety has officially begun.",
+
+  "44 hours. The phrase ‘where is it?’ is gaining momentum.",
+
+  "43 hours. This is a terrible time to discover you forgot something.",
+
+  "42 hours. Everything is fine. The spreadsheet says so.",
+
+  "41 hours. The family group chat has become mission control.",
+
+  "40 hours. Nikhil is probably checking something that was already checked.",
+
+  "39 hours. Supriya is probably wondering why it needed checking again.",
+
+  "38 hours. Someone is currently ironing something at an unreasonable hour.",
+
+  "37 hours. Wedding logistics have achieved sentience.",
+
+  "36 hours. One and a half days. Deeply unnecessary levels of excitement.",
+
+  "35 hours. If you are travelling, this would be a great time to know where your ID is.",
+
+  "34 hours. Someone has definitely packed three outfits for one event.",
+
+  "33 hours. The weather app has been refreshed. Again.",
+
+  "32 hours. We are accepting compliments and absolutely no additional suggestions.",
+
+  "31 hours. This countdown is now moving disrespectfully fast.",
+
+  "30 hours. You can still pretend you have everything organised.",
+
+  "29 hours. That pretence is becoming harder.",
+
+  "28 hours. Nobody mention last-minute changes.",
+
+  "27 hours. A charger has already gone missing.",
+
+  "26 hours. Somebody has asked what time the event starts. The website feels insulted.",
+
+  "25 hours. Almost one day. Fantastic. Terrifying.",
+
+  "24 hours. ONE DAY. Everybody behave.",
+
+  "23 hours. This is your final warning to locate your clothes.",
+
+  "22 hours. There is absolutely no reason to begin a new skincare experiment now.",
+
+  "21 hours. Wedding brain has replaced normal brain.",
+
+  "20 hours. People are arriving. Things are happening. Excellent.",
+
+  "19 hours. Someone has already misplaced a room key.",
+
+  "18 hours. The phrase ‘quick photo’ is about to become dangerous.",
+
+  "17 hours. We are running entirely on excitement and questionable sleep.",
+
+  "16 hours. This seemed very far away when we built this website.",
+
+  "15 hours. If you have a logistical question, please first ask yourself if you truly need the answer.",
+
+  "14 hours. We are entering full wedding mode.",
+
+  "13 hours. Everything is ready. Do not fact-check that statement.",
+
+  "12 hours. TWELVE HOURS. Go sleep. Seriously.",
+
+  "11 hours. Why are you still awake?",
+
+  "10 hours. If you are reading this instead of sleeping, we have concerns.",
+
+  "9 hours. The alarm clocks have been armed.",
+
+  "8 hours. Somebody is definitely awake already.",
+
+  "7 hours. Wedding morning energy has entered the building.",
+
+  "6 hours. Coffee. Clothes. Confidence.",
+
+  "5 hours. We are past the point of solving problems elegantly.",
+
+  "4 hours. If it cannot be fixed in four hours, it is now décor.",
+
+  "3 hours. THREE HOURS. Stop refreshing the website.",
+
+  "2 hours. At this point, just show up.",
+
+  "1 hour. Okay. This is actually happening."
+
+];
+
+
 function updateCountdown() {
 
   const now =
     new Date();
 
-  const distance =
+
+  const difference =
     weddingDate - now;
 
 
-  if (distance <= 0) {
+  if (difference <= 0) {
 
     daysEl.textContent =
       "00";
@@ -88,16 +305,26 @@ function updateCountdown() {
 
 
     countdownMessage.textContent =
-      "The big day is here.";
+      "THE DAY IS HERE. Stop looking at the countdown and come celebrate.";
 
     return;
-
   }
+
+
+  const totalHours =
+    Math.ceil(
+      difference /
+      (
+        1000 *
+        60 *
+        60
+      )
+    );
 
 
   const days =
     Math.floor(
-      distance /
+      difference /
       (
         1000 *
         60 *
@@ -110,7 +337,7 @@ function updateCountdown() {
   const hours =
     Math.floor(
       (
-        distance /
+        difference /
         (
           1000 *
           60 *
@@ -123,7 +350,7 @@ function updateCountdown() {
   const minutes =
     Math.floor(
       (
-        distance /
+        difference /
         (
           1000 *
           60
@@ -135,57 +362,71 @@ function updateCountdown() {
   const seconds =
     Math.floor(
       (
-        distance /
+        difference /
         1000
       ) % 60
     );
 
 
-  /*
-    We are now within 99 days,
-    so DAYS stays visually at
-    two digits as requested.
-  */
-
   daysEl.textContent =
-    twoDigits(days);
+    pad(days);
 
   hoursEl.textContent =
-    twoDigits(hours);
+    pad(hours);
 
   minutesEl.textContent =
-    twoDigits(minutes);
+    pad(minutes);
 
   secondsEl.textContent =
-    twoDigits(seconds);
+    pad(seconds);
 
 
-  if (days > 30) {
+  /*
+     Last 48 hours gets
+     hour-specific nonsense.
+  */
 
-    countdownMessage.textContent =
-      "Close enough to be exciting.";
-
-  } else if (days > 7) {
-
-    countdownMessage.textContent =
-      "Okay. This is getting very real.";
-
-  } else if (days > 1) {
+  if (
+    totalHours <= 48 &&
+    totalHours >= 1
+  ) {
 
     countdownMessage.textContent =
-      "This would be a good time to locate your outfit.";
+      final48Lines[
+        48 - totalHours
+      ];
 
-  } else {
-
-    countdownMessage.textContent =
-      "See you very, very soon.";
-
+    return;
   }
+
+
+  /*
+     Final 50 days gets
+     a different joke each day.
+  */
+
+  if (
+    days <= 50 &&
+    days >= 1
+  ) {
+
+    countdownMessage.textContent =
+      dailyCountdownLines[
+        50 - days
+      ];
+
+    return;
+  }
+
+
+  countdownMessage.textContent =
+    `${days} days to go. Plenty of time to pretend we are completely organised.`;
 
 }
 
 
 updateCountdown();
+
 
 setInterval(
   updateCountdown,
@@ -194,7 +435,7 @@ setInterval(
 
 
 /* =========================================================
-   REVEAL ANIMATIONS
+   REVEALS
 ========================================================= */
 
 const reveals =
@@ -208,55 +449,49 @@ if (
   in window
 ) {
 
-  const revealObserver =
+  const observer =
     new IntersectionObserver(
-      (entries, observer) => {
+      (
+        entries,
+        revealObserver
+      ) => {
 
         entries.forEach(
-          (entry) => {
+          entry => {
 
             if (
-              !entry.isIntersecting
+              entry.isIntersecting
             ) {
-              return;
-            }
 
-
-            entry.target
-              .classList
-              .add("visible");
-
-
-            observer.unobserve(
               entry.target
-            );
+                .classList
+                .add(
+                  "visible"
+                );
+
+
+              revealObserver
+                .unobserve(
+                  entry.target
+                );
+
+            }
 
           }
         );
 
       },
       {
-        threshold: 0.11,
-
-        rootMargin:
-          "0px 0px -35px 0px"
+        threshold: 0.11
       }
     );
 
 
   reveals.forEach(
-    (element, index) => {
+    item => {
 
-      element.style
-        .transitionDelay =
-          `${Math.min(
-            index % 3,
-            2
-          ) * 50}ms`;
-
-
-      revealObserver.observe(
-        element
+      observer.observe(
+        item
       );
 
     }
@@ -265,9 +500,9 @@ if (
 } else {
 
   reveals.forEach(
-    element => {
+    item => {
 
-      element.classList.add(
+      item.classList.add(
         "visible"
       );
 
@@ -281,13 +516,13 @@ if (
    HERO SPARKLES
 ========================================================= */
 
-const heroSparkles =
+const sparkles =
   document.getElementById(
     "heroSparkles"
   );
 
 
-if (heroSparkles) {
+if (sparkles) {
 
   for (
     let i = 0;
@@ -306,7 +541,7 @@ if (heroSparkles) {
 
 
     sparkle.textContent =
-      Math.random() > 0.5
+      Math.random() > 0.45
         ? "✦"
         : "·";
 
@@ -316,7 +551,11 @@ if (heroSparkles) {
 
 
     sparkle.style.top =
-      `${25 + Math.random() * 65}%`;
+      `${20 + Math.random() * 70}%`;
+
+
+    sparkle.style.fontSize =
+      `${6 + Math.random() * 7}px`;
 
 
     sparkle.style.animationDuration =
@@ -327,11 +566,7 @@ if (heroSparkles) {
       `${Math.random() * 5}s`;
 
 
-    sparkle.style.fontSize =
-      `${6 + Math.random() * 8}px`;
-
-
-    heroSparkles.appendChild(
+    sparkles.appendChild(
       sparkle
     );
 
@@ -341,7 +576,7 @@ if (heroSparkles) {
 
 
 /* =========================================================
-   TEAM NIKHIL / SUPRIYA
+   PICK A SIDE
 ========================================================= */
 
 const teamNikhil =
@@ -372,20 +607,28 @@ teamNikhil?.addEventListener(
     nikhilClicks++;
 
 
-    if (nikhilClicks >= 5) {
+    const lines = [
 
-      teamResponse.textContent =
-        "Okay bro, we get it.";
+      "Interesting. Nikhil will be informed immediately.",
 
-      nikhilClicks = 0;
+      "Excellent. Your judgment appears mostly functional.",
 
-      return;
+      "Team Nikhil gains one completely unofficial vote.",
 
-    }
+      "You clicked it again. This is becoming political.",
+
+      "Okay bro. We get it."
+
+    ];
 
 
     teamResponse.textContent =
-      "Excellent choice. Slightly questionable judgment, but excellent choice.";
+      lines[
+        Math.min(
+          nikhilClicks - 1,
+          lines.length - 1
+        )
+      ];
 
   }
 );
@@ -398,172 +641,295 @@ teamSupriya?.addEventListener(
     supriyaClicks++;
 
 
-    if (supriyaClicks >= 5) {
+    const lines = [
 
-      teamResponse.textContent =
-        "Commitment noted. Respect.";
+      "A very safe diplomatic decision.",
 
-      supriyaClicks = 0;
+      "Supriya appreciates your excellent survival instincts.",
 
-      return;
+      "Another vote. Nikhil would like to request a recount.",
 
-    }
+      "You seem extremely confident about this.",
+
+      "Commitment noted. Respect."
+
+    ];
 
 
     teamResponse.textContent =
-      "You clearly know who runs this wedding.";
+      lines[
+        Math.min(
+          supriyaClicks - 1,
+          lines.length - 1
+        )
+      ];
 
   }
 );
 
 
 /* =========================================================
+   HORIZONTAL STORY
+========================================================= */
+
+const storyScroller =
+  document.getElementById(
+    "storyScroller"
+  );
+
+const storyCards =
+  document.querySelectorAll(
+    ".story-card"
+  );
+
+const storyDots =
+  document.querySelectorAll(
+    "#storyDots span"
+  );
+
+
+function updateStoryPosition() {
+
+  if (!storyScroller) {
+    return;
+  }
+
+
+  const scrollerCenter =
+    storyScroller.scrollLeft +
+    storyScroller.clientWidth / 2;
+
+
+  let closestIndex = 0;
+
+  let closestDistance =
+    Infinity;
+
+
+  storyCards.forEach(
+    (
+      card,
+      index
+    ) => {
+
+      const cardCenter =
+        card.offsetLeft +
+        card.offsetWidth / 2;
+
+
+      const distance =
+        Math.abs(
+          cardCenter -
+          scrollerCenter
+        );
+
+
+      if (
+        distance <
+        closestDistance
+      ) {
+
+        closestDistance =
+          distance;
+
+        closestIndex =
+          index;
+
+      }
+
+    }
+  );
+
+
+  storyCards.forEach(
+    (
+      card,
+      index
+    ) => {
+
+      card.classList.toggle(
+        "active",
+        index === closestIndex
+      );
+
+    }
+  );
+
+
+  storyDots.forEach(
+    (
+      dot,
+      index
+    ) => {
+
+      dot.classList.toggle(
+        "active",
+        index === closestIndex
+      );
+
+    }
+  );
+
+}
+
+
+storyScroller?.addEventListener(
+  "scroll",
+  () => {
+
+    requestAnimationFrame(
+      updateStoryPosition
+    );
+
+  },
+  {
+    passive: true
+  }
+);
+
+
+updateStoryPosition();
+
+
+/* =========================================================
    QUIZ
 ========================================================= */
 
-const quizBank = [
+const quizQuestions = [
 
   {
     question:
-      "Where did this story technically begin?",
+      "Who is more likely to turn one tiny decision into a full research project?",
 
     options: [
-      "KPMG",
-      "Watson’s",
-      "Bangalore traffic",
-      "An airport"
+      "Nikhil",
+      "Supriya",
+      "Both"
     ],
 
     answer: 0,
 
     reaction:
-      "Correct. HR was not consulted."
+      "Correct. There were probably tabs, comparisons and at least one spreadsheet."
   },
 
 
   {
     question:
-      "Where did things become suspiciously less professional?",
+      "Who is more likely to eventually say, ‘Just pick one’?",
 
     options: [
-      "A meeting room",
-      "Watson’s",
-      "An airport",
-      "MGM Beach Resort"
+      "Nikhil",
+      "Supriya",
+      "Both"
     ],
 
     answer: 1,
 
     reaction:
-      "Exactly. Allegedly just a casual catch-up."
+      "Correct. Every project eventually requires executive intervention."
   },
 
 
   {
     question:
-      "What became a recurring feature of the long-distance chapter?",
+      "Who is more likely to still be changing something on this website one week before the wedding?",
 
     options: [
-      "Flights",
-      "Calls",
-      "When are you coming?",
-      "All of the above"
+      "Nikhil",
+      "Supriya",
+      "Both"
     ],
 
-    answer: 3,
+    answer: 0,
 
     reaction:
-      "Correct. Frequent-flyer points deserve a wedding invitation."
+      "Correct. Please confiscate his GitHub access in November."
   },
 
 
   {
     question:
-      "What eventually replaced the boarding passes?",
+      "Who is more likely to survive Chennai weather without immediately complaining?",
 
     options: [
-      "Peace and quiet",
-      "Bangalore traffic",
-      "A private jet",
-      "Good planning"
-    ],
-
-    answer: 1,
-
-    reaction:
-      "Correct. Romantic? Debatable."
-  },
-
-
-  {
-    question:
-      "Where are we getting married?",
-
-    options: [
-      "KPMG",
-      "Goa",
-      "MGM Beach Resort",
-      "Watson’s"
-    ],
-
-    answer: 2,
-
-    reaction:
-      "Correct. Slightly better than a conference room."
-  },
-
-
-  {
-    question:
-      "What is the 2026 plot twist?",
-
-    options: [
-      "More long distance",
-      "Everyone else travels now",
-      "Nobody mentions traffic",
-      "We move back to KPMG"
+      "Nikhil",
+      "Supriya",
+      "Absolutely neither"
     ],
 
     answer: 1,
 
     reaction:
-      "Correct. Our turn to inconvenience everyone."
+      "Correct. One of them has home-ground advantage."
   },
 
 
   {
     question:
-      "Which phrase best describes the road from KPMG to Chennai?",
+      "Who is more likely to know where something actually is when everybody else is looking for it?",
 
     options: [
-      "Simple",
-      "Efficient",
-      "A suspicious amount of logistics",
-      "Zero travel"
+      "Nikhil",
+      "Supriya",
+      "Nobody. We are doomed."
     ],
 
-    answer: 2,
+    answer: 1,
 
     reaction:
-      "Correct. There have been spreadsheets."
+      "Correct. There is usually one functioning operations department."
   },
 
 
   {
     question:
-      "What is the safest prediction for November 21–22?",
+      "Who is more likely to say, ‘It’ll take five minutes’ immediately before a twenty-minute task?",
 
     options: [
-      "Everyone arrives early",
-      "Nobody asks directions",
-      "Nikhil and Supriya get married",
-      "Zero WhatsApp messages"
+      "Nikhil",
+      "Supriya",
+      "Both"
+    ],
+
+    answer: 0,
+
+    reaction:
+      "Correct. Time estimates are currently under investigation."
+  },
+
+
+  {
+    question:
+      "Who is more likely to remember a tiny detail from a conversation six months ago?",
+
+    options: [
+      "Nikhil",
+      "Supriya",
+      "Depends who is winning the argument"
     ],
 
     answer: 2,
 
     reaction:
-      "Correct. We’re reasonably confident about that one."
+      "Correct. Memory is remarkably powerful when evidence is required."
+  },
+
+
+  {
+    question:
+      "Who is more likely to be calm right until the exact second everyone else starts panicking?",
+
+    options: [
+      "Nikhil",
+      "Supriya",
+      "Neither"
+    ],
+
+    answer: 1,
+
+    reaction:
+      "Correct. Somebody has to maintain operational stability."
   }
 
 ];
@@ -630,16 +996,16 @@ const quizResultText =
   );
 
 
-let quizQuestions = [];
+let quizDeck = [];
 
-let quizIndex = 0;
+let currentQuestion = 0;
 
 let score = 0;
 
-let locked = false;
+let quizLocked = false;
 
 
-function shuffle(
+function shuffleArray(
   array
 ) {
 
@@ -682,35 +1048,39 @@ function shuffle(
 
 function beginQuiz() {
 
-  quizQuestions =
-    shuffle(
-      quizBank
+  quizDeck =
+    shuffleArray(
+      quizQuestions
     ).slice(
       0,
       6
     );
 
 
-  quizIndex = 0;
+  currentQuestion = 0;
 
   score = 0;
-
-  locked = false;
 
 
   quizStart
     ?.classList
-    .add("hidden");
+    .add(
+      "hidden"
+    );
 
 
   quizResult
     ?.classList
-    .add("hidden");
+    .add(
+      "hidden"
+    );
 
 
   quizGame
     ?.classList
-    .remove("hidden");
+    .remove(
+      "hidden"
+    );
 
 
   renderQuestion();
@@ -720,30 +1090,25 @@ function beginQuiz() {
 
 function renderQuestion() {
 
-  locked = false;
+  quizLocked = false;
 
 
-  const current =
-    quizQuestions[
-      quizIndex
+  const question =
+    quizDeck[
+      currentQuestion
     ];
 
 
-  if (!current) {
-    return;
-  }
-
-
   quizProgress.textContent =
-    `Question ${quizIndex + 1} of 6`;
+    `QUESTION ${currentQuestion + 1} OF 6`;
 
 
   quizScore.textContent =
-    `${score} correct`;
+    `${score} CORRECT`;
 
 
   quizQuestion.textContent =
-    current.question;
+    question.question;
 
 
   quizReaction.textContent =
@@ -754,64 +1119,58 @@ function renderQuestion() {
     "";
 
 
-  current.options
-    .forEach(
-      (
-        option,
-        optionIndex
-      ) => {
+  question.options.forEach(
+    (
+      option,
+      index
+    ) => {
 
-        const button =
-          document
-            .createElement(
-              "button"
-            );
-
-
-        button.type =
-          "button";
-
-
-        button.textContent =
-          option;
-
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            answerQuestion(
-              button,
-              optionIndex,
-              current
-            );
-
-          }
+      const button =
+        document.createElement(
+          "button"
         );
 
 
-        quizOptions.appendChild(
-          button
-        );
+      button.textContent =
+        option;
 
-      }
-    );
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          answerQuiz(
+            button,
+            index,
+            question
+          );
+
+        }
+      );
+
+
+      quizOptions.appendChild(
+        button
+      );
+
+    }
+  );
 
 }
 
 
-function answerQuestion(
+function answerQuiz(
   button,
   selected,
-  current
+  question
 ) {
 
-  if (locked) {
+  if (quizLocked) {
     return;
   }
 
 
-  locked = true;
+  quizLocked = true;
 
 
   const buttons =
@@ -821,18 +1180,20 @@ function answerQuestion(
       );
 
 
-  const correct =
+  if (
     selected ===
-    current.answer;
-
-
-  if (correct) {
+    question.answer
+  ) {
 
     score++;
 
     button.classList.add(
       "correct"
     );
+
+
+    quizReaction.textContent =
+      question.reaction;
 
   } else {
 
@@ -842,30 +1203,28 @@ function answerQuestion(
 
 
     buttons[
-      current.answer
+      question.answer
     ]
       ?.classList
       .add(
         "correct"
       );
 
+
+    quizReaction.textContent =
+      "Incorrect. Please reconsider how well you know these people.";
+
   }
 
 
   quizScore.textContent =
-    `${score} correct`;
-
-
-  quizReaction.textContent =
-    correct
-      ? current.reaction
-      : "Not quite. We’ll pretend nobody saw that.";
+    `${score} CORRECT`;
 
 
   buttons.forEach(
-    btn => {
+    item => {
 
-      btn.disabled =
+      item.disabled =
         true;
 
     }
@@ -875,12 +1234,12 @@ function answerQuestion(
   setTimeout(
     () => {
 
-      quizIndex++;
+      currentQuestion++;
 
 
       if (
-        quizIndex >=
-        quizQuestions.length
+        currentQuestion >=
+        quizDeck.length
       ) {
 
         finishQuiz();
@@ -892,7 +1251,7 @@ function answerQuestion(
       }
 
     },
-    1100
+    1200
   );
 
 }
@@ -914,41 +1273,43 @@ function finishQuiz() {
     );
 
 
-  if (score === 6) {
+  if (
+    score === 6
+  ) {
 
     quizResultTitle.textContent =
-      "Suspicious.";
+      "Disturbingly accurate.";
 
     quizResultText.textContent =
-      "Perfect score. Either you know us extremely well or you studied this website.";
+      "6/6. Either you know us extremely well or you have been taking notes.";
 
   } else if (
     score >= 4
   ) {
 
     quizResultTitle.textContent =
-      "You actually know us.";
+      "You may stay.";
 
     quizResultText.textContent =
-      `${score}/6. Respectable. Your invitation remains valid.`;
+      `${score}/6. Strong performance. Your invitation remains fully valid.`;
 
   } else if (
     score >= 2
   ) {
 
     quizResultTitle.textContent =
-      "We’ll allow it.";
+      "Concerning, but recoverable.";
 
     quizResultText.textContent =
-      `${score}/6. Enough knowledge to attend. Probably not enough to give a speech.`;
+      `${score}/6. Spend more time with us before volunteering to give a speech.`;
 
   } else {
 
     quizResultTitle.textContent =
-      "Interesting.";
+      "Who invited you?";
 
     quizResultText.textContent =
-      `${score}/6. Still invited. Barely.`;
+      `${score}/6. The wedding information is elsewhere on this website. Please begin there.`;
 
   }
 
@@ -968,7 +1329,7 @@ restartQuiz?.addEventListener(
 
 
 /* =========================================================
-   CALENDAR FILES
+   CALENDAR
 ========================================================= */
 
 const calendarEvents = {
@@ -985,10 +1346,7 @@ const calendarEvents = {
       "20261121T063000Z",
 
     location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Nikhil & Supriya's Engagement"
+      "Lake Lawn, MGM Beach Resort, ECR, Chennai"
 
   },
 
@@ -1005,10 +1363,7 @@ const calendarEvents = {
       "20261121T160000Z",
 
     location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Nikhil & Supriya's Reception"
+      "Lake Lawn, MGM Beach Resort, ECR, Chennai"
 
   },
 
@@ -1025,43 +1380,11 @@ const calendarEvents = {
       "20261122T043000Z",
 
     location:
-      "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Nikhil & Supriya's Muhurtham"
+      "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai"
 
   }
 
 };
-
-
-function escapeICS(
-  value
-) {
-
-  return String(value)
-
-    .replace(
-      /\\/g,
-      "\\\\"
-    )
-
-    .replace(
-      /\n/g,
-      "\\n"
-    )
-
-    .replace(
-      /,/g,
-      "\\,"
-    )
-
-    .replace(
-      /;/g,
-      "\\;"
-    );
-
-}
 
 
 function downloadCalendar(
@@ -1077,19 +1400,6 @@ function downloadCalendar(
   }
 
 
-  const stamp =
-    new Date()
-      .toISOString()
-      .replace(
-        /[-:]/g,
-        ""
-      )
-      .replace(
-        /\.\d{3}Z$/,
-        "Z"
-      );
-
-
   const content = [
 
     "BEGIN:VCALENDAR",
@@ -1098,23 +1408,15 @@ function downloadCalendar(
 
     "PRODID:-//SUPNIK//Wedding//EN",
 
-    "CALSCALE:GREGORIAN",
-
     "BEGIN:VEVENT",
-
-    `UID:${type}-2026@supnik.in`,
-
-    `DTSTAMP:${stamp}`,
 
     `DTSTART:${event.start}`,
 
     `DTEND:${event.end}`,
 
-    `SUMMARY:${escapeICS(event.title)}`,
+    `SUMMARY:${event.title}`,
 
-    `LOCATION:${escapeICS(event.location)}`,
-
-    `DESCRIPTION:${escapeICS(event.description)}`,
+    `LOCATION:${event.location}`,
 
     "END:VEVENT",
 
@@ -1130,7 +1432,7 @@ function downloadCalendar(
       [content],
       {
         type:
-          "text/calendar;charset=utf-8"
+          "text/calendar"
       }
     );
 
@@ -1149,31 +1451,16 @@ function downloadCalendar(
 
   link.href = url;
 
+
   link.download =
-    `nikhil-supriya-${type}.ics`;
-
-
-  document.body
-    .appendChild(
-      link
-    );
+    `${type}.ics`;
 
 
   link.click();
 
 
-  link.remove();
-
-
-  setTimeout(
-    () => {
-
-      URL.revokeObjectURL(
-        url
-      );
-
-    },
-    1000
+  URL.revokeObjectURL(
+    url
   );
 
 }
@@ -1181,7 +1468,7 @@ function downloadCalendar(
 
 document
   .querySelectorAll(
-    ".calendar-button"
+    ".calendar-button-photo"
   )
   .forEach(
     button => {
@@ -1202,107 +1489,60 @@ document
 
 
 /* =========================================================
-   WEDDING WISDOM
+   WEDDING HELP DESK
 ========================================================= */
 
-const wisdomButton =
+const helpAnswer =
   document.getElementById(
-    "wisdomButton"
-  );
-
-const wisdomText =
-  document.getElementById(
-    "wisdomText"
+    "helpAnswer"
   );
 
 
-const wisdom = [
+const helpResponses = {
 
-  "If someone says ‘quick photo’, emotionally prepare for seventeen.",
+  lost:
+    "Open Maps. Search MGM Beach Resort. If you still cannot find it, follow the suspicious number of well-dressed people.",
 
-  "Never trust anyone who says the family group photo will take five minutes.",
+  late:
+    "First rule: do not announce it dramatically in the family WhatsApp group. Second rule: start moving.",
 
-  "Comfortable shoes are a personality trait now.",
+  outfit:
+    "At this point, confidence is part of the outfit. Put it on and come.",
 
-  "If you are lost, walk confidently. People may assume you are helping.",
+  confused:
+    "Find somebody who looks like they know what is happening. They probably do not, but confidence is useful."
 
-  "Charge your phone. Someone will eventually ask you to take a photo.",
-
-  "The phrase ‘we’re almost ready’ has no measurable relationship with time.",
-
-  "When in doubt, follow the person who looks like they know what is happening.",
-
-  "Do not start an IPL argument unless you have cleared your schedule.",
-
-  "If Nikhil says everything is under control, confirm independently.",
-
-  "If Supriya says everything is under control, it probably is.",
-
-  "One enthusiastic relative is enough to start a dance floor.",
-
-  "Someone will ask where the venue is despite being sent the location several times."
-
-];
+};
 
 
-let lastWisdom =
-  -1;
+document
+  .querySelectorAll(
+    "[data-help]"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const response =
+            helpResponses[
+              button.dataset.help
+            ];
 
 
-wisdomButton?.addEventListener(
-  "click",
-  () => {
+          helpAnswer.innerHTML =
+            `
+              <span>OFFICIAL RESPONSE</span>
+              <p>${response}</p>
+            `;
 
-    let index;
+        }
+      );
 
-
-    do {
-
-      index =
-        Math.floor(
-          Math.random() *
-          wisdom.length
-        );
-
-    } while (
-      index ===
-        lastWisdom &&
-      wisdom.length > 1
-    );
-
-
-    lastWisdom =
-      index;
-
-
-    wisdomText.style.opacity =
-      "0";
-
-
-    wisdomText.style.transform =
-      "translateY(6px)";
-
-
-    setTimeout(
-      () => {
-
-        wisdomText.textContent =
-          wisdom[index];
-
-
-        wisdomText.style.opacity =
-          "1";
-
-
-        wisdomText.style.transform =
-          "translateY(0)";
-
-      },
-      180
-    );
-
-  }
-);
+    }
+  );
 
 
 /* =========================================================
@@ -1322,15 +1562,15 @@ navLinks.forEach(
       "click",
       event => {
 
-        const selector =
+        const targetId =
           link.getAttribute(
             "href"
           );
 
 
         if (
-          !selector
-          ?.startsWith("#")
+          !targetId
+            ?.startsWith("#")
         ) {
           return;
         }
@@ -1338,7 +1578,7 @@ navLinks.forEach(
 
         const target =
           document.querySelector(
-            selector
+            targetId
           );
 
 
@@ -1352,10 +1592,7 @@ navLinks.forEach(
 
         target.scrollIntoView({
           behavior:
-            "smooth",
-
-          block:
-            "start"
+            "smooth"
         });
 
       }
@@ -1365,68 +1602,45 @@ navLinks.forEach(
 );
 
 
-const navSections = [
+const sections = [
 
-  {
-    id: "home",
-    element:
-      document.getElementById(
-        "home"
-      )
-  },
+  "home",
+  "story",
+  "events",
+  "venue"
 
-  {
-    id: "story",
-    element:
-      document.getElementById(
-        "story"
-      )
-  },
-
-  {
-    id: "events",
-    element:
-      document.getElementById(
-        "events"
-      )
-  },
-
-  {
-    id: "venue",
-    element:
-      document.getElementById(
-        "venue"
-      )
-  }
-
-].filter(
-  item =>
-    item.element
-);
+];
 
 
-function updateActiveNav() {
+function updateNav() {
 
   const position =
     window.scrollY +
     window.innerHeight *
-    0.38;
+    0.4;
 
 
   let active =
     "home";
 
 
-  navSections.forEach(
-    section => {
+  sections.forEach(
+    id => {
+
+      const element =
+        document.getElementById(
+          id
+        );
+
 
       if (
+        element &&
         position >=
-        section.element.offsetTop
+        element.offsetTop
       ) {
 
         active =
-          section.id;
+          id;
 
       }
 
@@ -1452,14 +1666,11 @@ function updateActiveNav() {
 
 window.addEventListener(
   "scroll",
-  updateActiveNav,
+  updateNav,
   {
     passive: true
   }
 );
-
-
-updateActiveNav();
 
 
 /* =========================================================
@@ -1472,23 +1683,20 @@ const backToTop =
   );
 
 
-function updateBackToTop() {
-
-  backToTop
-    ?.classList
-    .toggle(
-      "visible",
-
-      window.scrollY >
-        750
-    );
-
-}
-
-
 window.addEventListener(
   "scroll",
-  updateBackToTop,
+  () => {
+
+    backToTop
+      ?.classList
+      .toggle(
+        "visible",
+
+        window.scrollY >
+          700
+      );
+
+  },
   {
     passive: true
   }
@@ -1511,10 +1719,10 @@ backToTop?.addEventListener(
 
 
 /* =========================================================
-   HIDE NAV AT CLOSING
+   HIDE NAV ON ENDING
 ========================================================= */
 
-const floatingNav =
+const nav =
   document.getElementById(
     "mobileNav"
   );
@@ -1526,7 +1734,7 @@ const closing =
 
 
 if (
-  floatingNav &&
+  nav &&
   closing &&
   "IntersectionObserver"
   in window
@@ -1539,15 +1747,13 @@ if (
         entries.forEach(
           entry => {
 
-            floatingNav
-              .classList
-              .toggle(
-                "nav-hidden",
+            nav.classList.toggle(
+              "nav-hidden",
 
-                entry.isIntersecting &&
-                entry.intersectionRatio >
-                  0.22
-              );
+              entry.isIntersecting &&
+              entry.intersectionRatio >
+                0.25
+            );
 
           }
         );
@@ -1556,8 +1762,7 @@ if (
       {
         threshold: [
           0,
-          0.22,
-          0.45
+          0.25
         ]
       }
     );
@@ -1571,7 +1776,7 @@ if (
 
 
 /* =========================================================
-   SECRET LOGO EASTER EGG
+   SECRET
 ========================================================= */
 
 const secretTrigger =
@@ -1595,15 +1800,10 @@ const heartContainer =
   );
 
 
-let heartsInterval;
+let heartTimer;
 
 
 function createHeart() {
-
-  if (!heartContainer) {
-    return;
-  }
-
 
   const heart =
     document.createElement(
@@ -1624,16 +1824,17 @@ function createHeart() {
 
 
   heart.style.fontSize =
-    `${14 + Math.random() * 24}px`;
+    `${15 + Math.random() * 20}px`;
 
 
   heart.style.animationDuration =
     `${4 + Math.random() * 4}s`;
 
 
-  heartContainer.appendChild(
-    heart
-  );
+  heartContainer
+    ?.appendChild(
+      heart
+    );
 
 
   setTimeout(
@@ -1652,46 +1853,20 @@ function openSecret() {
 
   secretOverlay
     ?.classList
-    .add("open");
-
-
-  secretOverlay
-    ?.setAttribute(
-      "aria-hidden",
-      "false"
+    .add(
+      "open"
     );
 
 
-  document.body
-    .style
-    .overflow =
-      "hidden";
+  document.body.style.overflow =
+    "hidden";
 
 
-  clearInterval(
-    heartsInterval
-  );
-
-
-  heartsInterval =
+  heartTimer =
     setInterval(
       createHeart,
-      700
+      600
     );
-
-
-  for (
-    let i = 0;
-    i < 6;
-    i++
-  ) {
-
-    setTimeout(
-      createHeart,
-      i * 120
-    );
-
-  }
 
 }
 
@@ -1700,24 +1875,17 @@ function closeSecret() {
 
   secretOverlay
     ?.classList
-    .remove("open");
-
-
-  secretOverlay
-    ?.setAttribute(
-      "aria-hidden",
-      "true"
+    .remove(
+      "open"
     );
 
 
-  document.body
-    .style
-    .overflow =
-      "";
+  document.body.style.overflow =
+    "";
 
 
   clearInterval(
-    heartsInterval
+    heartTimer
   );
 
 
@@ -1743,105 +1911,8 @@ secretClose?.addEventListener(
 );
 
 
-secretOverlay?.addEventListener(
-  "click",
-  event => {
-
-    if (
-      event.target ===
-      secretOverlay
-    ) {
-
-      closeSecret();
-
-    }
-
-  }
-);
-
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key ===
-      "Escape"
-    ) {
-
-      closeSecret();
-
-    }
-
-  }
-);
-
-
 /* =========================================================
-   LIGHT HERO PARALLAX
-========================================================= */
-
-const heroBg =
-  document.querySelector(
-    ".hero-bg"
-  );
-
-
-let ticking =
-  false;
-
-
-function heroParallax() {
-
-  if (!heroBg) {
-    return;
-  }
-
-
-  const movement =
-    Math.min(
-      window.scrollY *
-      0.025,
-      15
-    );
-
-
-  heroBg.style.backgroundPosition =
-    `center calc(50% + ${movement}px)`;
-
-
-  ticking =
-    false;
-
-}
-
-
-window.addEventListener(
-  "scroll",
-  () => {
-
-    if (ticking) {
-      return;
-    }
-
-
-    ticking =
-      true;
-
-
-    requestAnimationFrame(
-      heroParallax
-    );
-
-  },
-  {
-    passive: true
-  }
-);
-
-
-/* =========================================================
-   READY
+   INITIAL
 ========================================================= */
 
 window.addEventListener(
@@ -1850,9 +1921,9 @@ window.addEventListener(
 
     updateCountdown();
 
-    updateActiveNav();
+    updateStoryPosition();
 
-    updateBackToTop();
+    updateNav();
 
   }
 );

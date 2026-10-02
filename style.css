@@ -1,468 +1,635 @@
 /* =========================================================
    NIKHIL & SUPRIYA
-   MAIN WEBSITE SCRIPT
+   WEDDING WEBSITE
+   CINZEL + MANROPE
 ========================================================= */
 
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-const $ = (selector) =>
-  document.querySelector(selector);
-
-const $$ = (selector) =>
-  [...document.querySelectorAll(selector)];
-
-
-function safeName(value) {
-  return value
-    .replace(/[<>]/g, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 30);
-}
-
-
-function firstName(value) {
-  return safeName(value).split(" ")[0] || "friend";
-}
-
-
-/* =========================================================
-   GUEST PERSONALISATION
-========================================================= */
-
-const STORAGE_NAME = "nsGuestName";
-const STORAGE_SIDE = "nsGuestSide";
-const STORAGE_TEAM = "nsGuestTeam";
-
-
-let guestName =
-  localStorage.getItem(STORAGE_NAME) || "";
-
-let guestSide =
-  localStorage.getItem(STORAGE_SIDE) || "";
-
-let guestTeam =
-  localStorage.getItem(STORAGE_TEAM) || "";
-
-
-const guestGate =
-  $("#guestGate");
-
-const guestNameStep =
-  $("#guestNameStep");
-
-const guestSideStep =
-  $("#guestSideStep");
-
-const guestWelcomeStep =
-  $("#guestWelcomeStep");
-
-const guestNameForm =
-  $("#guestNameForm");
-
-const guestNameInput =
-  $("#guestNameInput");
-
-const gateGuestName =
-  $("#gateGuestName");
-
-const welcomeGuestName =
-  $("#welcomeGuestName");
-
-const gateWelcomeMessage =
-  $("#gateWelcomeMessage");
-
-const changeGuest =
-  $("#changeGuest");
-
-
-function getSideWelcome(side, name) {
-
-  if (side === "bride") {
-    return `${name}, Supriya has excellent taste in people. We're assuming you're evidence.`;
-  }
-
-  if (side === "groom") {
-    return `${name}, thank you for agreeing to supervise Nikhil for the weekend.`;
-  }
-
-  return `${name}, diplomatic immunity granted. Choose your alliances carefully.`;
-}
-
-
-function applyPersonalisation() {
-
-  const name =
-    firstName(guestName);
-
-
-  const heroPersonal =
-    $("#heroPersonal");
-
-  const countdownHeading =
-    $("#countdownHeading");
-
-  const quizIntroTitle =
-    $("#quizIntroTitle");
-
-  const blrPersonal =
-    $("#blrPersonal");
-
-  const closingGuestName =
-    $("#closingGuestName");
-
-
-  if (heroPersonal) {
-    heroPersonal.textContent =
-      `${name}, we're really glad you're here.`;
-  }
-
-
-  if (countdownHeading) {
-    countdownHeading.textContent =
-      `${name}, the countdown is officially on.`;
-  }
-
-
-  if (quizIntroTitle) {
-    quizIntroTitle.textContent =
-      `Alright ${name}, how well do you know us?`;
-  }
-
-
-  if (blrPersonal) {
-    blrPersonal.textContent =
-      `${name}, your completely unofficial cultural orientation awaits.`;
-  }
-
-
-  if (closingGuestName) {
-    closingGuestName.textContent =
-      name;
-  }
-
-}
-
-
-function hideGateImmediately() {
-
-  if (!guestGate) {
-    return;
-  }
-
-  guestGate.style.display =
-    "none";
-
-  document.body.classList.remove(
-    "gate-open"
-  );
-
-}
-
-
-function openWebsite() {
-
-  applyPersonalisation();
-
-
-  if (!guestGate) {
-    return;
-  }
-
-
-  guestGate.classList.add(
-    "gate-leaving"
-  );
-
-
-  document.body.classList.remove(
-    "gate-open"
-  );
-
-
-  setTimeout(() => {
-
-    guestGate.style.display =
-      "none";
-
-  }, 800);
-
-}
-
-
-function showWelcomeStep() {
-
-  const name =
-    firstName(guestName);
-
-
-  guestNameStep?.classList.add(
-    "hidden"
-  );
-
-  guestSideStep?.classList.add(
-    "hidden"
-  );
-
-  guestWelcomeStep?.classList.remove(
-    "hidden"
-  );
-
-
-  if (welcomeGuestName) {
-    welcomeGuestName.textContent =
-      name;
-  }
-
-
-  if (gateWelcomeMessage) {
-    gateWelcomeMessage.textContent =
-      getSideWelcome(
-        guestSide,
-        name
-      );
-  }
-
-
-  setTimeout(
-    openWebsite,
-    1800
-  );
-
+:root {
+  --cream: #fffaf5;
+  --cream-2: #f9efe7;
+  --blush: #f3ddd7;
+  --blush-2: #ead0ca;
+  --champagne: #ead8b7;
+  --gold: #a4773e;
+  --gold-light: #c6a66d;
+  --brown: #49332d;
+  --brown-2: #684b42;
+  --text: #5d4942;
+  --muted: #8a736b;
+  --white: #ffffff;
+
+  --serif: "Cinzel", Georgia, serif;
+  --sans: "Manrope", Arial, sans-serif;
+
+  --shadow:
+    0 20px 60px rgba(76, 50, 42, 0.13);
+
+  --soft-shadow:
+    0 10px 35px rgba(76, 50, 42, 0.09);
+
+  --radius: 28px;
 }
 
 
 /* =========================================================
-   INITIAL GUEST STATE
+   RESET
 ========================================================= */
 
-if (
-  guestName &&
-  guestSide
-) {
+* {
+  box-sizing: border-box;
+}
 
-  hideGateImmediately();
+html {
+  scroll-behavior: smooth;
+  background: var(--cream);
+}
 
-  applyPersonalisation();
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
 
-} else {
+body.gate-open {
+  overflow: hidden;
+}
 
-  document.body.classList.add(
-    "gate-open"
-  );
+img {
+  display: block;
+  max-width: 100%;
+}
 
+button,
+input,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 
 /* =========================================================
-   NAME FORM
+   GENERAL
 ========================================================= */
 
-guestNameForm?.addEventListener(
-  "submit",
-  (event) => {
-
-    event.preventDefault();
-
-
-    const enteredName =
-      safeName(
-        guestNameInput?.value || ""
-      );
-
-
-    if (!enteredName) {
-      guestNameInput?.focus();
-      return;
-    }
-
-
-    guestName =
-      enteredName;
-
-
-    localStorage.setItem(
-      STORAGE_NAME,
-      guestName
-    );
-
-
-    if (gateGuestName) {
-      gateGuestName.textContent =
-        firstName(guestName);
-    }
-
-
-    guestNameStep?.classList.add(
-      "hidden"
-    );
-
-    guestSideStep?.classList.remove(
-      "hidden"
-    );
-
-  }
-);
-
-
-/* =========================================================
-   BRIDE / GROOM / BOTH
-========================================================= */
-
-$$("[data-guest-side]").forEach(
-  button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        guestSide =
-          button.dataset.guestSide || "both";
-
-
-        localStorage.setItem(
-          STORAGE_SIDE,
-          guestSide
-        );
-
-
-        showWelcomeStep();
-
-      }
-    );
-
-  }
-);
-
-
-/* =========================================================
-   CHANGE GUEST
-========================================================= */
-
-changeGuest?.addEventListener(
-  "click",
-  () => {
-
-    localStorage.removeItem(
-      STORAGE_NAME
-    );
-
-    localStorage.removeItem(
-      STORAGE_SIDE
-    );
-
-    localStorage.removeItem(
-      STORAGE_TEAM
-    );
-
-
-    window.location.reload();
-
-  }
-);
-
-
-/* =========================================================
-   ENTER CELEBRATION
-========================================================= */
-
-$("#enterCelebration")?.addEventListener(
-  "click",
-  () => {
-
-    $("#intro")?.scrollIntoView({
-      behavior: "smooth"
-    });
-
-  }
-);
-
-
-/* =========================================================
-   PICK A SIDE
-========================================================= */
-
-const teamNikhil =
-  $("#teamNikhil");
-
-const teamSupriya =
-  $("#teamSupriya");
-
-const teamResponse =
-  $("#teamResponse");
-
-
-function selectTeam(team) {
-
-  guestTeam =
-    team;
-
-
-  localStorage.setItem(
-    STORAGE_TEAM,
-    team
-  );
-
-
-  const name =
-    firstName(guestName);
-
-
-  teamNikhil?.classList.remove(
-    "selected"
-  );
-
-  teamSupriya?.classList.remove(
-    "selected"
-  );
-
-
-  if (team === "nikhil") {
-
-    teamNikhil?.classList.add(
-      "selected"
-    );
-
-
-    if (teamResponse) {
-      teamResponse.textContent =
-        `${name} chose Team Nikhil. A bold decision. This information has been forwarded to Supriya.`;
-    }
-
-  } else {
-
-    teamSupriya?.classList.add(
-      "selected"
-    );
-
-
-    if (teamResponse) {
-      teamResponse.textContent =
-        `${name} chose Team Supriya. Sensible. Nikhil has requested an investigation.`;
-    }
-
-  }
-
+.section-inner {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.section-inner.narrow {
+  width: min(780px, calc(100% - 40px));
+}
+
+.section-kicker {
+  margin: 0 0 16px;
+  color: var(--gold);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.section-kicker.light {
+  color: #f4ddbd;
+}
+
+.section-copy {
+  max-width: 610px;
+  margin: 18px auto 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  margin-top: 28px;
+  padding: 0 28px;
+  border: 1px solid rgba(73, 51, 45, 0.22);
+  border-radius: 999px;
+  background: var(--brown);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  background: #35231f;
 }
 
 
-teamNikhil?.addEventListener(
-  "click",
-  () => selectTeam("nikhil")
-);
+/* =========================================================
+   GUEST ENTRANCE
+========================================================= */
+
+.guest-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: 24px;
+  overflow-y: auto;
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 247, 240, 0.93) 34%,
+      rgba(242, 220, 211, 0.96) 100%
+    );
+  transition:
+    opacity 0.7s ease,
+    visibility 0.7s ease;
+}
+
+.guest-gate::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(164, 119, 62, 0.2);
+  border-radius: 34px;
+  pointer-events: none;
+}
+
+.guest-gate.gate-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.gate-decoration {
+  position: absolute;
+  color: rgba(164, 119, 62, 0.32);
+  font-size: 2rem;
+  animation: gateFloat 4s ease-in-out infinite;
+}
+
+.gate-decoration-left {
+  left: 7%;
+  top: 12%;
+}
+
+.gate-decoration-right {
+  right: 7%;
+  bottom: 13%;
+  animation-delay: -2s;
+}
+
+@keyframes gateFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(8deg);
+  }
+}
+
+.gate-panel {
+  position: relative;
+  z-index: 2;
+  width: min(560px, 100%);
+  padding: 45px 38px;
+  border: 1px solid rgba(164, 119, 62, 0.16);
+  border-radius: 34px;
+  background: rgba(255, 252, 248, 0.78);
+  box-shadow: var(--shadow);
+  text-align: center;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.gate-monogram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 22px;
+  border: 1px solid rgba(164, 119, 62, 0.58);
+  border-radius: 50%;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+}
+
+.gate-date,
+.gate-eyebrow {
+  margin: 0 0 14px;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.gate-title {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.gate-copy {
+  margin: 17px 0 25px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.guest-name-form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.guest-name-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 56px;
+  padding: 0 20px;
+  outline: none;
+  border: 1px solid rgba(73, 51, 45, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--brown);
+}
+
+.guest-name-input:focus {
+  border-color: rgba(164, 119, 62, 0.72);
+  box-shadow: 0 0 0 4px rgba(164, 119, 62, 0.08);
+}
+
+.gate-button {
+  min-height: 56px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--brown);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.gate-small {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.guest-side-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.side-choice {
+  min-height: 112px;
+  padding: 20px 15px;
+  border: 1px solid rgba(164, 119, 62, 0.22);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--brown);
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.side-choice:hover {
+  transform: translateY(-3px);
+  border-color: rgba(164, 119, 62, 0.55);
+  background: white;
+}
+
+.side-choice-wide {
+  grid-column: 1 / -1;
+}
+
+.side-choice-title,
+.side-choice-copy {
+  display: block;
+}
+
+.side-choice-title {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.side-choice-copy {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.gate-welcome-message {
+  max-width: 430px;
+  margin: 22px auto 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.gate-sparkle {
+  margin-top: 25px;
+  color: var(--gold);
+  font-size: 1.4rem;
+}
 
 
-teamSupriya?.addEventListener(
-  "click",
-  () => selectTeam("supriya")
-);
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: #f6e6dc;
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  z-index: -4;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background:
+    radial-gradient(
+      circle at 50% 43%,
+      rgba(255, 252, 247, 0.91) 0%,
+      rgba(255, 248, 241, 0.76) 26%,
+      rgba(255, 244, 234, 0.38) 52%,
+      rgba(77, 48, 38, 0.08) 100%
+    );
+}
+
+.hero-banana {
+  position: absolute;
+  z-index: -1;
+  bottom: -7%;
+  width: min(38vw, 470px);
+  pointer-events: none;
+  filter: drop-shadow(0 8px 20px rgba(59, 69, 31, 0.1));
+}
+
+.hero-banana-left {
+  left: -10%;
+}
+
+.hero-banana-right {
+  right: -10%;
+  transform: scaleX(-1);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(760px, calc(100% - 36px));
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 80px 0 125px;
+  text-align: center;
+}
+
+.monogram-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  margin: 0 0 25px;
+  border: 1px solid rgba(111, 77, 56, 0.55);
+  border-radius: 50%;
+  background: rgba(255, 250, 244, 0.3);
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(8px);
+}
+
+.hero-kicker {
+  margin: 0 0 15px;
+  color: #8d693f;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+}
+
+.hero-names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(3.3rem, 10vw, 6.5rem);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.45),
+    0 6px 30px rgba(255, 247, 237, 0.75);
+}
+
+.hero-names b {
+  margin: 6px 0;
+  color: var(--gold);
+  font-size: 0.55em;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.hero-spark {
+  margin: 22px 0 15px;
+  color: var(--gold);
+  font-size: 1.05rem;
+}
+
+.hero-date {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.hero-place {
+  margin: 12px 0 0;
+  color: var(--brown-2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.65;
+  letter-spacing: 0.14em;
+}
+
+.hero-tagline {
+  margin: 22px 0 0;
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.hero-personal {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.enter-celebration {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 250px;
+  min-height: 52px;
+  margin-top: 26px;
+  padding: 0 24px;
+  border: 1px solid rgba(73, 51, 45, 0.25);
+  border-radius: 999px;
+  background: rgba(255, 251, 246, 0.7);
+  color: var(--brown);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  white-space: nowrap;
+  box-shadow: var(--soft-shadow);
+  backdrop-filter: blur(12px);
+}
+
+.enter-celebration span {
+  font-size: 1rem;
+}
+
+.change-guest {
+  margin-top: 14px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: rgba(73, 51, 45, 0.7);
+  font-size: 0.68rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 
 
-if (guestTeam) {
-  selectTeam(guestTeam);
+/* =========================================================
+   SAVE THE DATE
+========================================================= */
+
+.save-date-section {
+  position: relative;
+  padding: 120px 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      white 0%,
+      var(--cream) 46%,
+      #f9eee7 100%
+    );
+  text-align: center;
+}
+
+.save-date-inner {
+  position: relative;
+}
+
+.save-date-title {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.save-date-copy {
+  max-width: 520px;
+  margin: 24px auto 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.date-ornament {
+  margin: 35px 0 16px;
+  color: var(--gold);
+  font-size: 1.25rem;
+}
+
+.big-date {
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: clamp(4.8rem, 16vw, 9rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.date-month {
+  margin: 18px 0 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.date-venue {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
 }
 
 
@@ -470,1542 +637,830 @@ if (guestTeam) {
    COUNTDOWN
 ========================================================= */
 
-const weddingDate =
-  new Date(
-    "2026-11-21T10:30:00+05:30"
-  );
-
-
-/*
-   ONE DIFFERENT LINE FOR EACH OF
-   THE FINAL 50 DAYS.
-*/
-
-const final50DayLines = [
-
-  "50 days. Plenty of time to plan your outfit. Probably.",
-
-  "49 days. The wedding is now close enough to start pretending you've planned everything.",
-
-  "48 days. Somewhere, somebody has already started a wedding WhatsApp group.",
-
-  "47 days. Still enough time to say you'll shop next weekend.",
-
-  "46 days. Outfit confidence remains suspiciously high for someone who hasn't bought anything.",
-
-  "45 days. The countdown has officially become mildly threatening.",
-
-  "44 days. You may now begin asking people what they're wearing.",
-
-  "43 days. The phrase “I'll figure it out” remains technically available.",
-
-  "42 days. Six weeks. That sounded much further away when we said fifty days.",
-
-  "41 days. Your calendar would like to remind you this is actually happening.",
-
-  "40 days. Forty. Nice round number. Absolutely no reason to panic.",
-
-  "39 days. If you need tailoring, this would be an excellent time to stop procrastinating.",
-
-  "38 days. The wedding Pinterest boards are becoming operational documents.",
-
-  "37 days. Someone has already planned three outfits and a backup. Learn from them.",
-
-  "36 days. We're approaching the point where “I'll order it online” becomes a gamble.",
-
-  "35 days. Five weeks. Your future self is beginning to judge your current self.",
-
-  "34 days. This website remains calmer than the people organising the wedding.",
-
-  "33 days. You still have time. We repeat: you still have time.",
-
-  "32 days. Thirty-two days until several hundred photos nobody was emotionally prepared for.",
-
-  "31 days. One month-ish. The word “soon” is now legally accurate.",
-
-  "30 days. ONE MONTH. Please locate your wedding clothes.",
-
-  "29 days. Less than a month. That sentence was intentionally alarming.",
-
-  "28 days. Four weeks. Somewhere, a tailor has just sensed a disturbance.",
-
-  "27 days. Start breaking in the shoes you claimed were comfortable.",
-
-  "26 days. This is your reminder that ironing clothes on the wedding morning is not a plan.",
-
-  "25 days. Halfway from fifty. Things are getting suspiciously real.",
-
-  "24 days. Have you booked what needs booking? This website is judging silently.",
-
-  "23 days. The group chats are about to become significantly more active.",
-
-  "22 days. If your outfit still says “out for delivery,” we wish you strength.",
-
-  "21 days. Three weeks. We have entered serious calendar territory.",
-
-  "20 days. Twenty days until Chennai gets considerably better dressed.",
-
-  "19 days. You may now begin practising your family-photo smile.",
-
-  "18 days. Somewhere an aunty is already asking who is arriving when.",
-
-  "17 days. Your suitcase can no longer remain a theoretical concept.",
-
-  "16 days. Two weeks and change. “I'll do it later” has been officially discontinued.",
-
-  "15 days. Fifteen days. Locate jewellery, shoes, chargers and patience.",
-
-  "14 days. TWO WEEKS. This is not a drill. It is, however, still a wedding.",
-
-  "13 days. The final fortnight has begun. Good luck to everyone involved.",
-
-  "12 days. If you haven't decided what you're wearing, congratulations on your confidence.",
-
-  "11 days. Eleven. We're now counting with the intensity of a rocket launch.",
-
-  "10 days. SINGLE DIGITS TOMORROW. Somebody inform the family WhatsApp groups.",
-
-  "9 days. Single digits. There is officially no room left for casual behaviour.",
-
-  "8 days. One week and one bonus day. Chennai, prepare yourself.",
-
-  "7 days. ONE WEEK. We hope you know where your clothes are.",
-
-  "6 days. Less than a week. The phrase “next weekend” has become dangerously relevant.",
-
-  "5 days. Five. The wedding machinery is now operating at full Indian-family capacity.",
-
-  "4 days. Four days. If you've forgotten something, now is an excellent time to remember it.",
-
-  "3 days. THREE DAYS. Suitcases. Chargers. Clothes. Sanity. Check.",
-
-  "2 days. Forty-eight hours. We are officially entering chaos mode.",
-
-  "1 day. Tomorrow. TOMORROW. We hope you're more prepared than this website."
-
-];
-
-
-/*
-   FINAL 48 HOURS:
-   A DIFFERENT LINE FOR EACH HOUR.
-*/
-
-const final48HourLines = [
-
-  "48 hours. Two days. Everyone remain completely calm. Nobody is going to do that.",
-
-  "47 hours. The wedding is now closer than your next sensible life decision.",
-
-  "46 hours. Somewhere, somebody is asking where the safety pins are.",
-
-  "45 hours. We have entered the phase where every phone call begins with “small thing.”",
-
-  "44 hours. If your suitcase is still empty, we admire the confidence.",
-
-  "43 hours. The family WhatsApp groups are approaching maximum operating capacity.",
-
-  "42 hours. This would be an excellent time to confirm you actually know where MGM Beach Resort is.",
-
-  "41 hours. Somebody has already asked what time everyone is leaving. Nobody knows.",
-
-  "40 hours. Less than two days. The spreadsheet people are thriving.",
-
-  "39 hours. The non-spreadsheet people are pretending everything is fine.",
-
-  "38 hours. Please charge your phone. There will be approximately 4,000 photos.",
-
-  "37 hours. Somewhere, an outfit is being altered at a speed not recommended by professionals.",
-
-  "36 hours. A day and a half. The wedding has officially become tomorrow-adjacent.",
-
-  "35 hours. Have you packed? That pause before answering was concerning.",
-
-  "34 hours. Someone is currently saying “we'll leave on time” without evidence.",
-
-  "33 hours. The number of incoming calls is increasing. This is normal. Allegedly.",
-
-  "32 hours. Reminder: “ECR traffic” is not a fictional concept.",
-
-  "31 hours. We are now measuring time in outfits and ceremonies.",
-
-  "30 hours. Thirty hours. Enough time to sleep. Whether anyone actually will is another matter.",
-
-  "29 hours. Somebody's mother has already asked them to leave earlier.",
-
-  "28 hours. Wedding logistics have officially reached air-traffic-control complexity.",
-
-  "27 hours. If you forgot something, decide now whether you truly needed it.",
-
-  "26 hours. The phrase “where are you?” will soon become the weekend's official greeting.",
-
-  "25 hours. Twenty-five hours. One final hour before the dramatic 24-hour announcement.",
-
-  "24 hours. TOMORROW. There is no longer any respectable amount of procrastination available.",
-
-  "23 hours. Under one day. If you're still shopping, we have questions.",
-
-  "22 hours. Somewhere, somebody is steaming an outfit and regretting every life choice.",
-
-  "21 hours. The countdown has stopped being cute.",
-
-  "20 hours. Twenty hours. Please begin moving in the general direction of preparedness.",
-
-  "19 hours. At this point even the website is checking whether you're ready.",
-
-  "18 hours. The alarms are being set. The alarms will later be ignored.",
-
-  "17 hours. We hope your clothes fit. This is a terrible time to discover otherwise.",
-
-  "16 hours. Sixteen hours. Chennai is warming up. Literally and metaphorically.",
-
-  "15 hours. Somewhere, somebody has packed everything except the one thing they actually need.",
-
-  "14 hours. Fourteen hours. Sleep is becoming an increasingly ambitious proposal.",
-
-  "13 hours. The calm before the extremely well-dressed storm.",
-
-  "12 hours. TWELVE HOURS. We have reached capital-letter territory.",
-
-  "11 hours. Your future self would appreciate it if you went to bed.",
-
-  "10 hours. Ten. If you're awake reading this at an unreasonable hour, that's between you and your decisions.",
-
-  "9 hours. Nine hours. The wedding is basically loading.",
-
-  "8 hours. Eight. Coffee is about to become a strategic resource.",
-
-  "7 hours. Seven hours. Someone's alarm is already preparing to ruin their morning.",
-
-  "6 hours. SIX HOURS. Good morning to everyone except whoever stayed up too late.",
-
-  "5 hours. Five hours. The getting-ready Olympics have begun.",
-
-  "4 hours. Four hours. Hair, clothes, jewellery, phone, dignity. Let's move.",
-
-  "3 hours. THREE HOURS. If you're not getting ready, we'd love to hear the strategy.",
-
-  "2 hours. TWO HOURS. Please stop reading the website and start moving.",
-
-  "1 hour. ONE HOUR. Why are you still here? GO GET READY."
-
-];
-
-
-/* =========================================================
-   COUNTDOWN MESSAGE
-========================================================= */
-
-function getCountdownMessage(diff) {
-
-  const name =
-    firstName(guestName);
-
-
-  const hour =
-    60 * 60 * 1000;
-
-  const day =
-    24 * hour;
-
-
-  if (diff <= 0) {
-
-    return `${name}, the celebration has begun. See you by the sea.`;
-
-  }
-
-
-  const hoursRemaining =
-    Math.ceil(diff / hour);
-
-  const daysRemaining =
-    Math.ceil(diff / day);
-
-
-  /*
-     FINAL 48 HOURS
-  */
-
-  if (hoursRemaining <= 48) {
-
-    const index =
-      Math.max(
-        0,
-        Math.min(
-          47,
-          48 - hoursRemaining
-        )
-      );
-
-
-    return `${name}, ${final48HourLines[index]}`;
-
-  }
-
-
-  /*
-     FINAL 50 DAYS
-  */
-
-  if (daysRemaining <= 50) {
-
-    const index =
-      Math.max(
-        0,
-        Math.min(
-          49,
-          50 - daysRemaining
-        )
-      );
-
-
-    return `${name}, ${final50DayLines[index]}`;
-
-  }
-
-
-  /*
-     MORE THAN 50 DAYS
-  */
-
-  return `${name}, plenty of time. Please don't use that as an excuse to leave everything until November.`;
-
+.countdown-section {
+  padding: 105px 20px;
+  background:
+    linear-gradient(
+      145deg,
+      #38251f 0%,
+      #513831 50%,
+      #2e1f1b 100%
+    );
+  color: white;
+  text-align: center;
+}
+
+.countdown-heading {
+  max-width: 700px;
+  margin: 0 auto;
+  color: white;
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 6vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 48px;
+}
+
+.countdown-unit {
+  padding: 24px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.countdown-unit strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 7vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.countdown-unit span {
+  display: block;
+  margin-top: 10px;
+  color: #dcc5b8;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.countdown-message {
+  max-width: 610px;
+  margin: 35px auto 0;
+  color: #e8d8cf;
+  font-size: 0.9rem;
+  line-height: 1.75;
 }
 
 
 /* =========================================================
-   UPDATE COUNTDOWN
+   OUR STORY
 ========================================================= */
 
-function updateCountdown() {
-
-  const now =
-    new Date();
-
-
-  const diff =
-    weddingDate.getTime() -
-    now.getTime();
-
-
-  const daysElement =
-    $("#days");
-
-  const hoursElement =
-    $("#hours");
-
-  const minutesElement =
-    $("#minutes");
-
-  const secondsElement =
-    $("#seconds");
-
-  const messageElement =
-    $("#countdownMessage");
-
-
-  if (diff <= 0) {
-
-    if (daysElement) {
-      daysElement.textContent = "00";
-    }
-
-    if (hoursElement) {
-      hoursElement.textContent = "00";
-    }
-
-    if (minutesElement) {
-      minutesElement.textContent = "00";
-    }
-
-    if (secondsElement) {
-      secondsElement.textContent = "00";
-    }
-
-    if (messageElement) {
-      messageElement.textContent =
-        getCountdownMessage(diff);
-    }
-
-    return;
-
-  }
-
-
-  const totalSeconds =
-    Math.floor(diff / 1000);
-
-
-  const days =
-    Math.floor(
-      totalSeconds / 86400
-    );
-
-
-  const hours =
-    Math.floor(
-      (totalSeconds % 86400) /
-      3600
-    );
-
-
-  const minutes =
-    Math.floor(
-      (totalSeconds % 3600) /
-      60
-    );
-
-
-  const seconds =
-    totalSeconds % 60;
-
-
-  if (daysElement) {
-    daysElement.textContent =
-      String(days).padStart(2, "0");
-  }
-
-
-  if (hoursElement) {
-    hoursElement.textContent =
-      String(hours).padStart(2, "0");
-  }
-
-
-  if (minutesElement) {
-    minutesElement.textContent =
-      String(minutes).padStart(2, "0");
-  }
-
-
-  if (secondsElement) {
-    secondsElement.textContent =
-      String(seconds).padStart(2, "0");
-  }
-
-
-  if (messageElement) {
-    messageElement.textContent =
-      getCountdownMessage(diff);
-  }
-
+.story-section {
+  padding: 105px 0 100px;
+  overflow: hidden;
+  background: var(--cream);
 }
 
+.story-heading {
+  width: min(820px, calc(100% - 40px));
+  margin: 0 auto 45px;
+  text-align: center;
+}
 
-updateCountdown();
+.story-heading h2 {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
 
-setInterval(
-  updateCountdown,
-  1000
-);
+.story-heading > p:last-child {
+  margin: 17px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 
+.story-scroller {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  padding:
+    10px max(22px, calc((100vw - 1100px) / 2))
+    28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+}
 
-/* =========================================================
-   REVEAL ANIMATIONS
-========================================================= */
+.story-scroller::-webkit-scrollbar {
+  display: none;
+}
 
-const revealElements =
-  $$(".reveal");
+.story-card {
+  position: relative;
+  flex: 0 0 min(650px, 82vw);
+  height: min(72vh, 700px);
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 32px;
+  box-shadow: var(--shadow);
+  scroll-snap-align: center;
+  isolation: isolate;
+}
 
+.story-card img {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
 
-if ("IntersectionObserver" in window) {
+.story-card:hover img {
+  transform: scale(1.025);
+}
 
-  const revealObserver =
-    new IntersectionObserver(
-      entries => {
-
-        entries.forEach(entry => {
-
-          if (entry.isIntersecting) {
-
-            entry.target.classList.add(
-              "visible"
-            );
-
-
-            revealObserver.unobserve(
-              entry.target
-            );
-
-          }
-
-        });
-
-      },
-      {
-        threshold: 0.10
-      }
+.story-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(
+      to top,
+      rgba(26, 16, 13, 0.86) 0%,
+      rgba(36, 21, 17, 0.42) 42%,
+      rgba(36, 21, 17, 0.04) 75%
     );
+}
 
+.story-number {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  color: rgba(255, 240, 214, 0.84);
+  font-family: var(--serif);
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 400;
+  line-height: 1;
+}
 
-  revealElements.forEach(element => {
+.story-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 42px;
+  color: white;
+}
 
-    revealObserver.observe(
-      element
-    );
+.story-location {
+  margin: 0 0 10px;
+  color: #efd4a9;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
 
-  });
+.story-content h3 {
+  max-width: 520px;
+  margin: 0;
+  color: white;
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
 
-} else {
+.story-content > p:last-child {
+  max-width: 500px;
+  margin: 15px 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
 
-  revealElements.forEach(element => {
+.story-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
 
-    element.classList.add(
-      "visible"
-    );
+.story-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #d9c5bc;
+  transition:
+    width 0.25s ease,
+    background 0.25s ease;
+}
 
-  });
-
+.story-dot.active {
+  width: 27px;
+  background: var(--gold);
 }
 
 
 /* =========================================================
-   STORY SCROLLER + DOTS
+   QUIZ
 ========================================================= */
 
-const storyScroller =
-  $("#storyScroller");
-
-const storyCards =
-  $$(".story-card");
-
-const storyDots =
-  $("#storyDots");
-
-
-let storyDotElements = [];
-
-
-if (
-  storyScroller &&
-  storyCards.length &&
-  storyDots
-) {
-
-  storyCards.forEach(
-    (_, index) => {
-
-      const dot =
-        document.createElement(
-          "button"
-        );
-
-
-      dot.className =
-        "story-dot";
-
-
-      dot.type =
-        "button";
-
-
-      dot.setAttribute(
-        "aria-label",
-        `Go to story ${index + 1}`
-      );
-
-
-      if (index === 0) {
-        dot.classList.add("active");
-      }
-
-
-      dot.addEventListener(
-        "click",
-        () => {
-
-          storyCards[index].scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center"
-          });
-
-        }
-      );
-
-
-      storyDots.appendChild(dot);
-
-      storyDotElements.push(dot);
-
-    }
-  );
-
-
-  function updateStoryDots() {
-
-    const scrollerCenter =
-      storyScroller.scrollLeft +
-      storyScroller.clientWidth / 2;
-
-
-    let closestIndex = 0;
-
-    let closestDistance =
-      Infinity;
-
-
-    storyCards.forEach(
-      (card, index) => {
-
-        const cardCenter =
-          card.offsetLeft +
-          card.offsetWidth / 2;
-
-
-        const distance =
-          Math.abs(
-            scrollerCenter -
-            cardCenter
-          );
-
-
-        if (distance < closestDistance) {
-
-          closestDistance =
-            distance;
-
-          closestIndex =
-            index;
-
-        }
-
-      }
+.quiz-section {
+  padding: 115px 20px;
+  background:
+    linear-gradient(
+      180deg,
+      #f5e2dc 0%,
+      #fffaf5 100%
     );
+  text-align: center;
+}
+
+.quiz-section h2 {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 7vw, 4.8rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.quiz-game {
+  width: min(680px, 100%);
+  margin: 0 auto;
+  padding: 38px;
+  border: 1px solid rgba(164, 119, 62, 0.15);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--soft-shadow);
+}
+
+.quiz-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.quiz-question {
+  margin: 32px 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 10px;
+}
+
+.quiz-option {
+  min-height: 58px;
+  padding: 12px 20px;
+  border: 1px solid rgba(73, 51, 45, 0.16);
+  border-radius: 999px;
+  background: white;
+  color: var(--brown);
+  font-weight: 600;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.quiz-option:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+}
+
+.quiz-reaction {
+  min-height: 50px;
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.quiz-result {
+  width: min(680px, 100%);
+  margin: 0 auto;
+}
+
+.quiz-result p:not(.section-kicker) {
+  max-width: 560px;
+  margin: 22px auto 0;
+  color: var(--text);
+  line-height: 1.8;
+}
 
 
-    storyDotElements.forEach(
-      (dot, index) => {
+/* =========================================================
+   EVENTS
+========================================================= */
 
-        dot.classList.toggle(
-          "active",
-          index === closestIndex
-        );
+.events-section {
+  padding: 110px 20px;
+  background: var(--cream);
+}
 
-      }
+.events-heading {
+  width: min(760px, 100%);
+  margin: 0 auto 50px;
+  text-align: center;
+}
+
+.events-heading h2 {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.events-heading > p:last-child {
+  max-width: 560px;
+  margin: 20px auto 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.event-card {
+  position: relative;
+  min-height: 610px;
+  overflow: hidden;
+  border-radius: 30px;
+  box-shadow: var(--shadow);
+  isolation: isolate;
+}
+
+.event-card img {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(
+      to top,
+      rgba(31, 18, 15, 0.88),
+      rgba(31, 18, 15, 0.1) 70%
     );
+}
 
-  }
+.event-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 30px;
+  color: white;
+}
 
+.event-number {
+  margin: 0 0 18px;
+  color: #f2d7a8;
+  font-family: var(--serif);
+  font-size: 2.5rem;
+}
 
-  storyScroller.addEventListener(
-    "scroll",
-    updateStoryDots,
-    {
-      passive: true
-    }
-  );
+.event-label {
+  margin: 0;
+  color: #f0d9b7;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
 
+.event-content h3 {
+  margin: 8px 0 12px;
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 400;
+}
+
+.event-time {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.event-place {
+  margin: 5px 0 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.82rem;
+}
+
+.calendar-button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.11);
+  color: white;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(10px);
 }
 
 
 /* =========================================================
-   COUPLE QUIZ
-
-   These are intentionally personality-style questions,
-   not obvious KPMG / Watson's trivia.
+   VENUE
 ========================================================= */
 
-const quizQuestions = [
-
-  {
-    question:
-      "Who is more likely to say “I'm ready” while very clearly not being ready?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both. Obviously."
-    ],
-    answer:
-      "Both. Obviously.",
-    reaction:
-      "Correct. Time is a flexible concept."
-  },
-
-  {
-    question:
-      "Who is more likely to turn a five-minute decision into a full committee meeting?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Nikhil",
-    reaction:
-      "The committee has accepted your answer."
-  },
-
-  {
-    question:
-      "Who is more likely to remember the tiny detail everybody else forgot?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Neither. That's why phones exist."
-    ],
-    answer:
-      "Supriya",
-    reaction:
-      "Somebody has to keep this operation functional."
-  },
-
-  {
-    question:
-      "Who is more likely to say “we don't need anything else” and then buy something else?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Both",
-    reaction:
-      "Financial discipline has left the chat."
-  },
-
-  {
-    question:
-      "Who is more likely to start planning something way earlier than necessary?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both, but in completely different ways"
-    ],
-    answer:
-      "Both, but in completely different ways",
-    reaction:
-      "This website itself may be supporting evidence."
-  },
-
-  {
-    question:
-      "Who is more likely to insist they know the route and then quietly check Google Maps?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Nikhil",
-    reaction:
-      "Google Maps appreciates the eventual recognition."
-  },
-
-  {
-    question:
-      "Who is more likely to notice immediately when something is slightly out of place?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Depends who moved it"
-    ],
-    answer:
-      "Supriya",
-    reaction:
-      "Nothing escapes quality control."
-  },
-
-  {
-    question:
-      "Who is more likely to say “keep it simple” immediately before making it more elaborate?",
-    options: [
-      "Nikhil",
-      "Supriya",
-      "Both"
-    ],
-    answer:
-      "Nikhil",
-    reaction:
-      "Please observe: this entire wedding website."
-  }
-
-];
-
-
-/* =========================================================
-   SHUFFLE
-========================================================= */
-
-function shuffleArray(array) {
-
-  const copy =
-    [...array];
-
-
-  for (
-    let i = copy.length - 1;
-    i > 0;
-    i--
-  ) {
-
-    const j =
-      Math.floor(
-        Math.random() *
-        (i + 1)
-      );
-
-
-    [
-      copy[i],
-      copy[j]
-    ] = [
-      copy[j],
-      copy[i]
-    ];
-
-  }
-
-
-  return copy;
-
+.venue-section {
+  position: relative;
+  padding-bottom: 115px;
+  background: #f4e2dc;
 }
 
-
-/* =========================================================
-   QUIZ STATE
-========================================================= */
-
-let activeQuizQuestions = [];
-
-let currentQuizIndex = 0;
-
-let quizScore = 0;
-
-let quizLocked = false;
-
-
-const quizStart =
-  $("#quizStart");
-
-const quizGame =
-  $("#quizGame");
-
-const quizResult =
-  $("#quizResult");
-
-const startQuizButton =
-  $("#startQuiz");
-
-const restartQuizButton =
-  $("#restartQuiz");
-
-const quizProgress =
-  $("#quizProgress");
-
-const quizScoreElement =
-  $("#quizScore");
-
-const quizQuestion =
-  $("#quizQuestion");
-
-const quizOptions =
-  $("#quizOptions");
-
-const quizReaction =
-  $("#quizReaction");
-
-const quizResultTitle =
-  $("#quizResultTitle");
-
-const quizResultText =
-  $("#quizResultText");
-
-
-/* =========================================================
-   START QUIZ
-========================================================= */
-
-function startQuiz() {
-
-  activeQuizQuestions =
-    shuffleArray(
-      quizQuestions
-    ).slice(0, 6);
-
-
-  currentQuizIndex = 0;
-
-  quizScore = 0;
-
-  quizLocked = false;
-
-
-  quizStart?.classList.add(
-    "hidden"
-  );
-
-
-  quizResult?.classList.add(
-    "hidden"
-  );
-
-
-  quizGame?.classList.remove(
-    "hidden"
-  );
-
-
-  renderQuizQuestion();
-
+.venue-visual {
+  position: relative;
+  width: 100%;
+  height: min(78vh, 760px);
+  min-height: 540px;
+  overflow: hidden;
 }
 
-
-/* =========================================================
-   RENDER QUESTION
-========================================================= */
-
-function renderQuizQuestion() {
-
-  const current =
-    activeQuizQuestions[
-      currentQuizIndex
-    ];
-
-
-  if (!current) {
-    finishQuiz();
-    return;
-  }
-
-
-  quizLocked = false;
-
-
-  if (quizProgress) {
-
-    quizProgress.textContent =
-      `${currentQuizIndex + 1} / ${activeQuizQuestions.length}`;
-
-  }
-
-
-  if (quizScoreElement) {
-
-    quizScoreElement.textContent =
-      `SCORE · ${quizScore}`;
-
-  }
-
-
-  if (quizQuestion) {
-
-    quizQuestion.textContent =
-      current.question;
-
-  }
-
-
-  if (quizReaction) {
-
-    quizReaction.textContent = "";
-
-  }
-
-
-  if (!quizOptions) {
-    return;
-  }
-
-
-  quizOptions.innerHTML = "";
-
-
-  current.options.forEach(
-    optionText => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.type =
-        "button";
-
-
-      button.className =
-        "quiz-option";
-
-
-      button.textContent =
-        optionText;
-
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          handleQuizAnswer(
-            optionText,
-            button
-          );
-
-        }
-      );
-
-
-      quizOptions.appendChild(
-        button
-      );
-
-    }
-  );
-
+.venue-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-
-/* =========================================================
-   QUIZ ANSWER
-========================================================= */
-
-function handleQuizAnswer(
-  selectedAnswer,
-  selectedButton
-) {
-
-  if (quizLocked) {
-    return;
-  }
-
-
-  quizLocked = true;
-
-
-  const current =
-    activeQuizQuestions[
-      currentQuizIndex
-    ];
-
-
-  const correct =
-    selectedAnswer ===
-    current.answer;
-
-
-  if (correct) {
-
-    quizScore++;
-
-
-    selectedButton.style.background =
-      "#493631";
-
-
-    selectedButton.style.color =
-      "#ffffff";
-
-
-    if (quizReaction) {
-
-      quizReaction.textContent =
-        current.reaction;
-
-    }
-
-  } else {
-
-    selectedButton.style.opacity =
-      "0.58";
-
-
-    if (quizReaction) {
-
-      quizReaction.textContent =
-        `Interesting choice. The official answer is “${current.answer}.” We will allow it.`;
-
-    }
-
-  }
-
-
-  if (quizScoreElement) {
-
-    quizScoreElement.textContent =
-      `SCORE · ${quizScore}`;
-
-  }
-
-
-  setTimeout(
-    () => {
-
-      currentQuizIndex++;
-
-
-      if (
-        currentQuizIndex >=
-        activeQuizQuestions.length
-      ) {
-
-        finishQuiz();
-
-      } else {
-
-        renderQuizQuestion();
-
-      }
-
-    },
-    1450
-  );
-
-}
-
-
-/* =========================================================
-   QUIZ RESULT
-========================================================= */
-
-function finishQuiz() {
-
-  quizGame?.classList.add(
-    "hidden"
-  );
-
-
-  quizResult?.classList.remove(
-    "hidden"
-  );
-
-
-  const name =
-    firstName(guestName);
-
-
-  if (
-    !quizResultTitle ||
-    !quizResultText
-  ) {
-    return;
-  }
-
-
-  if (quizScore === 6) {
-
-    quizResultTitle.textContent =
-      `${name} knows too much.`;
-
-
-    quizResultText.textContent =
-      "6/6. Impressive. Slightly concerning. We may need to review exactly what we've told you.";
-
-    return;
-
-  }
-
-
-  if (quizScore >= 4) {
-
-    quizResultTitle.textContent =
-      `Not bad, ${name}.`;
-
-
-    quizResultText.textContent =
-      `${quizScore}/6. You may attend the wedding with full guest privileges.`;
-
-    return;
-
-  }
-
-
-  if (quizScore >= 2) {
-
-    quizResultTitle.textContent =
-      `${name}, we need to talk.`;
-
-
-    quizResultText.textContent =
-      `${quizScore}/6. You're still invited, but this performance has been documented.`;
-
-    return;
-
-  }
-
-
-  quizResultTitle.textContent =
-    `This is concerning, ${name}.`;
-
-
-  quizResultText.textContent =
-    `${quizScore}/6. Please spend more time with us before November.`;
-
-}
-
-
-startQuizButton?.addEventListener(
-  "click",
-  startQuiz
-);
-
-
-restartQuizButton?.addEventListener(
-  "click",
-  startQuiz
-);
-
-
-/* =========================================================
-   CALENDAR EVENTS
-========================================================= */
-
-const calendarEvents = {
-
-  engagement: {
-
-    title:
-      "Nikhil & Supriya — Engagement",
-
-    start:
-      "20261121T050000Z",
-
-    end:
-      "20261121T063000Z",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Engagement celebration for Nikhil & Supriya."
-
-  },
-
-
-  reception: {
-
-    title:
-      "Nikhil & Supriya — Reception",
-
-    start:
-      "20261121T123000Z",
-
-    end:
-      "20261121T160000Z",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Wedding reception for Nikhil & Supriya."
-
-  },
-
-
-  muhurtham: {
-
-    title:
-      "Nikhil & Supriya — Muhurtham",
-
-    start:
-      "20261122T030000Z",
-
-    end:
-      "20261122T043000Z",
-
-    location:
-      "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
-
-    description:
-      "Muhurtham ceremony for Nikhil & Supriya."
-
-  }
-
-};
-
-
-/* =========================================================
-   ICS DOWNLOAD
-========================================================= */
-
-function escapeICS(value) {
-
-  return value
-    .replace(/\\/g, "\\\\")
-    .replace(/,/g, "\\,")
-    .replace(/;/g, "\\;")
-    .replace(/\n/g, "\\n");
-
-}
-
-
-function downloadCalendarEvent(
-  eventKey
-) {
-
-  const event =
-    calendarEvents[eventKey];
-
-
-  if (!event) {
-    return;
-  }
-
-
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Nikhil and Supriya Wedding//EN",
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
-    "BEGIN:VEVENT",
-    `UID:${eventKey}-2026@supnik.in`,
-    `DTSTAMP:${new Date()
-      .toISOString()
-      .replace(/[-:]/g, "")
-      .replace(/\.\d{3}/, "")}`,
-    `DTSTART:${event.start}`,
-    `DTEND:${event.end}`,
-    `SUMMARY:${escapeICS(event.title)}`,
-    `LOCATION:${escapeICS(event.location)}`,
-    `DESCRIPTION:${escapeICS(event.description)}`,
-    "END:VEVENT",
-    "END:VCALENDAR"
-  ].join("\r\n");
-
-
-  const blob =
-    new Blob(
-      [ics],
-      {
-        type:
-          "text/calendar;charset=utf-8"
-      }
+.venue-image-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to top,
+      rgba(38, 22, 18, 0.66),
+      rgba(38, 22, 18, 0.03) 65%
     );
+}
 
+.venue-image-title {
+  position: absolute;
+  left: 50%;
+  bottom: 95px;
+  width: min(900px, calc(100% - 40px));
+  transform: translateX(-50%);
+  text-align: center;
+}
 
-  const url =
-    URL.createObjectURL(blob);
+.venue-image-title h2 {
+  margin: 0;
+  color: white;
+  font-family: var(--serif);
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 400;
+  line-height: 1;
+}
 
+.venue-card {
+  position: relative;
+  z-index: 2;
+  width: min(680px, calc(100% - 40px));
+  margin: -55px auto 0;
+  padding: 40px;
+  border: 1px solid rgba(164, 119, 62, 0.15);
+  border-radius: 30px;
+  background: rgba(255, 250, 245, 0.94);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
 
-  const anchor =
-    document.createElement("a");
+.venue-small {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
 
+.venue-card h3 {
+  margin: 10px 0 15px;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 500;
+}
 
-  anchor.href =
-    url;
+.venue-card > p:not(.venue-small) {
+  max-width: 500px;
+  margin: 0 auto;
+  color: var(--muted);
+  line-height: 1.75;
+}
 
-
-  anchor.download =
-    `${eventKey}-nikhil-supriya.ics`;
-
-
-  document.body.appendChild(
-    anchor
-  );
-
-
-  anchor.click();
-
-
-  anchor.remove();
-
-
-  setTimeout(
-    () => URL.revokeObjectURL(url),
-    1000
-  );
-
+.venue-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  margin-top: 25px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background: var(--brown);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
 
-$$("[data-calendar]").forEach(
-  button => {
+/* =========================================================
+   BANGALORE × CHENNAI
+========================================================= */
 
-    button.addEventListener(
-      "click",
-      () => {
-
-        downloadCalendarEvent(
-          button.dataset.calendar
-        );
-
-      }
+.blr-feature {
+  padding: 120px 20px;
+  background:
+    radial-gradient(
+      circle at top,
+      #fffdf9,
+      #f7e7df 60%,
+      #efd8d0
     );
+}
 
-  }
-);
+.blr-feature-inner {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.blr-personal {
+  max-width: 600px;
+  margin: 0 auto 24px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.blr-feature h2 {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 500;
+  line-height: 0.95;
+}
+
+.blr-feature h2 span {
+  color: var(--gold);
+}
+
+.blr-intro {
+  max-width: 620px;
+  margin: 28px auto 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.blr-teasers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 42px;
+}
+
+.blr-teasers > div {
+  min-height: 120px;
+  padding: 22px;
+  border: 1px solid rgba(164, 119, 62, 0.15);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.58);
+  text-align: left;
+}
+
+.blr-teasers span {
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 1.5rem;
+}
+
+.blr-teasers p {
+  margin: 12px 0 0;
+  color: var(--text);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.blr-enter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  margin-top: 35px;
+  padding: 0 30px;
+  border-radius: 999px;
+  background: var(--brown);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  box-shadow: var(--soft-shadow);
+}
+
+.blr-disclaimer {
+  margin: 16px auto 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
 
 
 /* =========================================================
-   WEDDING HELP DESK
+   HELP DESK
 ========================================================= */
 
-const helpStatus =
-  $("#helpStatus");
+.wedding-help {
+  padding: 115px 20px;
+  background: #fffaf5;
+  text-align: center;
+}
 
+.wedding-help h2 {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 7vw, 4.8rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
 
-const helpResponses = {
+.help-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 34px;
+}
 
-  late:
-    "Running late? Excellent. You have unlocked the authentic Indian-wedding experience. Please still come.",
+.help-options button {
+  min-height: 58px;
+  padding: 12px 18px;
+  border: 1px solid rgba(73, 51, 45, 0.15);
+  border-radius: 999px;
+  background: white;
+  color: var(--brown);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
 
-  outfit:
-    "Outfit crisis detected. Official guidance: wear the thing you feel best in and walk in like it was always the plan.",
-
-  lost:
-    "Lost? Search MGM Beach Resort, ECR, Chennai in Maps. If you somehow reach Bangalore, you've gone too far.",
-
-  hungry:
-    "The most important question on this website. Please proceed toward the celebration and trust the process."
-
-};
-
-
-$$("[data-help]").forEach(
-  button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const type =
-          button.dataset.help;
-
-
-        const name =
-          firstName(guestName);
-
-
-        if (helpStatus) {
-
-          helpStatus.textContent =
-            `${name}: ${helpResponses[type] || "We are escalating this to the appropriate wedding department."}`;
-
-        }
-
-      }
-    );
-
-  }
-);
+.help-status {
+  min-height: 65px;
+  max-width: 590px;
+  margin: 26px auto 0;
+  color: var(--text);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
 
 
 /* =========================================================
-   FLOATING NAVIGATION
+   CLOSING
 ========================================================= */
 
-const navLinks =
-  $$(".nav-link");
+.closing-section {
+  position: relative;
+  min-height: 88vh;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px 150px;
+}
 
+.closing-section > img {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-navLinks.forEach(
-  link => {
-
-    link.addEventListener(
-      "click",
-      event => {
-
-        const href =
-          link.getAttribute("href");
-
-
-        if (
-          !href ||
-          !href.startsWith("#")
-        ) {
-          return;
-        }
-
-
-        const target =
-          $(href);
-
-
-        if (!target) {
-          return;
-        }
-
-
-        event.preventDefault();
-
-
-        target.scrollIntoView({
-          behavior: "smooth"
-        });
-
-      }
+.closing-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(
+      to top,
+      rgba(31, 18, 15, 0.82),
+      rgba(42, 26, 21, 0.28)
     );
+}
 
-  }
-);
+.closing-content {
+  width: min(720px, 100%);
+  color: white;
+  text-align: center;
+}
+
+.closing-content h2 {
+  margin: 0;
+  color: white;
+  font-family: var(--serif);
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 400;
+  line-height: 1.03;
+}
+
+.closing-content > p:not(.section-kicker):not(.closing-ps) {
+  max-width: 580px;
+  margin: 25px auto 0;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.8;
+}
+
+.closing-signature {
+  margin-top: 35px;
+  color: #f1d6aa;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+}
+
+.closing-ps {
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.72rem;
+}
 
 
 /* =========================================================
-   ACTIVE NAV ITEM
+   FLOATING NAV
 ========================================================= */
 
-const navigationSections = [
+.floating-nav {
+  position: fixed;
+  z-index: 9000;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: min(520px, calc(100% - 26px));
+  min-height: 72px;
+  padding: 7px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(164, 119, 62, 0.13);
+  border-radius: 25px;
+  background: rgba(255, 250, 244, 0.9);
+  box-shadow:
+    0 12px 40px rgba(62, 40, 32, 0.17);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
 
-  {
-    id: "home",
-    nav: "home"
-  },
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 18px;
+  color: #8b756d;
+  font-size: 0.62rem;
+  font-weight: 600;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
 
-  {
-    id: "story",
-    nav: "story"
-  },
+.nav-link svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
-  {
-    id: "events",
-    nav: "events"
-  },
-
-  {
-    id: "venue",
-    nav: "venue"
-  }
-
-];
-
-
-function updateActiveNavigation() {
-
-  const scrollPosition =
-    window.scrollY +
-    window.innerHeight * 0.42;
-
-
-  let active =
-    "home";
-
-
-  navigationSections.forEach(
-    section => {
-
-      const element =
-        document.getElementById(
-          section.id
-        );
-
-
-      if (
-        element &&
-        element.offsetTop <=
-        scrollPosition
-      ) {
-
-        active =
-          section.nav;
-
-      }
-
-    }
-  );
-
-
-  navLinks.forEach(
-    link => {
-
-      link.classList.toggle(
-        "active",
-        link.dataset.nav === active
-      );
-
-    }
-  );
-
+.nav-link.active {
+  background: #f1ddd7;
+  color: var(--brown);
 }
 
 
@@ -2013,178 +1468,376 @@ function updateActiveNavigation() {
    BACK TO TOP
 ========================================================= */
 
-const backToTop =
-  $("#backToTop");
+.back-to-top {
+  position: fixed;
+  z-index: 8500;
+  right: 18px;
+  bottom: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  border: 1px solid rgba(73, 51, 45, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 250, 245, 0.9);
+  color: var(--brown);
+  box-shadow: var(--soft-shadow);
+  transition: 0.25s ease;
+}
 
-
-function updateBackToTop() {
-
-  if (!backToTop) {
-    return;
-  }
-
-
-  backToTop.classList.toggle(
-    "visible",
-    window.scrollY > 650
-  );
-
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 
-backToTop?.addEventListener(
-  "click",
-  () => {
+/* =========================================================
+   SECRET TOAST
+========================================================= */
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+.secret-toast {
+  position: fixed;
+  z-index: 999999;
+  left: 50%;
+  top: 25px;
+  width: min(420px, calc(100% - 30px));
+  padding: 18px 20px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(164, 119, 62, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 250, 245, 0.97);
+  color: var(--brown);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
 
-  }
-);
+.secret-toast strong,
+.secret-toast span {
+  display: block;
+}
+
+.secret-toast span {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
 
 
 /* =========================================================
-   SCROLL EVENTS
+   REVEALS
 ========================================================= */
 
-let scrollTicking = false;
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.75s ease,
+    transform 0.75s ease;
+}
 
-
-window.addEventListener(
-  "scroll",
-  () => {
-
-    if (scrollTicking) {
-      return;
-    }
-
-
-    scrollTicking = true;
-
-
-    requestAnimationFrame(
-      () => {
-
-        updateActiveNavigation();
-
-        updateBackToTop();
-
-        scrollTicking = false;
-
-      }
-    );
-
-  },
-  {
-    passive: true
-  }
-);
-
-
-updateActiveNavigation();
-
-updateBackToTop();
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 
 /* =========================================================
-   SECRET N&S EASTER EGG
+   TABLET
 ========================================================= */
 
-let secretClicks = 0;
+@media (max-width: 900px) {
 
-let secretTimer = null;
-
-
-$("#secretTrigger")?.addEventListener(
-  "click",
-  () => {
-
-    secretClicks++;
-
-
-    clearTimeout(
-      secretTimer
-    );
-
-
-    secretTimer =
-      setTimeout(
-        () => {
-
-          secretClicks = 0;
-
-        },
-        1800
-      );
-
-
-    if (secretClicks < 5) {
-      return;
-    }
-
-
-    secretClicks = 0;
-
-
-    const existing =
-      $(".secret-toast");
-
-
-    if (existing) {
-      existing.remove();
-    }
-
-
-    const toast =
-      document.createElement(
-        "div"
-      );
-
-
-    toast.className =
-      "secret-toast";
-
-
-    toast.innerHTML = `
-      <strong>You found it.</strong>
-      <span>
-        There is no prize.
-        We spent the budget on the wedding.
-      </span>
-    `;
-
-
-    document.body.appendChild(
-      toast
-    );
-
-
-    setTimeout(
-      () => {
-
-        toast.remove();
-
-      },
-      3500
-    );
-
+  .event-grid {
+    grid-template-columns: 1fr;
+    width: min(620px, 100%);
   }
-);
+
+  .event-card {
+    min-height: 650px;
+  }
+
+  .hero-banana {
+    width: 48vw;
+  }
+}
 
 
 /* =========================================================
-   PERSONALISE AGAIN ON PAGE LOAD
+   MOBILE
 ========================================================= */
 
-window.addEventListener(
-  "load",
-  () => {
+@media (max-width: 650px) {
 
-    if (guestName) {
-      applyPersonalisation();
-    }
-
+  .guest-gate {
+    align-items: center;
+    padding: 16px;
   }
-);
+
+  .guest-gate::before {
+    inset: 10px;
+    border-radius: 25px;
+  }
+
+  .gate-panel {
+    padding: 35px 20px;
+    border-radius: 28px;
+  }
+
+  .gate-monogram {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 19px;
+  }
+
+  .guest-name-form {
+    flex-direction: column;
+  }
+
+  .gate-button,
+  .guest-name-input {
+    width: 100%;
+  }
+
+  .guest-side-options {
+    grid-template-columns: 1fr;
+  }
+
+  .side-choice-wide {
+    grid-column: auto;
+  }
+
+  .side-choice {
+    min-height: 92px;
+  }
+
+
+  /* HERO */
+
+  .hero-content {
+    width: calc(100% - 32px);
+    padding-top: 62px;
+    padding-bottom: 125px;
+  }
+
+  .monogram-seal {
+    width: 78px;
+    height: 78px;
+    margin-bottom: 20px;
+  }
+
+  .hero-names {
+    font-size: clamp(3.2rem, 16vw, 5rem);
+  }
+
+  .hero-banana {
+    width: 67vw;
+    bottom: -2%;
+  }
+
+  .hero-banana-left {
+    left: -32%;
+  }
+
+  .hero-banana-right {
+    right: -32%;
+  }
+
+  .enter-celebration {
+    width: min(310px, 100%);
+    min-width: 0;
+    padding: 0 18px;
+    font-size: 0.64rem;
+  }
+
+
+  /* SAVE DATE */
+
+  .save-date-section {
+    padding: 95px 20px;
+  }
+
+  .big-date {
+    font-size: clamp(4.5rem, 22vw, 7rem);
+  }
+
+
+  /* COUNTDOWN */
+
+  .countdown-section {
+    padding: 90px 18px;
+  }
+
+  .countdown-grid {
+    gap: 7px;
+    margin-top: 38px;
+  }
+
+  .countdown-unit {
+    padding: 19px 5px;
+    border-radius: 17px;
+  }
+
+  .countdown-unit strong {
+    font-size: clamp(1.7rem, 9vw, 2.6rem);
+  }
+
+  .countdown-unit span {
+    font-size: 0.5rem;
+    letter-spacing: 0.06em;
+  }
+
+
+  /* STORY */
+
+  .story-section {
+    padding-top: 90px;
+  }
+
+  .story-heading {
+    margin-bottom: 32px;
+  }
+
+  .story-scroller {
+    gap: 13px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .story-card {
+    flex-basis: 88vw;
+    height: 70vh;
+    min-height: 540px;
+    border-radius: 27px;
+  }
+
+  .story-content {
+    padding: 28px;
+  }
+
+  .story-number {
+    top: 23px;
+    right: 23px;
+  }
+
+  .story-content h3 {
+    font-size: clamp(2.2rem, 10vw, 3.4rem);
+  }
+
+
+  /* QUIZ */
+
+  .quiz-section {
+    padding: 90px 18px;
+  }
+
+  .quiz-game {
+    padding: 26px 18px;
+    border-radius: 25px;
+  }
+
+
+  /* EVENTS */
+
+  .events-section {
+    padding: 90px 16px;
+  }
+
+  .events-heading {
+    padding: 0 8px;
+  }
+
+  .event-card {
+    min-height: 620px;
+    border-radius: 27px;
+  }
+
+  .event-content {
+    padding: 26px;
+  }
+
+
+  /* VENUE */
+
+  .venue-visual {
+    min-height: 560px;
+  }
+
+  .venue-image-title {
+    bottom: 90px;
+  }
+
+  .venue-card {
+    padding: 30px 22px;
+  }
+
+
+  /* BLR */
+
+  .blr-feature {
+    padding: 95px 18px;
+  }
+
+  .blr-feature h2 {
+    font-size: clamp(3.1rem, 15vw, 5rem);
+  }
+
+  .blr-teasers {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* HELP */
+
+  .wedding-help {
+    padding: 95px 18px;
+  }
+
+  .help-options {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* CLOSING */
+
+  .closing-section {
+    min-height: 90vh;
+    padding-bottom: 150px;
+  }
+
+
+  /* NAV */
+
+  .floating-nav {
+    width: calc(100% - 22px);
+    min-height: 68px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    border-radius: 23px;
+  }
+
+  .back-to-top {
+    right: 13px;
+    bottom: 94px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

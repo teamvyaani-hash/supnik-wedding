@@ -21,11 +21,8 @@
   --serif: "Cinzel", Georgia, serif;
   --sans: "Manrope", Arial, sans-serif;
 
-  --shadow:
-    0 20px 60px rgba(76, 50, 42, 0.13);
-
-  --soft-shadow:
-    0 10px 35px rgba(76, 50, 42, 0.09);
+  --shadow: 0 20px 60px rgba(76, 50, 42, 0.13);
+  --soft-shadow: 0 10px 35px rgba(76, 50, 42, 0.09);
 
   --radius: 28px;
 }
@@ -55,7 +52,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body.gate-open {
+body.gate-open,
+body.invite-open {
   overflow: hidden;
 }
 
@@ -569,7 +567,7 @@ a {
 
 .save-date-section {
   position: relative;
-  padding: 120px 20px;
+  padding: 88px 20px;
   overflow: hidden;
   background:
     radial-gradient(
@@ -638,7 +636,7 @@ a {
 ========================================================= */
 
 .countdown-section {
-  padding: 105px 20px;
+  padding: 82px 20px;
   background:
     linear-gradient(
       145deg,
@@ -705,7 +703,7 @@ a {
 ========================================================= */
 
 .story-section {
-  padding: 105px 0 100px;
+  padding: 82px 0 76px;
   overflow: hidden;
   background: var(--cream);
 }
@@ -863,7 +861,7 @@ a {
 ========================================================= */
 
 .quiz-section {
-  padding: 115px 20px;
+  padding: 82px 20px;
   background:
     linear-gradient(
       180deg,
@@ -960,7 +958,7 @@ a {
 ========================================================= */
 
 .events-section {
-  padding: 110px 20px;
+  padding: 84px 20px;
   background: var(--cream);
 }
 
@@ -1088,15 +1086,15 @@ a {
 
 .venue-section {
   position: relative;
-  padding-bottom: 115px;
+  padding-bottom: 82px;
   background: #f4e2dc;
 }
 
 .venue-visual {
   position: relative;
   width: 100%;
-  height: min(78vh, 760px);
-  min-height: 540px;
+  height: min(68vh, 650px);
+  min-height: 470px;
   overflow: hidden;
 }
 
@@ -1192,7 +1190,7 @@ a {
 ========================================================= */
 
 .blr-feature {
-  padding: 120px 20px;
+  padding: 84px 20px;
   background:
     radial-gradient(
       circle at top,
@@ -1294,7 +1292,7 @@ a {
 ========================================================= */
 
 .wedding-help {
-  padding: 115px 20px;
+  padding: 82px 20px;
   background: #fffaf5;
   text-align: center;
 }
@@ -1343,13 +1341,13 @@ a {
 
 .closing-section {
   position: relative;
-  min-height: 88vh;
+  min-height: 72vh;
   overflow: hidden;
   isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px 20px 150px;
+  padding: 82px 20px 128px;
 }
 
 .closing-section > img {
@@ -1427,8 +1425,7 @@ a {
   border: 1px solid rgba(164, 119, 62, 0.13);
   border-radius: 25px;
   background: rgba(255, 250, 244, 0.9);
-  box-shadow:
-    0 12px 40px rgba(62, 40, 32, 0.17);
+  box-shadow: 0 12px 40px rgba(62, 40, 32, 0.17);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
@@ -1497,6 +1494,324 @@ a {
 
 
 /* =========================================================
+   PERSONALISED INVITE FLOATING BUTTON
+========================================================= */
+
+.invite-float {
+  position: fixed;
+  z-index: 8600;
+  right: 18px;
+  bottom: 158px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 15px;
+  border: 1px solid rgba(164, 119, 62, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 250, 245, 0.94);
+  color: var(--brown);
+  box-shadow: var(--soft-shadow);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.invite-float:hover {
+  transform: translateY(-2px);
+  background: white;
+  box-shadow: var(--shadow);
+}
+
+.invite-float-icon {
+  color: var(--gold);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.invite-float-label {
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PERSONALISED INVITE MODAL
+========================================================= */
+
+.invite-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.28s ease,
+    visibility 0.28s ease;
+}
+
+.invite-modal.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.invite-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(36, 23, 19, 0.68);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.invite-dialog {
+  position: relative;
+  z-index: 2;
+  width: min(720px, 100%);
+  max-height: calc(100dvh - 32px);
+  padding: 34px;
+  overflow-y: auto;
+  border: 1px solid rgba(164, 119, 62, 0.18);
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      #fffdf9 0%,
+      #fff8f2 42%,
+      #f6e8e0 100%
+    );
+  box-shadow: 0 30px 90px rgba(30, 18, 14, 0.32);
+  text-align: center;
+  transform: translateY(18px) scale(0.985);
+  transition: transform 0.32s ease;
+}
+
+.invite-modal.open .invite-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.invite-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgba(73, 51, 45, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--brown);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.invite-dialog > h2 {
+  max-width: 560px;
+  margin: 0 auto;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.invite-modal-copy {
+  max-width: 540px;
+  margin: 15px auto 25px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   INVITE PREVIEW
+========================================================= */
+
+.invite-preview {
+  position: relative;
+  width: min(430px, 100%);
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(164, 119, 62, 0.24);
+  border-radius: 26px;
+  background: #f6e5dc;
+  box-shadow: var(--shadow);
+  isolation: isolate;
+}
+
+.invite-preview-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.invite-preview-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(255, 253, 249, 0.96) 0%,
+      rgba(255, 248, 240, 0.86) 38%,
+      rgba(255, 242, 232, 0.55) 65%,
+      rgba(58, 35, 27, 0.16) 100%
+    );
+}
+
+.invite-preview-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+}
+
+.invite-preview-seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(164, 119, 62, 0.6);
+  border-radius: 50%;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+.invite-preview-kicker {
+  margin: 0 0 10px;
+  color: var(--gold);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.invite-preview-content h3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 9vw, 4.4rem);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+}
+
+.invite-preview-content h3 span {
+  margin: 7px 0;
+  color: var(--gold);
+  font-size: 0.52em;
+  font-weight: 400;
+}
+
+.invite-preview-line {
+  width: 70px;
+  height: 1px;
+  margin: 22px 0;
+  background: rgba(164, 119, 62, 0.55);
+}
+
+.invite-preview-guest {
+  margin: 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 4vw, 1.35rem);
+  font-weight: 500;
+}
+
+.invite-preview-date {
+  margin: 20px 0 0;
+  color: var(--brown);
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+}
+
+.invite-preview-place {
+  margin: 9px 0 0;
+  color: var(--brown-2);
+  font-size: 0.57rem;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.12em;
+}
+
+
+/* =========================================================
+   INVITE ACTIONS
+========================================================= */
+
+.invite-actions {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.invite-primary,
+.invite-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-align: center;
+}
+
+.invite-primary {
+  border: 1px solid var(--brown);
+  background: var(--brown);
+  color: white;
+}
+
+.invite-secondary {
+  border: 1px solid rgba(73, 51, 45, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--brown);
+}
+
+.invite-save-note {
+  margin: 13px 0 0;
+  color: var(--muted);
+  font-size: 0.67rem;
+}
+
+
+/* =========================================================
    SECRET TOAST
 ========================================================= */
 
@@ -1558,7 +1873,7 @@ a {
   }
 
   .event-card {
-    min-height: 650px;
+    min-height: 600px;
   }
 
   .hero-banana {
@@ -1658,7 +1973,7 @@ a {
   /* SAVE DATE */
 
   .save-date-section {
-    padding: 95px 20px;
+    padding: 68px 20px;
   }
 
   .big-date {
@@ -1669,7 +1984,7 @@ a {
   /* COUNTDOWN */
 
   .countdown-section {
-    padding: 90px 18px;
+    padding: 68px 18px;
   }
 
   .countdown-grid {
@@ -1695,11 +2010,11 @@ a {
   /* STORY */
 
   .story-section {
-    padding-top: 90px;
+    padding: 68px 0 62px;
   }
 
   .story-heading {
-    margin-bottom: 32px;
+    margin-bottom: 26px;
   }
 
   .story-scroller {
@@ -1710,8 +2025,8 @@ a {
 
   .story-card {
     flex-basis: 88vw;
-    height: 70vh;
-    min-height: 540px;
+    height: 62vh;
+    min-height: 470px;
     border-radius: 27px;
   }
 
@@ -1732,7 +2047,7 @@ a {
   /* QUIZ */
 
   .quiz-section {
-    padding: 90px 18px;
+    padding: 68px 18px;
   }
 
   .quiz-game {
@@ -1744,15 +2059,16 @@ a {
   /* EVENTS */
 
   .events-section {
-    padding: 90px 16px;
+    padding: 68px 16px;
   }
 
   .events-heading {
+    margin-bottom: 34px;
     padding: 0 8px;
   }
 
   .event-card {
-    min-height: 620px;
+    min-height: 535px;
     border-radius: 27px;
   }
 
@@ -1763,12 +2079,17 @@ a {
 
   /* VENUE */
 
+  .venue-section {
+    padding-bottom: 68px;
+  }
+
   .venue-visual {
-    min-height: 560px;
+    height: 62vh;
+    min-height: 430px;
   }
 
   .venue-image-title {
-    bottom: 90px;
+    bottom: 72px;
   }
 
   .venue-card {
@@ -1779,7 +2100,7 @@ a {
   /* BLR */
 
   .blr-feature {
-    padding: 95px 18px;
+    padding: 68px 18px;
   }
 
   .blr-feature h2 {
@@ -1794,7 +2115,7 @@ a {
   /* HELP */
 
   .wedding-help {
-    padding: 95px 18px;
+    padding: 68px 18px;
   }
 
   .help-options {
@@ -1805,8 +2126,8 @@ a {
   /* CLOSING */
 
   .closing-section {
-    min-height: 90vh;
-    padding-bottom: 150px;
+    min-height: 72vh;
+    padding: 72px 20px 125px;
   }
 
 
@@ -1822,6 +2143,70 @@ a {
   .back-to-top {
     right: 13px;
     bottom: 94px;
+  }
+
+
+  /* INVITE FLOAT */
+
+  .invite-float {
+    right: 13px;
+    bottom: 143px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 12px;
+  }
+
+  .invite-float-label {
+    display: none;
+  }
+
+
+  /* INVITE MODAL */
+
+  .invite-modal {
+    align-items: flex-start;
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  .invite-dialog {
+    width: 100%;
+    max-height: none;
+    margin: 8px auto 90px;
+    padding: 29px 16px 22px;
+    border-radius: 27px;
+  }
+
+  .invite-close {
+    top: 11px;
+    right: 11px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .invite-modal-copy {
+    margin-bottom: 20px;
+    padding: 0 15px;
+  }
+
+  .invite-preview {
+    width: min(390px, 100%);
+    border-radius: 22px;
+  }
+
+  .invite-preview-content {
+    padding: 25px 20px;
+  }
+
+  .invite-actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .invite-primary,
+  .invite-secondary {
+    width: 100%;
+    min-height: 50px;
   }
 }
 

@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       localStorage.setItem(key, value);
     } catch (error) {
-      /* Website continues without saved storage */
+      /* Continue without local storage */
     }
   }
 
@@ -59,6 +59,42 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       /* Nothing required */
     }
+  }
+
+
+  function safeFilename(value) {
+    return cleanName(value)
+      .replace(/[^a-zA-Z0-9_-]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "Guest";
+  }
+
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    setTimeout(function () {
+      URL.revokeObjectURL(url);
+    }, 1500);
+  }
+
+
+  /* =======================================================
+     STOP BROWSER RESTORING A RANDOM SCROLL POSITION
+  ======================================================= */
+
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
   }
 
 
@@ -101,14 +137,12 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
-
     if (side === "bride") {
       return (
         `${name}. Team Supriya confirmed. ` +
         `Excellent. Someone here is making sensible decisions.`
       );
     }
-
 
     return (
       `${name}. You know both of them? ` +
@@ -127,14 +161,12 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
-
     if (side === "bride") {
       return (
         `${name}, you came here through Supriya. ` +
         `We expected you to read the instructions.`
       );
     }
-
 
     return (
       `${name}, neutral party detected. ` +
@@ -149,7 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-
     const name = firstName(guestName);
 
     const heroPersonal = $("#heroPersonal");
@@ -157,6 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const quizIntroTitle = $("#quizIntroTitle");
     const blrPersonal = $("#blrPersonal");
     const closingGuestName = $("#closingGuestName");
+
+    const invitePreviewGuest = $("#invitePreviewGuest");
+    const inviteFloatLabel = $("#inviteFloatLabel");
 
 
     if (heroPersonal) {
@@ -192,6 +226,18 @@ document.addEventListener("DOMContentLoaded", function () {
       changeGuest.textContent =
         `Not ${name}? Change guest`;
     }
+
+
+    if (invitePreviewGuest) {
+      invitePreviewGuest.textContent =
+        `${name}, you're on the list.`;
+    }
+
+
+    if (inviteFloatLabel) {
+      inviteFloatLabel.textContent =
+        `${name}'s Invite`;
+    }
   }
 
 
@@ -199,12 +245,26 @@ document.addEventListener("DOMContentLoaded", function () {
      ENTRANCE
   ======================================================= */
 
+  function hardResetToHeroTop() {
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto"
+    });
+
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+
+
   function showNameStep() {
 
     if (!guestGate) {
       return;
     }
 
+    hardResetToHeroTop();
 
     guestGate.style.display = "flex";
     guestGate.classList.remove("gate-leaving");
@@ -214,7 +274,6 @@ document.addEventListener("DOMContentLoaded", function () {
     welcomeStep?.classList.add("hidden");
 
     document.body.classList.add("gate-open");
-
 
     setTimeout(function () {
       nameInput?.focus();
@@ -230,7 +289,6 @@ document.addEventListener("DOMContentLoaded", function () {
       gateGuestName.textContent = name;
     }
 
-
     nameStep?.classList.add("hidden");
     welcomeStep?.classList.add("hidden");
     sideStep?.classList.remove("hidden");
@@ -242,7 +300,6 @@ document.addEventListener("DOMContentLoaded", function () {
     guestSide = side;
 
     storageSet(SIDE_KEY, side);
-
 
     const name = firstName(guestName);
 
@@ -263,11 +320,22 @@ document.addEventListener("DOMContentLoaded", function () {
     sideStep?.classList.add("hidden");
     welcomeStep?.classList.remove("hidden");
 
-
     applyPersonalisation();
 
 
+    /*
+      IMPORTANT:
+      Keep the personalised message visible for ~3 seconds.
+    */
+
     setTimeout(function () {
+
+      /*
+        Put the underlying website at the absolute beginning
+        BEFORE revealing it.
+      */
+
+      hardResetToHeroTop();
 
       guestGate?.classList.add("gate-leaving");
 
@@ -280,9 +348,28 @@ document.addEventListener("DOMContentLoaded", function () {
           guestGate.style.display = "none";
         }
 
+        /*
+          Second reset prevents mobile browsers from restoring
+          the previous layout position during the fade.
+        */
+
+        hardResetToHeroTop();
+
+
+        requestAnimationFrame(function () {
+
+          hardResetToHeroTop();
+
+          setTimeout(
+            hardResetToHeroTop,
+            80
+          );
+
+        });
+
       }, 700);
 
-    }, 1250);
+    }, 3000);
   }
 
 
@@ -294,15 +381,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       event.preventDefault();
 
-
       const enteredName =
         cleanName(nameInput?.value);
 
 
       if (!enteredName) {
-
         nameInput?.focus();
-
         return;
       }
 
@@ -313,7 +397,6 @@ document.addEventListener("DOMContentLoaded", function () {
         NAME_KEY,
         guestName
       );
-
 
       showSideStep();
     }
@@ -331,7 +414,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
           const side =
             button.dataset.guestSide || "both";
-
 
           finishEntrance(side);
         }
@@ -352,6 +434,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     applyPersonalisation();
 
+    hardResetToHeroTop();
+
+    requestAnimationFrame(
+      hardResetToHeroTop
+    );
+
   } else if (guestName && !guestSide) {
 
     if (guestGate) {
@@ -359,6 +447,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     document.body.classList.add("gate-open");
+
+    hardResetToHeroTop();
 
     showSideStep();
 
@@ -380,11 +470,9 @@ document.addEventListener("DOMContentLoaded", function () {
       guestName = "";
       guestSide = "";
 
-
       if (nameInput) {
         nameInput.value = "";
       }
-
 
       showNameStep();
     }
@@ -655,7 +743,6 @@ document.addEventListener("DOMContentLoaded", function () {
           )
         );
 
-
       return hourlyMessages[index];
     }
 
@@ -670,7 +757,6 @@ document.addEventListener("DOMContentLoaded", function () {
             50 - daysLeft
           )
         );
-
 
       return dailyMessages[index];
     }
@@ -691,20 +777,11 @@ document.addEventListener("DOMContentLoaded", function () {
       now.getTime();
 
 
-    const daysElement =
-      $("#days");
-
-    const hoursElement =
-      $("#hours");
-
-    const minutesElement =
-      $("#minutes");
-
-    const secondsElement =
-      $("#seconds");
-
-    const messageElement =
-      $("#countdownMessage");
+    const daysElement = $("#days");
+    const hoursElement = $("#hours");
+    const minutesElement = $("#minutes");
+    const secondsElement = $("#seconds");
+    const messageElement = $("#countdownMessage");
 
 
     if (diff <= 0) {
@@ -809,9 +886,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $$(".reveal");
 
 
-  if (
-    "IntersectionObserver" in window
-  ) {
+  if ("IntersectionObserver" in window) {
 
     const observer =
       new IntersectionObserver(
@@ -820,9 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
           entries.forEach(
             function (entry) {
 
-              if (
-                entry.isIntersecting
-              ) {
+              if (entry.isIntersecting) {
 
                 entry.target.classList.add(
                   "visible"
@@ -852,6 +925,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     revealElements.forEach(
       function (element) {
+
         element.classList.add(
           "visible"
         );
@@ -1191,8 +1265,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    quizOptions.innerHTML =
-      "";
+    quizOptions.innerHTML = "";
 
 
     const options = [
@@ -1354,7 +1427,6 @@ document.addEventListener("DOMContentLoaded", function () {
           "Six questions and you still refused to establish a clear pattern. Excellent diplomatic instincts.";
       }
 
-
       return;
     }
 
@@ -1375,7 +1447,6 @@ document.addEventListener("DOMContentLoaded", function () {
           "We are not confirming or denying anything. Your voting record has been noted.";
       }
 
-
       return;
     }
 
@@ -1395,7 +1466,6 @@ document.addEventListener("DOMContentLoaded", function () {
         quizResultText.textContent =
           "Interesting. Very interesting. This information may or may not be used against you at the wedding.";
       }
-
 
       return;
     }
@@ -1427,7 +1497,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =======================================================
-     CALENDAR DOWNLOADS
+     CALENDAR
   ======================================================= */
 
   const calendarEvents = {
@@ -1489,18 +1559,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  function downloadCalendar(key) {
+  function buildCalendar(keys) {
 
-    const event =
-      calendarEvents[key];
-
-
-    if (!event) {
-      return;
-    }
-
-
-    const ics = [
+    const lines = [
 
       "BEGIN:VCALENDAR",
 
@@ -1508,32 +1569,67 @@ document.addEventListener("DOMContentLoaded", function () {
 
       "PRODID:-//Nikhil and Supriya Wedding//EN",
 
-      "CALSCALE:GREGORIAN",
+      "CALSCALE:GREGORIAN"
 
-      "BEGIN:VEVENT",
+    ];
 
-      `UID:${key}-2026@supnik.in`,
 
-      `DTSTART:${event.start}`,
+    keys.forEach(
+      function (key) {
 
-      `DTEND:${event.end}`,
+        const event =
+          calendarEvents[key];
 
-      `SUMMARY:${escapeICS(event.title)}`,
 
-      `LOCATION:${escapeICS(event.location)}`,
+        if (!event) {
+          return;
+        }
 
-      "DESCRIPTION:Nikhil & Supriya · 21–22 November 2026",
 
-      "END:VEVENT",
+        lines.push(
+          "BEGIN:VEVENT",
 
+          `UID:${key}-2026@supnik.in`,
+
+          `DTSTART:${event.start}`,
+
+          `DTEND:${event.end}`,
+
+          `SUMMARY:${escapeICS(event.title)}`,
+
+          `LOCATION:${escapeICS(event.location)}`,
+
+          "DESCRIPTION:Nikhil & Supriya · 21–22 November 2026",
+
+          "END:VEVENT"
+        );
+      }
+    );
+
+
+    lines.push(
       "END:VCALENDAR"
+    );
 
-    ].join("\r\n");
+
+    return lines.join(
+      "\r\n"
+    );
+  }
+
+
+  function downloadCalendar(key) {
+
+    if (!calendarEvents[key]) {
+      return;
+    }
 
 
     const blob =
       new Blob(
-        [ics],
+        [
+          buildCalendar([key])
+        ],
         {
           type:
             "text/calendar;charset=utf-8"
@@ -1541,43 +1637,34 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-    const url =
-      URL.createObjectURL(
-        blob
-      );
-
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.href = url;
-
-    link.download =
-      `${key}-nikhil-supriya.ics`;
-
-
-    document.body.appendChild(
-      link
+    downloadBlob(
+      blob,
+      `${key}-nikhil-supriya.ics`
     );
+  }
 
 
-    link.click();
+  function downloadAllCalendar() {
 
-    link.remove();
+    const blob =
+      new Blob(
+        [
+          buildCalendar([
+            "engagement",
+            "reception",
+            "muhurtham"
+          ])
+        ],
+        {
+          type:
+            "text/calendar;charset=utf-8"
+        }
+      );
 
 
-    setTimeout(
-      function () {
-
-        URL.revokeObjectURL(
-          url
-        );
-
-      },
-      1000
+    downloadBlob(
+      blob,
+      "Nikhil-Supriya-Wedding.ics"
     );
   }
 
@@ -1598,8 +1685,14 @@ document.addEventListener("DOMContentLoaded", function () {
   );
 
 
+  $("#addAllCalendar")?.addEventListener(
+    "click",
+    downloadAllCalendar
+  );
+
+
   /* =======================================================
-     HELP DESK
+     WEDDING HELP DESK
   ======================================================= */
 
   const helpStatus =
@@ -1810,6 +1903,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function () {
 
       updateNavigation();
+
       updateBackToTop();
 
     },
@@ -1922,6 +2016,1161 @@ document.addEventListener("DOMContentLoaded", function () {
         3500
       );
     }
+  );
+
+
+  /* =======================================================
+     PERSONALISED INVITATION MODAL
+  ======================================================= */
+
+  const inviteModal =
+    $("#inviteModal");
+
+  const inviteFloat =
+    $("#inviteFloat");
+
+  let inviteScrollPosition = 0;
+
+
+  function openInvite() {
+
+    if (!inviteModal) {
+      return;
+    }
+
+
+    inviteScrollPosition =
+      window.scrollY;
+
+
+    applyPersonalisation();
+
+
+    inviteModal.classList.add(
+      "open"
+    );
+
+
+    inviteModal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+    document.body.classList.add(
+      "invite-open"
+    );
+  }
+
+
+  function closeInvite() {
+
+    if (!inviteModal) {
+      return;
+    }
+
+
+    inviteModal.classList.remove(
+      "open"
+    );
+
+
+    inviteModal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+    document.body.classList.remove(
+      "invite-open"
+    );
+
+
+    /*
+      Put guest exactly back where they were.
+    */
+
+    window.scrollTo({
+      top: inviteScrollPosition,
+      left: 0,
+      behavior: "auto"
+    });
+  }
+
+
+  inviteFloat?.addEventListener(
+    "click",
+    openInvite
+  );
+
+
+  $$("[data-invite-close]").forEach(
+    function (element) {
+
+      element.addEventListener(
+        "click",
+        closeInvite
+      );
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.key === "Escape" &&
+        inviteModal?.classList.contains(
+          "open"
+        )
+      ) {
+
+        closeInvite();
+      }
+    }
+  );
+
+
+  /* =======================================================
+     INVITATION IMAGE HELPERS
+  ======================================================= */
+
+  function loadImage(source) {
+
+    return new Promise(
+      function (resolve, reject) {
+
+        const image =
+          new Image();
+
+
+        image.onload =
+          function () {
+
+            resolve(image);
+          };
+
+
+        image.onerror =
+          function () {
+
+            reject(
+              new Error(
+                `Unable to load ${source}`
+              )
+            );
+          };
+
+
+        image.src =
+          source;
+      }
+    );
+  }
+
+
+  function coverImage(
+    context,
+    image,
+    x,
+    y,
+    width,
+    height
+  ) {
+
+    const imageRatio =
+      image.width /
+      image.height;
+
+
+    const targetRatio =
+      width /
+      height;
+
+
+    let sourceWidth;
+    let sourceHeight;
+    let sourceX;
+    let sourceY;
+
+
+    if (
+      imageRatio >
+      targetRatio
+    ) {
+
+      sourceHeight =
+        image.height;
+
+      sourceWidth =
+        sourceHeight *
+        targetRatio;
+
+      sourceX =
+        (
+          image.width -
+          sourceWidth
+        ) / 2;
+
+      sourceY = 0;
+
+    } else {
+
+      sourceWidth =
+        image.width;
+
+      sourceHeight =
+        sourceWidth /
+        targetRatio;
+
+      sourceX = 0;
+
+      sourceY =
+        (
+          image.height -
+          sourceHeight
+        ) / 2;
+    }
+
+
+    context.drawImage(
+      image,
+      sourceX,
+      sourceY,
+      sourceWidth,
+      sourceHeight,
+      x,
+      y,
+      width,
+      height
+    );
+  }
+
+
+  function fitCanvasText(
+    context,
+    text,
+    maxWidth,
+    startSize,
+    minimumSize,
+    fontFamily,
+    weight
+  ) {
+
+    let size =
+      startSize;
+
+
+    while (
+      size >
+      minimumSize
+    ) {
+
+      context.font =
+        `${weight} ${size}px ${fontFamily}`;
+
+
+      if (
+        context.measureText(text)
+          .width <=
+        maxWidth
+      ) {
+
+        break;
+      }
+
+
+      size -= 2;
+    }
+
+
+    return size;
+  }
+
+
+  function canvasLine(
+    context,
+    x1,
+    y1,
+    x2,
+    y2,
+    colour,
+    width
+  ) {
+
+    context.beginPath();
+
+    context.moveTo(
+      x1,
+      y1
+    );
+
+    context.lineTo(
+      x2,
+      y2
+    );
+
+    context.strokeStyle =
+      colour;
+
+    context.lineWidth =
+      width;
+
+    context.stroke();
+  }
+
+
+  function drawOrnament(
+    context,
+    centreX,
+    centreY
+  ) {
+
+    context.save();
+
+    context.translate(
+      centreX,
+      centreY
+    );
+
+
+    context.strokeStyle =
+      "#b68a4b";
+
+    context.fillStyle =
+      "#b68a4b";
+
+    context.lineWidth = 3;
+
+
+    canvasLine(
+      context,
+      -115,
+      0,
+      -35,
+      0,
+      "#b68a4b",
+      2
+    );
+
+
+    canvasLine(
+      context,
+      35,
+      0,
+      115,
+      0,
+      "#b68a4b",
+      2
+    );
+
+
+    context.beginPath();
+
+    context.arc(
+      0,
+      0,
+      9,
+      0,
+      Math.PI * 2
+    );
+
+    context.fill();
+
+
+    context.beginPath();
+
+    context.arc(
+      -24,
+      0,
+      4,
+      0,
+      Math.PI * 2
+    );
+
+    context.fill();
+
+
+    context.beginPath();
+
+    context.arc(
+      24,
+      0,
+      4,
+      0,
+      Math.PI * 2
+    );
+
+    context.fill();
+
+
+    context.restore();
+  }
+
+
+  function drawEventBlock(
+    context,
+    number,
+    title,
+    date,
+    time,
+    place,
+    x,
+    y
+  ) {
+
+    context.textAlign =
+      "left";
+
+
+    context.fillStyle =
+      "#b68a4b";
+
+    context.font =
+      '500 30px "Cinzel", Georgia, serif';
+
+    context.fillText(
+      number,
+      x,
+      y
+    );
+
+
+    context.fillStyle =
+      "#49332d";
+
+    context.font =
+      '600 42px "Cinzel", Georgia, serif';
+
+    context.fillText(
+      title,
+      x,
+      y + 62
+    );
+
+
+    context.fillStyle =
+      "#806860";
+
+    context.font =
+      '600 23px "Manrope", Arial, sans-serif';
+
+    context.fillText(
+      date,
+      x,
+      y + 110
+    );
+
+
+    context.fillStyle =
+      "#49332d";
+
+    context.font =
+      '700 25px "Manrope", Arial, sans-serif';
+
+    context.fillText(
+      time,
+      x,
+      y + 151
+    );
+
+
+    context.fillStyle =
+      "#8a736b";
+
+    context.font =
+      '500 22px "Manrope", Arial, sans-serif';
+
+    context.fillText(
+      place,
+      x,
+      y + 190
+    );
+  }
+
+
+  /* =======================================================
+     GENERATE THE COOL FRIENDS INVITE
+     1800 × 2400 JPG
+  ======================================================= */
+
+  async function createInviteImage() {
+
+    const saveButton =
+      $("#saveInvite");
+
+
+    const originalButtonText =
+      saveButton?.textContent;
+
+
+    if (saveButton) {
+
+      saveButton.disabled =
+        true;
+
+      saveButton.textContent =
+        "MAKING IT PRETTY...";
+    }
+
+
+    try {
+
+      if (document.fonts?.ready) {
+        await document.fonts.ready;
+      }
+
+
+      const [
+        templeImage,
+        coastImage
+      ] =
+        await Promise.all([
+          loadImage(
+            "./images/hero-temple.png"
+          ),
+          loadImage(
+            "./images/venue-coast.png"
+          )
+        ]);
+
+
+      const canvas =
+        document.createElement(
+          "canvas"
+        );
+
+
+      canvas.width =
+        1800;
+
+      canvas.height =
+        2400;
+
+
+      const context =
+        canvas.getContext(
+          "2d"
+        );
+
+
+      if (!context) {
+        throw new Error(
+          "Canvas is not available."
+        );
+      }
+
+
+      /*
+        BASE
+      */
+
+      context.fillStyle =
+        "#fffaf5";
+
+      context.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+
+      /*
+        TOP TEMPLE ARTWORK
+      */
+
+      coverImage(
+        context,
+        templeImage,
+        0,
+        0,
+        1800,
+        880
+      );
+
+
+      const templeGradient =
+        context.createLinearGradient(
+          0,
+          0,
+          0,
+          950
+        );
+
+
+      templeGradient.addColorStop(
+        0,
+        "rgba(255,250,245,0.05)"
+      );
+
+      templeGradient.addColorStop(
+        0.48,
+        "rgba(255,248,241,0.50)"
+      );
+
+      templeGradient.addColorStop(
+        1,
+        "#fffaf5"
+      );
+
+
+      context.fillStyle =
+        templeGradient;
+
+      context.fillRect(
+        0,
+        0,
+        1800,
+        980
+      );
+
+
+      /*
+        COASTAL BOTTOM
+      */
+
+      coverImage(
+        context,
+        coastImage,
+        0,
+        1780,
+        1800,
+        620
+      );
+
+
+      const coastGradient =
+        context.createLinearGradient(
+          0,
+          1720,
+          0,
+          2400
+        );
+
+
+      coastGradient.addColorStop(
+        0,
+        "#fffaf5"
+      );
+
+      coastGradient.addColorStop(
+        0.25,
+        "rgba(255,250,245,0.72)"
+      );
+
+      coastGradient.addColorStop(
+        1,
+        "rgba(48,29,23,0.34)"
+      );
+
+
+      context.fillStyle =
+        coastGradient;
+
+      context.fillRect(
+        0,
+        1700,
+        1800,
+        700
+      );
+
+
+      /*
+        OUTER POSTER BORDER
+      */
+
+      context.strokeStyle =
+        "rgba(164,119,62,0.72)";
+
+      context.lineWidth =
+        3;
+
+
+      context.strokeRect(
+        65,
+        65,
+        1670,
+        2270
+      );
+
+
+      context.strokeStyle =
+        "rgba(164,119,62,0.30)";
+
+      context.lineWidth =
+        1;
+
+
+      context.strokeRect(
+        83,
+        83,
+        1634,
+        2234
+      );
+
+
+      /*
+        MONOGRAM
+      */
+
+      context.beginPath();
+
+      context.arc(
+        900,
+        245,
+        77,
+        0,
+        Math.PI * 2
+      );
+
+
+      context.fillStyle =
+        "rgba(255,250,245,0.76)";
+
+      context.fill();
+
+
+      context.strokeStyle =
+        "#a4773e";
+
+      context.lineWidth =
+        3;
+
+      context.stroke();
+
+
+      context.fillStyle =
+        "#49332d";
+
+      context.textAlign =
+        "center";
+
+      context.textBaseline =
+        "middle";
+
+      context.font =
+        '500 34px "Cinzel", Georgia, serif';
+
+
+      context.fillText(
+        "N & S",
+        900,
+        248
+      );
+
+
+      /*
+        KICKER
+      */
+
+      context.textBaseline =
+        "alphabetic";
+
+
+      context.fillStyle =
+        "#a4773e";
+
+      context.font =
+        '700 24px "Manrope", Arial, sans-serif';
+
+
+      context.fillText(
+        "THE WEDDING OF",
+        900,
+        385
+      );
+
+
+      /*
+        NAMES
+      */
+
+      context.fillStyle =
+        "#49332d";
+
+      context.font =
+        '600 125px "Cinzel", Georgia, serif';
+
+
+      context.fillText(
+        "NIKHIL",
+        900,
+        525
+      );
+
+
+      context.fillStyle =
+        "#a4773e";
+
+      context.font =
+        '400 52px "Cinzel", Georgia, serif';
+
+
+      context.fillText(
+        "&",
+        900,
+        602
+      );
+
+
+      context.fillStyle =
+        "#49332d";
+
+      context.font =
+        '600 125px "Cinzel", Georgia, serif';
+
+
+      context.fillText(
+        "SUPRIYA",
+        900,
+        728
+      );
+
+
+      drawOrnament(
+        context,
+        900,
+        810
+      );
+
+
+      /*
+        PERSONALISED GUEST LINE
+      */
+
+      const displayGuest =
+        firstName(guestName)
+          .toUpperCase();
+
+
+      const guestLine =
+        `${displayGuest}, YOU'RE ON THE LIST.`;
+
+
+      const guestFontSize =
+        fitCanvasText(
+          context,
+          guestLine,
+          1400,
+          70,
+          42,
+          '"Cinzel", Georgia, serif',
+          600
+        );
+
+
+      context.font =
+        `600 ${guestFontSize}px "Cinzel", Georgia, serif`;
+
+
+      context.fillStyle =
+        "#49332d";
+
+
+      context.fillText(
+        guestLine,
+        900,
+        940
+      );
+
+
+      context.fillStyle =
+        "#8a736b";
+
+      context.font =
+        '500 25px "Manrope", Arial, sans-serif';
+
+
+      context.fillText(
+        "THIS ONE IS OFFICIALLY YOURS.",
+        900,
+        997
+      );
+
+
+      /*
+        DATE
+      */
+
+      context.fillStyle =
+        "#a4773e";
+
+      context.font =
+        '500 53px "Cinzel", Georgia, serif';
+
+
+      context.fillText(
+        "21 — 22 NOVEMBER 2026",
+        900,
+        1100
+      );
+
+
+      context.fillStyle =
+        "#684b42";
+
+      context.font =
+        '700 25px "Manrope", Arial, sans-serif';
+
+
+      context.fillText(
+        "MGM BEACH RESORT · ECR · CHENNAI",
+        900,
+        1155
+      );
+
+
+      /*
+        EVENTS
+      */
+
+      canvasLine(
+        context,
+        235,
+        1230,
+        1565,
+        1230,
+        "rgba(164,119,62,0.30)",
+        2
+      );
+
+
+      drawEventBlock(
+        context,
+        "01",
+        "ENGAGEMENT",
+        "21 NOVEMBER",
+        "10:30 AM",
+        "LAKE LAWN",
+        250,
+        1310
+      );
+
+
+      drawEventBlock(
+        context,
+        "02",
+        "RECEPTION",
+        "21 NOVEMBER",
+        "6:00 PM",
+        "LAKE LAWN",
+        720,
+        1310
+      );
+
+
+      drawEventBlock(
+        context,
+        "03",
+        "MUHURTHAM",
+        "22 NOVEMBER",
+        "8:30 – 10:00 AM",
+        "PALM BEACH LAWN",
+        1190,
+        1310
+      );
+
+
+      /*
+        LOWER EDITORIAL STATEMENT
+      */
+
+      drawOrnament(
+        context,
+        900,
+        1590
+      );
+
+
+      context.textAlign =
+        "center";
+
+
+      context.fillStyle =
+        "#49332d";
+
+      context.font =
+        '500 51px "Cinzel", Georgia, serif';
+
+
+      context.fillText(
+        "TWO FAMILIES.",
+        900,
+        1685
+      );
+
+
+      context.fillText(
+        "TWO CITIES.",
+        900,
+        1747
+      );
+
+
+      context.fillStyle =
+        "#a4773e";
+
+      context.font =
+        '600 58px "Cinzel", Georgia, serif';
+
+
+      context.fillText(
+        "ONE CELEBRATION.",
+        900,
+        1820
+      );
+
+
+      /*
+        BOTTOM COASTAL CAPTION
+      */
+
+      context.fillStyle =
+        "#fffaf5";
+
+      context.font =
+        '700 23px "Manrope", Arial, sans-serif';
+
+
+      context.fillText(
+        "SEE YOU BY THE SEA.",
+        900,
+        2200
+      );
+
+
+      context.font =
+        '500 20px "Manrope", Arial, sans-serif';
+
+
+      context.fillText(
+        "MGM BEACH RESORT · ECR · CHENNAI",
+        900,
+        2248
+      );
+
+
+      /*
+        JPG
+      */
+
+      const blob =
+        await new Promise(
+          function (resolve) {
+
+            canvas.toBlob(
+              resolve,
+              "image/jpeg",
+              0.96
+            );
+          }
+        );
+
+
+      if (!blob) {
+        throw new Error(
+          "Invitation could not be generated."
+        );
+      }
+
+
+      const filename =
+        `Nikhil-Supriya-Invitation-${safeFilename(firstName(guestName))}.jpg`;
+
+
+      /*
+        MOBILE SHARE SHEET WHEN AVAILABLE.
+        OTHERWISE NORMAL DOWNLOAD.
+      */
+
+      const file =
+        new File(
+          [blob],
+          filename,
+          {
+            type: "image/jpeg"
+          }
+        );
+
+
+      if (
+        navigator.share &&
+        navigator.canShare &&
+        navigator.canShare({
+          files: [file]
+        })
+      ) {
+
+        try {
+
+          await navigator.share({
+            files: [file],
+            title:
+              "Nikhil & Supriya",
+            text:
+              "21–22 November 2026 · MGM Beach Resort · ECR Chennai"
+          });
+
+        } catch (shareError) {
+
+          /*
+            If guest simply closes Share,
+            don't force a second download.
+          */
+
+          if (
+            shareError?.name !==
+            "AbortError"
+          ) {
+
+            downloadBlob(
+              blob,
+              filename
+            );
+          }
+        }
+
+      } else {
+
+        downloadBlob(
+          blob,
+          filename
+        );
+      }
+
+
+    } catch (error) {
+
+      console.error(
+        "Invite generation failed:",
+        error
+      );
+
+
+      alert(
+        "Your invite could not be generated just now. Please try again."
+      );
+
+    } finally {
+
+      if (saveButton) {
+
+        saveButton.disabled =
+          false;
+
+        saveButton.textContent =
+          originalButtonText ||
+          "SAVE MY INVITE ↓";
+      }
+    }
+  }
+
+
+  $("#saveInvite")?.addEventListener(
+    "click",
+    createInviteImage
   );
 
 

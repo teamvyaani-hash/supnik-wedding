@@ -1,1 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8efe2" />
 
+  <title>With Your Blessings | Nikhil & Supriya</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ivory: #fffaf1;
+      --paper: #f8efe2;
+      --paper-deep: #f1e1ca;
+      --gold: #a67535;
+      --gold-light: #d6b477;
+      --brown: #493226;
+      --brown-soft: #765d4c;
+      --kumkum: #8d302a;
+      --line: rgba(166, 117, 53, .28);
+      --shadow: 0 24px 70px rgba(67, 43, 25, .16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--ivory);
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(214,180,119,.14), transparent 34rem),
+        var(--ivory);
+      color: var(--brown);
+      font-family: "Manrope", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .serif {
+      font-family: "Cormorant Garamond", Georgia, serif;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+    }
+
+    .ornament {
+      color: var(--gold);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 25px;
+      letter-spacing: .3em;
+    }
+
+    /* --------------------------------
+       OPENING
+    -------------------------------- */
+
+    .opening {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #21140f;
+      transition: opacity .8s ease, visibility .8s ease;
+    }
+
+    .opening.finished {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .opening-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(30,16,10,.22), rgba(30,16,10,.54)),
+        url("./images/blessings/entrance-temple.png") center/cover no-repeat;
+      transform: scale(1.03);
+    }
+
+    .opening-content {
+      position: relative;
+      z-index: 5;
+      width: min(88%, 560px);
+      padding: 34px 22px 40px;
+      text-align: center;
+      color: #fff8ec;
+      text-shadow: 0 2px 20px rgba(0,0,0,.4);
+    }
+
+    .opening-symbol {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 22px;
+      border: 1px solid rgba(255,235,195,.72);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(64,35,18,.22);
+      backdrop-filter: blur(8px);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 37px;
+      color: #f2d497;
+    }
+
+    .opening-kicker {
+      margin: 0 0 16px;
+      color: #f2d497;
+      font-size: 11px;
+      letter-spacing: .27em;
+      text-transform: uppercase;
+    }
+
+    .opening h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: clamp(49px, 10vw, 78px);
+      line-height: .93;
+    }
+
+    .opening h1 span {
+      color: #f0cf8b;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .opening-date {
+      margin: 22px 0 6px;
+      font-size: 12px;
+      letter-spacing: .22em;
+    }
+
+    .opening-place {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    .open-button {
+      margin-top: 30px;
+      padding: 15px 25px;
+      border: 1px solid rgba(255,240,207,.72);
+      border-radius: 999px;
+      background: rgba(255,250,240,.12);
+      color: white;
+      cursor: pointer;
+      backdrop-filter: blur(9px);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+    }
+
+    .door {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 4;
+      width: 50.2%;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(28,13,7,.95), rgba(83,45,19,.92)),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 75px,
+          rgba(216,170,90,.16) 76px 78px
+        );
+      border-color: rgba(224,180,98,.32);
+      border-style: solid;
+      transition: transform 1.35s cubic-bezier(.7,0,.2,1);
+    }
+
+    .door::before,
+    .door::after {
+      content: "";
+      position: absolute;
+      inset: 7%;
+      border: 1px solid rgba(226,185,109,.3);
+    }
+
+    .door::after {
+      inset: 12%;
+      border-radius: 46% 46% 4px 4px;
+    }
+
+    .door-left {
+      left: 0;
+      border-width: 0 1px 0 0;
+      transform-origin: left center;
+    }
+
+    .door-right {
+      right: 0;
+      border-width: 0 0 0 1px;
+      transform-origin: right center;
+    }
+
+    .opening.opening-doors .door-left {
+      transform: translateX(-103%);
+    }
+
+    .opening.opening-doors .door-right {
+      transform: translateX(103%);
+    }
+
+    .opening.opening-doors .opening-content {
+      animation: welcomeFade .75s ease forwards;
+    }
+
+    @keyframes welcomeFade {
+      to {
+        opacity: 0;
+        transform: scale(.97);
+      }
+    }
+
+    /* --------------------------------
+       HERO
+    -------------------------------- */
+
+    .hero {
+      min-height: 100svh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background:
+        linear-gradient(to bottom, rgba(43,24,13,.08), rgba(43,24,13,.58)),
+        url("./images/blessings/ganesha.png") center/cover no-repeat;
+      color: white;
+      text-align: center;
+    }
+
+    .hero-content {
+      width: min(92%, 720px);
+      padding: 130px 24px 110px;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 2px 18px rgba(0,0,0,.38);
+    }
+
+    .hero-small {
+      margin: 0 0 16px;
+      color: #f2d79f;
+      font-size: 11px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(57px, 12vw, 100px);
+      line-height: .85;
+      font-weight: 500;
+    }
+
+    .hero h1 span {
+      display: block;
+      margin: 7px 0;
+      color: #f2d79f;
+      font-size: .48em;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-copy {
+      max-width: 540px;
+      margin: 25px auto 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(21px, 4vw, 28px);
+      line-height: 1.35;
+      font-style: italic;
+    }
+
+    .scroll-cue {
+      display: inline-block;
+      margin-top: 29px;
+      color: #f4dfb7;
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    /* --------------------------------
+       GENERAL SECTIONS
+    -------------------------------- */
+
+    .section {
+      position: relative;
+      padding: 100px 22px;
+    }
+
+    .section-inner {
+      width: min(100%, 900px);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(43px, 8vw, 69px);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .section-copy {
+      width: min(100%, 650px);
+      margin: 24px auto 0;
+      color: var(--brown-soft);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(20px, 3.8vw, 25px);
+      line-height: 1.55;
+    }
+
+    .gold-divider {
+      width: 80px;
+      height: 1px;
+      margin: 30px auto;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* --------------------------------
+       PERSONAL WELCOME
+    -------------------------------- */
+
+    .welcome {
+      background:
+        radial-gradient(circle at 50% 15%, rgba(203,164,97,.17), transparent 24rem),
+        var(--ivory);
+    }
+
+    .welcome-name {
+      color: var(--kumkum);
+      font-style: italic;
+    }
+
+    /* --------------------------------
+       FAMILY
+    -------------------------------- */
+
+    .family-section {
+      padding: 0;
+      background: #251711;
+      color: white;
+    }
+
+    .family-image {
+      height: min(64vh, 660px);
+      object-fit: cover;
+      opacity: .83;
+    }
+
+    .family-content {
+      position: relative;
+      width: min(92%, 920px);
+      margin: -110px auto 0;
+      padding: 55px 24px 90px;
+      background:
+        linear-gradient(to bottom, rgba(37,23,17,.78), #251711 120px);
+      text-align: center;
+    }
+
+    .family-content .eyebrow {
+      color: #dcb977;
+    }
+
+    .family-content .section-title {
+      color: #fff9ef;
+    }
+
+    .families {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 34px;
+      margin-top: 55px;
+      align-items: stretch;
+    }
+
+    .family-divider {
+      background: linear-gradient(transparent, rgba(220,185,119,.5), transparent);
+    }
+
+    .family-block {
+      padding: 10px 15px;
+    }
+
+    .family-label {
+      color: #dcb977;
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .family-block h3 {
+      margin: 13px 0 18px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 31px;
+      font-weight: 500;
+    }
+
+    .family-block p {
+      margin: 11px 0;
+      color: rgba(255,249,239,.77);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .family-block strong {
+      color: #fff9ef;
+      font-weight: 500;
+    }
+
+    .family-closing {
+      margin: 45px auto 0;
+      color: #e5c991;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 25px;
+      font-style: italic;
+    }
+
+    /* --------------------------------
+       KOLAM TRANSITION
+    -------------------------------- */
+
+    .kolam-section {
+      overflow: hidden;
+      background: var(--paper);
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .kolam {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 35px;
+      animation: slowSpin 30s linear infinite;
+    }
+
+    .kolam-ring {
+      position: absolute;
+      border: 1px solid var(--gold-light);
+      border-radius: 50%;
+      inset: 20px;
+    }
+
+    .kolam-ring:nth-child(2) {
+      inset: 42px;
+      border-radius: 10px;
+      transform: rotate(45deg);
+    }
+
+    .kolam-ring:nth-child(3) {
+      inset: 64px;
+    }
+
+    .kolam::before,
+    .kolam::after {
+      content: "✦";
+      position: absolute;
+      color: var(--kumkum);
+      font-size: 24px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+
+    .kolam::after {
+      content: "◇";
+      color: var(--gold);
+      font-size: 80px;
+    }
+
+    @keyframes slowSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .kolam-section h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(37px, 7vw, 58px);
+      font-weight: 500;
+    }
+
+    /* --------------------------------
+       CEREMONIES
+    -------------------------------- */
+
+    .ceremonies {
+      padding: 90px 0 0;
+      background: var(--ivory);
+    }
+
+    .ceremonies-heading {
+      padding: 0 22px 60px;
+      text-align: center;
+    }
+
+    .ceremony {
+      position: relative;
+      min-height: 72svh;
+      display: flex;
+      align-items: flex-end;
+      background-position: center;
+      background-size: cover;
+      color: white;
+    }
+
+    .ceremony::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(30,16,9,.05) 15%, rgba(30,16,9,.77) 100%);
+    }
+
+    .ceremony.engagement {
+      background-image: url("./images/blessings/engagement.png");
+    }
+
+    .ceremony.reception {
+      background-image: url("./images/blessings/reception.png");
+    }
+
+    .ceremony.muhurtham {
+      background-image: url("./images/blessings/muhurtham.png");
+    }
+
+    .ceremony-content {
+      position: relative;
+      z-index: 2;
+      width: min(92%, 720px);
+      margin: 0 auto;
+      padding: 80px 20px 72px;
+      text-align: center;
+      text-shadow: 0 2px 15px rgba(0,0,0,.38);
+    }
+
+    .ceremony-number {
+      color: #efd49d;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    .ceremony h3 {
+      margin: 9px 0 18px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(48px, 10vw, 76px);
+      font-weight: 500;
+    }
+
+    .ceremony-date {
+      margin: 0;
+      color: #f1d9a8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .ceremony-time {
+      margin: 10px 0 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 27px;
+    }
+
+    .ceremony-place {
+      margin: 5px 0 0;
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .ceremony-quote {
+      max-width: 520px;
+      margin: 25px auto 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 22px;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* --------------------------------
+       BLESSING / DIYA
+    -------------------------------- */
+
+    .blessing-section {
+      min-height: 720px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 62%, rgba(194,128,52,.12), transparent 17rem),
+        #f8eee0;
+    }
+
+    .diya {
+      position: relative;
+      width: 160px;
+      height: 120px;
+      margin: 45px auto 22px;
+    }
+
+    .diya-bowl {
+      position: absolute;
+      left: 50%;
+      bottom: 7px;
+      width: 125px;
+      height: 55px;
+      transform: translateX(-50%);
+      border-radius: 10px 10px 70px 70px;
+      background: linear-gradient(135deg, #6f3d1d, #c18a45 42%, #6e3819);
+      box-shadow: 0 12px 30px rgba(74,43,21,.24);
+    }
+
+    .diya-flame {
+      position: absolute;
+      left: 50%;
+      bottom: 58px;
+      width: 34px;
+      height: 56px;
+      transform: translateX(-50%) scale(.05);
+      transform-origin: center bottom;
+      border-radius: 50% 50% 45% 45%;
+      opacity: 0;
+      background: radial-gradient(circle at 50% 72%, #fff9c8 0 15%, #ffc45b 35%, #d76a23 70%);
+      box-shadow: 0 0 40px rgba(238,149,55,.7);
+      transition: transform 1s ease, opacity .8s ease;
+    }
+
+    .diya.lit .diya-flame {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      animation: flame 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes flame {
+      from { transform: translateX(-50%) scale(1) rotate(-2deg); }
+      to { transform: translateX(-50%) scale(.94,1.07) rotate(2deg); }
+    }
+
+    .blessing-button,
+    .action-button {
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--brown);
+      padding: 14px 22px;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .blessing-button:hover,
+    .action-button:hover {
+      background: var(--brown);
+      border-color: var(--brown);
+      color: white;
+    }
+
+    .blessing-response {
+      min-height: 70px;
+      margin-top: 25px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 24px;
+      color: var(--kumkum);
+      font-style: italic;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .6s ease;
+    }
+
+    .blessing-response.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .petal {
+      position: absolute;
+      top: -40px;
+      z-index: 5;
+      pointer-events: none;
+      color: #b9444b;
+      animation: petalFall linear forwards;
+    }
+
+    @keyframes petalFall {
+      to {
+        transform: translateY(850px) rotate(420deg);
+        opacity: .15;
+      }
+    }
+
+    /* --------------------------------
+       VENUE
+    -------------------------------- */
+
+    .venue {
+      position: relative;
+      min-height: 88svh;
+      display: grid;
+      align-items: flex-end;
+      background:
+        linear-gradient(to bottom, rgba(28,17,12,.05), rgba(28,17,12,.7)),
+        url("./images/blessings/venue-sea.png") center/cover no-repeat;
+      color: white;
+    }
+
+    .venue-content {
+      position: relative;
+      z-index: 2;
+      width: min(92%, 720px);
+      margin: 0 auto;
+      padding: 100px 22px 90px;
+      text-align: center;
+      text-shadow: 0 2px 18px rgba(0,0,0,.4);
+    }
+
+    .venue-content h2 {
+      margin: 8px 0 15px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(51px, 10vw, 82px);
+      font-weight: 500;
+      line-height: .95;
+    }
+
+    .venue-content p {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 22px;
+      line-height: 1.45;
+    }
+
+    .venue-button {
+      display: inline-block;
+      margin-top: 20px;
+      border: 1px solid rgba(255,255,255,.75);
+      border-radius: 999px;
+      padding: 14px 22px;
+      color: white;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,.08);
+    }
+
+    /* --------------------------------
+       CLOSING
+    -------------------------------- */
+
+    .closing {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(rgba(33,18,12,.22), rgba(33,18,12,.62)),
+        url("./images/blessings/closing-blessings.png") center/cover no-repeat;
+      color: white;
+      text-align: center;
+    }
+
+    .closing-content {
+      width: min(88%, 670px);
+      padding: 100px 20px;
+      text-shadow: 0 2px 18px rgba(0,0,0,.5);
+    }
+
+    .closing h2 {
+      margin: 10px 0 25px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(45px, 9vw, 72px);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .closing p {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 23px;
+      line-height: 1.45;
+    }
+
+    .closing-names {
+      margin: 30px 0 6px;
+      color: #f0d49c;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 39px;
+      font-style: italic;
+    }
+
+    .closing-shubham {
+      margin-top: 35px;
+      color: #f1d7a3;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 24px;
+    }
+
+    .mini-flame {
+      width: 16px;
+      height: 26px;
+      margin: 22px auto 0;
+      border-radius: 50% 50% 45% 45%;
+      background: #ffd06a;
+      box-shadow: 0 0 24px #f6a63f;
+      opacity: .3;
+      transition: opacity .5s ease;
+    }
+
+    .mini-flame.lit {
+      opacity: 1;
+      animation: flame 1.5s ease-in-out infinite alternate;
+    }
+
+    /* --------------------------------
+       FLOATING BUTTONS
+    -------------------------------- */
+
+    .floating-actions {
+      position: fixed;
+      right: 16px;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .float-button {
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgba(166,117,53,.34);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,250,241,.92);
+      color: var(--brown);
+      box-shadow: 0 10px 30px rgba(64,40,25,.16);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+
+    .float-button svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* --------------------------------
+       INVITE MODAL
+    -------------------------------- */
+
+    .invite-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      display: none;
+      overflow-y: auto;
+      padding: 30px 15px 70px;
+      background: rgba(31,19,13,.75);
+      backdrop-filter: blur(13px);
+    }
+
+    .invite-modal.open {
+      display: block;
+    }
+
+    .invite-shell {
+      position: relative;
+      width: min(100%, 540px);
+      margin: 0 auto;
+    }
+
+    .invite-close {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      margin: 0 0 10px auto;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 50%;
+      background: rgba(35,20,13,.62);
+      color: white;
+      cursor: pointer;
+      font-size: 22px;
+    }
+
+    .invite-card {
+      position: relative;
+      min-height: 760px;
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.35);
+      background:
+        linear-gradient(rgba(255,249,238,.82), rgba(255,249,238,.96)),
+        url("./images/blessings/ganesha.png") center/cover no-repeat;
+      color: var(--brown);
+      text-align: center;
+      padding: 45px 28px;
+      border: 1px solid rgba(220,185,119,.55);
+    }
+
+    .invite-card::before {
+      content: "";
+      position: absolute;
+      inset: 13px;
+      border: 1px solid rgba(166,117,53,.4);
+      border-radius: 17px;
+      pointer-events: none;
+    }
+
+    .invite-ganesha {
+      font-family: "Cormorant Garamond", serif;
+      color: var(--kumkum);
+      font-size: 26px;
+    }
+
+    .invite-blessing {
+      margin: 10px 0 25px;
+      color: var(--gold);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .invite-card h2 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 52px;
+      line-height: .88;
+      font-weight: 500;
+    }
+
+    .invite-card h2 span {
+      display: block;
+      margin: 8px 0;
+      color: var(--gold);
+      font-size: 25px;
+      font-style: italic;
+    }
+
+    .invite-for {
+      margin: 28px auto 8px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 17px;
+      font-style: italic;
+    }
+
+    .invite-guest {
+      margin: 0;
+      color: var(--kumkum);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 31px;
+      font-weight: 600;
+    }
+
+    .invite-copy {
+      max-width: 370px;
+      margin: 10px auto 24px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .invite-events {
+      width: min(100%, 390px);
+      margin: 25px auto;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+    }
+
+    .invite-event {
+      padding: 9px 0;
+    }
+
+    .invite-event strong {
+      display: block;
+      color: var(--gold);
+      font-size: 9px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .invite-event span {
+      display: block;
+      margin-top: 3px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 17px;
+    }
+
+    .invite-venue {
+      margin-top: 19px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      line-height: 1.8;
+      text-transform: uppercase;
+    }
+
+    .invite-footer {
+      margin: 20px 0 0;
+      color: var(--brown-soft);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 17px;
+      font-style: italic;
+    }
+
+    .invite-actions {
+      display: grid;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .invite-actions button,
+    .invite-actions a {
+      min-height: 49px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 999px;
+      background: rgba(255,250,241,.95);
+      color: var(--brown);
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    /* --------------------------------
+       REVEALS
+    -------------------------------- */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* --------------------------------
+       MOBILE
+    -------------------------------- */
+
+    @media (max-width: 700px) {
+      .section {
+        padding: 82px 20px;
+      }
+
+      .families {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .family-divider {
+        width: 80px;
+        height: 1px;
+        margin: 0 auto;
+        background: linear-gradient(90deg, transparent, rgba(220,185,119,.5), transparent);
+      }
+
+      .family-content {
+        margin-top: -70px;
+      }
+
+      .ceremony {
+        min-height: 68svh;
+      }
+
+      .invite-card {
+        min-height: 720px;
+        padding: 40px 21px;
+      }
+
+      .invite-card h2 {
+        font-size: 45px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="no-scroll">
+
+  <!-- =====================================
+       TEMPLE DOOR ENTRANCE
+  ====================================== -->
+
+  <section class="opening" id="opening">
+    <div class="opening-bg"></div>
+
+    <div class="door door-left"></div>
+    <div class="door door-right"></div>
+
+    <div class="opening-content">
+      <div class="opening-symbol">ॐ</div>
+
+      <p class="opening-kicker">With Your Blessings</p>
+
+      <h1>
+        Nikhil
+        <span>&amp;</span>
+        Supriya
+      </h1>
+
+      <p class="opening-date">21 · 22 NOVEMBER 2026</p>
+      <p class="opening-place">MGM Beach Resort · ECR · Chennai</p>
+
+      <button class="open-button" id="openInvitation">
+        Open the Invitation
+      </button>
+    </div>
+  </section>
+
+
+  <!-- =====================================
+       GANESHA / HERO
+  ====================================== -->
+
+  <main>
+
+    <section class="hero" id="home">
+      <div class="hero-content reveal">
+        <p class="hero-small">॥ Shri Ganeshaya Namah ॥</p>
+
+        <h1>
+          Nikhil
+          <span>&amp;</span>
+          Supriya
+        </h1>
+
+        <p class="hero-copy">
+          With the blessings of our families,
+          we begin a beautiful new chapter together.
+        </p>
+
+        <a class="scroll-cue" href="#welcome">
+          With Your Blessings ↓
+        </a>
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         PERSONAL WELCOME
+    ====================================== -->
+
+    <section class="section welcome" id="welcome">
+      <div class="section-inner reveal">
+
+        <p class="eyebrow">A Personal Invitation</p>
+
+        <div class="ornament">✦</div>
+
+        <h2 class="section-title">
+          Dear <span class="welcome-name guest-name">Family &amp; Friends</span>,
+        </h2>
+
+        <p class="section-copy">
+          Some celebrations are made complete not only by those who attend,
+          but by the blessings they bring.
+        </p>
+
+        <div class="gold-divider"></div>
+
+        <p class="section-copy">
+          It would mean a great deal to have yours as we celebrate
+          this new beginning together.
+        </p>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         FAMILY
+    ====================================== -->
+
+    <section class="family-section" id="family">
+
+      <img
+        class="family-image"
+        src="./images/blessings/family-temple.png"
+        alt="Traditional South Indian temple setting"
+      >
+
+      <div class="family-content">
+
+        <div class="reveal">
+          <p class="eyebrow">Our Families</p>
+
+          <h2 class="section-title">
+            With the blessings of<br>
+            those who came before us
+          </h2>
+        </div>
+
+        <div class="families reveal">
+
+          <div class="family-block">
+            <p class="family-label">Nikhil's Family</p>
+
+            <h3>Nikhil Konai</h3>
+
+            <p>
+              Grandson of<br>
+              <strong>Late Sri K. Narasimha Murthy &amp; C. V. Meenakshi</strong>
+            </p>
+
+            <p>
+              and<br>
+              <strong>Late Sri Sudhir Konai &amp; Sara Konai</strong>
+            </p>
+
+            <p>
+              Son of<br>
+              <strong>Prashanth Konai &amp; K. N. Jayashree</strong>
+            </p>
+          </div>
+
+          <div class="family-divider"></div>
+
+          <div class="family-block">
+            <p class="family-label">Supriya's Family</p>
+
+            <h3>Supriya I.</h3>
+
+            <p>
+              Granddaughter of<br>
+              <strong>Late Mr. Sundaramoorthy &amp; Late Mrs. Suseela</strong>
+            </p>
+
+            <p>
+              and<br>
+              <strong>Late Mr. Thengovan &amp; Mrs. Uma</strong>
+            </p>
+
+            <p>
+              Daughter of<br>
+              <strong>P. S. Ilangovan &amp; I. Valarmathi</strong>
+            </p>
+          </div>
+
+        </div>
+
+        <p class="family-closing reveal">
+          Two families. Two journeys. One new beginning.
+        </p>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         KOLAM TRANSITION
+    ====================================== -->
+
+    <section class="kolam-section">
+      <div class="section-inner reveal">
+
+        <div class="kolam" aria-hidden="true">
+          <div class="kolam-ring"></div>
+          <div class="kolam-ring"></div>
+          <div class="kolam-ring"></div>
+        </div>
+
+        <p class="eyebrow">21 · 22 November 2026</p>
+
+        <h2>
+          And now, we invite you<br>
+          to celebrate with us.
+        </h2>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         CELEBRATIONS
+    ====================================== -->
+
+    <section class="ceremonies" id="celebrations">
+
+      <div class="ceremonies-heading reveal">
+        <p class="eyebrow">The Celebrations</p>
+        <h2 class="section-title">Three beautiful moments.</h2>
+      </div>
+
+
+      <article class="ceremony engagement">
+
+        <div class="ceremony-content reveal">
+          <div class="ceremony-number">01</div>
+
+          <h3>Engagement</h3>
+
+          <p class="ceremony-date">
+            Saturday · 21 November 2026
+          </p>
+
+          <p class="ceremony-time">10:30 AM</p>
+
+          <p class="ceremony-place">Lake Lawn</p>
+
+          <p class="ceremony-quote">
+            Where two promises become one.
+          </p>
+        </div>
+
+      </article>
+
+
+      <article class="ceremony reception">
+
+        <div class="ceremony-content reveal">
+          <div class="ceremony-number">02</div>
+
+          <h3>Reception</h3>
+
+          <p class="ceremony-date">
+            Saturday · 21 November 2026
+          </p>
+
+          <p class="ceremony-time">6:00 PM</p>
+
+          <p class="ceremony-place">Lake Lawn</p>
+
+          <p class="ceremony-quote">
+            An evening of celebration with family and friends.
+          </p>
+        </div>
+
+      </article>
+
+
+      <article class="ceremony muhurtham">
+
+        <div class="ceremony-content reveal">
+          <div class="ceremony-number">03</div>
+
+          <h3>Muhurtham</h3>
+
+          <p class="ceremony-date">
+            Sunday · 22 November 2026
+          </p>
+
+          <p class="ceremony-time">8:30 – 10:00 AM</p>
+
+          <p class="ceremony-place">Palm Beach Lawn</p>
+
+          <p class="ceremony-quote">
+            As a new chapter begins,
+            we seek your presence and blessings.
+          </p>
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <!-- =====================================
+         LIGHT A LAMP
+    ====================================== -->
+
+    <section class="section blessing-section" id="blessings">
+
+      <div class="section-inner reveal">
+
+        <p class="eyebrow">A Blessing From You</p>
+
+        <h2 class="section-title">
+          Light a lamp for us.
+        </h2>
+
+        <p class="section-copy">
+          A small blessing from you,
+          carried with us into our new beginning.
+        </p>
+
+        <div class="diya" id="diya">
+          <div class="diya-flame"></div>
+          <div class="diya-bowl"></div>
+        </div>
+
+        <button class="blessing-button" id="lightLamp">
+          Light a Lamp for Nikhil &amp; Supriya
+        </button>
+
+        <div class="blessing-response" id="blessingResponse"></div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         VENUE
+    ====================================== -->
+
+    <section class="venue" id="venue">
+
+      <div class="venue-content reveal">
+
+        <p class="eyebrow" style="color:#efd49d;">
+          Where We Come Together
+        </p>
+
+        <h2>MGM Beach Resort</h2>
+
+        <p>
+          ECR · Chennai
+        </p>
+
+        <p>
+          Between the temple bells and the sound of the sea,<br>
+          we'll begin our next chapter.
+        </p>
+
+        <a
+          class="venue-button"
+          href="https://www.google.com/maps/search/?api=1&query=MGM+Beach+Resort+ECR+Chennai"
+          target="_blank"
+          rel="noopener"
+        >
+          Open in Maps →
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================
+         CLOSING
+    ====================================== -->
+
+    <section class="closing" id="closing">
+
+      <div class="closing-content reveal">
+
+        <p class="eyebrow" style="color:#efd49d;">
+          With Your Blessings
+        </p>
+
+        <h2>
+          A wedding lasts a few days.<br>
+          The blessings stay for a lifetime.
+        </h2>
+
+        <p>
+          Thank you for being part of ours.
+        </p>
+
+        <p class="closing-names">
+          Nikhil &amp; Supriya
+        </p>
+
+        <p>
+          21 · 22 November 2026<br>
+          MGM Beach Resort · Chennai
+        </p>
+
+        <div class="closing-shubham">
+          ॥ शुभमस्तु ॥
+        </div>
+
+        <div class="mini-flame" id="closingFlame"></div>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =====================================
+       FLOATING CONTROLS
+  ====================================== -->
+
+  <div class="floating-actions">
+
+    <button
+      class="float-button"
+      id="inviteButton"
+      aria-label="Open personalized invitation"
+      title="Invitation"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 4h14v16H5z"></path>
+        <path d="M8 8h8M8 12h8M9.5 16h5"></path>
+      </svg>
+    </button>
+
+    <button
+      class="float-button"
+      id="topButton"
+      aria-label="Back to top"
+      title="Back to top"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 19V5"></path>
+        <path d="m6.5 10.5 5.5-5.5 5.5 5.5"></path>
+      </svg>
+    </button>
+
+  </div>
+
+
+  <!-- =====================================
+       PERSONALIZED INVITATION MODAL
+  ====================================== -->
+
+  <div class="invite-modal" id="inviteModal">
+
+    <div class="invite-shell">
+
+      <button class="invite-close" id="inviteClose" aria-label="Close">
+        ×
+      </button>
+
+      <div class="invite-card" id="inviteCard">
+
+        <div class="invite-ganesha">॥ ॐ ॥</div>
+
+        <p class="invite-blessing">
+          With the blessings of our families
+        </p>
+
+        <h2>
+          Nikhil
+          <span>&amp;</span>
+          Supriya
+        </h2>
+
+        <p class="invite-for">
+          With great pleasure, we invite
+        </p>
+
+        <p class="invite-guest guest-name">
+          Family &amp; Friends
+        </p>
+
+        <p class="invite-copy">
+          to bless and celebrate with us
+          as we begin our new chapter together.
+        </p>
+
+        <div class="invite-events">
+
+          <div class="invite-event">
+            <strong>Engagement</strong>
+            <span>21 November · 10:30 AM · Lake Lawn</span>
+          </div>
+
+          <div class="invite-event">
+            <strong>Reception</strong>
+            <span>21 November · 6:00 PM · Lake Lawn</span>
+          </div>
+
+          <div class="invite-event">
+            <strong>Muhurtham</strong>
+            <span>22 November · 8:30–10:00 AM · Palm Beach Lawn</span>
+          </div>
+
+        </div>
+
+        <p class="invite-venue">
+          MGM Beach Resort<br>
+          ECR · Chennai
+        </p>
+
+        <p class="invite-footer">
+          Your presence and blessings will mean the world to us.
+        </p>
+
+      </div>
+
+      <div class="invite-actions">
+
+        <button id="saveInvite">
+          Save Invitation ↓
+        </button>
+
+        <button id="addCalendar">
+          Add All to Calendar
+        </button>
+
+        <a
+          href="https://www.google.com/maps/search/?api=1&query=MGM+Beach+Resort+ECR+Chennai"
+          target="_blank"
+          rel="noopener"
+        >
+          Open Maps ↗
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const $ = (selector) => document.querySelector(selector);
+      const $$ = (selector) => [...document.querySelectorAll(selector)];
+
+      /* --------------------------------
+         GUEST PERSONALISATION
+      -------------------------------- */
+
+      const params = new URLSearchParams(window.location.search);
+
+      function cleanGuestName(value) {
+        if (!value) return "";
+        return value
+          .replace(/[<>]/g, "")
+          .trim()
+          .slice(0, 60);
+      }
+
+      const guestName =
+        cleanGuestName(params.get("guest")) ||
+        "Family & Friends";
+
+      $$(".guest-name").forEach((element) => {
+        element.textContent = guestName;
+      });
+
+
+      /* --------------------------------
+         TEMPLE DOOR OPENING
+      -------------------------------- */
+
+      const opening = $("#opening");
+      const openInvitation = $("#openInvitation");
+
+      openInvitation.addEventListener("click", () => {
+
+        opening.classList.add("opening-doors");
+
+        setTimeout(() => {
+          opening.classList.add("finished");
+          document.body.classList.remove("no-scroll");
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "instant"
+          });
+        }, 1350);
+
+      });
+
+
+      /* --------------------------------
+         SCROLL REVEALS
+      -------------------------------- */
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.12
+        }
+      );
+
+      $$(".reveal").forEach((element) => {
+        revealObserver.observe(element);
+      });
+
+
+      /* --------------------------------
+         LIGHT A LAMP
+      -------------------------------- */
+
+      const diya = $("#diya");
+      const lightLamp = $("#lightLamp");
+      const blessingResponse = $("#blessingResponse");
+      const closingFlame = $("#closingFlame");
+
+      let lampLit = false;
+
+      function createPetals() {
+
+        const section = $("#blessings");
+
+        for (let i = 0; i < 18; i++) {
+
+          const petal = document.createElement("span");
+
+          petal.className = "petal";
+          petal.textContent = "❧";
+
+          petal.style.left = `${Math.random() * 100}%`;
+          petal.style.fontSize = `${10 + Math.random() * 14}px`;
+          petal.style.animationDuration = `${4 + Math.random() * 4}s`;
+          petal.style.animationDelay = `${Math.random() * .8}s`;
+
+          section.appendChild(petal);
+
+          setTimeout(() => petal.remove(), 9000);
+        }
+      }
+
+      lightLamp.addEventListener("click", () => {
+
+        if (lampLit) return;
+
+        lampLit = true;
+
+        diya.classList.add("lit");
+        closingFlame.classList.add("lit");
+
+        blessingResponse.innerHTML =
+          `Thank you, <strong>${guestName}</strong>.<br>Your blessings are with us.`;
+
+        blessingResponse.classList.add("visible");
+
+        lightLamp.textContent = "Your Lamp Is Lit";
+
+        createPetals();
+
+      });
+
+
+      /* --------------------------------
+         FLOATING BUTTONS
+      -------------------------------- */
+
+      $("#topButton").addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+
+
+      /* --------------------------------
+         INVITATION MODAL
+      -------------------------------- */
+
+      const inviteModal = $("#inviteModal");
+
+      $("#inviteButton").addEventListener("click", () => {
+        inviteModal.classList.add("open");
+        document.body.classList.add("no-scroll");
+      });
+
+      $("#inviteClose").addEventListener("click", closeInvite);
+
+      inviteModal.addEventListener("click", (event) => {
+        if (event.target === inviteModal) {
+          closeInvite();
+        }
+      });
+
+      function closeInvite() {
+        inviteModal.classList.remove("open");
+        document.body.classList.remove("no-scroll");
+      }
+
+
+      /* --------------------------------
+         SAVE PERSONALIZED INVITATION
+      -------------------------------- */
+
+      $("#saveInvite").addEventListener("click", async () => {
+
+        const button = $("#saveInvite");
+        const originalText = button.textContent;
+
+        button.textContent = "Preparing Invitation...";
+
+        try {
+
+          await document.fonts.ready;
+
+          const canvas = document.createElement("canvas");
+          canvas.width = 1440;
+          canvas.height = 1920;
+
+          const ctx = canvas.getContext("2d");
+
+          const image = new Image();
+
+          image.onload = () => {
+
+            /* Background image */
+            const imageRatio = image.width / image.height;
+            const canvasRatio = canvas.width / canvas.height;
+
+            let drawWidth;
+            let drawHeight;
+            let drawX;
+            let drawY;
+
+            if (imageRatio > canvasRatio) {
+              drawHeight = canvas.height;
+              drawWidth = image.width * (canvas.height / image.height);
+              drawX = (canvas.width - drawWidth) / 2;
+              drawY = 0;
+            } else {
+              drawWidth = canvas.width;
+              drawHeight = image.height * (canvas.width / image.width);
+              drawX = 0;
+              drawY = (canvas.height - drawHeight) / 2;
+            }
+
+            ctx.drawImage(
+              image,
+              drawX,
+              drawY,
+              drawWidth,
+              drawHeight
+            );
+
+            /* Warm overlay */
+            ctx.fillStyle = "rgba(255,248,235,.88)";
+            ctx.fillRect(80, 90, 1280, 1740);
+
+            /* Double gold border */
+            ctx.strokeStyle = "#a67535";
+            ctx.lineWidth = 3;
+            ctx.strokeRect(105, 115, 1230, 1690);
+
+            ctx.strokeStyle = "rgba(166,117,53,.55)";
+            ctx.lineWidth = 1;
+            ctx.strokeRect(125, 135, 1190, 1650);
+
+            ctx.textAlign = "center";
+
+            /* Top blessing */
+            ctx.fillStyle = "#8d302a";
+            ctx.font = '500 40px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText("॥ SHRI GANESHAYA NAMAH ॥", 720, 235);
+
+            ctx.fillStyle = "#a67535";
+            ctx.font = '600 22px "Manrope", sans-serif';
+            ctx.fillText("WITH THE BLESSINGS OF OUR FAMILIES", 720, 305);
+
+            /* Couple */
+            ctx.fillStyle = "#493226";
+            ctx.font = '500 118px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText("Nikhil", 720, 465);
+
+            ctx.fillStyle = "#a67535";
+            ctx.font = 'italic 500 65px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText("&", 720, 545);
+
+            ctx.fillStyle = "#493226";
+            ctx.font = '500 118px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText("Supriya", 720, 665);
+
+            /* Guest */
+            ctx.fillStyle = "#765d4c";
+            ctx.font = 'italic 500 39px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText("With great pleasure, we invite", 720, 775);
+
+            ctx.fillStyle = "#8d302a";
+
+            let guestFontSize = 66;
+
+            ctx.font =
+              `600 ${guestFontSize}px "Cormorant Garamond", Georgia, serif`;
+
+            while (
+              ctx.measureText(guestName).width > 1030 &&
+              guestFontSize > 38
+            ) {
+              guestFontSize -= 2;
+
+              ctx.font =
+                `600 ${guestFontSize}px "Cormorant Garamond", Georgia, serif`;
+            }
+
+            ctx.fillText(guestName, 720, 860);
+
+            ctx.fillStyle = "#493226";
+            ctx.font = '400 38px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText(
+              "to bless and celebrate our new beginning.",
+              720,
+              930
+            );
+
+            /* Divider */
+            ctx.strokeStyle = "rgba(166,117,53,.55)";
+            ctx.beginPath();
+            ctx.moveTo(310, 990);
+            ctx.lineTo(1130, 990);
+            ctx.stroke();
+
+            /* Events */
+            const events = [
+              {
+                title: "ENGAGEMENT",
+                detail: "21 NOVEMBER · 10:30 AM · LAKE LAWN"
+              },
+              {
+                title: "RECEPTION",
+                detail: "21 NOVEMBER · 6:00 PM · LAKE LAWN"
+              },
+              {
+                title: "MUHURTHAM",
+                detail: "22 NOVEMBER · 8:30–10:00 AM · PALM BEACH LAWN"
+              }
+            ];
+
+            let eventY = 1080;
+
+            events.forEach((event) => {
+
+              ctx.fillStyle = "#a67535";
+              ctx.font = '600 23px "Manrope", sans-serif';
+              ctx.fillText(event.title, 720, eventY);
+
+              ctx.fillStyle = "#493226";
+              ctx.font = '500 34px "Cormorant Garamond", Georgia, serif';
+              ctx.fillText(event.detail, 720, eventY + 48);
+
+              eventY += 145;
+
+            });
+
+            /* Venue */
+            ctx.strokeStyle = "rgba(166,117,53,.55)";
+            ctx.beginPath();
+            ctx.moveTo(310, 1510);
+            ctx.lineTo(1130, 1510);
+            ctx.stroke();
+
+            ctx.fillStyle = "#493226";
+            ctx.font = '600 31px "Manrope", sans-serif';
+            ctx.fillText("MGM BEACH RESORT", 720, 1595);
+
+            ctx.fillStyle = "#765d4c";
+            ctx.font = '500 25px "Manrope", sans-serif';
+            ctx.fillText("ECR · CHENNAI", 720, 1640);
+
+            ctx.fillStyle = "#8d302a";
+            ctx.font = 'italic 500 36px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText(
+              "Your presence and blessings will mean the world to us.",
+              720,
+              1740
+            );
+
+            const safeGuest =
+              guestName
+                .replace(/[^a-z0-9]+/gi, "-")
+                .replace(/^-|-$/g, "") ||
+              "Guest";
+
+            canvas.toBlob(
+              async (blob) => {
+
+                const filename =
+                  `Nikhil-Supriya-Wedding-Invitation-${safeGuest}.jpg`;
+
+                /*
+                  On phones that support Web Share,
+                  show the native Save / Share sheet.
+                */
+                if (
+                  navigator.share &&
+                  navigator.canShare
+                ) {
+
+                  try {
+
+                    const file = new File(
+                      [blob],
+                      filename,
+                      {
+                        type: "image/jpeg"
+                      }
+                    );
+
+                    if (
+                      navigator.canShare({
+                        files: [file]
+                      })
+                    ) {
+
+                      await navigator.share({
+                        files: [file],
+                        title: "Nikhil & Supriya Wedding Invitation"
+                      });
+
+                      button.textContent = originalText;
+                      return;
+                    }
+
+                  } catch (error) {
+
+                    if (error.name === "AbortError") {
+                      button.textContent = originalText;
+                      return;
+                    }
+
+                  }
+                }
+
+                /*
+                  Desktop / unsupported phones:
+                  download the JPG normally.
+                */
+                const url = URL.createObjectURL(blob);
+
+                const link = document.createElement("a");
+
+                link.href = url;
+                link.download = filename;
+
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setTimeout(() => {
+                  URL.revokeObjectURL(url);
+                }, 1000);
+
+                button.textContent = originalText;
+
+              },
+              "image/jpeg",
+              .94
+            );
+
+          };
+
+          image.onerror = () => {
+            button.textContent = "Couldn't Prepare Image";
+
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 1800);
+          };
+
+          image.src =
+            "./images/blessings/ganesha.png";
+
+        } catch (error) {
+
+          button.textContent = "Try Again";
+
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 1800);
+
+        }
+
+      });
+
+
+      /* --------------------------------
+         ADD ALL EVENTS TO CALENDAR
+      -------------------------------- */
+
+      $("#addCalendar").addEventListener("click", () => {
+
+        const ics = [
+          "BEGIN:VCALENDAR",
+          "VERSION:2.0",
+          "PRODID:-//Nikhil and Supriya Wedding//EN",
+          "CALSCALE:GREGORIAN",
+
+          "BEGIN:VEVENT",
+          "UID:engagement-nikhil-supriya-2026@supnik.in",
+          "DTSTAMP:20261003T000000Z",
+          "DTSTART:20261121T050000Z",
+          "DTEND:20261121T063000Z",
+          "SUMMARY:Nikhil & Supriya - Engagement",
+          "LOCATION:MGM Beach Resort\\, ECR\\, Chennai - Lake Lawn",
+          "DESCRIPTION:Engagement celebration of Nikhil and Supriya.",
+          "END:VEVENT",
+
+          "BEGIN:VEVENT",
+          "UID:reception-nikhil-supriya-2026@supnik.in",
+          "DTSTAMP:20261003T000000Z",
+          "DTSTART:20261121T123000Z",
+          "DTEND:20261121T160000Z",
+          "SUMMARY:Nikhil & Supriya - Reception",
+          "LOCATION:MGM Beach Resort\\, ECR\\, Chennai - Lake Lawn",
+          "DESCRIPTION:Wedding reception of Nikhil and Supriya.",
+          "END:VEVENT",
+
+          "BEGIN:VEVENT",
+          "UID:muhurtham-nikhil-supriya-2026@supnik.in",
+          "DTSTAMP:20261003T000000Z",
+          "DTSTART:20261122T030000Z",
+          "DTEND:20261122T043000Z",
+          "SUMMARY:Nikhil & Supriya - Muhurtham",
+          "LOCATION:MGM Beach Resort\\, ECR\\, Chennai - Palm Beach Lawn",
+          "DESCRIPTION:Muhurtham of Nikhil and Supriya.",
+          "END:VEVENT",
+
+          "END:VCALENDAR"
+        ].join("\r\n");
+
+        const blob = new Blob(
+          [ics],
+          {
+            type: "text/calendar;charset=utf-8"
+          }
+        );
+
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "Nikhil-Supriya-Wedding.ics";
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 1000);
+
+      });
+
+    });
+  </script>
+
+</body>
+</html>

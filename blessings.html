@@ -2,49 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#6c3b24">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#6b3b24">
 
 <title>Nikhil & Supriya | With Your Blessings</title>
 
-<meta
-  name="description"
-  content="With your blessings, join Nikhil & Supriya on 21 & 22 November 2026 at MGM Beach Resort, ECR, Chennai."
->
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap"
-  rel="stylesheet"
->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="preload" as="image" href="./images/blessings/realistic-lamp-unlit.png">
+<link rel="preload" as="image" href="./images/blessings/realistic-lamp.png">
 
 <style>
-
 :root{
-  --ivory:#fffaf0;
-  --ivory2:#f8ecd7;
-  --cream:#f1dfc0;
-  --gold:#b6782d;
-  --gold2:#e2b96f;
-  --darkgold:#744313;
-  --brown:#3f281b;
-  --brown2:#684733;
-  --kumkum:#903a30;
-  --deep:#382013;
-  --serif:"Cormorant Garamond", Georgia, serif;
-  --sans:"Manrope", Arial, sans-serif;
+  --ivory:#fff9ed;
+  --cream:#f4dfbd;
+  --gold:#b4772d;
+  --darkgold:#754313;
+  --brown:#43291a;
+  --brown2:#6c4b35;
+  --red:#963c34;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Manrope",Arial,sans-serif;
 }
 
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-  background:var(--ivory);
-}
-
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--ivory)}
 body{
   margin:0;
   overflow-x:hidden;
@@ -52,63 +36,30 @@ body{
   background:var(--ivory);
   font-family:var(--sans);
 }
-
-body.locked{
-  overflow:hidden;
-}
-
-img{
-  display:block;
-  width:100%;
-}
-
-button,
-input,
-a{
-  font:inherit;
-}
-
-button,
-a{
-  -webkit-tap-highlight-color:transparent;
-}
-
-button{
-  cursor:pointer;
-}
-
-.page{
-  position:relative;
-  overflow:hidden;
-}
+body.locked{overflow:hidden}
+img{display:block;max-width:100%}
+button,input,a{font:inherit}
+button{cursor:pointer}
 
 .eyebrow{
   margin:0 0 12px;
   color:var(--darkgold);
-  font-size:.65rem;
+  font-size:.66rem;
   font-weight:600;
-  letter-spacing:.24em;
+  letter-spacing:.2em;
   text-transform:uppercase;
 }
-
-.section-title{
+.title{
   margin:0;
-  font-family:var(--serif);
-  font-size:clamp(2.8rem,9vw,5.5rem);
-  font-weight:500;
-  line-height:.96;
+  font:500 clamp(2.8rem,9vw,5.2rem)/.98 var(--serif);
 }
-
-.body-copy{
-  max-width:640px;
+.copy{
+  max-width:650px;
   margin:18px auto 0;
   color:var(--brown2);
-  font-family:var(--serif);
-  font-size:clamp(1.18rem,3.6vw,1.5rem);
-  line-height:1.5;
+  font:400 clamp(1.15rem,3.5vw,1.48rem)/1.5 var(--serif);
 }
-
-.gold-divider{
+.divider{
   display:flex;
   align-items:center;
   justify-content:center;
@@ -116,2633 +67,955 @@ button{
   margin:18px auto;
   color:var(--gold);
 }
-
-.gold-divider::before,
-.gold-divider::after{
+.divider:before,.divider:after{
   content:"";
-  width:52px;
+  width:55px;
   height:1px;
   background:linear-gradient(90deg,transparent,currentColor,transparent);
 }
-
 .reveal{
   opacity:0;
-  transform:translateY(24px);
-  transition:
-    opacity .9s ease,
-    transform .9s cubic-bezier(.2,.75,.25,1);
+  transform:translateY(22px);
+  transition:.85s ease;
 }
+.reveal.show{opacity:1;transform:none}
 
-.reveal.visible{
-  opacity:1;
-  transform:none;
-}
+/* PETALS */
 
-
-/* =========================================================
-   PETALS
-========================================================= */
-
-#ambientPetals,
-#petalBurst{
+#petals{
   position:fixed;
   inset:0;
+  z-index:1200;
   pointer-events:none;
   overflow:hidden;
 }
-
-#ambientPetals{
-  z-index:40;
-}
-
-#petalBurst{
-  z-index:1200;
-}
-
 .petal{
   position:absolute;
-  top:-35px;
-  width:12px;
-  height:19px;
-  border-radius:80% 18% 78% 22%;
-  opacity:.58;
-
-  background:
-    radial-gradient(
-      circle at 35% 25%,
-      #fff0eb,
-      #e58a80 55%,
-      #ad5048
-    );
-
-  filter:drop-shadow(0 3px 3px rgba(60,30,15,.08));
-
-  animation:petalFall linear infinite;
-}
-
-.petal.jasmine{
+  top:-30px;
   width:11px;
-  height:11px;
-  border-radius:70% 35% 70% 35%;
-
-  background:
-    radial-gradient(
-      circle,
-      #fffef9,
-      #f0e4ce 70%,
-      #d6bd97
-    );
+  height:18px;
+  border-radius:80% 20% 75% 25%;
+  background:radial-gradient(circle at 35% 25%,#ffece7,#df847a 60%,#b45249);
+  animation:fall linear forwards;
 }
-
-.petal.marigold{
-  width:11px;
-  height:15px;
-
-  background:
-    radial-gradient(
-      circle,
-      #ffe7a4,
-      #eba642 60%,
-      #b86b1b
-    );
+.petal.white{
+  width:10px;
+  height:10px;
+  background:radial-gradient(circle,#fffef9,#eadbc1);
 }
-
-@keyframes petalFall{
-  from{
-    transform:
-      translate3d(0,-10vh,0)
-      rotate(0deg);
-  }
-
+.petal.gold{
+  background:radial-gradient(circle,#ffe7a1,#e39a36 65%,#a95e18);
+}
+@keyframes fall{
   to{
-    transform:
-      translate3d(var(--drift),115vh,0)
-      rotate(var(--spin));
+    transform:translate3d(var(--drift),110vh,0) rotate(var(--spin));
   }
 }
 
-
-/* =========================================================
-   ENTRANCE
-========================================================= */
+/* ENTRANCE */
 
 #entrance{
   position:fixed;
   inset:0;
   z-index:1500;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   overflow:hidden;
-
-  color:#fff8ea;
-  background:#24130b;
-
-  transition:
-    opacity 1s ease,
-    visibility 1s ease;
+  color:#fff9ea;
+  background:#28150b;
+  transition:opacity 1s ease,visibility 1s ease;
 }
-
-#entrance.finished{
+#entrance.done{
   opacity:0;
   visibility:hidden;
   pointer-events:none;
 }
-
-.entrance-photo{
+.entrance-bg{
   position:absolute;
-  inset:-3%;
-
+  inset:-4%;
   background:
-    linear-gradient(
-      to bottom,
-      rgba(25,12,5,.14),
-      rgba(25,12,5,.25) 48%,
-      rgba(25,12,5,.66)
-    ),
-    url("./images/blessings/entrance-temple.png")
-    center/cover no-repeat;
-
+    linear-gradient(to bottom,rgba(30,15,7,.08),rgba(30,15,7,.18) 45%,rgba(30,15,7,.72)),
+    url("./images/blessings/entrance-temple.png") center/cover no-repeat;
   transform:scale(1.03);
-
-  animation:
-    templeBreath 13s ease-in-out infinite alternate;
-
-  transition:
-    transform 2s cubic-bezier(.2,.75,.25,1),
-    filter 1.5s ease,
-    opacity 1.3s ease;
+  animation:breathe 13s ease-in-out infinite alternate;
+  transition:transform 2s ease,filter 1.6s ease;
 }
-
-@keyframes templeBreath{
-  from{transform:scale(1.03)}
-  to{transform:scale(1.08)}
+@keyframes breathe{to{transform:scale(1.08)}}
+#entrance.entering .entrance-bg{
+  transform:scale(1.16);
+  filter:brightness(1.15) saturate(1.08);
 }
-
 .entrance-glow{
   position:absolute;
   inset:0;
-
-  opacity:.28;
-
-  background:
-    radial-gradient(
-      circle at 50% 42%,
-      rgba(255,218,139,.48),
-      transparent 34%
-    );
-
+  opacity:.3;
+  background:radial-gradient(circle at 50% 42%,rgba(255,218,140,.55),transparent 35%);
   transition:opacity 1.4s ease;
 }
-
-#entrance.entering .entrance-photo{
-  transform:scale(1.16);
-  filter:brightness(1.17) saturate(1.06);
-}
-
-#entrance.entering .entrance-glow{
-  opacity:1;
-}
-
+#entrance.entering .entrance-glow{opacity:1}
 .entrance-content{
   position:relative;
-  z-index:5;
-
+  z-index:2;
   width:min(92%,560px);
-  padding:30px 20px;
-
+  padding:25px 18px;
   text-align:center;
-
-  text-shadow:
-    0 3px 20px rgba(0,0,0,.68);
-
-  transition:
-    opacity .8s ease,
-    transform .8s ease;
+  text-shadow:0 3px 20px rgba(0,0,0,.65);
+  transition:.8s ease;
 }
-
 #entrance.entering .entrance-content{
   opacity:0;
-  transform:translateY(-10px) scale(.98);
+  transform:translateY(-12px);
 }
-
-.entrance-om{
-  width:64px;
-  height:64px;
-
-  display:grid;
-  place-items:center;
-
-  margin:0 auto 15px;
-
-  border:1px solid rgba(255,224,164,.72);
+.om{
+  width:62px;height:62px;
+  display:grid;place-items:center;
+  margin:auto auto 13px;
+  border:1px solid rgba(255,225,170,.7);
   border-radius:50%;
-
-  color:#f9d58e;
-  background:rgba(48,24,10,.25);
-
-  box-shadow:
-    0 0 35px rgba(225,166,69,.18);
-
-  font-family:var(--serif);
-  font-size:2rem;
+  color:#f3c979;
+  font:500 2rem var(--serif);
 }
-
-.entrance-mantra{
-  margin:0 0 12px;
-  color:#f8dca7;
-  font-family:var(--serif);
-  font-size:.93rem;
-  letter-spacing:.08em;
-}
-
+.mantra{margin:0 0 10px;color:#f5d89f;font:500 .92rem var(--serif)}
 .entrance-content h1{
   margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(3.5rem,13vw,6.2rem);
-  font-weight:500;
-
-  line-height:.88;
+  font:500 clamp(3.5rem,13vw,6rem)/.88 var(--serif);
 }
-
 .entrance-content h1 span{
   display:block;
   margin:6px;
-
-  color:#efbd67;
-
-  font-size:.66em;
+  color:#efbd68;
+  font-size:.65em;
   font-style:italic;
 }
-
-.entrance-date{
-  margin:18px 0 13px;
-
+.date{
+  margin:18px 0 10px;
   font-size:.68rem;
   font-weight:600;
-
   letter-spacing:.17em;
   text-transform:uppercase;
 }
-
-.entrance-blessing{
-  margin:0 auto 20px;
-
-  font-family:var(--serif);
-  font-size:1.16rem;
+.entrance-copy{
+  margin:0 0 18px;
+  font:400 1.15rem var(--serif);
 }
-
-
-/* =========================================================
-   NAME ENTRY
-========================================================= */
-
-.name-panel{
+.name-box{
   width:min(390px,100%);
-
-  margin:18px auto 0;
-  padding:17px;
-
-  border:1px solid rgba(255,235,197,.52);
-  border-radius:22px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,250,238,.96),
-      rgba(247,230,200,.94)
-    );
-
-  box-shadow:
-    0 18px 45px rgba(26,13,6,.28);
-
+  margin:auto;
+  padding:16px;
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(255,252,244,.98),rgba(246,228,197,.97));
+  box-shadow:0 18px 45px rgba(20,10,5,.3);
   text-shadow:none;
 }
-
-.name-panel label{
+.name-box label{
   display:block;
-  margin-bottom:9px;
-
+  margin-bottom:8px;
   color:var(--brown);
-
   font-size:.7rem;
   font-weight:600;
-
   letter-spacing:.13em;
   text-transform:uppercase;
 }
-
-#guestInput{
+#guest{
   width:100%;
   height:58px;
-
-  padding:0 17px;
-
-  border:2px solid rgba(151,93,35,.38);
-  border-radius:14px;
-
+  padding:0 16px;
+  border:2px solid rgba(157,96,34,.4);
+  border-radius:13px;
   outline:none;
-
   color:var(--brown);
-  background:#fffdf8;
-
-  font-family:var(--serif);
-  font-size:1.35rem;
-
-  text-align:left;
-
-  box-shadow:
-    inset 0 2px 5px rgba(71,39,17,.05);
+  background:#fffdfa;
+  font:500 1.3rem var(--serif);
 }
-
-#guestInput::placeholder{
-  color:#8e7663;
-}
-
-#guestInput:focus{
+#guest:focus{
   border-color:var(--gold);
-
-  box-shadow:
-    0 0 0 4px rgba(182,120,45,.13);
+  box-shadow:0 0 0 4px rgba(180,119,45,.13);
 }
-
-.enter-button{
+.enter{
   width:100%;
   min-height:56px;
-
   margin-top:11px;
-
   border:0;
-  border-radius:14px;
-
+  border-radius:13px;
   color:#fff9ec;
-
-  background:
-    linear-gradient(
-      135deg,
-      #754414,
-      #b87a2d,
-      #86501c
-    );
-
-  box-shadow:
-    0 10px 25px rgba(91,49,17,.22);
-
-  font-size:.68rem;
+  background:linear-gradient(135deg,#754313,#bd8030,#84501d);
+  font-size:.67rem;
   font-weight:600;
-
   letter-spacing:.12em;
   text-transform:uppercase;
 }
+#error{min-height:16px;margin:7px 0 0;color:#a52f2f;font-size:.72rem}
 
-.name-help{
-  margin:10px 0 0;
+/* GANESHA */
 
-  color:#755c49;
-
-  font-family:var(--serif);
-  font-size:.93rem;
-}
-
-.name-error{
-  min-height:18px;
-
-  margin:7px 0 0;
-
-  color:#9b302b;
-
-  font-size:.72rem;
-}
-
-
-/* =========================================================
-   GANESHA HERO
-========================================================= */
-
-.ganesha-hero{
+.hero{
   position:relative;
-
   min-height:100svh;
-
   display:flex;
   align-items:flex-end;
   justify-content:center;
-
-  padding:110px 22px 125px;
-
-  color:#fff9ec;
+  padding:100px 22px 125px;
+  color:#fff9ed;
   text-align:center;
-
   background:
-    linear-gradient(
-      to bottom,
-      rgba(25,13,6,.02),
-      rgba(25,13,6,.12) 43%,
-      rgba(25,13,6,.7)
-    ),
-    url("./images/blessings/ganesha.png")
-    center/cover no-repeat;
+    linear-gradient(to bottom,rgba(25,13,6,.02),rgba(25,13,6,.13) 45%,rgba(25,13,6,.72)),
+    url("./images/blessings/ganesha.png") center/cover no-repeat;
 }
-
-.ganesha-hero::after{
+.hero:after{
   content:"";
-
   position:absolute;
-
-  left:0;
-  right:0;
-  bottom:-2px;
-
-  height:220px;
-
-  background:
-    linear-gradient(
-      transparent,
-      var(--ivory)
-    );
+  left:0;right:0;bottom:-2px;
+  height:210px;
+  background:linear-gradient(transparent,var(--ivory));
 }
-
 .hero-inner{
   position:relative;
   z-index:2;
-
   width:min(720px,100%);
-
-  text-shadow:
-    0 3px 20px rgba(0,0,0,.48);
+  text-shadow:0 3px 20px rgba(0,0,0,.5);
 }
+.hero .eyebrow{color:#f1ce8c}
+.hero h2{margin:0;font:500 clamp(4rem,14vw,7rem)/.86 var(--serif)}
+.hero h2 span{display:block;margin:6px;color:#e8b45c;font-size:.64em;font-style:italic}
+.hero p{max-width:590px;margin:20px auto 0;font:400 1.35rem/1.45 var(--serif)}
 
-.ganesha-hero .eyebrow{
-  color:#f3d49a;
-}
-
-.ganesha-hero h2{
-  margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(4rem,14vw,7.2rem);
-  font-weight:500;
-
-  line-height:.86;
-}
-
-.ganesha-hero h2 span{
-  display:block;
-
-  margin:7px;
-
-  color:#eab45a;
-
-  font-size:.65em;
-  font-style:italic;
-}
-
-.hero-message{
-  max-width:580px;
-
-  margin:20px auto 0;
-
-  font-family:var(--serif);
-  font-size:1.35rem;
-
-  line-height:1.45;
-}
-
-
-/* =========================================================
-   WELCOME
-========================================================= */
+/* WELCOME */
 
 .welcome{
-  position:relative;
-
-  padding:75px 22px 95px;
-
+  padding:80px 22px 95px;
   text-align:center;
-
-  background:
-    radial-gradient(
-      circle at 50% 48%,
-      rgba(221,172,94,.14),
-      transparent 42%
-    ),
-    var(--ivory);
+  background:radial-gradient(circle,rgba(221,172,94,.14),transparent 45%),var(--ivory);
 }
+.welcome-inner{width:min(760px,100%);margin:auto}
+.welcome h3{margin:0;font:500 clamp(2.8rem,9vw,4.8rem) var(--serif)}
+.guest-name{color:var(--red)}
 
-.welcome-inner{
-  width:min(750px,100%);
-  margin:auto;
-}
+/* FAMILY */
 
-.welcome h3{
-  margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(2.8rem,9vw,4.8rem);
-  font-weight:500;
-}
-
-.guest-name{
-  color:var(--kumkum);
-}
-
-
-/* =========================================================
-   FAMILIES
-========================================================= */
-
-.families{
+.family-section{
   position:relative;
-
-  min-height:720px;
-
-  display:flex;
-  align-items:center;
-
-  padding:105px 18px 125px;
-
+  padding:105px 20px 120px;
   background:
-    linear-gradient(
-      to bottom,
-      var(--ivory),
-      rgba(255,249,236,.79) 16%,
-      rgba(255,247,229,.73) 78%,
-      var(--ivory)
-    ),
-    url("./images/blessings/family-temple.png")
-    center/cover no-repeat;
+    linear-gradient(to bottom,var(--ivory),rgba(255,249,235,.8),var(--ivory)),
+    url("./images/blessings/family-temple.png") center/cover no-repeat;
 }
-
-.families::before{
+.family-section:before{
   content:"";
-
   position:absolute;
   inset:0;
-
-  background:
-    radial-gradient(
-      ellipse at center,
-      rgba(255,251,241,.93),
-      rgba(255,247,231,.63) 67%,
-      rgba(86,46,20,.1)
-    );
+  background:rgba(255,249,237,.73);
 }
-
 .family-inner{
   position:relative;
-  z-index:2;
-
   width:min(1050px,100%);
-
   margin:auto;
   text-align:center;
 }
-
-.family-heading{
-  margin-bottom:42px;
-}
-
 .family-grid{
   position:relative;
-
   display:grid;
   grid-template-columns:1fr 1fr;
-
   gap:clamp(18px,7vw,90px);
+  margin-top:45px;
 }
-
-.family-grid::after{
+.family-grid:after{
   content:"";
-
   position:absolute;
-
   left:50%;
-  top:2%;
-  bottom:2%;
-
+  top:0;bottom:0;
   width:1px;
-
-  background:
-    linear-gradient(
-      transparent,
-      rgba(181,120,45,.64),
-      transparent
-    );
+  background:linear-gradient(transparent,var(--gold),transparent);
 }
-
-.family{
-  padding:0 10px;
-}
-
 .family h4{
   margin:0 0 18px;
-
   color:var(--darkgold);
-
-  font-family:var(--serif);
-  font-size:clamp(1.65rem,5vw,2.7rem);
-  font-weight:500;
+  font:500 clamp(1.6rem,5vw,2.7rem) var(--serif);
 }
-
 .family small{
   display:block;
-
   margin:17px 0 5px;
-
   color:var(--gold);
-
   font-size:.54rem;
   font-weight:600;
-
-  letter-spacing:.14em;
+  letter-spacing:.12em;
   text-transform:uppercase;
 }
-
 .family p{
   margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(.96rem,2.7vw,1.22rem);
-
-  line-height:1.44;
+  font:400 clamp(.92rem,2.7vw,1.2rem)/1.45 var(--serif);
 }
 
-.family-ending{
-  margin:42px 0 0;
+/* EVENTS */
 
-  font-family:var(--serif);
-  font-size:1.5rem;
-  font-style:italic;
-}
-
-
-/* =========================================================
-   KOLAM
-========================================================= */
-
-.kolam-transition{
-  position:relative;
-  z-index:3;
-
-  height:110px;
-
-  margin-top:-45px;
-
-  display:grid;
-  place-items:center;
-}
-
-.kolam{
-  position:relative;
-
-  width:88px;
-  height:88px;
-
-  border:1px solid rgba(181,120,45,.35);
-  border-radius:50%;
-
-  animation:kolamRotate 22s linear infinite;
-}
-
-.kolam::before,
-.kolam::after{
-  content:"";
-
-  position:absolute;
-  inset:14px;
-
-  border:1px solid rgba(181,120,45,.45);
-
-  border-radius:25% 75%;
-
-  transform:rotate(45deg);
-}
-
-.kolam::after{
-  inset:27px;
-  transform:rotate(-45deg);
-}
-
-@keyframes kolamRotate{
-  to{transform:rotate(360deg)}
-}
-
-
-/* =========================================================
-   EVENTS
-========================================================= */
-
-.celebrations{
-  padding:20px 0 0;
-
-  background:var(--ivory);
-}
-
-.celebrations-heading{
+.events{padding-top:75px;background:var(--ivory)}
+.events-head{
   width:min(800px,calc(100% - 40px));
-
-  margin:0 auto 38px;
-
+  margin:0 auto 45px;
   text-align:center;
 }
-
 .event{
   position:relative;
-
-  min-height:73svh;
-
+  min-height:72svh;
   display:flex;
   align-items:flex-end;
-
   overflow:hidden;
-  isolation:isolate;
 }
-
-.event + .event{
-  margin-top:-32px;
-}
-
-.event-image{
+.event img{
   position:absolute;
   inset:0;
-  z-index:-3;
-
-  width:100%;
-  height:100%;
-
+  width:100%;height:100%;
   object-fit:cover;
-
-  transform:scale(1.01);
-
-  animation:
-    eventBreath 14s ease-in-out infinite alternate;
+  animation:breathe 14s ease-in-out infinite alternate;
 }
-
-@keyframes eventBreath{
-  to{transform:scale(1.07)}
-}
-
-.event::before{
+.event:after{
   content:"";
-
   position:absolute;
   inset:0;
-  z-index:-2;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(20,10,5,.02),
-      rgba(20,10,5,.08) 30%,
-      rgba(22,11,5,.78) 76%,
-      rgba(22,11,5,.91)
-    );
+  background:linear-gradient(to bottom,transparent 25%,rgba(20,10,5,.12) 45%,rgba(20,10,5,.9));
 }
-
-.event::after{
-  content:"";
-
-  position:absolute;
-
-  left:-5%;
-  right:-5%;
-  top:-1px;
-
-  z-index:-1;
-
-  height:82px;
-
-  border-radius:0 0 50% 50%;
-
-  background:
-    linear-gradient(
-      var(--ivory),
-      rgba(255,249,237,.55),
-      transparent
-    );
-}
-
 .event-content{
-  width:min(880px,calc(100% - 36px));
-
+  position:relative;
+  z-index:2;
+  width:min(850px,calc(100% - 36px));
   margin:auto;
-
-  padding:145px 0 68px;
-
-  color:#fff8e9;
-
+  padding:160px 0 65px;
+  color:#fff9ec;
   text-align:center;
-
-  text-shadow:
-    0 3px 18px rgba(0,0,0,.48);
+  text-shadow:0 3px 18px rgba(0,0,0,.5);
 }
-
-.event-number{
-  margin-bottom:4px;
-
-  color:#f0c77f;
-
-  font-family:var(--serif);
-  font-size:1rem;
-}
-
-.event h4{
+.event h4{margin:0;font:500 clamp(3.5rem,12vw,6.3rem)/.9 var(--serif)}
+.event .event-date{margin:14px 0 0;font:400 1.28rem var(--serif)}
+.event .event-time{margin:7px 0;font:500 1.55rem var(--serif)}
+.event .place{
   margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(3.7rem,12vw,6.6rem);
-  font-weight:500;
-
-  line-height:.9;
-}
-
-.event-ornament{
-  margin:13px 0;
-
-  color:#edbd6c;
-
-  font-size:1.4rem;
-}
-
-.event-date{
-  margin:0;
-
-  font-family:var(--serif);
-  font-size:1.32rem;
-}
-
-.event-time{
-  margin:7px 0 0;
-
-  font-family:var(--serif);
-  font-size:1.62rem;
-}
-
-.event-location{
-  margin:4px 0 20px;
-
   font-size:.66rem;
   font-weight:600;
-
   letter-spacing:.15em;
   text-transform:uppercase;
 }
 
-.event-calendar{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-
-  min-height:43px;
-
-  padding:0 18px;
-
-  border:1px solid rgba(255,233,193,.6);
-  border-radius:999px;
-
-  color:#fff;
-
-  background:rgba(52,26,12,.26);
-
-  backdrop-filter:blur(6px);
-
-  text-decoration:none;
-
-  font-size:.61rem;
-  font-weight:600;
-
-  letter-spacing:.1em;
-  text-transform:uppercase;
-}
-
-
-/* =========================================================
-   REALISTIC LAMP — TRUE UNLIT → LIT
-========================================================= */
+/* LAMP */
 
 .lamp-section{
   position:relative;
-
-  min-height:800px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:110px 20px 125px;
-
   overflow:hidden;
-
+  padding:95px 20px 110px;
   text-align:center;
-
   background:
-    radial-gradient(
-      circle at 50% 54%,
-      rgba(225,158,57,.16),
-      transparent 34%
-    ),
-    linear-gradient(
-      var(--ivory),
-      #f0d8af 52%,
-      #f8ecd8
-    );
+    radial-gradient(circle at 50% 58%,rgba(236,175,74,.23),transparent 36%),
+    linear-gradient(#fffaf0,#f1dcba,#fff7e7);
 }
-
-.lamp-inner{
+.lamp-inner{width:min(760px,100%);margin:auto}
+.lamp-wrap{
   position:relative;
-  z-index:2;
-
-  width:min(760px,100%);
+  width:min(330px,76vw);
+  aspect-ratio:3/4.35;
+  margin:30px auto 20px;
 }
-
-.real-lamp-wrap{
-  position:relative;
-
-  width:min(390px,82vw);
-  height:min(570px,118vw);
-  max-height:570px;
-
-  margin:28px auto 12px;
-}
-
-.lamp-img{
-  position:absolute;
-  inset:0;
-
-  width:100%;
-  height:100%;
-
-  object-fit:contain;
-
-  transition:
-    opacity 1.15s ease,
-    transform 1.35s cubic-bezier(.2,.7,.2,1),
-    filter 1.2s ease;
-}
-
-.lamp-unlit{
-  z-index:3;
-  opacity:1;
-
-  filter:
-    drop-shadow(0 20px 22px rgba(72,38,15,.22))
-    saturate(.9);
-}
-
-.lamp-lit{
-  z-index:4;
-
-  opacity:0;
-
-  transform:scale(.96);
-
-  filter:
-    drop-shadow(0 20px 24px rgba(72,38,15,.24))
-    drop-shadow(0 0 28px rgba(255,174,46,.35));
-}
-
 .lamp-aura{
   position:absolute;
-  z-index:1;
-
+  z-index:0;
   left:50%;
   top:38%;
-
-  width:360px;
-  height:360px;
-
-  transform:
-    translate(-50%,-50%)
-    scale(.3);
-
+  width:95%;
+  aspect-ratio:1;
+  transform:translate(-50%,-50%) scale(.25);
   border-radius:50%;
-
   opacity:0;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255,229,146,.95) 0%,
-      rgba(255,190,63,.52) 22%,
-      rgba(226,126,27,.22) 46%,
-      transparent 72%
-    );
-
-  filter:blur(18px);
-
-  transition:
-    opacity 1.3s ease,
-    transform 1.6s ease;
+  background:radial-gradient(circle,rgba(255,232,156,.95),rgba(255,186,53,.45) 30%,rgba(210,112,21,.14) 52%,transparent 72%);
+  filter:blur(20px);
+  transition:opacity 1.4s ease,transform 1.6s ease;
 }
-
-.lamp-flash{
+.lamp-img{
   position:absolute;
-  z-index:5;
-
-  left:50%;
-  top:37%;
-
-  width:130px;
-  height:130px;
-
-  transform:
-    translate(-50%,-50%)
-    scale(.2);
-
-  border-radius:50%;
-
-  opacity:0;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255,251,215,.95),
-      rgba(255,191,62,.55) 34%,
-      transparent 70%
-    );
-
-  filter:blur(9px);
-
+  z-index:2;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
   pointer-events:none;
+  will-change:opacity,filter,transform;
 }
-
-.real-lamp-wrap.lighting .lamp-flash{
-  animation:
-    lampIgnition 1.1s ease forwards;
-}
-
-.real-lamp-wrap.lit .lamp-unlit{
-  opacity:0;
-
-  transform:scale(1.025);
-
-  filter:blur(2px);
-}
-
-.real-lamp-wrap.lit .lamp-lit{
+#lampOff{
   opacity:1;
-
   transform:scale(1);
-
-  filter:
-    drop-shadow(0 22px 24px rgba(72,38,15,.25))
-    drop-shadow(0 0 22px rgba(255,187,56,.52))
-    brightness(1.05);
+  filter:drop-shadow(0 18px 22px rgba(65,34,14,.2));
+  transition:opacity 1.35s ease,transform 1.35s ease,filter 1.35s ease;
 }
-
-.real-lamp-wrap.lit .lamp-aura{
+#lampOn{
+  z-index:3;
+  opacity:0;
+  transform:scale(.995);
+  filter:drop-shadow(0 18px 22px rgba(65,34,14,.2));
+  transition:opacity 1.35s ease,transform 1.35s ease,filter 1.35s ease;
+}
+.lamp-wrap.lit #lampOff{
+  opacity:0;
+  transform:scale(1.008);
+}
+.lamp-wrap.lit #lampOn{
   opacity:1;
-
-  transform:
-    translate(-50%,-50%)
-    scale(1.18);
-
-  animation:
-    lampAura 2.8s ease-in-out infinite;
+  transform:scale(1);
+  filter:
+    drop-shadow(0 18px 22px rgba(65,34,14,.2))
+    drop-shadow(0 0 28px rgba(255,183,53,.55))
+    brightness(1.04);
 }
-
-@keyframes lampIgnition{
-  0%{
-    opacity:0;
-
-    transform:
-      translate(-50%,-50%)
-      scale(.2);
-  }
-
-  35%{
-    opacity:1;
-
-    transform:
-      translate(-50%,-50%)
-      scale(1.2);
-  }
-
-  100%{
-    opacity:0;
-
-    transform:
-      translate(-50%,-50%)
-      scale(2.1);
-  }
+.lamp-wrap.lit .lamp-aura{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1.12);
+  animation:aura 2.8s ease-in-out infinite;
 }
-
-@keyframes lampAura{
-  0%,100%{
-    opacity:.72;
-
-    transform:
-      translate(-50%,-50%)
-      scale(1.12);
-  }
-
-  50%{
-    opacity:1;
-
-    transform:
-      translate(-50%,-50%)
-      scale(1.28);
-  }
-}
-
+@keyframes aura{50%{opacity:.72;transform:translate(-50%,-50%) scale(1.18)}}
 .lamp-button{
   min-height:54px;
-
+  padding:0 27px;
   border:0;
   border-radius:999px;
-
-  padding:0 26px;
-
-  color:#fff8e8;
-
-  background:
-    linear-gradient(
-      135deg,
-      #704014,
-      #b7792d,
-      #87501b
-    );
-
-  box-shadow:
-    0 12px 28px rgba(98,57,22,.22);
-
+  color:#fff9ec;
+  background:linear-gradient(135deg,#764415,#be8030,#86501b);
+  box-shadow:0 12px 28px rgba(90,50,20,.2);
   font-size:.64rem;
   font-weight:600;
-
   letter-spacing:.11em;
   text-transform:uppercase;
-
-  transition:
-    transform .25s ease,
-    opacity .25s ease;
 }
-
-.lamp-button:active{
-  transform:scale(.97);
-}
-
-.lamp-button.lit{
-  background:
-    linear-gradient(
-      135deg,
-      #8c5b24,
-      #c78b3d
-    );
-}
-
 #lampMessage{
-  min-height:80px;
-
+  min-height:75px;
   margin:22px auto 0;
-
   opacity:0;
-
-  transform:translateY(12px);
-
-  font-family:var(--serif);
-  font-size:1.48rem;
-
-  line-height:1.45;
-
-  transition:
-    opacity .9s ease,
-    transform .9s ease;
+  transform:translateY(10px);
+  font:400 1.45rem/1.45 var(--serif);
+  transition:.8s ease;
 }
+#lampMessage.show{opacity:1;transform:none}
 
-#lampMessage.show{
-  opacity:1;
-  transform:none;
-}
-
-
-/* =========================================================
-   VENUE
-========================================================= */
-
-.final-flow{
-  position:relative;
-  background:#4a2b18;
-}
+/* VENUE */
 
 .venue{
   position:relative;
-
   min-height:90svh;
-
   display:flex;
   align-items:center;
-
-  padding:120px 22px 190px;
-
-  color:#fff8e8;
-
+  padding:120px 22px 170px;
+  color:#fff9ec;
   background:
-    linear-gradient(
-      to bottom,
-      rgba(31,15,7,.03),
-      rgba(31,15,7,.22) 43%,
-      rgba(61,32,16,.84)
-    ),
-    url("./images/blessings/venue-sea.png")
-    center/cover no-repeat;
+    linear-gradient(to bottom,rgba(30,15,7,.02),rgba(30,15,7,.18) 45%,rgba(50,25,12,.82)),
+    url("./images/blessings/venue-sea.png") center/cover no-repeat;
 }
-
-.venue::after{
+.venue:after{
   content:"";
-
   position:absolute;
-
-  left:0;
-  right:0;
-  bottom:0;
-
-  height:290px;
-
-  background:
-    linear-gradient(
-      transparent,
-      rgba(73,41,23,.75) 53%,
-      #4a2b18
-    );
+  left:0;right:0;bottom:0;
+  height:230px;
+  background:linear-gradient(transparent,#4a2818);
 }
-
 .venue-inner{
   position:relative;
   z-index:2;
-
   width:min(740px,100%);
-
   margin:auto;
-
   text-align:center;
-
-  text-shadow:
-    0 3px 20px rgba(0,0,0,.48);
+  text-shadow:0 3px 20px rgba(0,0,0,.5);
 }
-
-.venue .eyebrow{
-  color:#f2cd8b;
-}
-
-.venue h3{
-  margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(3rem,10vw,5.8rem);
-  font-weight:500;
-
-  line-height:.94;
-}
-
-.venue-place{
-  margin:12px 0;
-
-  font-size:.7rem;
-  font-weight:600;
-
-  letter-spacing:.15em;
-  text-transform:uppercase;
-}
-
-.venue-quote{
-  max-width:580px;
-
-  margin:20px auto 27px;
-
-  font-family:var(--serif);
-  font-size:1.45rem;
-
-  line-height:1.45;
-}
-
-.map-button{
+.venue h3{margin:0;font:500 clamp(3rem,10vw,5.7rem)/.95 var(--serif)}
+.map{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-
-  min-height:46px;
-
-  padding:0 20px;
-
-  border:1px solid rgba(255,229,185,.65);
+  min-height:50px;
+  margin-top:25px;
+  padding:0 24px;
+  border:1px solid rgba(255,230,190,.65);
   border-radius:999px;
-
-  color:#fff8e8;
-
-  background:rgba(70,37,18,.32);
-
-  backdrop-filter:blur(8px);
-
+  color:#fff;
+  background:rgba(65,33,16,.42);
   text-decoration:none;
-
   font-size:.62rem;
   font-weight:600;
-
   letter-spacing:.11em;
   text-transform:uppercase;
 }
 
+/* INVITATION PREVIEW */
 
-/* =========================================================
-   INVITATION
-========================================================= */
-
-.invitation-section{
-  position:relative;
-
-  margin-top:-2px;
-
-  padding:50px 16px 120px;
-
-  overflow:hidden;
-
-  background:
-    radial-gradient(
-      circle at 50% 20%,
-      rgba(227,183,111,.32),
-      transparent 35%
-    ),
-    linear-gradient(
-      #4a2b18 0%,
-      #80573a 7%,
-      #d3aa72 20%,
-      #f2dfc1 39%,
-      #f8ecd8 100%
-    );
+.invitation{
+  padding:95px 15px 115px;
+  background:linear-gradient(#4a2818,#b38150 12%,#ecd2a6 28%,#fff8e9 100%);
 }
-
-.invitation-heading{
-  width:min(720px,100%);
-
-  margin:0 auto 38px;
-
-  color:#fff8e9;
-
+.invitation-head{
+  width:min(700px,100%);
+  margin:0 auto 35px;
+  color:#fff;
   text-align:center;
-
-  text-shadow:
-    0 3px 18px rgba(0,0,0,.28);
 }
-
-.invitation-heading .eyebrow{
-  color:#f4d49a;
-}
-
-.invitation-heading h3{
-  margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(2.9rem,9vw,5rem);
-  font-weight:500;
-}
-
-.invite-shell{
+.invitation-head .eyebrow{color:#f4d092}
+.invitation-card{
   position:relative;
-
-  width:min(650px,100%);
-
+  width:min(620px,100%);
   margin:auto;
-
-  padding:14px;
-
-  border-radius:
-    48% 48% 28px 28px /
-    110px 110px 28px 28px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7d4a18,
-      #e0b15c 30%,
-      #9a6123 52%,
-      #e7c176 73%,
-      #754315
-    );
-
-  box-shadow:
-    0 35px 90px rgba(52,27,13,.34);
-}
-
-.invite-card{
-  position:relative;
-
   overflow:hidden;
-
-  padding:92px 38px 72px;
-
-  border-radius:
-    48% 48% 20px 20px /
-    100px 100px 20px 20px;
-
-  color:var(--brown);
-
+  padding:58px 28px;
+  border:5px solid #a66a27;
+  outline:1px solid #e2b76c;
+  outline-offset:-14px;
   text-align:center;
-
   background:
-    radial-gradient(
-      circle at 50% 9%,
-      rgba(220,169,88,.17),
-      transparent 21%
-    ),
-    radial-gradient(
-      circle at 10% 85%,
-      rgba(177,111,43,.08),
-      transparent 22%
-    ),
-    linear-gradient(
-      135deg,
-      #fffaf0,
-      #f8ead2 48%,
-      #fff9ed
-    );
+    radial-gradient(circle at 50% 5%,rgba(226,179,93,.18),transparent 25%),
+    linear-gradient(135deg,#fffaf0,#f3dfbd,#fff9ed);
+  box-shadow:0 35px 80px rgba(50,25,10,.3);
 }
-
-.invite-card::before{
-  content:"";
-
-  position:absolute;
-  inset:18px;
-
-  pointer-events:none;
-
-  border:1px solid rgba(169,105,37,.46);
-
-  border-radius:
-    48% 48% 12px 12px /
-    88px 88px 12px 12px;
-}
-
-.invite-card::after{
+.invitation-card:before,
+.invitation-card:after{
   content:"❈";
-
   position:absolute;
-
-  left:50%;
-  bottom:27px;
-
-  transform:translateX(-50%);
-
-  color:rgba(181,120,45,.65);
-
-  font-size:1.3rem;
+  top:18px;
+  color:#b4772d;
+  font-size:1.25rem;
 }
-
-.invite-floral{
-  position:absolute;
-  z-index:1;
-
-  color:rgba(150,92,34,.28);
-
-  font-family:var(--serif);
-  font-size:4rem;
-}
-
-.invite-floral.one{
-  top:72px;
-  left:25px;
-
-  transform:rotate(-25deg);
-}
-
-.invite-floral.two{
-  top:72px;
-  right:25px;
-
-  transform:rotate(25deg);
-}
-
-.invite-content{
-  position:relative;
-  z-index:2;
-}
-
+.invitation-card:before{left:22px}
+.invitation-card:after{right:22px}
 .invite-ganesha{
-  width:86px;
-  height:86px;
-
-  display:grid;
-  place-items:center;
-
-  margin:0 auto 10px;
-
-  border:1px solid rgba(181,120,45,.32);
+  width:90px;height:90px;
+  margin:auto;
+  overflow:hidden;
+  border:1px solid #b4772d;
   border-radius:50%;
-
-  color:var(--gold);
-
-  font-family:var(--serif);
-  font-size:2.5rem;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(224,183,111,.18),
-      transparent 70%
-    );
 }
-
-.invite-mantra{
-  margin:0 0 18px;
-
-  color:var(--darkgold);
-
-  font-family:var(--serif);
-  font-size:1rem;
+.invite-ganesha img{width:100%;height:100%;object-fit:cover}
+.invitation-card h3{
+  margin:15px 0 5px;
+  font:500 clamp(3.2rem,11vw,5rem)/.85 var(--serif);
 }
-
-.invite-kicker{
-  margin:0;
-
-  color:var(--darkgold);
-
-  font-size:.57rem;
-  font-weight:600;
-
-  letter-spacing:.17em;
-  text-transform:uppercase;
-}
-
-.invite-names{
-  margin:20px 0 16px;
-
-  font-family:var(--serif);
-  font-size:clamp(3.5rem,11vw,5.5rem);
-  font-weight:500;
-
-  line-height:.87;
-}
-
-.invite-names span{
+.invitation-card h3 span{
   display:block;
-
   margin:7px;
-
   color:var(--gold);
-
-  font-size:.65em;
+  font-size:.62em;
   font-style:italic;
 }
-
-.invite-request{
-  margin:20px 0 4px;
-
-  font-family:var(--serif);
-  font-size:1.12rem;
-}
-
 .invite-guest{
-  margin:3px 0 8px;
-
-  color:var(--kumkum);
-
-  font-family:var(--serif);
-  font-size:clamp(2.1rem,7vw,3.3rem);
-  font-weight:600;
+  margin:14px 0;
+  color:var(--red);
+  font:600 clamp(2rem,7vw,3rem) var(--serif);
 }
-
-.invite-intro{
-  max-width:420px;
-
-  margin:0 auto 25px;
-
-  font-family:var(--serif);
-  font-size:1.07rem;
-
-  line-height:1.45;
+.invite-events{
+  margin:25px auto;
+  font:400 1.05rem/1.65 var(--serif);
 }
-
-.invite-event{
-  margin:18px 0;
-}
-
-.invite-event strong{
-  display:block;
-
-  color:var(--darkgold);
-
-  font-family:var(--serif);
-  font-size:1.42rem;
-  font-weight:600;
-}
-
-.invite-event span{
-  font-family:var(--serif);
-  font-size:1.02rem;
-}
-
-.invite-venue{
-  margin:27px 0 0;
-
-  font-family:var(--serif);
-  font-size:1.15rem;
-}
-
-.invite-blessing{
-  max-width:410px;
-
-  margin:23px auto 0;
-
-  font-family:var(--serif);
-  font-size:1.1rem;
-  font-style:italic;
-}
-
-.invite-actions{
-  width:min(650px,100%);
-
+.invite-events strong{color:var(--darkgold)}
+.actions{
+  width:min(620px,100%);
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
-
   gap:9px;
-
-  margin:22px auto 0;
+  margin:23px auto 0;
 }
-
-.invite-action{
+.action{
   flex:1 1 175px;
-
-  min-height:48px;
-
-  display:inline-flex;
+  min-height:50px;
+  display:flex;
   align-items:center;
   justify-content:center;
-
-  border:1px solid rgba(116,67,19,.22);
-  border-radius:999px;
-
   padding:0 17px;
-
-  color:#fff8e9;
-
+  border:0;
+  border-radius:999px;
+  color:#fff;
   background:var(--brown);
-
   text-decoration:none;
-
   font-size:.6rem;
   font-weight:600;
-
   letter-spacing:.1em;
   text-transform:uppercase;
 }
 
-
-/* =========================================================
-   CLOSING
-========================================================= */
+/* CLOSING */
 
 .closing{
   position:relative;
-
   min-height:88svh;
-
   display:flex;
   align-items:center;
-
-  margin-top:-2px;
-
   padding:130px 22px 100px;
-
-  color:#fff8e8;
-
+  color:#fff8e9;
   background:
-    linear-gradient(
-      to bottom,
-      #f8ecd8 0%,
-      rgba(72,39,20,.18) 15%,
-      rgba(41,21,11,.67) 57%,
-      rgba(28,14,8,.86)
-    ),
-    url("./images/blessings/closing-blessings.png")
-    center/cover no-repeat;
+    linear-gradient(to bottom,rgba(50,25,12,.08),rgba(35,17,8,.82)),
+    url("./images/blessings/closing-blessings.png") center/cover no-repeat;
 }
-
 .closing-inner{
-  position:relative;
-  z-index:2;
-
   width:min(760px,100%);
-
   margin:auto;
-
   text-align:center;
-
-  text-shadow:
-    0 3px 22px rgba(0,0,0,.52);
+  text-shadow:0 3px 20px rgba(0,0,0,.55);
 }
-
-.closing .eyebrow{
-  color:#f0c77e;
-}
-
-.closing h3{
-  margin:0;
-
-  font-family:var(--serif);
-  font-size:clamp(2.8rem,9vw,5.2rem);
-  font-weight:500;
-
-  line-height:1.02;
-}
-
-.closing-copy{
-  max-width:560px;
-
-  margin:22px auto;
-
-  font-family:var(--serif);
-  font-size:1.36rem;
-}
-
-.closing-names{
-  margin:28px 0 8px;
-
-  color:#f1c778;
-
-  font-family:var(--serif);
-  font-size:clamp(2.8rem,9vw,4.8rem);
-  font-style:italic;
-}
-
-.closing-date{
-  font-size:.69rem;
-  font-weight:600;
-
-  letter-spacing:.13em;
-
-  line-height:1.8;
-  text-transform:uppercase;
-}
-
+.closing h3{margin:0;font:500 clamp(2.7rem,9vw,5rem)/1.02 var(--serif)}
+.closing-name{margin:27px 0 8px;color:#f1c779;font:italic 500 clamp(2.7rem,9vw,4.7rem) var(--serif)}
 .closing-lamp{
-  width:100px;
-  max-height:150px;
-
-  object-fit:contain;
-
-  margin:25px auto 0;
-
-  opacity:.45;
-
-  filter:
-    brightness(.82)
-    saturate(.8);
-
-  transition:
-    opacity 1s ease,
-    filter 1s ease,
-    transform 1s ease;
+  width:85px;
+  margin:24px auto 0;
+  opacity:.5;
+  transition:1s ease;
 }
-
 .closing-lamp.lit{
   opacity:1;
-
-  transform:scale(1.05);
-
-  filter:
-    brightness(1.12)
-    drop-shadow(0 0 18px rgba(255,183,59,.65));
+  filter:drop-shadow(0 0 20px rgba(255,183,53,.65));
 }
 
-.shubham{
-  margin-top:18px;
-
-  color:#f0c77e;
-
-  font-family:var(--serif);
-  font-size:1.25rem;
-}
-
-
-/* =========================================================
-   FLOATING BUTTONS
-========================================================= */
+/* FLOATING */
 
 .floating{
   position:fixed;
-
   right:15px;
   bottom:17px;
-
   z-index:300;
-
   display:flex;
   flex-direction:column;
-
   gap:9px;
 }
-
-.float-button{
-  width:52px;
-  height:52px;
-
-  display:grid;
-  place-items:center;
-
-  border:1px solid rgba(145,91,34,.25);
+.float{
+  width:52px;height:52px;
+  display:grid;place-items:center;
+  border:1px solid rgba(140,85,30,.25);
   border-radius:50%;
-
   color:var(--brown);
-
-  background:rgba(255,249,237,.93);
-
-  backdrop-filter:blur(10px);
-
-  box-shadow:
-    0 10px 28px rgba(58,32,16,.16);
+  background:rgba(255,250,240,.95);
+  box-shadow:0 10px 28px rgba(50,25,10,.16);
+  font-size:1.3rem;
 }
-
-.float-button svg{
-  width:21px;
-  height:21px;
-
-  fill:none;
-
-  stroke:currentColor;
-  stroke-width:1.5;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media(max-width:620px){
-
-  .entrance-content{
-    padding-top:15px;
-    padding-bottom:15px;
-  }
-
-  .entrance-om{
-    width:54px;
-    height:54px;
-    font-size:1.7rem;
-  }
-
-  .entrance-content h1{
-    font-size:3.7rem;
-  }
-
-  .name-panel{
-    padding:14px;
-  }
-
-  #guestInput{
-    height:58px;
-    font-size:1.3rem;
-  }
-
-  .families{
-    min-height:670px;
-    padding-left:9px;
-    padding-right:9px;
-  }
-
-  .family-grid{
-    gap:8px;
-  }
-
-  .family{
-    padding:0 4px;
-  }
-
-  .family h4{
-    font-size:1.45rem;
-  }
-
-  .family p{
-    font-size:.88rem;
-  }
-
-  .family small{
-    font-size:.48rem;
-    letter-spacing:.08em;
-  }
-
-  .event{
-    min-height:68svh;
-  }
-
-  .event + .event{
-    margin-top:-22px;
-  }
-
-  .event-content{
-    padding-bottom:60px;
-  }
-
-  .real-lamp-wrap{
-    width:min(350px,88vw);
-    height:min(520px,130vw);
-  }
-
-  .invite-shell{
-    padding:9px;
-  }
-
-  .invite-card{
-    padding:80px 25px 65px;
-  }
-
-  .invite-floral{
-    font-size:3rem;
-  }
+  .family-grid{gap:8px}
+  .family{padding:0 3px}
+  .family h4{font-size:1.4rem}
+  .family p{font-size:.86rem}
+  .family small{font-size:.47rem;letter-spacing:.07em}
+  .lamp-wrap{width:min(295px,75vw)}
+  .invitation-card{padding:55px 21px}
 }
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 
 @media(prefers-reduced-motion:reduce){
-
-  *,
-  *::before,
-  *::after{
+  *,*:before,*:after{
     animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
     transition-duration:.01ms!important;
-    scroll-behavior:auto!important;
-  }
-
-  #ambientPetals{
-    display:none;
   }
 }
-
 </style>
 </head>
 
-
 <body class="locked">
 
-<div id="ambientPetals" aria-hidden="true"></div>
-<div id="petalBurst" aria-hidden="true"></div>
+<div id="petals"></div>
 
-
-<!-- =====================================================
-     ENTRANCE
-===================================================== -->
-
+<!-- ENTRANCE -->
 <section id="entrance">
-
-  <div class="entrance-photo"></div>
+  <div class="entrance-bg"></div>
   <div class="entrance-glow"></div>
 
   <div class="entrance-content">
+    <div class="om">ॐ</div>
+    <p class="mantra">॥ SHRI GANESHAYA NAMAH ॥</p>
 
-    <div class="entrance-om">ॐ</div>
+    <h1>Nikhil<span>&amp;</span>Supriya</h1>
 
-    <p class="entrance-mantra">
-      ॥ SHRI GANESHAYA NAMAH ॥
-    </p>
+    <p class="date">21 · 22 November 2026</p>
+    <p class="entrance-copy">We would be honoured to have your blessings.</p>
 
-    <h1>
-      Nikhil
-      <span>&amp;</span>
-      Supriya
-    </h1>
-
-    <p class="entrance-date">
-      21 · 22 November 2026
-    </p>
-
-    <p class="entrance-blessing">
-      We would be honoured to have your blessings.
-    </p>
-
-    <div class="name-panel">
-
-      <label for="guestInput">
-        Your Name
-      </label>
+    <div class="name-box">
+      <label for="guest">Your Name</label>
 
       <input
-        id="guestInput"
+        id="guest"
         type="text"
         maxlength="60"
         autocomplete="name"
         placeholder="Tap here and enter your name"
       >
 
-      <button
-        id="enterCelebration"
-        class="enter-button"
-        type="button"
-      >
+      <button id="enter" class="enter" type="button">
         Enter the Celebration
       </button>
 
-      <p class="name-help">
-        Please enter your name so we can welcome you personally.
-      </p>
-
-      <p
-        id="nameError"
-        class="name-error"
-        aria-live="polite"
-      ></p>
-
+      <p id="error"></p>
     </div>
-
   </div>
-
 </section>
 
+<main>
 
-<main class="page">
-
-
-<!-- =====================================================
-     GANESHA
-===================================================== -->
-
-<section class="ganesha-hero">
-
+<!-- GANESHA -->
+<section class="hero">
   <div class="hero-inner reveal">
-
-    <p class="eyebrow">
-      ॥ Shri Ganeshaya Namah ॥
-    </p>
-
-    <h2>
-      Nikhil
-      <span>&amp;</span>
-      Supriya
-    </h2>
-
-    <div class="gold-divider">❈</div>
-
-    <p class="hero-message">
+    <p class="eyebrow">॥ Shri Ganeshaya Namah ॥</p>
+    <h2>Nikhil<span>&amp;</span>Supriya</h2>
+    <div class="divider">❈</div>
+    <p>
       With the blessings of our families,
       we begin a beautiful new chapter together.
     </p>
-
   </div>
-
 </section>
 
-
-<!-- =====================================================
-     PERSONAL WELCOME
-===================================================== -->
-
+<!-- WELCOME -->
 <section class="welcome">
-
   <div class="welcome-inner reveal">
-
-    <p class="eyebrow">
-      A celebration made complete by you
-    </p>
+    <p class="eyebrow">A celebration made complete by you</p>
 
     <h3>
-      Dear
-      <span class="guest-name">
-        Family &amp; Friends
-      </span>,
+      Dear <span class="guest-name">Family &amp; Friends</span>,
     </h3>
 
-    <div class="gold-divider">✦</div>
+    <div class="divider">✦</div>
 
-    <p class="body-copy">
-      Some celebrations are made complete not only
-      by those who attend, but by the blessings they bring.
-      It would mean a great deal to have yours.
+    <p class="copy">
+      Some celebrations are made complete not only by those who attend,
+      but by the blessings they bring. It would mean a great deal
+      to have yours.
     </p>
-
   </div>
-
 </section>
 
-
-<!-- =====================================================
-     FAMILIES
-===================================================== -->
-
-<section class="families">
-
+<!-- FAMILY -->
+<section class="family-section">
   <div class="family-inner reveal">
 
-    <div class="family-heading">
-
-      <p class="eyebrow">
-        With the blessings of those who came before us
-      </p>
-
-      <h3 class="section-title">
-        Two families.<br>
-        One new beginning.
-      </h3>
-
-    </div>
+    <p class="eyebrow">With the blessings of those who came before us</p>
+    <h3 class="title">Two families.<br>One new beginning.</h3>
 
     <div class="family-grid">
 
       <div class="family">
-
         <h4>Nikhil's Family</h4>
 
         <small>Grandson of</small>
-
         <p>
           Late Sri K. Narasimha Murthy<br>
           &amp; C. V. Meenakshi
         </p>
 
         <small>and</small>
-
         <p>
           Late Sri Sudhir Konai<br>
           &amp; Sara Konai
         </p>
 
         <small>Son of</small>
-
         <p>
           Prashanth Konai<br>
           &amp; K. N. Jayashree
         </p>
-
       </div>
 
-
       <div class="family">
-
         <h4>Supriya's Family</h4>
 
         <small>Granddaughter of</small>
-
         <p>
           Late Mr. Sundaramoorthy<br>
           &amp; Late Mrs. Suseela
         </p>
 
         <small>and</small>
-
         <p>
           Late Mr. Thengovan<br>
           &amp; Mrs. Uma
         </p>
 
         <small>Daughter of</small>
-
         <p>
           P. S. Ilangovan<br>
           &amp; I. Valarmathi
         </p>
-
       </div>
 
     </div>
-
-    <p class="family-ending">
-      Two families. Two journeys. One new beginning.
-    </p>
-
   </div>
-
 </section>
 
+<!-- EVENTS -->
+<section class="events">
 
-<div class="kolam-transition">
-  <div class="kolam"></div>
-</div>
-
-
-<!-- =====================================================
-     CELEBRATIONS
-===================================================== -->
-
-<section class="celebrations">
-
-  <div class="celebrations-heading reveal">
-
-    <p class="eyebrow">
-      The Celebrations
-    </p>
-
-    <h3 class="section-title">
-      Three beautiful moments.
-    </h3>
-
-    <p class="body-copy">
-      We would be honoured to celebrate them with you.
-    </p>
-
+  <div class="events-head reveal">
+    <p class="eyebrow">The Celebrations</p>
+    <h3 class="title">Three beautiful moments.</h3>
+    <p class="copy">We would be honoured to celebrate them with you.</p>
   </div>
 
-
-  <!-- ENGAGEMENT -->
-
-  <article class="event reveal">
-
-    <img
-      class="event-image"
-      src="./images/blessings/engagement.png"
-      alt="Engagement celebration"
-    >
-
-    <div class="event-content">
-
-      <div class="event-number">01</div>
-
+  <article class="event">
+    <img src="./images/blessings/engagement.png" alt="Engagement">
+    <div class="event-content reveal">
       <h4>Engagement</h4>
-
-      <div class="event-ornament">❈</div>
-
-      <p class="event-date">
-        Saturday · 21 November 2026
-      </p>
-
-      <p class="event-time">
-        10:30 AM
-      </p>
-
-      <p class="event-location">
-        Lake Lawn
-      </p>
-
-      <a
-        href="#"
-        class="event-calendar"
-        data-event="engagement"
-      >
-        Add to Calendar
-      </a>
-
+      <div class="divider">❈</div>
+      <p class="event-date">Saturday · 21 November 2026</p>
+      <p class="event-time">10:30 AM</p>
+      <p class="place">Lake Lawn</p>
     </div>
-
   </article>
 
-
-  <!-- RECEPTION -->
-
-  <article class="event reveal">
-
-    <img
-      class="event-image"
-      src="./images/blessings/reception.png"
-      alt="Wedding reception"
-    >
-
-    <div class="event-content">
-
-      <div class="event-number">02</div>
-
+  <article class="event">
+    <img src="./images/blessings/reception.png" alt="Reception">
+    <div class="event-content reveal">
       <h4>Reception</h4>
-
-      <div class="event-ornament">✦</div>
-
-      <p class="event-date">
-        Saturday · 21 November 2026
-      </p>
-
-      <p class="event-time">
-        6:00 PM
-      </p>
-
-      <p class="event-location">
-        Lake Lawn
-      </p>
-
-      <a
-        href="#"
-        class="event-calendar"
-        data-event="reception"
-      >
-        Add to Calendar
-      </a>
-
+      <div class="divider">✦</div>
+      <p class="event-date">Saturday · 21 November 2026</p>
+      <p class="event-time">6:00 PM</p>
+      <p class="place">Lake Lawn</p>
     </div>
-
   </article>
 
-
-  <!-- MUHURTHAM -->
-
-  <article class="event reveal">
-
-    <img
-      class="event-image"
-      src="./images/blessings/muhurtham.png"
-      alt="Traditional South Indian Muhurtham"
-    >
-
-    <div class="event-content">
-
-      <div class="event-number">03</div>
-
+  <article class="event">
+    <img src="./images/blessings/muhurtham.png" alt="Muhurtham">
+    <div class="event-content reveal">
       <h4>Muhurtham</h4>
-
-      <div class="event-ornament">❈</div>
-
-      <p class="event-date">
-        Sunday · 22 November 2026
-      </p>
-
-      <p class="event-time">
-        8:30 – 10:00 AM
-      </p>
-
-      <p class="event-location">
-        Palm Beach Lawn
-      </p>
-
-      <a
-        href="#"
-        class="event-calendar"
-        data-event="muhurtham"
-      >
-        Add to Calendar
-      </a>
-
+      <div class="divider">❈</div>
+      <p class="event-date">Sunday · 22 November 2026</p>
+      <p class="event-time">8:30 – 10:00 AM</p>
+      <p class="place">Palm Beach Lawn</p>
     </div>
-
   </article>
 
 </section>
 
-
-<!-- =====================================================
-     REALISTIC LAMP CEREMONY
-===================================================== -->
-
+<!-- LAMP -->
 <section class="lamp-section">
-
   <div class="lamp-inner reveal">
 
-    <p class="eyebrow">
-      A Blessing From You
-    </p>
+    <p class="eyebrow">A Blessing From You</p>
+    <h3 class="title">Light a lamp for us.</h3>
 
-    <h3 class="section-title">
-      Light a lamp for us.
-    </h3>
-
-    <p class="body-copy">
+    <p class="copy">
       A small blessing from you,
       carried with us into our new beginning.
     </p>
 
-
-    <div
-      class="real-lamp-wrap"
-      id="lampWrap"
-    >
-
+    <div id="lampWrap" class="lamp-wrap">
       <div class="lamp-aura"></div>
 
-      <div class="lamp-flash"></div>
-
-
-      <!-- REAL UNLIT LAMP -->
-
       <img
-        id="lampUnlit"
-        class="lamp-img lamp-unlit"
+        id="lampOff"
+        class="lamp-img"
         src="./images/blessings/realistic-lamp-unlit.png"
-        alt="Traditional South Indian brass kuthuvilakku"
+        alt="Traditional brass lamp"
       >
-
-
-      <!-- REAL LIT LAMP -->
 
       <img
-        id="lampLit"
-        class="lamp-img lamp-lit"
+        id="lampOn"
+        class="lamp-img"
         src="./images/blessings/realistic-lamp.png"
-        alt=""
+        alt="Lit traditional brass lamp"
       >
-
     </div>
 
-
-    <button
-      id="lightLamp"
-      class="lamp-button"
-      type="button"
-    >
+    <button id="lightLamp" class="lamp-button" type="button">
       Light a Lamp for Nikhil &amp; Supriya
     </button>
 
-
-    <div
-      id="lampMessage"
-      aria-live="polite"
-    ></div>
+    <div id="lampMessage"></div>
 
   </div>
-
 </section>
 
-
-<!-- =====================================================
-     VENUE + INVITATION + CLOSING
-===================================================== -->
-
-<div class="final-flow">
-
-
+<!-- VENUE -->
 <section class="venue">
-
   <div class="venue-inner reveal">
 
-    <p class="eyebrow">
-      Where We Come Together
-    </p>
+    <p class="eyebrow" style="color:#f2cd8b">Where We Come Together</p>
 
-    <h3>
-      MGM Beach Resort
-    </h3>
+    <h3>MGM Beach Resort</h3>
 
-    <p class="venue-place">
-      ECR · Chennai
-    </p>
+    <p class="date">ECR · Chennai</p>
 
-    <div class="gold-divider">
-      ✦
-    </div>
+    <div class="divider">✦</div>
 
-    <p class="venue-quote">
+    <p style="font:400 1.4rem/1.45 var(--serif)">
       Between the temple bells and the sound of the sea,
       we'll begin our next chapter.
     </p>
 
-    <a
-      class="map-button"
-      href="https://www.google.com/maps/search/?api=1&query=MGM+Beach+Resort+ECR+Chennai"
-      target="_blank"
-      rel="noopener"
-    >
-      Open in Maps
+    <a id="mapButton" class="map" href="#" target="_blank" rel="noopener">
+      Open MGM Beach Resort in Maps
     </a>
 
   </div>
-
 </section>
 
+<!-- INVITATION -->
+<section id="invitation" class="invitation">
 
-<!-- =====================================================
-     PERSONAL INVITATION
-===================================================== -->
-
-<section
-  class="invitation-section"
-  id="yourInvitation"
->
-
-  <div class="invitation-heading reveal">
-
-    <p class="eyebrow">
-      Made especially for you
-    </p>
-
-    <h3>
-      Your invitation.
-    </h3>
-
+  <div class="invitation-head reveal">
+    <p class="eyebrow">Made especially for you</p>
+    <h3 class="title">Your invitation.</h3>
   </div>
 
+  <div class="invitation-card reveal">
 
-  <div class="invite-shell reveal">
-
-    <div class="invite-card">
-
-      <div class="invite-floral one">❧</div>
-      <div class="invite-floral two">❧</div>
-
-      <div class="invite-content">
-
-        <div class="invite-ganesha">
-          ॐ
-        </div>
-
-        <p class="invite-mantra">
-          ॥ Shri Ganeshaya Namah ॥
-        </p>
-
-        <p class="invite-kicker">
-          With the blessings of our families
-        </p>
-
-        <div class="invite-names">
-
-          Nikhil
-
-          <span>&amp;</span>
-
-          Supriya
-
-        </div>
-
-        <p class="invite-request">
-          request the pleasure and blessings of
-        </p>
-
-        <div class="invite-guest guest-name">
-          Family &amp; Friends
-        </div>
-
-        <p class="invite-intro">
-          as we celebrate the beginning
-          of our life together.
-        </p>
-
-        <div class="gold-divider">
-          ❈
-        </div>
-
-        <div class="invite-event">
-
-          <strong>
-            Engagement
-          </strong>
-
-          <span>
-            21 November · 10:30 AM<br>
-            Lake Lawn
-          </span>
-
-        </div>
-
-        <div class="invite-event">
-
-          <strong>
-            Reception
-          </strong>
-
-          <span>
-            21 November · 6:00 PM<br>
-            Lake Lawn
-          </span>
-
-        </div>
-
-        <div class="invite-event">
-
-          <strong>
-            Muhurtham
-          </strong>
-
-          <span>
-            22 November · 8:30–10:00 AM<br>
-            Palm Beach Lawn
-          </span>
-
-        </div>
-
-        <p class="invite-venue">
-
-          <strong>
-            MGM Beach Resort
-          </strong>
-
-          <br>
-
-          ECR · Chennai
-
-        </p>
-
-        <p class="invite-blessing">
-          Your presence and blessings
-          will mean the world to us.
-        </p>
-
-      </div>
-
+    <div class="invite-ganesha">
+      <img src="./images/blessings/ganesha.png" alt="Ganesha">
     </div>
 
+    <p class="mantra" style="color:#754313;margin-top:13px">
+      ॥ SHRI GANESHAYA NAMAH ॥
+    </p>
+
+    <p class="eyebrow">With the blessings of our families</p>
+
+    <h3>
+      Nikhil
+      <span>&amp;</span>
+      Supriya
+    </h3>
+
+    <p style="font:400 1.12rem var(--serif)">
+      request the pleasure and blessings of
+    </p>
+
+    <div class="invite-guest guest-name">
+      Family &amp; Friends
+    </div>
+
+    <p style="font:400 1.05rem var(--serif)">
+      as we celebrate the beginning of our life together
+    </p>
+
+    <div class="divider">❈</div>
+
+    <div class="invite-events">
+      <strong>ENGAGEMENT</strong><br>
+      21 November 2026 · 10:30 AM · Lake Lawn
+      <br><br>
+
+      <strong>RECEPTION</strong><br>
+      21 November 2026 · 6:00 PM · Lake Lawn
+      <br><br>
+
+      <strong>MUHURTHAM</strong><br>
+      22 November 2026 · 8:30–10:00 AM · Palm Beach Lawn
+    </div>
+
+    <div class="divider">✦</div>
+
+    <p style="font:500 1.15rem var(--serif)">
+      <strong>MGM Beach Resort</strong><br>
+      ECR · Chennai
+    </p>
+
+    <p style="font:italic 400 1.05rem var(--serif)">
+      Your presence and blessings will mean the world to us.
+    </p>
+
   </div>
 
+  <div class="actions reveal">
 
-  <div class="invite-actions reveal">
-
-    <button
-      id="saveInvite"
-      class="invite-action"
-      type="button"
-    >
+    <button id="saveInvite" class="action" type="button">
       Save My Invitation
     </button>
 
-    <button
-      id="allCalendar"
-      class="invite-action"
-      type="button"
-    >
+    <button id="calendar" class="action" type="button">
       Add to Calendar
     </button>
 
-    <a
-      class="invite-action"
-      href="https://www.google.com/maps/search/?api=1&query=MGM+Beach+Resort+ECR+Chennai"
-      target="_blank"
-      rel="noopener"
-    >
+    <a id="inviteMap" class="action" href="#" target="_blank" rel="noopener">
       Open Maps
     </a>
 
@@ -2750,43 +1023,27 @@ button{
 
 </section>
 
-
-<!-- =====================================================
-     FINAL BLESSING
-===================================================== -->
-
+<!-- CLOSING -->
 <section class="closing">
-
   <div class="closing-inner reveal">
 
-    <p class="eyebrow">
-      With Your Blessings
-    </p>
+    <p class="eyebrow" style="color:#f1c779">With Your Blessings</p>
 
     <h3>
       A wedding lasts a few days.<br>
       The blessings stay for a lifetime.
     </h3>
 
-    <p class="closing-copy">
+    <p style="font:400 1.35rem var(--serif)">
       Thank you for being part of ours.
     </p>
 
-    <p class="closing-names">
-      Nikhil &amp; Supriya
-    </p>
+    <p class="closing-name">Nikhil &amp; Supriya</p>
 
-    <p class="closing-date">
+    <p class="date">
       21 · 22 November 2026<br>
       MGM Beach Resort · Chennai
     </p>
-
-
-    <!--
-      Starts unlit.
-      Automatically switches to the lit image
-      if the guest lights the main lamp.
-    -->
 
     <img
       id="closingLamp"
@@ -2795,1606 +1052,1025 @@ button{
       alt=""
     >
 
-
-    <p class="shubham">
+    <p style="color:#f1c779;font:500 1.25rem var(--serif)">
       ॥ शुभमस्तु ॥
     </p>
 
   </div>
-
 </section>
-
-
-</div>
 
 </main>
 
-
-<!-- =====================================================
-     FLOATING CONTROLS
-===================================================== -->
-
 <div class="floating">
-
-  <button
-    id="inviteJump"
-    class="float-button"
-    type="button"
-    aria-label="View your invitation"
-  >
-
-    <svg viewBox="0 0 24 24">
-      <path d="M6 3h12v18H6z"/>
-      <path d="M9 7h6"/>
-      <path d="M9 11h6"/>
-      <path d="M9 15h4"/>
-    </svg>
-
-  </button>
-
-
-  <button
-    id="topButton"
-    class="float-button"
-    type="button"
-    aria-label="Back to top"
-  >
-
-    <svg viewBox="0 0 24 24">
-      <path d="M12 19V5"/>
-      <path d="M7 10l5-5 5 5"/>
-    </svg>
-
-  </button>
-
+  <button id="inviteJump" class="float" type="button" aria-label="Invitation">✉</button>
+  <button id="top" class="float" type="button" aria-label="Back to top">↑</button>
 </div>
 
-
 <script>
-
 /* =========================================================
-   CONFIG
+   PERSONALISATION
 ========================================================= */
 
-/*
-  GOOGLE SHEET ENDPOINT
+const params=new URLSearchParams(location.search);
 
-  Leave blank for now.
-
-  Once the visual page is approved,
-  we connect this to the Google Sheet.
-*/
-
-const SHEET_ENDPOINT = "";
-
-
-/* =========================================================
-   PERSONALIZATION
-========================================================= */
-
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
-
-
-function cleanName(value){
-
-  return String(value || "")
+function cleanName(v){
+  return String(v||"")
     .replace(/[<>]/g,"")
     .replace(/\s+/g," ")
     .trim()
     .slice(0,60);
-
 }
 
+let guestName=cleanName(params.get("guest"));
+const guestInput=document.getElementById("guest");
 
-let guestName =
-  cleanName(
-    params.get("guest")
-  ) || "";
-
-
-const guestInput =
-  document.getElementById(
-    "guestInput"
-  );
-
-
-if(guestName){
-
-  guestInput.value =
-    guestName;
-
-}
-
+if(guestName) guestInput.value=guestName;
 
 function displayName(){
-
-  return guestName ||
-    "Family & Friends";
-
+  return guestName||"Family & Friends";
 }
 
-
-function updateGuestName(){
-
-  document
-    .querySelectorAll(
-      ".guest-name"
-    )
-    .forEach(element=>{
-
-      element.textContent =
-        displayName();
-
-    });
-
+function updateNames(){
+  document.querySelectorAll(".guest-name").forEach(el=>{
+    el.textContent=displayName();
+  });
 }
 
-
-updateGuestName();
-
+updateNames();
 
 /* =========================================================
-   LOGGING PREPARATION
+   MAP
 ========================================================= */
 
-function logGuestEvent(eventName){
+const MAP_URL =
+  "https:" +
+  "//www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent("MGM Beach Resort Muttukadu Chennai Tamil Nadu");
 
-  const record = {
-
-    event:eventName,
-
-    guest:displayName(),
-
-    source:
-      params.get("guest")
-        ? "personalized_link"
-        : "typed_name",
-
-    page:"elders",
-
-    timestamp:
-      new Date().toISOString()
-
-  };
-
-
-  /*
-    LOCAL COPY FOR NOW
-  */
-
-  try{
-
-    const existing =
-      JSON.parse(
-        localStorage.getItem(
-          "nsElderActivity"
-        ) || "[]"
-      );
-
-
-    existing.push(
-      record
-    );
-
-
-    localStorage.setItem(
-
-      "nsElderActivity",
-
-      JSON.stringify(
-        existing.slice(-100)
-      )
-
-    );
-
-  }catch(error){}
-
-
-  /*
-    GOOGLE SHEET IS NOT LIVE YET.
-  */
-
-  if(!SHEET_ENDPOINT){
-    return;
-  }
-
-
-  try{
-
-    fetch(
-      SHEET_ENDPOINT,
-      {
-        method:"POST",
-
-        mode:"no-cors",
-
-        headers:{
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-
-        body:
-          JSON.stringify(record),
-
-        keepalive:true
-      }
-    );
-
-  }catch(error){}
-
-}
-
+document.getElementById("mapButton").href=MAP_URL;
+document.getElementById("inviteMap").href=MAP_URL;
 
 /* =========================================================
    ENTRANCE
 ========================================================= */
 
-const entrance =
-  document.getElementById(
-    "entrance"
-  );
+const entrance=document.getElementById("entrance");
 
+function enterSite(){
+  const name=cleanName(guestInput.value);
 
-const enterButton =
-  document.getElementById(
-    "enterCelebration"
-  );
-
-
-const nameError =
-  document.getElementById(
-    "nameError"
-  );
-
-
-function enterWebsite(){
-
-  const typed =
-    cleanName(
-      guestInput.value
-    );
-
-
-  if(!typed){
-
-    nameError.textContent =
+  if(!name){
+    document.getElementById("error").textContent=
       "Please enter your name to continue.";
-
     guestInput.focus();
-
     return;
-
   }
 
+  guestName=name;
+  updateNames();
 
-  guestName =
-    typed;
+  document.getElementById("error").textContent="";
+  entrance.classList.add("entering");
 
-
-  nameError.textContent =
-    "";
-
-
-  updateGuestName();
-
-
-  try{
-
-    sessionStorage.setItem(
-      "nsElderGuest",
-      guestName
-    );
-
-  }catch(error){}
-
-
-  logGuestEvent(
-    "entered"
-  );
-
-
-  entrance.classList.add(
-    "entering"
-  );
-
-
-  /*
-    TEMPLE BRIGHTENS + FLOWERS
-  */
+  setTimeout(()=>petalBurst(28),250);
 
   setTimeout(()=>{
-
-    petalShower(55);
-
-  },350);
-
-
-  /*
-    DISSOLVE INTO GANESHA
-  */
-
-  setTimeout(()=>{
-
-    entrance.classList.add(
-      "finished"
-    );
-
-
-    document.body
-      .classList.remove(
-        "locked"
-      );
-
-
-    window.scrollTo(
-      0,
-      0
-    );
-
-  },1650);
-
+    entrance.classList.add("done");
+    document.body.classList.remove("locked");
+    window.scrollTo(0,0);
+  },1500);
 }
 
+document.getElementById("enter").onclick=enterSite;
 
-enterButton.addEventListener(
-  "click",
-  enterWebsite
-);
+guestInput.addEventListener("keydown",e=>{
+  if(e.key==="Enter") enterSite();
+});
 
+/* =========================================================
+   REVEALS
+========================================================= */
 
-guestInput.addEventListener(
-  "keydown",
-  event=>{
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add("show");
+  });
+},{threshold:.1});
 
-    if(event.key === "Enter"){
-
-      enterWebsite();
-
-    }
-
-  }
-);
-
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
 /* =========================================================
    PETALS
 ========================================================= */
 
-const ambientPetals =
-  document.getElementById(
-    "ambientPetals"
-  );
+function petalBurst(count=35){
+  const holder=document.getElementById("petals");
 
+  for(let i=0;i<count;i++){
+    const p=document.createElement("i");
+    p.className="petal";
 
-const petalBurst =
-  document.getElementById(
-    "petalBurst"
-  );
+    const r=Math.random();
+    if(r>.7) p.classList.add("white");
+    else if(r>.48) p.classList.add("gold");
 
+    p.style.left=Math.random()*100+"%";
+    p.style.setProperty("--drift",(-130+Math.random()*260)+"px");
+    p.style.setProperty("--spin",(300+Math.random()*700)+"deg");
+    p.style.animationDuration=(4+Math.random()*3)+"s";
+    p.style.animationDelay=(Math.random()*.5)+"s";
 
-function makePetal(){
-
-  const petal =
-    document.createElement(
-      "span"
-    );
-
-
-  petal.className =
-    "petal";
-
-
-  const type =
-    Math.random();
-
-
-  if(type > .72){
-
-    petal.classList.add(
-      "jasmine"
-    );
-
-  }else if(type > .49){
-
-    petal.classList.add(
-      "marigold"
-    );
-
+    holder.appendChild(p);
+    setTimeout(()=>p.remove(),8000);
   }
-
-
-  petal.style.left =
-    `${Math.random()*100}%`;
-
-
-  petal.style.animationDuration =
-    `${10 + Math.random()*14}s`;
-
-
-  petal.style.animationDelay =
-    `${Math.random()*-22}s`;
-
-
-  petal.style.setProperty(
-    "--drift",
-    `${-100 + Math.random()*200}px`
-  );
-
-
-  petal.style.setProperty(
-    "--spin",
-    `${320 + Math.random()*760}deg`
-  );
-
-
-  petal.style.opacity =
-    `${.25 + Math.random()*.48}`;
-
-
-  return petal;
-
 }
 
-
-for(let i=0;i<34;i++){
-
-  ambientPetals.appendChild(
-    makePetal()
-  );
-
-}
-
-
-function petalShower(amount=70){
-
-  for(let i=0;i<amount;i++){
-
-    const petal =
-      makePetal();
-
-
-    petal.style.animationDuration =
-      `${4.5 + Math.random()*4}s`;
-
-
-    petal.style.animationDelay =
-      `${Math.random()*1.1}s`;
-
-
-    petal.style.setProperty(
-      "--drift",
-      `${-160 + Math.random()*320}px`
-    );
-
-
-    petalBurst.appendChild(
-      petal
-    );
-
-
-    setTimeout(()=>{
-
-      petal.remove();
-
-    },9500);
-
-  }
-
-}
-
-
 /* =========================================================
-   SCROLL REVEALS
+   SMOOTH LAMP
 ========================================================= */
 
-const revealObserver =
-  new IntersectionObserver(
+const lampOff=document.getElementById("lampOff");
+const lampOn=document.getElementById("lampOn");
+const lampWrap=document.getElementById("lampWrap");
+const lampButton=document.getElementById("lightLamp");
+const lampMessage=document.getElementById("lampMessage");
+const closingLamp=document.getElementById("closingLamp");
 
-    entries=>{
+let lampLit=false;
 
-      entries.forEach(
-        entry=>{
+/*
+  Pre-decode BOTH images before interaction.
+  This prevents the lit image appearing late during the crossfade.
+*/
+Promise.allSettled([
+  lampOff.decode ? lampOff.decode() : Promise.resolve(),
+  lampOn.decode ? lampOn.decode() : Promise.resolve()
+]);
 
-          if(entry.isIntersecting){
+lampButton.onclick=async()=>{
+  if(lampLit) return;
 
-            entry.target
-              .classList.add(
-                "visible"
-              );
+  lampLit=true;
+  lampButton.disabled=true;
 
-          }
+  /*
+    Ensure lit image is ready BEFORE transition begins.
+  */
+  try{
+    if(lampOn.decode) await lampOn.decode();
+  }catch(e){}
 
-        }
-      );
+  /*
+    Start warm aura very slightly before the image crossfade.
+  */
+  lampWrap.querySelector(".lamp-aura").style.opacity=".32";
 
-    },
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      lampWrap.classList.add("lit");
+    });
+  });
 
-    {
-      threshold:.1
-    }
+  /*
+    Petals arrive AFTER the lamp has begun glowing,
+    rather than everything happening at once.
+  */
+  setTimeout(()=>{
+    petalBurst(42);
+  },700);
 
-  );
+  /*
+    Personalized blessing appears after the transition.
+  */
+  setTimeout(()=>{
+    lampButton.textContent="Your Lamp Is Lit";
 
+    lampMessage.innerHTML=
+      "Thank you, <strong>"+
+      safe(displayName())+
+      "</strong>.<br>Your blessings are with us.";
 
-document
-  .querySelectorAll(
-    ".reveal"
-  )
-  .forEach(
-    element=>{
+    lampMessage.classList.add("show");
 
-      revealObserver.observe(
-        element
-      );
-
-    }
-  );
-
+    closingLamp.src="./images/blessings/realistic-lamp.png";
+    closingLamp.classList.add("lit");
+  },1250);
+};
 
 /* =========================================================
-   REALISTIC LAMP CEREMONY
+   FLOATING
 ========================================================= */
 
-const lampWrap =
-  document.getElementById(
-    "lampWrap"
-  );
-
-
-const lightLamp =
-  document.getElementById(
-    "lightLamp"
-  );
-
-
-const lampMessage =
-  document.getElementById(
-    "lampMessage"
-  );
-
-
-const closingLamp =
-  document.getElementById(
-    "closingLamp"
-  );
-
-
-let lampLit =
-  false;
-
-
-lightLamp.addEventListener(
-  "click",
-  ()=>{
-
-
-    /*
-      DO NOT REPLAY CEREMONY
-    */
-
-    if(lampLit){
-      return;
-    }
-
-
-    lampLit =
-      true;
-
-
-    /*
-      STEP 1
-      IGNITION FLASH
-    */
-
-    lampWrap.classList.add(
-      "lighting"
-    );
-
-
-    lightLamp.disabled =
-      true;
-
-
-    lightLamp.style.opacity =
-      ".72";
-
-
-    /*
-      STEP 2
-      ACTUAL IMAGE CROSSFADE:
-      UNLIT → LIT
-    */
-
-    setTimeout(()=>{
-
-      lampWrap.classList.add(
-        "lit"
-      );
-
-    },420);
-
-
-    /*
-      STEP 3
-      FLOWERS
-    */
-
-    setTimeout(()=>{
-
-      petalShower(95);
-
-    },520);
-
-
-    /*
-      STEP 4
-      PERSONALIZED BLESSING
-    */
-
-    setTimeout(()=>{
-
-      lightLamp.textContent =
-        "Your Lamp Is Lit";
-
-
-      lightLamp.classList.add(
-        "lit"
-      );
-
-
-      lightLamp.style.opacity =
-        "1";
-
-
-      lampMessage.innerHTML =
-        `Thank you, <strong>${escapeHTML(displayName())}</strong>.<br>
-        Your blessings are with us.`;
-
-
-      lampMessage.classList.add(
-        "show"
-      );
-
-
-      /*
-        FINAL LAMP ALSO BECOMES LIT
-      */
-
-      if(closingLamp){
-
-        closingLamp.src =
-          "./images/blessings/realistic-lamp.png";
-
-
-        closingLamp.classList.add(
-          "lit"
-        );
-
-      }
-
-
-      logGuestEvent(
-        "lamp_lit"
-      );
-
-    },950);
-
-
-    /*
-      SECOND SOFTER FLOWER SHOWER
-    */
-
-    setTimeout(()=>{
-
-      petalShower(45);
-
-    },1700);
-
-  }
-);
-
-
-/* =========================================================
-   FLOATING CONTROLS
-========================================================= */
-
-document
-  .getElementById(
-    "inviteJump"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      document
-        .getElementById(
-          "yourInvitation"
-        )
-        .scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "topButton"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    }
-  );
-
+document.getElementById("inviteJump").onclick=()=>{
+  document.getElementById("invitation").scrollIntoView({behavior:"smooth"});
+};
+
+document.getElementById("top").onclick=()=>{
+  window.scrollTo({top:0,behavior:"smooth"});
+};
 
 /* =========================================================
    CALENDAR
 ========================================================= */
 
-const weddingEvents = {
-
-  engagement:{
-
-    title:
-      "Nikhil & Supriya - Engagement",
-
-    start:
-      "20261121T050000Z",
-
-    end:
-      "20261121T063000Z",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai"
-
+const events=[
+  {
+    title:"Nikhil & Supriya - Engagement",
+    start:"20261121T050000Z",
+    end:"20261121T063000Z",
+    location:"Lake Lawn, MGM Beach Resort, ECR, Chennai"
   },
-
-
-  reception:{
-
-    title:
-      "Nikhil & Supriya - Reception",
-
-    start:
-      "20261121T123000Z",
-
-    end:
-      "20261121T160000Z",
-
-    location:
-      "Lake Lawn, MGM Beach Resort, ECR, Chennai"
-
+  {
+    title:"Nikhil & Supriya - Reception",
+    start:"20261121T123000Z",
+    end:"20261121T160000Z",
+    location:"Lake Lawn, MGM Beach Resort, ECR, Chennai"
   },
-
-
-  muhurtham:{
-
-    title:
-      "Nikhil & Supriya - Muhurtham",
-
-    start:
-      "20261122T030000Z",
-
-    end:
-      "20261122T043000Z",
-
-    location:
-      "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai"
-
+  {
+    title:"Nikhil & Supriya - Muhurtham",
+    start:"20261122T030000Z",
+    end:"20261122T043000Z",
+    location:"Palm Beach Lawn, MGM Beach Resort, ECR, Chennai"
   }
+];
 
-};
-
-
-function createICS(events){
-
-  const lines = [
-
+document.getElementById("calendar").onclick=()=>{
+  let ics=[
     "BEGIN:VCALENDAR",
-
     "VERSION:2.0",
-
-    "PRODID:-//Nikhil & Supriya Wedding//EN",
-
-    "CALSCALE:GREGORIAN"
-
+    "PRODID:-//Nikhil Supriya Wedding//EN"
   ];
 
-
-  events.forEach(
-    event=>{
-
-      lines.push(
-
-        "BEGIN:VEVENT",
-
-        `DTSTART:${event.start}`,
-
-        `DTEND:${event.end}`,
-
-        `SUMMARY:${event.title}`,
-
-        `LOCATION:${event.location}`,
-
-        "DESCRIPTION:Wedding celebration of Nikhil & Supriya",
-
-        "END:VEVENT"
-
-      );
-
-    }
-  );
-
-
-  lines.push(
-    "END:VCALENDAR"
-  );
-
-
-  return lines.join(
-    "\r\n"
-  );
-
-}
-
-
-function downloadCalendar(
-  events,
-  filename
-){
-
-  const blob =
-    new Blob(
-      [createICS(events)],
-      {
-        type:
-          "text/calendar;charset=utf-8"
-      }
+  events.forEach(e=>{
+    ics.push(
+      "BEGIN:VEVENT",
+      "DTSTART:"+e.start,
+      "DTEND:"+e.end,
+      "SUMMARY:"+e.title,
+      "LOCATION:"+e.location,
+      "END:VEVENT"
     );
+  });
 
+  ics.push("END:VCALENDAR");
 
-  const url =
-    URL.createObjectURL(
-      blob
-    );
+  const blob=new Blob([ics.join("\r\n")],{type:"text/calendar"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
 
+  a.href=url;
+  a.download="Nikhil-Supriya-Wedding.ics";
+  a.click();
 
-  const link =
-    document.createElement(
-      "a"
-    );
-
-
-  link.href =
-    url;
-
-
-  link.download =
-    filename;
-
-
-  document.body.appendChild(
-    link
-  );
-
-
-  link.click();
-
-
-  link.remove();
-
-
-  setTimeout(()=>{
-
-    URL.revokeObjectURL(
-      url
-    );
-
-  },1000);
-
-}
-
-
-document
-  .querySelectorAll(
-    ".event-calendar"
-  )
-  .forEach(
-    button=>{
-
-      button.addEventListener(
-        "click",
-        event=>{
-
-          event.preventDefault();
-
-
-          const key =
-            button.dataset.event;
-
-
-          downloadCalendar(
-
-            [
-              weddingEvents[key]
-            ],
-
-            `Nikhil-Supriya-${key}.ics`
-
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "allCalendar"
-  )
-  .addEventListener(
-    "click",
-    ()=>{
-
-      downloadCalendar(
-
-        Object.values(
-          weddingEvents
-        ),
-
-        "Nikhil-Supriya-Wedding.ics"
-
-      );
-
-    }
-  );
-
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
 
 /* =========================================================
-   SAVE PERSONALIZED INVITATION JPG
+   INVITATION CANVAS HELPERS
 ========================================================= */
 
-document
-  .getElementById(
-    "saveInvite"
-  )
-  .addEventListener(
-    "click",
-    async function(){
+function loadImage(src){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=()=>resolve(null);
+    img.src=src;
+  });
+}
 
+function cover(ctx,img,x,y,w,h){
+  const ir=img.width/img.height;
+  const rr=w/h;
 
-      const button =
-        this;
+  let sx=0,sy=0,sw=img.width,sh=img.height;
 
+  if(ir>rr){
+    sw=img.height*rr;
+    sx=(img.width-sw)/2;
+  }else{
+    sh=img.width/rr;
+    sy=(img.height-sh)/2;
+  }
 
-      button.textContent =
-        "Preparing Invitation...";
+  ctx.drawImage(img,sx,sy,sw,sh,x,y,w,h);
+}
 
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+
+function text(ctx,t,x,y,font,color="#47291a"){
+  ctx.save();
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.font=font;
+  ctx.fillStyle=color;
+  ctx.fillText(t,x,y);
+  ctx.restore();
+}
+
+function fitText(ctx,t,x,y,maxWidth,start,min,color){
+  let size=start;
+
+  while(size>min){
+    ctx.font=`600 ${size}px "Cormorant Garamond",Georgia,serif`;
+    if(ctx.measureText(t).width<=maxWidth) break;
+    size-=2;
+  }
+
+  text(
+    ctx,
+    t,
+    x,
+    y,
+    `600 ${size}px "Cormorant Garamond",Georgia,serif`,
+    color
+  );
+}
+
+function jasmine(ctx,x,y,s=1){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.scale(s,s);
+
+  for(let i=0;i<5;i++){
+    ctx.save();
+    ctx.rotate(i*Math.PI*2/5);
+
+    ctx.fillStyle="#fffdf6";
+    ctx.strokeStyle="rgba(160,112,54,.55)";
+    ctx.lineWidth=1;
+
+    ctx.beginPath();
+    ctx.ellipse(0,-8,4.5,9,0,0,Math.PI*2);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  ctx.fillStyle="#c98a32";
+  ctx.beginPath();
+  ctx.arc(0,0,2.5,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function garland(ctx,x,y1,y2,side){
+  ctx.save();
+
+  ctx.strokeStyle="rgba(127,73,22,.75)";
+  ctx.lineWidth=3;
+
+  ctx.beginPath();
+  ctx.moveTo(x,y1);
+  ctx.bezierCurveTo(
+    x+side*25,
+    y1+(y2-y1)*.35,
+    x-side*15,
+    y1+(y2-y1)*.72,
+    x,
+    y2
+  );
+  ctx.stroke();
+
+  let n=0;
+
+  for(let y=y1+15;y<y2-20;y+=24){
+    jasmine(ctx,x+Math.sin(n*.8)*8,y,.82);
+
+    if(n%4===2){
+      ctx.fillStyle="#cf6075";
+      ctx.beginPath();
+      ctx.ellipse(x+side*12,y+10,7,14,side*.3,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    n++;
+  }
+
+  ctx.restore();
+}
+
+function bell(ctx,x,y,s=1){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.scale(s,s);
+
+  const g=ctx.createLinearGradient(-28,0,28,0);
+  g.addColorStop(0,"#6d390d");
+  g.addColorStop(.3,"#d99f40");
+  g.addColorStop(.55,"#f0c46c");
+  g.addColorStop(1,"#78400f");
+
+  ctx.strokeStyle="#6f3b0f";
+  ctx.fillStyle=g;
+  ctx.lineWidth=2;
+
+  ctx.beginPath();
+  ctx.moveTo(0,-42);
+  ctx.lineTo(0,-10);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(-24,12);
+  ctx.quadraticCurveTo(-18,-8,0,-10);
+  ctx.quadraticCurveTo(18,-8,24,12);
+  ctx.lineTo(31,23);
+  ctx.lineTo(-31,23);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(0,29,6,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function lotusDivider(ctx,y){
+  const cx=ctx.canvas.width/2;
+
+  ctx.strokeStyle="rgba(174,108,35,.65)";
+  ctx.lineWidth=2;
+
+  ctx.beginPath();
+  ctx.moveTo(cx-290,y);
+  ctx.lineTo(cx-65,y);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(cx+65,y);
+  ctx.lineTo(cx+290,y);
+  ctx.stroke();
+
+  ctx.save();
+  ctx.translate(cx,y);
+
+  [-30,-15,0,15,30].forEach((x,i)=>{
+    ctx.beginPath();
+    ctx.ellipse(
+      x,
+      i===2?-7:0,
+      11,
+      i===2?24:19,
+      x/85,
+      Math.PI,
+      Math.PI*2
+    );
+    ctx.stroke();
+  });
+
+  ctx.restore();
+}
+
+function border(ctx,W,H){
+  ctx.strokeStyle="rgba(255,231,180,.9)";
+  ctx.lineWidth=10;
+  ctx.strokeRect(42,42,W-84,H-84);
+
+  ctx.strokeStyle="#ad6d27";
+  ctx.lineWidth=4;
+  ctx.strokeRect(61,61,W-122,H-122);
+
+  ctx.strokeStyle="rgba(224,180,98,.9)";
+  ctx.lineWidth=2;
+  ctx.strokeRect(80,80,W-160,H-160);
+}
+
+/* =========================================================
+   SAVE ROYAL INVITATION
+========================================================= */
+
+document.getElementById("saveInvite").onclick=async function(){
+
+  const button=this;
+
+  button.disabled=true;
+  button.textContent="Preparing Invitation...";
+
+  try{
+
+    await document.fonts.ready;
+
+    const [temple,sea,ganesha]=await Promise.all([
+      loadImage("./images/blessings/entrance-temple.png"),
+      loadImage("./images/blessings/venue-sea.png"),
+      loadImage("./images/blessings/ganesha.png")
+    ]);
+
+    /*
+      High-resolution 3:4 portrait JPG.
+      The temple, garlands, bells, flowers and ECR sunset
+      create the visual language of the physical wedding invitation.
+    */
+
+    const canvas=document.createElement("canvas");
+
+    canvas.width=1800;
+    canvas.height=2400;
+
+    const ctx=canvas.getContext("2d");
+    const W=canvas.width;
+    const H=canvas.height;
+
+    /* BACKGROUND */
+
+    if(temple){
+      cover(ctx,temple,0,0,W,H);
+    }else{
+      const bg=ctx.createLinearGradient(0,0,0,H);
+      bg.addColorStop(0,"#f8e9ca");
+      bg.addColorStop(.7,"#f2d49d");
+      bg.addColorStop(1,"#d99a66");
+      ctx.fillStyle=bg;
+      ctx.fillRect(0,0,W,H);
+    }
+
+    /*
+      Warm cream veil over temple so it feels like stationery,
+      not simply a photograph.
+    */
+
+    const veil=ctx.createLinearGradient(0,0,0,H);
+    veil.addColorStop(0,"rgba(255,248,227,.28)");
+    veil.addColorStop(.6,"rgba(255,241,210,.18)");
+    veil.addColorStop(1,"rgba(110,50,17,.08)");
+
+    ctx.fillStyle=veil;
+    ctx.fillRect(0,0,W,H);
+
+    /* SEA / ECR SUNSET AT BOTTOM */
+
+    if(sea){
+
+      ctx.save();
+
+      ctx.beginPath();
+      ctx.rect(0,1740,W,660);
+      ctx.clip();
+
+      cover(ctx,sea,0,1700,W,700);
+
+      /*
+        Fade the invitation paper naturally into the sea.
+      */
+
+      const seaFade=ctx.createLinearGradient(0,1700,0,1970);
+
+      seaFade.addColorStop(0,"rgba(255,245,222,1)");
+      seaFade.addColorStop(.5,"rgba(255,245,222,.45)");
+      seaFade.addColorStop(1,"rgba(255,245,222,0)");
+
+      ctx.fillStyle=seaFade;
+      ctx.fillRect(0,1700,W,300);
+
+      ctx.restore();
+    }
+
+    /* CENTRAL IVORY INVITATION PAPER */
+
+    const panel=ctx.createLinearGradient(0,110,0,1810);
+
+    panel.addColorStop(0,"rgba(255,251,241,.975)");
+    panel.addColorStop(.55,"rgba(255,247,229,.955)");
+    panel.addColorStop(1,"rgba(255,239,211,.90)");
+
+    ctx.fillStyle=panel;
+
+    roundRect(ctx,300,105,1200,1690,34);
+    ctx.fill();
+
+    /*
+      Thin gold inner line.
+    */
+
+    ctx.strokeStyle="rgba(174,108,35,.62)";
+    ctx.lineWidth=3;
+
+    roundRect(ctx,326,130,1148,1640,26);
+    ctx.stroke();
+
+    border(ctx,W,H);
+
+    /* JASMINE GARLANDS */
+
+    garland(ctx,235,75,1110,-1);
+    garland(ctx,W-235,75,1110,1);
+
+    /* BRASS BELLS */
+
+    bell(ctx,235,275,.95);
+    bell(ctx,W-235,275,.95);
+
+    bell(ctx,170,760,.72);
+    bell(ctx,W-170,760,.72);
+
+    /* GANESHA */
+
+    if(ganesha){
+
+      ctx.save();
+
+      ctx.beginPath();
+      ctx.arc(W/2,235,78,0,Math.PI*2);
+      ctx.clip();
+
+      cover(
+        ctx,
+        ganesha,
+        W/2-78,
+        157,
+        156,
+        156
+      );
+
+      ctx.restore();
+
+      ctx.strokeStyle="rgba(174,108,35,.7)";
+      ctx.lineWidth=3;
+
+      ctx.beginPath();
+      ctx.arc(W/2,235,86,0,Math.PI*2);
+      ctx.stroke();
+
+    }else{
+
+      text(
+        ctx,
+        "ॐ",
+        W/2,
+        235,
+        '500 100px "Cormorant Garamond",Georgia,serif',
+        "#b4772d"
+      );
+    }
+
+    text(
+      ctx,
+      "॥ SHRI GANESHAYA NAMAH ॥",
+      W/2,
+      355,
+      '500 31px "Cormorant Garamond",Georgia,serif',
+      "#754214"
+    );
+
+    text(
+      ctx,
+      "WITH THE BLESSINGS OF OUR FAMILIES",
+      W/2,
+      430,
+      '600 23px "Manrope",Arial,sans-serif',
+      "#754214"
+    );
+
+    /* NAMES */
+
+    text(
+      ctx,
+      "Nikhil",
+      W/2,
+      590,
+      '500 132px "Cormorant Garamond",Georgia,serif',
+      "#482818"
+    );
+
+    text(
+      ctx,
+      "&",
+      W/2,
+      685,
+      'italic 500 76px "Cormorant Garamond",Georgia,serif',
+      "#a83d3d"
+    );
+
+    text(
+      ctx,
+      "Supriya",
+      W/2,
+      790,
+      '500 132px "Cormorant Garamond",Georgia,serif',
+      "#482818"
+    );
+
+    text(
+      ctx,
+      "request the pleasure and blessings of",
+      W/2,
+      900,
+      '400 39px "Cormorant Garamond",Georgia,serif',
+      "#67452f"
+    );
+
+    /* PERSONALIZED GUEST */
+
+    const name=displayName();
+
+    fitText(
+      ctx,
+      name,
+      W/2,
+      1000,
+      920,
+      88,
+      54,
+      "#9a3934"
+    );
+
+    text(
+      ctx,
+      "as we celebrate the beginning of our life together",
+      W/2,
+      1080,
+      '400 34px "Cormorant Garamond",Georgia,serif',
+      "#67452f"
+    );
+
+    lotusDivider(ctx,1150);
+
+    /* EVENTS */
+
+    const columns=[520,900,1280];
+
+    const eventData=[
+      [
+        "ENGAGEMENT",
+        "Saturday",
+        "21 November 2026",
+        "10:30 AM",
+        "Lake Lawn"
+      ],
+      [
+        "RECEPTION",
+        "Saturday",
+        "21 November 2026",
+        "6:00 PM",
+        "Lake Lawn"
+      ],
+      [
+        "MUHURTHAM",
+        "Sunday",
+        "22 November 2026",
+        "8:30 – 10:00 AM",
+        "Palm Beach Lawn"
+      ]
+    ];
+
+    eventData.forEach((event,index)=>{
+
+      const x=columns[index];
+
+      text(
+        ctx,
+        event[0],
+        x,
+        1245,
+        '600 22px "Manrope",Arial,sans-serif',
+        "#86501c"
+      );
+
+      text(
+        ctx,
+        event[1],
+        x,
+        1300,
+        '500 31px "Cormorant Garamond",Georgia,serif'
+      );
+
+      text(
+        ctx,
+        event[2],
+        x,
+        1350,
+        '500 29px "Cormorant Garamond",Georgia,serif'
+      );
+
+      text(
+        ctx,
+        event[3],
+        x,
+        1403,
+        '600 31px "Cormorant Garamond",Georgia,serif'
+      );
+
+      text(
+        ctx,
+        event[4],
+        x,
+        1460,
+        '500 29px "Cormorant Garamond",Georgia,serif'
+      );
+    });
+
+    /*
+      Elegant separators between events.
+    */
+
+    ctx.strokeStyle="rgba(174,108,35,.3)";
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+    ctx.moveTo(710,1210);
+    ctx.lineTo(710,1495);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(1090,1210);
+    ctx.lineTo(1090,1495);
+    ctx.stroke();
+
+    lotusDivider(ctx,1550);
+
+    /* VENUE */
+
+    text(
+      ctx,
+      "MGM BEACH RESORT",
+      W/2,
+      1635,
+      '600 31px "Manrope",Arial,sans-serif',
+      "#744313"
+    );
+
+    text(
+      ctx,
+      "E C R  ·  Chennai",
+      W/2,
+      1690,
+      '500 38px "Cormorant Garamond",Georgia,serif'
+    );
+
+    text(
+      ctx,
+      "Your presence and blessings will mean the world to us.",
+      W/2,
+      1760,
+      'italic 400 34px "Cormorant Garamond",Georgia,serif',
+      "#6a4630"
+    );
+
+    /*
+      FLOWERS ALONG THE TRANSITION INTO THE BEACH.
+    */
+
+    for(let x=340;x<1460;x+=95){
+
+      jasmine(
+        ctx,
+        x,
+        1810+Math.sin(x*.018)*18,
+        .8
+      );
+    }
+
+    /*
+      Bottom beach caption.
+    */
+
+    ctx.save();
+
+    ctx.shadowColor="rgba(255,246,225,.95)";
+    ctx.shadowBlur=16;
+
+    text(
+      ctx,
+      "Two families, two cities, one celebration.",
+      W/2,
+      2240,
+      'italic 500 34px "Cormorant Garamond",Georgia,serif',
+      "#472819"
+    );
+
+    ctx.restore();
+
+    /*
+      Small closing blessing.
+    */
+
+    text(
+      ctx,
+      "॥ शुभमस्तु ॥",
+      W/2,
+      2315,
+      '500 38px "Cormorant Garamond",Georgia,serif',
+      "#754313"
+    );
+
+    /* EXPORT */
+
+    canvas.toBlob(async blob=>{
+
+      if(!blob){
+        throw new Error("Invitation could not be generated.");
+      }
+
+      const safeName=
+        name
+          .replace(/[^a-z0-9]+/gi,"-")
+          .replace(/^-|-$/g,"")
+        || "Guest";
+
+      const filename=
+        `Nikhil-Supriya-Invitation-${safeName}.jpg`;
+
+      /*
+        Mobile:
+        open native share/save sheet.
+      */
 
       try{
 
-
-        await document.fonts.ready;
-
-
-        const canvas =
-          document.createElement(
-            "canvas"
+        const file=
+          new File(
+            [blob],
+            filename,
+            {type:"image/jpeg"}
           );
 
-
-        canvas.width =
-          1800;
-
-
-        canvas.height =
-          2400;
-
-
-        const ctx =
-          canvas.getContext(
-            "2d"
-          );
-
-
-        /*
-          PAPER
-        */
-
-        const paper =
-          ctx.createLinearGradient(
-            0,
-            0,
-            1800,
-            2400
-          );
-
-
-        paper.addColorStop(
-          0,
-          "#fffaf0"
-        );
-
-
-        paper.addColorStop(
-          .5,
-          "#f7e8ce"
-        );
-
-
-        paper.addColorStop(
-          1,
-          "#fff8e9"
-        );
-
-
-        ctx.fillStyle =
-          paper;
-
-
-        ctx.fillRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-
-        /*
-          PAPER TEXTURE
-        */
-
-        ctx.globalAlpha =
-          .035;
-
-
-        for(
-          let i=0;
-          i<3500;
-          i++
+        if(
+          navigator.share &&
+          navigator.canShare &&
+          navigator.canShare({files:[file]})
         ){
 
-          ctx.fillStyle =
-            Math.random()>.5
-              ? "#7a481d"
-              : "#ffffff";
+          await navigator.share({
+            files:[file],
+            title:"Nikhil & Supriya Wedding Invitation"
+          });
 
+          button.textContent="Save My Invitation";
+          button.disabled=false;
 
-          ctx.fillRect(
-
-            Math.random()*1800,
-
-            Math.random()*2400,
-
-            Math.random()*3+1,
-
-            Math.random()*3+1
-
-          );
-
+          return;
         }
-
-
-        ctx.globalAlpha =
-          1;
-
-
-        /*
-          GOLD BORDERS
-        */
-
-        ctx.strokeStyle =
-          "#a76a26";
-
-
-        ctx.lineWidth =
-          6;
-
-
-        ctx.strokeRect(
-          85,
-          85,
-          1630,
-          2230
-        );
-
-
-        ctx.strokeStyle =
-          "#d1a356";
-
-
-        ctx.lineWidth =
-          2;
-
-
-        ctx.strokeRect(
-          112,
-          112,
-          1576,
-          2176
-        );
-
-
-        ctx.strokeStyle =
-          "rgba(167,106,38,.35)";
-
-
-        ctx.strokeRect(
-          135,
-          135,
-          1530,
-          2130
-        );
-
-
-        /*
-          ORNAMENTS
-        */
-
-        ctx.fillStyle =
-          "#b6782d";
-
-
-        ctx.font =
-          '72px "Cormorant Garamond"';
-
-
-        ctx.fillText(
-          "❈",
-          155,
-          190
-        );
-
-
-        ctx.fillText(
-          "❈",
-          1590,
-          190
-        );
-
-
-        ctx.fillText(
-          "❈",
-          155,
-          2260
-        );
-
-
-        ctx.fillText(
-          "❈",
-          1590,
-          2260
-        );
-
-
-        ctx.textAlign =
-          "center";
-
-
-        function drawText(
-          value,
-          y,
-          font,
-          colour="#3f281b"
-        ){
-
-          ctx.fillStyle =
-            colour;
-
-
-          ctx.font =
-            font;
-
-
-          ctx.fillText(
-            value,
-            900,
-            y
-          );
-
-        }
-
-
-        /*
-          GANESHA
-        */
-
-        drawText(
-          "ॐ",
-          300,
-          '100px "Cormorant Garamond"',
-          "#b6782d"
-        );
-
-
-        drawText(
-          "॥ SHRI GANESHAYA NAMAH ॥",
-          380,
-          '38px "Cormorant Garamond"',
-          "#744313"
-        );
-
-
-        drawText(
-          "WITH THE BLESSINGS OF OUR FAMILIES",
-          500,
-          '600 27px "Manrope"',
-          "#744313"
-        );
-
-
-        /*
-          COUPLE
-        */
-
-        drawText(
-          "Nikhil",
-          690,
-          '500 142px "Cormorant Garamond"'
-        );
-
-
-        drawText(
-          "&",
-          785,
-          'italic 86px "Cormorant Garamond"',
-          "#b6782d"
-        );
-
-
-        drawText(
-          "Supriya",
-          930,
-          '500 142px "Cormorant Garamond"'
-        );
-
-
-        /*
-          PERSONAL GUEST
-        */
-
-        drawText(
-          "request the pleasure and blessings of",
-          1060,
-          '42px "Cormorant Garamond"',
-          "#684733"
-        );
-
-
-        const guest =
-          displayName();
-
-
-        let guestFont =
-          88;
-
-
-        if(guest.length > 22){
-          guestFont = 70;
-        }
-
-
-        if(guest.length > 32){
-          guestFont = 58;
-        }
-
-
-        drawText(
-          guest,
-          1180,
-          `600 ${guestFont}px "Cormorant Garamond"`,
-          "#903a30"
-        );
-
-
-        drawText(
-          "as we celebrate the beginning of our life together",
-          1275,
-          '40px "Cormorant Garamond"',
-          "#684733"
-        );
-
-
-        drawText(
-          "❈",
-          1375,
-          '48px "Cormorant Garamond"',
-          "#b6782d"
-        );
-
-
-        /*
-          EVENTS
-        */
-
-        drawText(
-          "ENGAGEMENT",
-          1500,
-          '600 28px "Manrope"',
-          "#8a541d"
-        );
-
-
-        drawText(
-          "21 November 2026 · 10:30 AM · Lake Lawn",
-          1558,
-          '39px "Cormorant Garamond"'
-        );
-
-
-        drawText(
-          "RECEPTION",
-          1680,
-          '600 28px "Manrope"',
-          "#8a541d"
-        );
-
-
-        drawText(
-          "21 November 2026 · 6:00 PM · Lake Lawn",
-          1738,
-          '39px "Cormorant Garamond"'
-        );
-
-
-        drawText(
-          "MUHURTHAM",
-          1860,
-          '600 28px "Manrope"',
-          "#8a541d"
-        );
-
-
-        drawText(
-          "22 November 2026 · 8:30–10:00 AM · Palm Beach Lawn",
-          1918,
-          '39px "Cormorant Garamond"'
-        );
-
-
-        /*
-          VENUE
-        */
-
-        drawText(
-          "MGM BEACH RESORT",
-          2070,
-          '600 31px "Manrope"',
-          "#744313"
-        );
-
-
-        drawText(
-          "ECR · Chennai",
-          2130,
-          '42px "Cormorant Garamond"',
-          "#684733"
-        );
-
-
-        drawText(
-          "Your presence and blessings will mean the world to us.",
-          2220,
-          'italic 40px "Cormorant Garamond"',
-          "#684733"
-        );
-
-
-        /*
-          EXPORT
-        */
-
-        canvas.toBlob(
-
-          async blob=>{
-
-
-            if(!blob){
-
-              button.textContent =
-                "Try Again";
-
-              return;
-
-            }
-
-
-            const safeGuest =
-              guest
-                .replace(
-                  /[^a-z0-9]+/gi,
-                  "-"
-                )
-                .replace(
-                  /^-|-$/g,
-                  ""
-                )
-                || "Guest";
-
-
-            const filename =
-              `Nikhil-Supriya-Invitation-${safeGuest}.jpg`;
-
-
-            logGuestEvent(
-              "invite_saved"
-            );
-
-
-            /*
-              MOBILE SAVE / SHARE
-            */
-
-            try{
-
-
-              const file =
-                new File(
-
-                  [blob],
-
-                  filename,
-
-                  {
-                    type:
-                      "image/jpeg"
-                  }
-
-                );
-
-
-              if(
-                navigator.share &&
-                navigator.canShare &&
-                navigator.canShare({
-                  files:[file]
-                })
-              ){
-
-                await navigator.share({
-
-                  files:[file],
-
-                  title:
-                    "Nikhil & Supriya Wedding Invitation"
-
-                });
-
-
-                button.textContent =
-                  "Save My Invitation";
-
-
-                return;
-
-              }
-
-
-            }catch(error){}
-
-
-            /*
-              DESKTOP FALLBACK
-            */
-
-            const url =
-              URL.createObjectURL(
-                blob
-              );
-
-
-            const link =
-              document.createElement(
-                "a"
-              );
-
-
-            link.href =
-              url;
-
-
-            link.download =
-              filename;
-
-
-            document.body.appendChild(
-              link
-            );
-
-
-            link.click();
-
-
-            link.remove();
-
-
-            setTimeout(()=>{
-
-              URL.revokeObjectURL(
-                url
-              );
-
-            },1500);
-
-
-            button.textContent =
-              "Save My Invitation";
-
-          },
-
-          "image/jpeg",
-
-          .96
-
-        );
-
 
       }catch(error){
 
+        if(error && error.name==="AbortError"){
 
-        console.error(
-          error
-        );
+          button.textContent="Save My Invitation";
+          button.disabled=false;
 
-
-        button.textContent =
-          "Try Again";
-
+          return;
+        }
       }
 
-    }
-  );
+      /*
+        Desktop/browser fallback.
+      */
 
+      const url=URL.createObjectURL(blob);
+      const link=document.createElement("a");
+
+      link.href=url;
+      link.download=filename;
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(()=>{
+        URL.revokeObjectURL(url);
+      },1500);
+
+      button.textContent="Save My Invitation";
+      button.disabled=false;
+
+    },"image/jpeg",.97);
+
+  }catch(error){
+
+    console.error(error);
+
+    button.textContent="Try Again";
+    button.disabled=false;
+  }
+};
 
 /* =========================================================
-   SAFE PERSONALIZED TEXT
+   SAFE TEXT
 ========================================================= */
 
-function escapeHTML(value){
-
+function safe(value){
   return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
-
 </script>
 
 </body>

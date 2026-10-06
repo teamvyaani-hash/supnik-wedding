@@ -757,7 +757,6 @@ a {
   scroll-snap-align: center;
   isolation: isolate;
 }
-
 .story-card img {
   position: absolute;
   inset: 0;
@@ -1186,156 +1185,6 @@ a {
 
 
 /* =========================================================
-   BANGALORE × CHENNAI
-========================================================= */
-
-.blr-feature {
-  padding: 84px 20px;
-  background:
-    radial-gradient(
-      circle at top,
-      #fffdf9,
-      #f7e7df 60%,
-      #efd8d0
-    );
-}
-
-.blr-feature-inner {
-  width: min(920px, 100%);
-  margin: 0 auto;
-  text-align: center;
-}
-
-.blr-personal {
-  max-width: 600px;
-  margin: 0 auto 24px;
-  color: var(--muted);
-  font-size: 0.85rem;
-  line-height: 1.65;
-}
-
-.blr-feature h2 {
-  margin: 0;
-  color: var(--brown);
-  font-family: var(--serif);
-  font-size: clamp(3rem, 10vw, 7rem);
-  font-weight: 500;
-  line-height: 0.95;
-}
-
-.blr-feature h2 span {
-  color: var(--gold);
-}
-
-.blr-intro {
-  max-width: 620px;
-  margin: 28px auto 0;
-  color: var(--text);
-  font-size: 1rem;
-  line-height: 1.8;
-}
-
-.blr-teasers {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 42px;
-}
-
-.blr-teasers > div {
-  min-height: 120px;
-  padding: 22px;
-  border: 1px solid rgba(164, 119, 62, 0.15);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.58);
-  text-align: left;
-}
-
-.blr-teasers span {
-  color: var(--gold);
-  font-family: var(--serif);
-  font-size: 1.5rem;
-}
-
-.blr-teasers p {
-  margin: 12px 0 0;
-  color: var(--text);
-  font-size: 0.84rem;
-  line-height: 1.55;
-}
-
-.blr-enter-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 56px;
-  margin-top: 35px;
-  padding: 0 30px;
-  border-radius: 999px;
-  background: var(--brown);
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.11em;
-  box-shadow: var(--soft-shadow);
-}
-
-.blr-disclaimer {
-  margin: 16px auto 0;
-  color: var(--muted);
-  font-size: 0.68rem;
-}
-
-
-/* =========================================================
-   HELP DESK
-========================================================= */
-
-.wedding-help {
-  padding: 82px 20px;
-  background: #fffaf5;
-  text-align: center;
-}
-
-.wedding-help h2 {
-  margin: 0;
-  color: var(--brown);
-  font-family: var(--serif);
-  font-size: clamp(2.5rem, 7vw, 4.8rem);
-  font-weight: 500;
-  line-height: 1.08;
-}
-
-.help-options {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-top: 34px;
-}
-
-.help-options button {
-  min-height: 58px;
-  padding: 12px 18px;
-  border: 1px solid rgba(73, 51, 45, 0.15);
-  border-radius: 999px;
-  background: white;
-  color: var(--brown);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.help-status {
-  min-height: 65px;
-  max-width: 590px;
-  margin: 26px auto 0;
-  color: var(--text);
-  font-size: 0.88rem;
-  line-height: 1.7;
-}
-
-
-/* =========================================================
    CLOSING
 ========================================================= */
 
@@ -1398,6 +1247,113 @@ a {
   color: #f1d6aa;
   font-family: var(--serif);
   font-size: 1.5rem;
+}
+
+
+/* =========================================================
+   CLOSING — BLR × CHENNAI OPTIONAL EXPERIENCE
+========================================================= */
+
+.closing-chaos-card {
+  position: relative;
+  width: min(620px, 100%);
+  margin: 42px auto 0;
+  padding: 30px 28px 27px;
+  overflow: hidden;
+  border: 1px solid rgba(241, 214, 170, 0.38);
+  border-radius: 26px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 250, 245, 0.14),
+      rgba(255, 255, 255, 0.06)
+    );
+  box-shadow:
+    0 18px 50px rgba(20, 12, 10, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.closing-chaos-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 110px;
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(241, 214, 170, 0.9),
+    transparent
+  );
+}
+
+.closing-chaos-kicker {
+  margin: 0;
+  color: #f1d6aa;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.closing-chaos-card h3 {
+  margin: 11px 0 0;
+  color: white;
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 5vw, 2.8rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: 0.015em;
+}
+
+.closing-chaos-card h3 span {
+  color: #f1d6aa;
+  font-weight: 400;
+}
+
+.closing-chaos-copy {
+  margin: 15px auto 0 !important;
+  color: rgba(255, 255, 255, 0.86) !important;
+  font-size: 0.86rem;
+  line-height: 1.65 !important;
+}
+
+.closing-chaos-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  margin-top: 21px;
+  padding: 0 26px;
+  border: 1px solid rgba(241, 214, 170, 0.48);
+  border-radius: 999px;
+  background: rgba(255, 250, 245, 0.94);
+  color: var(--brown);
+  box-shadow: 0 10px 30px rgba(20, 12, 10, 0.16);
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.closing-chaos-button:hover {
+  transform: translateY(-2px);
+  background: white;
+  box-shadow: 0 14px 36px rgba(20, 12, 10, 0.22);
+}
+
+.closing-chaos-small {
+  max-width: 500px !important;
+  margin: 16px auto 0 !important;
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 0.64rem;
+  line-height: 1.65 !important;
 }
 
 .closing-ps {
@@ -1560,7 +1516,6 @@ a {
     opacity 0.28s ease,
     visibility 0.28s ease;
 }
-
 .invite-modal.open {
   opacity: 1;
   visibility: visible;
@@ -2097,37 +2052,31 @@ a {
   }
 
 
-  /* BLR */
-
-  .blr-feature {
-    padding: 68px 18px;
-  }
-
-  .blr-feature h2 {
-    font-size: clamp(3.1rem, 15vw, 5rem);
-  }
-
-  .blr-teasers {
-    grid-template-columns: 1fr;
-  }
-
-
-  /* HELP */
-
-  .wedding-help {
-    padding: 68px 18px;
-  }
-
-  .help-options {
-    grid-template-columns: 1fr;
-  }
-
-
   /* CLOSING */
 
   .closing-section {
     min-height: 72vh;
     padding: 72px 20px 125px;
+  }
+
+  .closing-chaos-card {
+    margin-top: 34px;
+    padding: 25px 18px 23px;
+    border-radius: 23px;
+  }
+
+  .closing-chaos-card h3 {
+    font-size: clamp(1.65rem, 8vw, 2.35rem);
+  }
+
+  .closing-chaos-button {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 18px;
+  }
+
+  .closing-chaos-small {
+    font-size: 0.61rem;
   }
 
 

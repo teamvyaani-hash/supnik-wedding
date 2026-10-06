@@ -62,6 +62,82 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
+  function sessionGet(key) {
+    try {
+      return sessionStorage.getItem(key) || "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+
+  function sessionSet(key, value) {
+    try {
+      sessionStorage.setItem(key, value);
+    } catch (error) {
+      /* Continue without session storage */
+    }
+  }
+
+
+  function sessionRemove(key) {
+    try {
+      sessionStorage.removeItem(key);
+    } catch (error) {
+      /* Nothing required */
+    }
+  }
+
+
+  const ACTIVITY_FORM_URL =
+    "https://docs.google.com/forms/d/e/1FAIpQLSf9dI--LeJV0ZYcRWCN8iDaazydrszNWXkMYluN-7MzUlyDaQ/formResponse";
+
+  const ACTIVITY_NAME_FIELD =
+    "entry.1466085471";
+
+  const ACTIVITY_FIELD =
+    "entry.441812958";
+
+
+  function logActivity(activity) {
+
+    if (!guestName || !activity) {
+      return;
+    }
+
+    try {
+
+      const formData =
+        new FormData();
+
+      formData.append(
+        ACTIVITY_NAME_FIELD,
+        cleanName(guestName)
+      );
+
+      formData.append(
+        ACTIVITY_FIELD,
+        String(activity)
+      );
+
+      fetch(
+        ACTIVITY_FORM_URL,
+        {
+          method: "POST",
+          body: formData,
+          mode: "no-cors",
+          keepalive: true
+        }
+      ).catch(function () {
+        /* Tracking must never interrupt the website */
+      });
+
+    } catch (error) {
+      /* Tracking must never interrupt the website */
+    }
+  }
+
+
   function safeFilename(value) {
     return cleanName(value)
       .replace(/[^a-zA-Z0-9_-]+/g, "-")
@@ -105,6 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const NAME_KEY = "nsGuestName";
   const SIDE_KEY = "nsGuestSide";
 
+  const BLR_SCROLL_KEY = "nsMainScrollY";
+  const BLR_RETURN_KEY = "nsReturnFromBlr";
+  const MAIN_LOGGED_KEY = "nsMainEnteredLogged";
+
   let guestName = storageGet(NAME_KEY);
   let guestSide = storageGet(SIDE_KEY);
 
@@ -122,6 +202,41 @@ document.addEventListener("DOMContentLoaded", function () {
   const gateWelcomeMessage = $("#gateWelcomeMessage");
 
   const changeGuest = $("#changeGuest");
+
+
+  function sideLabel(side) {
+
+    if (side === "groom") {
+      return "Nikhil";
+    }
+
+    if (side === "bride") {
+      return "Supriya";
+    }
+
+    return "Both";
+  }
+
+
+  function logMainEntry() {
+
+    if (
+      !guestName ||
+      !guestSide ||
+      sessionGet(MAIN_LOGGED_KEY)
+    ) {
+      return;
+    }
+
+    sessionSet(
+      MAIN_LOGGED_KEY,
+      "1"
+    );
+
+    logActivity(
+      `main_entered | side=${sideLabel(guestSide)}`
+    );
+  }
 
 
   /* =======================================================
@@ -152,29 +267,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  function blrMessage(side, name) {
-
-    if (side === "groom") {
-      return (
-        `${name}, you came here through Nikhil. ` +
-        `Expectations have been adjusted accordingly.`
-      );
-    }
-
-    if (side === "bride") {
-      return (
-        `${name}, you came here through Supriya. ` +
-        `We expected you to read the instructions.`
-      );
-    }
-
-    return (
-      `${name}, neutral party detected. ` +
-      `That probably won't last long.`
-    );
-  }
-
-
   function applyPersonalisation() {
 
     if (!guestName) {
@@ -186,7 +278,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const heroPersonal = $("#heroPersonal");
     const countdownHeading = $("#countdownHeading");
     const quizIntroTitle = $("#quizIntroTitle");
-    const blrPersonal = $("#blrPersonal");
     const closingGuestName = $("#closingGuestName");
 
     const invitePreviewGuest = $("#invitePreviewGuest");
@@ -208,12 +299,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (quizIntroTitle) {
       quizIntroTitle.textContent =
         `Alright ${name}, let's make some accusations.`;
-    }
-
-
-    if (blrPersonal) {
-      blrPersonal.textContent =
-        blrMessage(guestSide, name);
     }
 
 
@@ -322,6 +407,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     applyPersonalisation();
 
+    logMainEntry();
+
 
     /*
       IMPORTANT:
@@ -424,6 +511,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* RETURNING GUEST */
 
+  const returningFromBlr =
+    sessionGet(BLR_RETURN_KEY) === "1";
+
+  const savedMainScroll =
+    Number(
+      sessionGet(BLR_SCROLL_KEY)
+    ) || 0;
+
+
+  if (returningFromBlr) {
+    sessionRemove(BLR_RETURN_KEY);
+  }
+
+
   if (guestName && guestSide) {
 
     if (guestGate) {
@@ -434,11 +535,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
     applyPersonalisation();
 
-    hardResetToHeroTop();
+    logMainEntry();
 
-    requestAnimationFrame(
-      hardResetToHeroTop
-    );
+
+    if (returningFromBlr) {
+
+      const restoreMainPosition =
+        function () {
+
+          window.scrollTo({
+            top: savedMainScroll,
+            left: 0,
+            behavior: "auto"
+          });
+        };
+
+
+      requestAnimationFrame(
+        function () {
+
+          restoreMainPosition();
+
+          setTimeout(
+            restoreMainPosition,
+            80
+          );
+
+          setTimeout(
+            restoreMainPosition,
+            250
+          );
+        }
+      );
+
+    } else {
+
+      hardResetToHeroTop();
+
+      requestAnimationFrame(
+        hardResetToHeroTop
+      );
+    }
 
   } else if (guestName && !guestSide) {
 
@@ -1513,7 +1650,10 @@ document.addEventListener("DOMContentLoaded", function () {
         "20261121T063000Z",
 
       location:
-        "Lake Lawn, MGM Beach Resort, ECR, Chennai"
+        "Lake Lawn, MGM Beach Resort, ECR, Chennai",
+
+      details:
+        "Nikhil & Supriya · Engagement · 21 November 2026 · 10:30 AM"
     },
 
 
@@ -1528,7 +1668,10 @@ document.addEventListener("DOMContentLoaded", function () {
         "20261121T160000Z",
 
       location:
-        "Lake Lawn, MGM Beach Resort, ECR, Chennai"
+        "Lake Lawn, MGM Beach Resort, ECR, Chennai",
+
+      details:
+        "Nikhil & Supriya · Reception · 21 November 2026 · 6:00 PM"
     },
 
 
@@ -1543,7 +1686,10 @@ document.addEventListener("DOMContentLoaded", function () {
         "20261122T043000Z",
 
       location:
-        "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai"
+        "Palm Beach Lawn, MGM Beach Resort, ECR, Chennai",
+
+      details:
+        "Nikhil & Supriya · Muhurtham · 22 November 2026 · 8:30–10:00 AM"
     }
 
   };
@@ -1569,7 +1715,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       "PRODID:-//Nikhil and Supriya Wedding//EN",
 
-      "CALSCALE:GREGORIAN"
+      "CALSCALE:GREGORIAN",
+
+      "METHOD:PUBLISH"
 
     ];
 
@@ -1591,6 +1739,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
           `UID:${key}-2026@supnik.in`,
 
+          `DTSTAMP:${event.start}`,
+
           `DTSTART:${event.start}`,
 
           `DTEND:${event.end}`,
@@ -1599,7 +1749,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
           `LOCATION:${escapeICS(event.location)}`,
 
-          "DESCRIPTION:Nikhil & Supriya · 21–22 November 2026",
+          `DESCRIPTION:${escapeICS(event.details)}`,
+
+          "STATUS:CONFIRMED",
 
           "END:VEVENT"
         );
@@ -1618,29 +1770,63 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  function downloadCalendar(key) {
+  function googleCalendarUrl(key) {
+
+    const event =
+      calendarEvents[key];
+
+
+    if (!event) {
+      return "";
+    }
+
+
+    const params =
+      new URLSearchParams({
+        action: "TEMPLATE",
+        text: event.title,
+        dates:
+          `${event.start}/${event.end}`,
+        details: event.details,
+        location: event.location,
+        ctz: "Asia/Kolkata"
+      });
+
+
+    return (
+      "https://calendar.google.com/calendar/render?" +
+      params.toString()
+    );
+  }
+
+
+  function openSingleCalendar(key) {
 
     if (!calendarEvents[key]) {
       return;
     }
 
 
-    const blob =
-      new Blob(
-        [
-          buildCalendar([key])
-        ],
-        {
-          type:
-            "text/calendar;charset=utf-8"
-        }
+    logActivity(
+      `calendar_added | ${key}`
+    );
+
+
+    const url =
+      googleCalendarUrl(key);
+
+
+    const opened =
+      window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
       );
 
 
-    downloadBlob(
-      blob,
-      `${key}-nikhil-supriya.ics`
-    );
+    if (!opened) {
+      window.location.href = url;
+    }
   }
 
 
@@ -1662,6 +1848,11 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
+    logActivity(
+      "calendar_added | all"
+    );
+
+
     downloadBlob(
       blob,
       "Nikhil-Supriya-Wedding.ics"
@@ -1676,7 +1867,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "click",
         function () {
 
-          downloadCalendar(
+          openSingleCalendar(
             button.dataset.calendar
           );
         }
@@ -1692,55 +1883,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =======================================================
-     WEDDING HELP DESK
+     BLR × CHENNAI
   ======================================================= */
 
-  const helpStatus =
-    $("#helpStatus");
+  $("#blrChnLink")?.addEventListener(
+    "click",
+    function () {
 
+      sessionSet(
+        BLR_SCROLL_KEY,
+        String(window.scrollY)
+      );
 
-  const helpResponses = {
+      sessionRemove(
+        BLR_RETURN_KEY
+      );
 
-    late:
-      "Running late? Congratulations. You have unlocked the authentic Indian-wedding guest experience. Please still leave now.",
-
-    outfit:
-      "Wear the thing you almost chose first. Confidence is now the official dress code.",
-
-    lost:
-      "MGM Beach Resort, ECR, Chennai. Open Maps. Trust Maps. This is not the moment for intuition.",
-
-    hungry:
-      "A wedding guest asking about food? Completely unprecedented. Please maintain composure."
-
-  };
-
-
-  $$("[data-help]").forEach(
-    function (button) {
-
-      button.addEventListener(
-        "click",
-        function () {
-
-          if (!helpStatus) {
-            return;
-          }
-
-
-          const name =
-            firstName(guestName);
-
-
-          const response =
-            helpResponses[
-              button.dataset.help
-            ];
-
-
-          helpStatus.textContent =
-            `${name}, ${response}`;
-        }
+      logActivity(
+        "blr_opened"
       );
     }
   );
@@ -3113,6 +3273,11 @@ document.addEventListener("DOMContentLoaded", function () {
               "21–22 November 2026 · MGM Beach Resort · ECR Chennai"
           });
 
+
+          logActivity(
+            "invite_saved"
+          );
+
         } catch (shareError) {
 
           /*
@@ -3129,6 +3294,11 @@ document.addEventListener("DOMContentLoaded", function () {
               blob,
               filename
             );
+
+
+            logActivity(
+              "invite_saved"
+            );
           }
         }
 
@@ -3137,6 +3307,11 @@ document.addEventListener("DOMContentLoaded", function () {
         downloadBlob(
           blob,
           filename
+        );
+
+
+        logActivity(
+          "invite_saved"
         );
       }
 

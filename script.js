@@ -180,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const NAME_KEY = "nsGuestName";
   const SIDE_KEY = "nsGuestSide";
-
   const BLR_SCROLL_KEY = "nsMainScrollY";
   const BLR_RETURN_KEY = "nsReturnFromBlr";
   const MAIN_LOGGED_KEY = "nsMainEnteredLogged";
@@ -277,7 +276,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const heroPersonal = $("#heroPersonal");
     const countdownHeading = $("#countdownHeading");
-    const quizIntroTitle = $("#quizIntroTitle");
     const closingGuestName = $("#closingGuestName");
 
     const invitePreviewGuest = $("#invitePreviewGuest");
@@ -293,12 +291,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (countdownHeading) {
       countdownHeading.textContent =
         `${name}, the countdown is officially on.`;
-    }
-
-
-    if (quizIntroTitle) {
-      quizIntroTitle.textContent =
-        `Alright ${name}, let's make some accusations.`;
     }
 
 
@@ -410,17 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
     logMainEntry();
 
 
-    /*
-      IMPORTANT:
-      Keep the personalised message visible for ~3 seconds.
-    */
-
     setTimeout(function () {
-
-      /*
-        Put the underlying website at the absolute beginning
-        BEFORE revealing it.
-      */
 
       hardResetToHeroTop();
 
@@ -434,11 +416,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (guestGate) {
           guestGate.style.display = "none";
         }
-
-        /*
-          Second reset prevents mobile browsers from restoring
-          the previous layout position during the fade.
-        */
 
         hardResetToHeroTop();
 
@@ -603,6 +580,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       storageRemove(NAME_KEY);
       storageRemove(SIDE_KEY);
+      sessionRemove(MAIN_LOGGED_KEY);
 
       guestName = "";
       guestSide = "";
@@ -1204,436 +1182,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   /* =======================================================
-     COUPLE QUIZ
-     NO RIGHT OR WRONG ANSWERS
-  ======================================================= */
-
-  const quizQuestions = [
-
-    "Who is more likely to say “I'm ready” while clearly not being ready?",
-
-    "Who is more likely to remember exactly what you said three years ago?",
-
-    "Who is more likely to turn a quick errand into a full itinerary?",
-
-    "Who is more likely to create the spreadsheet?",
-
-    "Who is more likely to start dancing first?",
-
-    "Who is more likely to insist they know the route while Google Maps is already open?",
-
-    "Who is more likely to say “I'm not hungry” and then immediately reconsider?",
-
-    "Who is more likely to make a five-minute decision require a forty-minute discussion?",
-
-    "Who is more likely to befriend a complete stranger while waiting somewhere?",
-
-    "Who is more likely to say “keep it simple” immediately before making it more elaborate?"
-
-  ];
-
-
-  function shuffle(array) {
-
-    const copy =
-      [...array];
-
-
-    for (
-      let index =
-        copy.length - 1;
-
-      index > 0;
-
-      index--
-    ) {
-
-      const randomIndex =
-        Math.floor(
-          Math.random() *
-          (index + 1)
-        );
-
-
-      [
-        copy[index],
-        copy[randomIndex]
-      ] = [
-        copy[randomIndex],
-        copy[index]
-      ];
-    }
-
-
-    return copy;
-  }
-
-
-  let quizSet = [];
-
-  let quizIndex = 0;
-
-  let quizLocked = false;
-
-
-  let votes = {
-    nikhil: 0,
-    supriya: 0,
-    both: 0
-  };
-
-
-  const quizStart =
-    $("#quizStart");
-
-  const quizGame =
-    $("#quizGame");
-
-  const quizResult =
-    $("#quizResult");
-
-  const startQuiz =
-    $("#startQuiz");
-
-  const restartQuiz =
-    $("#restartQuiz");
-
-  const quizProgress =
-    $("#quizProgress");
-
-  const quizScore =
-    $("#quizScore");
-
-  const quizQuestion =
-    $("#quizQuestion");
-
-  const quizOptions =
-    $("#quizOptions");
-
-  const quizReaction =
-    $("#quizReaction");
-
-  const quizResultTitle =
-    $("#quizResultTitle");
-
-  const quizResultText =
-    $("#quizResultText");
-
-
-  function beginQuiz() {
-
-    quizSet =
-      shuffle(
-        quizQuestions
-      ).slice(0, 6);
-
-
-    quizIndex = 0;
-
-    quizLocked = false;
-
-
-    votes = {
-      nikhil: 0,
-      supriya: 0,
-      both: 0
-    };
-
-
-    quizStart?.classList.add(
-      "hidden"
-    );
-
-    quizResult?.classList.add(
-      "hidden"
-    );
-
-    quizGame?.classList.remove(
-      "hidden"
-    );
-
-
-    renderQuiz();
-  }
-
-
-  function renderQuiz() {
-
-    if (
-      quizIndex >=
-      quizSet.length
-    ) {
-
-      finishQuiz();
-
-      return;
-    }
-
-
-    quizLocked = false;
-
-
-    if (quizProgress) {
-      quizProgress.textContent =
-        `${quizIndex + 1} / 6`;
-    }
-
-
-    if (quizScore) {
-      quizScore.textContent =
-        `ACCUSATION · ${quizIndex + 1}`;
-    }
-
-
-    if (quizQuestion) {
-      quizQuestion.textContent =
-        quizSet[quizIndex];
-    }
-
-
-    if (quizReaction) {
-      quizReaction.textContent =
-        "";
-    }
-
-
-    if (!quizOptions) {
-      return;
-    }
-
-
-    quizOptions.innerHTML = "";
-
-
-    const options = [
-
-      {
-        label: "Nikhil",
-        value: "nikhil"
-      },
-
-      {
-        label: "Supriya",
-        value: "supriya"
-      },
-
-      {
-        label: "Both. Obviously.",
-        value: "both"
-      }
-
-    ];
-
-
-    options.forEach(
-      function (option) {
-
-        const button =
-          document.createElement(
-            "button"
-          );
-
-
-        button.type =
-          "button";
-
-        button.className =
-          "quiz-option";
-
-        button.textContent =
-          option.label;
-
-
-        button.addEventListener(
-          "click",
-          function () {
-
-            if (quizLocked) {
-              return;
-            }
-
-
-            quizLocked = true;
-
-            votes[
-              option.value
-            ]++;
-
-
-            if (
-              option.value ===
-              "nikhil"
-            ) {
-
-              quizReaction.textContent =
-                "A confident Nikhil accusation. Filed without comment.";
-
-            } else if (
-              option.value ===
-              "supriya"
-            ) {
-
-              quizReaction.textContent =
-                "Supriya gets the vote. The official record has been updated.";
-
-            } else {
-
-              quizReaction.textContent =
-                "Diplomatic answer. Strong wedding-survival instincts.";
-            }
-
-
-            button.style.background =
-              "#49332d";
-
-            button.style.color =
-              "#ffffff";
-
-
-            setTimeout(
-              function () {
-
-                quizIndex++;
-
-                renderQuiz();
-
-              },
-              750
-            );
-          }
-        );
-
-
-        quizOptions.appendChild(
-          button
-        );
-      }
-    );
-  }
-
-
-  function finishQuiz() {
-
-    quizGame?.classList.add(
-      "hidden"
-    );
-
-    quizResult?.classList.remove(
-      "hidden"
-    );
-
-
-    const name =
-      firstName(guestName);
-
-
-    const highest =
-      Math.max(
-        votes.nikhil,
-        votes.supriya,
-        votes.both
-      );
-
-
-    const leaders =
-      Object.keys(
-        votes
-      ).filter(
-        function (key) {
-
-          return (
-            votes[key] ===
-            highest
-          );
-        }
-      );
-
-
-    if (
-      leaders.length > 1
-    ) {
-
-      if (quizResultTitle) {
-        quizResultTitle.textContent =
-          `${name}, perfectly balanced.`;
-      }
-
-
-      if (quizResultText) {
-        quizResultText.textContent =
-          "Six questions and you still refused to establish a clear pattern. Excellent diplomatic instincts.";
-      }
-
-      return;
-    }
-
-
-    if (
-      leaders[0] ===
-      "nikhil"
-    ) {
-
-      if (quizResultTitle) {
-        quizResultTitle.textContent =
-          `${name}, you kept pointing at Nikhil.`;
-      }
-
-
-      if (quizResultText) {
-        quizResultText.textContent =
-          "We are not confirming or denying anything. Your voting record has been noted.";
-      }
-
-      return;
-    }
-
-
-    if (
-      leaders[0] ===
-      "supriya"
-    ) {
-
-      if (quizResultTitle) {
-        quizResultTitle.textContent =
-          `${name}, Supriya received most of your accusations.`;
-      }
-
-
-      if (quizResultText) {
-        quizResultText.textContent =
-          "Interesting. Very interesting. This information may or may not be used against you at the wedding.";
-      }
-
-      return;
-    }
-
-
-    if (quizResultTitle) {
-      quizResultTitle.textContent =
-        `${name}, diplomacy wins.`;
-    }
-
-
-    if (quizResultText) {
-      quizResultText.textContent =
-        "You spent six questions blaming both of them equally. Probably the safest possible strategy.";
-    }
-  }
-
-
-  startQuiz?.addEventListener(
-    "click",
-    beginQuiz
-  );
-
-
-  restartQuiz?.addEventListener(
-    "click",
-    beginQuiz
-  );
-
-
-  /* =======================================================
      CALENDAR
   ======================================================= */
 
@@ -1770,6 +1318,45 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
+  function isAppleMobile() {
+
+    const userAgent =
+      navigator.userAgent || "";
+
+    return (
+      /iPad|iPhone|iPod/.test(userAgent) ||
+      (navigator.platform === "MacIntel" &&
+        navigator.maxTouchPoints > 1)
+    );
+  }
+
+
+  function downloadSingleCalendar(key) {
+
+    if (!calendarEvents[key]) {
+      return;
+    }
+
+
+    const blob =
+      new Blob(
+        [
+          buildCalendar([key])
+        ],
+        {
+          type:
+            "text/calendar;charset=utf-8"
+        }
+      );
+
+
+    downloadBlob(
+      blob,
+      `${key}-nikhil-supriya.ics`
+    );
+  }
+
+
   function googleCalendarUrl(key) {
 
     const event =
@@ -1810,6 +1397,12 @@ document.addEventListener("DOMContentLoaded", function () {
     logActivity(
       `calendar_added | ${key}`
     );
+
+
+    if (isAppleMobile()) {
+      downloadSingleCalendar(key);
+      return;
+    }
 
 
     const url =
@@ -2245,10 +1838,6 @@ document.addEventListener("DOMContentLoaded", function () {
       "invite-open"
     );
 
-
-    /*
-      Put guest exactly back where they were.
-    */
 
     window.scrollTo({
       top: inviteScrollPosition,
@@ -2722,10 +2311,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
 
-      /*
-        BASE
-      */
-
       context.fillStyle =
         "#fffaf5";
 
@@ -2736,10 +2321,6 @@ document.addEventListener("DOMContentLoaded", function () {
         canvas.height
       );
 
-
-      /*
-        TOP TEMPLE ARTWORK
-      */
 
       coverImage(
         context,
@@ -2787,10 +2368,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-      /*
-        COASTAL BOTTOM
-      */
-
       coverImage(
         context,
         coastImage,
@@ -2837,10 +2414,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-      /*
-        OUTER POSTER BORDER
-      */
-
       context.strokeStyle =
         "rgba(164,119,62,0.72)";
 
@@ -2870,10 +2443,6 @@ document.addEventListener("DOMContentLoaded", function () {
         2234
       );
 
-
-      /*
-        MONOGRAM
-      */
 
       context.beginPath();
 
@@ -2921,10 +2490,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-      /*
-        KICKER
-      */
-
       context.textBaseline =
         "alphabetic";
 
@@ -2942,10 +2507,6 @@ document.addEventListener("DOMContentLoaded", function () {
         385
       );
 
-
-      /*
-        NAMES
-      */
 
       context.fillStyle =
         "#49332d";
@@ -2995,10 +2556,6 @@ document.addEventListener("DOMContentLoaded", function () {
         810
       );
 
-
-      /*
-        PERSONALISED GUEST LINE
-      */
 
       const displayGuest =
         firstName(guestName)
@@ -3050,10 +2607,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-      /*
-        DATE
-      */
-
       context.fillStyle =
         "#a4773e";
 
@@ -3081,10 +2634,6 @@ document.addEventListener("DOMContentLoaded", function () {
         1155
       );
 
-
-      /*
-        EVENTS
-      */
 
       canvasLine(
         context,
@@ -3133,10 +2682,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-      /*
-        LOWER EDITORIAL STATEMENT
-      */
-
       drawOrnament(
         context,
         900,
@@ -3183,10 +2728,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-      /*
-        BOTTOM COASTAL CAPTION
-      */
-
       context.fillStyle =
         "#fffaf5";
 
@@ -3212,10 +2753,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
 
-      /*
-        JPG
-      */
-
       const blob =
         await new Promise(
           function (resolve) {
@@ -3239,11 +2776,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const filename =
         `Nikhil-Supriya-Invitation-${safeFilename(firstName(guestName))}.jpg`;
 
-
-      /*
-        MOBILE SHARE SHEET WHEN AVAILABLE.
-        OTHERWISE NORMAL DOWNLOAD.
-      */
 
       const file =
         new File(
@@ -3279,11 +2811,6 @@ document.addEventListener("DOMContentLoaded", function () {
           );
 
         } catch (shareError) {
-
-          /*
-            If guest simply closes Share,
-            don't force a second download.
-          */
 
           if (
             shareError?.name !==

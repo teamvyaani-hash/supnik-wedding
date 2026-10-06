@@ -459,6 +459,75 @@
       text-transform: uppercase;
     }
 
+    .census-card {
+      max-width: 690px;
+      margin: 0 auto 30px;
+      padding: 28px 24px 24px;
+      border: 1px solid rgba(173, 130, 71, 0.18);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.66);
+      box-shadow: var(--soft-shadow);
+    }
+        .census-kicker {
+      margin: 0 0 7px;
+      color: var(--gold);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .census-card h3 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+    }
+
+    .census-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .census-city {
+      padding: 17px 10px;
+      border-radius: 20px;
+      background: rgba(255, 250, 245, 0.78);
+    }
+
+    .census-city span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .census-city strong {
+      display: block;
+      margin-top: 8px;
+      color: var(--brown);
+      font-family: var(--serif);
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .census-vs {
+      color: var(--gold);
+      font-family: var(--serif);
+      font-size: 0.9rem;
+    }
+
+    .census-status {
+      min-height: 22px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 0.74rem;
+      line-height: 1.55;
+    }
+
     .roast-counter {
       display: inline-block;
       margin-bottom: 18px;
@@ -504,7 +573,11 @@
     #roastButton,
     #restartRoasts,
     #transferButton {
+      width: fit-content;
+      min-width: 230px;
       min-height: 56px;
+      margin-left: auto;
+      margin-right: auto;
       padding: 0 27px;
       border: 0;
       border-radius: 999px;
@@ -514,6 +587,8 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      align-items: center;
+      justify-content: center;
       transition:
         transform 0.2s ease,
         background 0.2s ease;
@@ -667,6 +742,19 @@
       .city-grid,
       .city-choice-grid {
         grid-template-columns: 1fr;
+      }
+
+      .census-card {
+        padding: 24px 16px 20px;
+      }
+
+      .census-grid {
+        grid-template-columns: 1fr auto 1fr;
+        gap: 8px;
+      }
+
+      .census-city {
+        padding: 15px 7px;
       }
 
       .language-grid {
@@ -1014,6 +1102,30 @@
 
       <p class="allegiance-status" id="allegianceStatus"></p>
 
+      <div class="census-card" id="cityCensus">
+        <p class="census-kicker">LIVE WEDDING SCOREBOARD</p>
+
+        <h3>THE GREAT WEDDING CITY CENSUS</h3>
+
+        <div class="census-grid">
+          <div class="census-city">
+            <span>BANGALORE</span>
+            <strong id="bangaloreCount">—</strong>
+          </div>
+
+          <div class="census-vs">VS</div>
+
+          <div class="census-city">
+            <span>CHENNAI</span>
+            <strong id="chennaiCount">—</strong>
+          </div>
+        </div>
+
+        <p class="census-status" id="censusStatus">
+          Connecting to the diplomatic counting centre…
+        </p>
+      </div>
+
       <span class="roast-counter" id="roastCounter">
         CHOOSE A CITY TO BEGIN
       </span>
@@ -1097,6 +1209,7 @@
 
     const NAME_KEY = "nsGuestName";
     const CITY_KEY = "nsBlrCity";
+    const VOTER_KEY = "nsBlrVoterId";
     const RETURN_KEY = "nsReturnFromBlr";
 
 
@@ -1180,6 +1293,181 @@
         /* Tracking must never interrupt the page */
       }
     }
+
+
+    function getVoterId() {
+      let voterId = storageGet(VOTER_KEY);
+
+      if (voterId) {
+        return voterId;
+      }
+
+      if (
+        window.crypto &&
+        typeof window.crypto.randomUUID === "function"
+      ) {
+        voterId = window.crypto.randomUUID();
+      } else {
+        voterId =
+          "guest-" +
+          Date.now().toString(36) +
+          "-" +
+          Math.random().toString(36).slice(2, 12);
+      }
+
+      storageSet(VOTER_KEY, voterId);
+
+      return voterId;
+    }
+
+
+    const voterId = getVoterId();
+
+    const bangaloreCount =
+      document.getElementById("bangaloreCount");
+
+    const chennaiCount =
+      document.getElementById("chennaiCount");
+
+    const censusStatus =
+      document.getElementById("censusStatus");
+
+
+    function renderCensus(bangalore, chennai) {
+      const blr = Number(bangalore) || 0;
+      const chn = Number(chennai) || 0;
+
+      bangaloreCount.textContent = String(blr);
+      chennaiCount.textContent = String(chn);
+
+      if (blr === 0 && chn === 0) {
+        censusStatus.textContent =
+          "The diplomatic delegation is still arriving.";
+        return;
+      }
+
+      if (blr > chn) {
+        censusStatus.textContent =
+          `Bangalore leads by ${blr - chn}. Chennai has requested a recount.`;
+        return;
+      }
+
+      if (chn > blr) {
+        censusStatus.textContent =
+          `Chennai leads by ${chn - blr}. Bangalore says traffic delayed its voters.`;
+        return;
+      }
+
+      censusStatus.textContent =
+        "Perfect tie. Nobody mention cricket.";
+    }
+
+
+    function censusUnavailable() {
+      bangaloreCount.textContent = "—";
+      chennaiCount.textContent = "—";
+
+      if (
+        window.location.hostname.endsWith(
+          "github.io"
+        )
+      ) {
+        censusStatus.textContent =
+          "Live totals activate on supnik.in. The GitHub preview cannot run the scoreboard backend.";
+      } else {
+        censusStatus.textContent =
+          "The live counting centre is taking a chai break. Try again shortly.";
+      }
+    }
+
+
+    async function loadCensus() {
+      if (
+        window.location.hostname.endsWith(
+          "github.io"
+        )
+      ) {
+        censusUnavailable();
+        return;
+      }
+
+      try {
+        const response =
+          await fetch(
+            "/api/city-vote",
+            {
+              method: "GET",
+              cache: "no-store"
+            }
+          );
+
+        if (!response.ok) {
+          throw new Error(
+            "Census unavailable"
+          );
+        }
+                const data =
+          await response.json();
+
+        renderCensus(
+          data.bangalore,
+          data.chennai
+        );
+
+      } catch (error) {
+        censusUnavailable();
+      }
+    }
+
+
+    async function syncCityVote(city) {
+      if (
+        !city ||
+        window.location.hostname.endsWith(
+          "github.io"
+        )
+      ) {
+        return;
+      }
+
+      try {
+        const response =
+          await fetch(
+            "/api/city-vote",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+              body: JSON.stringify({
+                city: city,
+                voterId: voterId
+              })
+            }
+          );
+
+        if (!response.ok) {
+          throw new Error(
+            "Vote could not be saved"
+          );
+        }
+
+        const data =
+          await response.json();
+
+        renderCensus(
+          data.bangalore,
+          data.chennai
+        );
+
+      } catch (error) {
+        censusUnavailable();
+      }
+    }
+
+
+    loadCensus();
 
 
     /* REVEAL ANIMATION */
@@ -1392,13 +1680,13 @@
         "ROAST MY CITY AGAIN";
 
       roastButton.style.display =
-        "inline-flex";
+        "flex";
 
       restartButton.style.display =
         "none";
 
       transferButton.style.display =
-        "inline-flex";
+        "flex";
     }
 
 
@@ -1412,6 +1700,8 @@
         `${guestFirstName}, you are representing ${cityDisplay(city)}.`;
 
       resetRoastRound();
+
+      syncCityVote(city);
 
       if (logSelection) {
         logActivity(
@@ -1471,7 +1761,7 @@
 
       if (roastCount === 25) {
         roastButton.style.display = "none";
-        restartButton.style.display = "inline-flex";
+        restartButton.style.display = "flex";
 
         roastCounter.textContent =
           `25 / 25 ${selectedCity.toUpperCase()} ROASTS`;
@@ -1521,6 +1811,8 @@
         `${guestFirstName}, you are now representing ${cityDisplay(newCity)}.`;
 
       resetRoastRound();
+
+      syncCityVote(newCity);
 
       transferResult.textContent =
         oldCity === "bangalore"

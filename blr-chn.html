@@ -2,14 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
-
   <meta name="theme-color" content="#fff9f4">
-
   <meta
     name="description"
     content="Bangalore meets Chennai — emergency language training, city diplomacy and completely unnecessary wedding roasts."
@@ -17,28 +14,14 @@
 
   <title>Bangalore × Chennai | Nikhil & Supriya</title>
 
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  >
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  >
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
 
   <style>
-
-    /* =====================================================
-       BASE
-    ===================================================== */
-
     :root {
       --cream: #fff9f4;
       --cream-2: #fffdf9;
@@ -50,33 +33,24 @@
       --brown-dark: #352522;
       --muted: #7d6964;
       --white: #ffffff;
-
       --serif: "Cinzel", serif;
       --sans: "Manrope", sans-serif;
-
-      --shadow:
-        0 18px 50px rgba(74, 52, 45, 0.10);
-
-      --soft-shadow:
-        0 10px 30px rgba(74, 52, 45, 0.07);
+      --shadow: 0 18px 50px rgba(74, 52, 45, 0.10);
+      --soft-shadow: 0 10px 30px rgba(74, 52, 45, 0.07);
     }
-
 
     * {
       box-sizing: border-box;
     }
-
 
     html {
       scroll-behavior: smooth;
       background: var(--cream);
     }
 
-
     body {
       margin: 0;
       overflow-x: hidden;
-
       background:
         radial-gradient(
           circle at 10% 10%,
@@ -94,800 +68,565 @@
           #fbf1eb 48%,
           #fffaf6 100%
         );
-
       color: var(--brown);
-
       font-family: var(--sans);
       line-height: 1.65;
-
       -webkit-font-smoothing: antialiased;
     }
-
 
     button,
     a {
       font: inherit;
     }
 
-
     button {
       -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
     }
-
 
     a {
       color: inherit;
     }
 
-
     h1,
     h2,
     h3 {
       margin-top: 0;
-
       font-family: var(--serif);
       font-weight: 500;
       line-height: 1.1;
     }
 
-
     p {
       margin-top: 0;
     }
-
 
     .page {
       width: min(920px, calc(100% - 34px));
       margin: 0 auto;
     }
 
-
     .eyebrow {
       margin-bottom: 12px;
-
       color: var(--gold);
-
       font-size: 0.69rem;
       font-weight: 700;
-
       letter-spacing: 0.23em;
       text-transform: uppercase;
     }
 
-
-    /* =====================================================
-       TOP BAR
-    ===================================================== */
-
-    .topbar {
-      position: sticky;
-      z-index: 100;
-
-      top: 12px;
-
-      width: min(920px, calc(100% - 28px));
-
-      min-height: 58px;
-
-      margin: 12px auto 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 8px 10px 8px 17px;
-
-      border:
-        1px solid rgba(255, 255, 255, 0.8);
-
-      border-radius: 999px;
-
-      background:
-        rgba(255, 251, 247, 0.87);
-
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-
-      box-shadow: var(--soft-shadow);
-    }
-
-
-    .back-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      color: var(--brown);
-
-      font-size: 0.72rem;
-      font-weight: 700;
-
-      letter-spacing: 0.06em;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
-
-    .mini-logo {
-      width: 40px;
-      height: 40px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border:
-        1px solid rgba(173, 130, 71, 0.35);
-
-      border-radius: 50%;
-
-      color: var(--gold);
-
-      font-family: var(--serif);
-      font-size: 0.65rem;
-    }
-
-
-    /* =====================================================
-       HERO
-    ===================================================== */
+    /* HERO */
 
     .hero {
       min-height: 76svh;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       padding: 80px 0 65px;
-
       text-align: center;
     }
-
 
     .hero-inner {
       max-width: 760px;
       margin: auto;
     }
 
-
     .hero-mark {
       width: 80px;
       height: 80px;
-
       margin: 0 auto 28px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
-      border:
-        1px solid rgba(173, 130, 71, 0.35);
-
+      border: 1px solid rgba(173, 130, 71, 0.35);
       border-radius: 50%;
-
-      background:
-        rgba(255, 255, 255, 0.4);
-
+      background: rgba(255, 255, 255, 0.4);
       color: var(--gold);
-
       font-family: var(--serif);
       font-size: 1.25rem;
-
       box-shadow: var(--soft-shadow);
     }
 
-
     .hero h1 {
       margin-bottom: 20px;
-
       color: var(--brown);
-
-      font-size:
-        clamp(3.1rem, 10vw, 7rem);
-
+      font-size: clamp(3.1rem, 10vw, 7rem);
       letter-spacing: -0.055em;
     }
-
 
     .hero h1 span {
       color: var(--gold);
     }
 
-
     .hero-copy {
       max-width: 610px;
-
       margin: 0 auto 30px;
-
       color: var(--muted);
-
       font-size: 1rem;
     }
 
-
     .hero-note {
       display: inline-block;
-
       padding: 12px 18px;
-
-      border:
-        1px solid rgba(173, 130, 71, 0.16);
-
+      border: 1px solid rgba(173, 130, 71, 0.16);
       border-radius: 999px;
-
-      background:
-        rgba(255, 255, 255, 0.55);
-
+      background: rgba(255, 255, 255, 0.55);
       color: var(--brown);
-
       font-size: 0.72rem;
       font-weight: 700;
-
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-
     .down-arrow {
       display: block;
-
       margin-top: 30px;
-
       color: var(--gold);
-
       font-size: 1.4rem;
-
-      animation:
-        bounce 1.8s ease-in-out infinite;
+      animation: bounce 1.8s ease-in-out infinite;
     }
 
-
-    /* =====================================================
-       LANGUAGE SCHOOL
-    ===================================================== */
+    /* LANGUAGE */
 
     .language-intro {
       margin-bottom: 28px;
-
       text-align: center;
     }
 
-
     .language-intro h2 {
       margin-bottom: 13px;
-
-      font-size:
-        clamp(2.1rem, 6vw, 4rem);
+      font-size: clamp(2.1rem, 6vw, 4rem);
     }
-
 
     .language-intro p:last-child {
       max-width: 600px;
-
       margin-inline: auto;
-
       color: var(--muted);
     }
-
 
     .language-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-
       gap: 16px;
-
       margin-bottom: 80px;
     }
 
-
     .language-card {
       padding: 35px;
-
-      border:
-        1px solid rgba(173, 130, 71, 0.13);
-
+      border: 1px solid rgba(173, 130, 71, 0.13);
       border-radius: 32px;
-
       box-shadow: var(--shadow);
     }
 
-
     .tamil-card {
-      background:
-        linear-gradient(
-          145deg,
-          #f5ddda,
-          #fff9f5
-        );
+      background: linear-gradient(145deg, #f5ddda, #fff9f5);
     }
-
 
     .kannada-card {
-      background:
-        linear-gradient(
-          145deg,
-          #f2e5ce,
-          #fffaf5
-        );
+      background: linear-gradient(145deg, #f2e5ce, #fffaf5);
     }
-
 
     .language-card h3 {
       margin-bottom: 8px;
-
       font-size: 2rem;
     }
 
-
     .language-subtitle {
       margin-bottom: 27px;
-
       color: var(--muted);
-
       font-size: 0.82rem;
     }
 
-
     .phrase {
       padding: 18px 0;
-
-      border-bottom:
-        1px solid rgba(73, 54, 50, 0.10);
+      border-bottom: 1px solid rgba(73, 54, 50, 0.10);
     }
-
 
     .phrase:last-child {
       border-bottom: 0;
       padding-bottom: 0;
     }
 
-
     .phrase-word {
       display: block;
-
       margin-bottom: 4px;
-
       color: var(--brown);
-
       font-family: var(--serif);
       font-size: 1.08rem;
     }
 
-
     .phrase-meaning {
       color: var(--muted);
-
       font-size: 0.78rem;
     }
-
 
     .phrase.special {
       margin-top: 8px;
       padding: 17px;
-
       border: 0;
       border-radius: 19px;
-
-      background:
-        rgba(255, 255, 255, 0.58);
+      background: rgba(255, 255, 255, 0.58);
     }
-
 
     .phrase.special .phrase-meaning {
       display: block;
       margin-top: 5px;
     }
 
-
-    /* =====================================================
-       CITY DIPLOMACY
-    ===================================================== */
+    /* CITY DIPLOMACY */
 
     .city-section {
       margin-bottom: 80px;
     }
 
-
     .section-heading {
       margin-bottom: 28px;
-
       text-align: center;
     }
 
-
     .section-heading h2 {
       margin-bottom: 12px;
-
-      font-size:
-        clamp(2.2rem, 6vw, 4rem);
+      font-size: clamp(2.2rem, 6vw, 4rem);
     }
-
 
     .section-heading p:last-child {
       max-width: 620px;
-
       margin-inline: auto;
-
       color: var(--muted);
     }
-
 
     .city-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-
       gap: 14px;
     }
 
-
     .city-card {
       padding: 27px;
-
-      border:
-        1px solid rgba(173, 130, 71, 0.13);
-
+      border: 1px solid rgba(173, 130, 71, 0.13);
       border-radius: 26px;
-
-      background:
-        rgba(255, 253, 249, 0.78);
-
+      background: rgba(255, 253, 249, 0.78);
       box-shadow: var(--soft-shadow);
     }
 
-
     .city-icon {
       display: block;
-
       margin-bottom: 18px;
-
       color: var(--gold);
-
       font-family: var(--serif);
       font-size: 1.5rem;
     }
 
-
     .city-card h3 {
       margin-bottom: 8px;
-
       font-size: 1.25rem;
     }
 
-
     .city-card p {
       margin: 0;
-
       color: var(--muted);
-
       font-size: 0.85rem;
     }
 
-
-    /* =====================================================
-       IPL TREATY
-    ===================================================== */
+    /* IPL */
 
     .ipl-card {
       margin-bottom: 80px;
-
       padding: 50px 38px;
-
       border-radius: 34px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #4c3935,
-          #694b45
-        );
-
+      background: linear-gradient(145deg, #4c3935, #694b45);
       color: #fff;
-
       box-shadow: var(--shadow);
-
       text-align: center;
     }
-
 
     .ipl-card .eyebrow {
       color: #e4c58e;
     }
 
-
     .ipl-card h2 {
       margin-bottom: 18px;
-
       color: #fff;
-
-      font-size:
-        clamp(2rem, 6vw, 3.8rem);
+      font-size: clamp(2rem, 6vw, 3.8rem);
     }
-
 
     .ipl-card > p:not(.eyebrow) {
       max-width: 650px;
-
       margin-inline: auto;
-
-      color:
-        rgba(255, 255, 255, 0.78);
+      color: rgba(255, 255, 255, 0.78);
     }
-
 
     .treaty {
       max-width: 630px;
-
       margin: 30px auto 0;
-
       display: grid;
-
       gap: 9px;
     }
 
-
     .treaty-item {
       padding: 15px 18px;
-
-      border:
-        1px solid rgba(255, 255, 255, 0.11);
-
+      border: 1px solid rgba(255, 255, 255, 0.11);
       border-radius: 17px;
-
-      background:
-        rgba(255, 255, 255, 0.07);
-
-      color:
-        rgba(255, 255, 255, 0.88);
-
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.88);
       font-size: 0.82rem;
     }
 
+    .treaty-item strong {
+      color: #f0cf98;
+    }
 
-    /* =====================================================
-       ROAST SECTION
-    ===================================================== */
+    /* CITY CHOICE + ROAST */
 
     .roast-section {
       margin-bottom: 80px;
-
       padding: 60px 38px;
-
-      border:
-        1px solid rgba(173, 130, 71, 0.14);
-
+      border: 1px solid rgba(173, 130, 71, 0.14);
       border-radius: 38px;
-
       background:
         linear-gradient(
           145deg,
           rgba(255, 253, 249, 0.96),
           rgba(245, 222, 218, 0.86)
         );
-
       box-shadow: var(--shadow);
-
       text-align: center;
     }
 
-
     .roast-section h2 {
       margin-bottom: 13px;
-
-      font-size:
-        clamp(2.4rem, 7vw, 4.5rem);
+      font-size: clamp(2.4rem, 7vw, 4.5rem);
     }
 
-
     .roast-intro {
-      max-width: 620px;
-
-      margin: 0 auto 32px;
-
+      max-width: 650px;
+      margin: 0 auto 28px;
       color: var(--muted);
     }
 
+    .city-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      max-width: 680px;
+      margin: 0 auto 30px;
+    }
+
+    .city-choice {
+      min-height: 118px;
+      padding: 18px;
+      border: 1px solid rgba(173, 130, 71, 0.18);
+      border-radius: 23px;
+      background: rgba(255, 255, 255, 0.64);
+      color: var(--brown);
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .city-choice:hover,
+    .city-choice.active {
+      transform: translateY(-2px);
+      border-color: rgba(173, 130, 71, 0.55);
+      background: #fffdf9;
+    }
+
+    .city-choice strong,
+    .city-choice span {
+      display: block;
+    }
+
+    .city-choice strong {
+      font-family: var(--serif);
+      font-size: 1rem;
+    }
+
+    .city-choice span {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .allegiance-status {
+      min-height: 28px;
+      margin: 0 auto 20px;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
     .roast-counter {
       display: inline-block;
-
       margin-bottom: 18px;
-
       color: var(--gold);
-
       font-size: 0.68rem;
       font-weight: 700;
-
       letter-spacing: 0.15em;
       text-transform: uppercase;
     }
 
-
     .roast-display {
-      min-height: 180px;
-
+      min-height: 205px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-
+      gap: 15px;
       max-width: 690px;
-
       margin: 0 auto 25px;
-
       padding: 35px 28px;
-
-      border:
-        1px solid rgba(73, 54, 50, 0.10);
-
+      border: 1px solid rgba(73, 54, 50, 0.10);
       border-radius: 27px;
-
-      background:
-        rgba(255, 255, 255, 0.63);
+      background: rgba(255, 255, 255, 0.63);
     }
-
 
     #roastText {
       margin: 0;
-
       color: var(--brown);
-
       font-family: var(--serif);
-      font-size:
-        clamp(1.15rem, 3vw, 1.65rem);
-
+      font-size: clamp(1.15rem, 3vw, 1.65rem);
       line-height: 1.55;
+      transition: opacity 0.12s ease;
     }
 
+    .cooldown-text {
+      min-height: 20px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-style: italic;
+    }
 
     #roastButton,
-    #restartRoasts {
+    #restartRoasts,
+    #transferButton {
       min-height: 56px;
-
       padding: 0 27px;
-
       border: 0;
       border-radius: 999px;
-
       background: var(--brown);
-
       color: #fff;
-
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       font-weight: 700;
-
       letter-spacing: 0.08em;
       text-transform: uppercase;
-
-      cursor: pointer;
-
       transition:
         transform 0.2s ease,
         background 0.2s ease;
     }
 
-
     #roastButton:hover,
-    #restartRoasts:hover {
+    #restartRoasts:hover,
+    #transferButton:hover {
       transform: translateY(-2px);
-
       background: var(--brown-dark);
     }
 
-
-    #restartRoasts {
+    #roastButton,
+    #restartRoasts,
+    #transferButton {
       display: none;
     }
 
+    #transferButton {
+      margin-top: 11px;
+      background: transparent;
+      color: var(--brown);
+      border: 1px solid rgba(73, 54, 50, 0.18);
+    }
+
+    #transferButton:hover {
+      background: rgba(255, 255, 255, 0.72);
+    }
 
     .milestone {
       min-height: 58px;
-
       max-width: 630px;
-
       margin: 23px auto 0;
-
       color: var(--gold);
-
       font-size: 0.84rem;
       font-weight: 600;
-
       line-height: 1.6;
     }
 
+    .transfer-result {
+      max-width: 630px;
+      min-height: 26px;
+      margin: 15px auto 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
 
-    /* =====================================================
-       CLOSING
-    ===================================================== */
+    /* CLOSING */
 
     .closing {
       padding: 30px 0 130px;
-
       text-align: center;
     }
-
 
     .closing-mark {
       width: 70px;
       height: 70px;
-
       margin: 0 auto 22px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
-      border:
-        1px solid rgba(173, 130, 71, 0.30);
-
+      border: 1px solid rgba(173, 130, 71, 0.30);
       border-radius: 50%;
-
       color: var(--gold);
-
       font-family: var(--serif);
     }
 
-
     .closing h2 {
       margin-bottom: 15px;
-
-      font-size:
-        clamp(2rem, 6vw, 3.6rem);
+      font-size: clamp(2rem, 6vw, 3.6rem);
     }
-
 
     .closing p {
       max-width: 590px;
-
       margin: 0 auto 26px;
-
       color: var(--muted);
     }
-
 
     .return-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
       min-height: 54px;
-
       padding: 0 25px;
-
       border-radius: 999px;
-
       background: var(--brown);
-
       color: #fff;
-
       font-size: 0.72rem;
       font-weight: 700;
-
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-decoration: none;
-      text-transform: uppercase;
     }
 
+    .return-note {
+      margin-top: 12px !important;
+      font-size: 0.72rem;
+    }
 
-    /* =====================================================
-       REVEALS
-    ===================================================== */
+    /* REVEALS */
 
     .reveal {
       opacity: 0;
-
       transform: translateY(18px);
-
       transition:
         opacity 0.7s ease,
         transform 0.7s ease;
     }
 
-
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
 
     @keyframes bounce {
       0%,
@@ -900,70 +639,44 @@
       }
     }
 
-
-    /* =====================================================
-       MOBILE
-    ===================================================== */
-
     @media (max-width: 700px) {
-
       .page {
         width: calc(100% - 28px);
       }
 
-
-      .topbar {
-        top: 8px;
-
-        width: calc(100% - 20px);
-
-        margin-top: 8px;
-      }
-
-
       .hero {
         min-height: 72svh;
-
         padding: 65px 5px 55px;
       }
-
 
       .hero-mark {
         width: 70px;
         height: 70px;
-
         margin-bottom: 23px;
       }
 
-
       .hero h1 {
-        font-size:
-          clamp(3rem, 15vw, 4.8rem);
+        font-size: clamp(3rem, 15vw, 4.8rem);
       }
-
 
       .hero-copy {
         font-size: 0.9rem;
       }
 
-
       .language-grid,
-      .city-grid {
+      .city-grid,
+      .city-choice-grid {
         grid-template-columns: 1fr;
       }
-
 
       .language-grid {
         margin-bottom: 62px;
       }
 
-
       .language-card {
         padding: 28px 23px;
-
         border-radius: 28px;
       }
-
 
       .city-section,
       .ipl-card,
@@ -971,130 +684,71 @@
         margin-bottom: 62px;
       }
 
-
       .city-card {
         padding: 23px;
-
         border-radius: 23px;
       }
 
-
       .ipl-card {
         padding: 40px 22px;
-
         border-radius: 30px;
       }
-
 
       .roast-section {
         padding: 43px 19px;
-
         border-radius: 30px;
       }
 
-
       .roast-display {
-        min-height: 210px;
-
+        min-height: 225px;
         padding: 28px 20px;
       }
-
 
       #roastText {
         font-size: 1.12rem;
       }
 
-
       #roastButton,
-      #restartRoasts {
+      #restartRoasts,
+      #transferButton {
         width: 100%;
       }
-
 
       .closing {
         padding-bottom: 80px;
       }
-
     }
 
-
-    @media (
-      prefers-reduced-motion: reduce
-    ) {
-
+    @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
       *::after {
         scroll-behavior: auto !important;
-
-        animation-duration:
-          0.01ms !important;
-
-        animation-iteration-count:
-          1 !important;
-
-        transition-duration:
-          0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
-
     }
-
   </style>
 </head>
 
-
 <body>
-
-
-  <!-- ===================================================
-       TOP BAR
-  ==================================================== -->
-
-  <nav class="topbar">
-
-    <a
-      class="back-link"
-      href="index.html"
-    >
-      ← Back to Wedding
-    </a>
-
-
-    <div class="mini-logo">
-      N&S
-    </div>
-
-  </nav>
-
-
-
   <main class="page">
 
-
-    <!-- =================================================
-         HERO
-    ================================================== -->
-
+    <!-- HERO -->
     <section class="hero">
-
       <div class="hero-inner">
-
-        <div class="hero-mark">
-          ×
-        </div>
-
+        <div class="hero-mark">×</div>
 
         <p class="eyebrow">
           THE TWO-CITY SURVIVAL GUIDE
         </p>
-
 
         <h1>
           Bangalore
           <span>×</span>
           Chennai
         </h1>
-
 
         <p class="hero-copy">
           One wedding. Two cities.
@@ -1103,349 +757,182 @@
           orientation programme.
         </p>
 
-
         <div class="hero-note">
           Emergency language training begins below
         </div>
 
-
-        <span
-          class="down-arrow"
-          aria-hidden="true"
-        >
-          ↓
-        </span>
-
+        <span class="down-arrow" aria-hidden="true">↓</span>
       </div>
-
     </section>
 
 
-
-    <!-- =================================================
-         LANGUAGE INTRO
-    ================================================== -->
-
+    <!-- LANGUAGE INTRO -->
     <section class="language-intro reveal">
-
-      <p class="eyebrow">
-        FIRST THINGS FIRST
-      </p>
-
+      <p class="eyebrow">FIRST THINGS FIRST</p>
 
       <h2>
         Speak like you belong here.
       </h2>
-
 
       <p>
         Four phrases from each city.
         Enough to be polite, impressive,
         and mildly dangerous.
       </p>
-
     </section>
 
 
-
-    <!-- =================================================
-         TAMIL + KANNADA
-    ================================================== -->
-
+    <!-- TAMIL + KANNADA -->
     <section class="language-grid">
 
-
-      <!-- TAMIL -->
-
       <article class="language-card tamil-card reveal">
+        <p class="eyebrow">CHENNAI MODE</p>
 
-        <p class="eyebrow">
-          CHENNAI MODE
-        </p>
-
-
-        <h3>
-          Tamil
-        </h3>
-
+        <h3>Tamil</h3>
 
         <p class="language-subtitle">
           Your emergency starter pack.
         </p>
 
-
         <div class="phrase">
-
-          <span class="phrase-word">
-            Vanakkam
-          </span>
-
-          <span class="phrase-meaning">
-            Hello / Greetings
-          </span>
-
+          <span class="phrase-word">Vanakkam</span>
+          <span class="phrase-meaning">Hello / Greetings</span>
         </div>
 
-
         <div class="phrase">
-
-          <span class="phrase-word">
-            Nandri
-          </span>
-
-          <span class="phrase-meaning">
-            Thank you
-          </span>
-
+          <span class="phrase-word">Nandri</span>
+          <span class="phrase-meaning">Thank you</span>
         </div>
 
-
         <div class="phrase">
-
-          <span class="phrase-word">
-            Semma!
-          </span>
-
-          <span class="phrase-meaning">
-            Excellent / Amazing
-          </span>
-
+          <span class="phrase-word">Semma!</span>
+          <span class="phrase-meaning">Excellent / Amazing</span>
         </div>
-
 
         <div class="phrase special">
-
-          <span class="phrase-word">
-            Konjam adjust pannunga
-          </span>
-
+          <span class="phrase-word">Konjam adjust pannunga</span>
           <span class="phrase-meaning">
             Please adjust a little.
             A phrase capable of solving
             approximately 74% of Indian problems.
           </span>
-
         </div>
-
       </article>
 
 
-
-      <!-- KANNADA -->
-
       <article class="language-card kannada-card reveal">
+        <p class="eyebrow">BANGALORE MODE</p>
 
-        <p class="eyebrow">
-          BANGALORE MODE
-        </p>
-
-
-        <h3>
-          Kannada
-        </h3>
-
+        <h3>Kannada</h3>
 
         <p class="language-subtitle">
           Also essential for survival.
         </p>
 
-
         <div class="phrase">
-
-          <span class="phrase-word">
-            Namaskara
-          </span>
-
-          <span class="phrase-meaning">
-            Hello / Greetings
-          </span>
-
+          <span class="phrase-word">Namaskara</span>
+          <span class="phrase-meaning">Hello / Greetings</span>
         </div>
 
-
         <div class="phrase">
-
-          <span class="phrase-word">
-            Dhanyavadagalu
-          </span>
-
-          <span class="phrase-meaning">
-            Thank you
-          </span>
-
+          <span class="phrase-word">Dhanyavadagalu</span>
+          <span class="phrase-meaning">Thank you</span>
         </div>
 
-
         <div class="phrase">
-
-          <span class="phrase-word">
-            Sakkath!
-          </span>
-
-          <span class="phrase-meaning">
-            Excellent / Amazing
-          </span>
-
+          <span class="phrase-word">Sakkath!</span>
+          <span class="phrase-meaning">Excellent / Amazing</span>
         </div>
-
 
         <div class="phrase special">
-
-          <span class="phrase-word">
-            Swalpa adjust maadi
-          </span>
-
+          <span class="phrase-word">Swalpa adjust maadi</span>
           <span class="phrase-meaning">
             Please adjust a little.
             Bangalore's unofficial urban
             planning strategy.
           </span>
-
         </div>
-
       </article>
-
     </section>
 
 
-
-    <!-- =================================================
-         CITY NONSENSE
-    ================================================== -->
-
+    <!-- CITY DIPLOMACY -->
     <section class="city-section reveal">
-
       <div class="section-heading">
-
-        <p class="eyebrow">
-          CITY DIPLOMACY
-        </p>
-
+        <p class="eyebrow">CITY DIPLOMACY</p>
 
         <h2>
           A few things we should settle.
         </h2>
-
 
         <p>
           We are bringing Bangalore and Chennai
           together for an entire weekend.
           Some ground rules are therefore necessary.
         </p>
-
       </div>
 
-
       <div class="city-grid">
-
-
         <article class="city-card">
+          <span class="city-icon">01</span>
 
-          <span class="city-icon">
-            01
-          </span>
-
-
-          <h3>
-            “I'm five minutes away.”
-          </h3>
-
+          <h3>“I'm five minutes away.”</h3>
 
           <p>
             In Bangalore, this is a philosophical
             statement and should not be interpreted
             as a measurement of time.
           </p>
-
         </article>
 
-
-
         <article class="city-card">
+          <span class="city-icon">02</span>
 
-          <span class="city-icon">
-            02
-          </span>
-
-
-          <h3>
-            Chennai weather.
-          </h3>
-
+          <h3>Chennai weather.</h3>
 
           <p>
             You may complain about the heat.
             You may then immediately drink
             hot filter coffee. This is normal.
           </p>
-
         </article>
 
-
-
         <article class="city-card">
+          <span class="city-icon">03</span>
 
-          <span class="city-icon">
-            03
-          </span>
-
-
-          <h3>
-            Directions.
-          </h3>
-
+          <h3>Directions.</h3>
 
           <p>
             “After the temple, before that bakery,
             take the road near that one signal”
             remains a valid navigation system.
           </p>
-
         </article>
 
-
-
         <article class="city-card">
+          <span class="city-icon">04</span>
 
-          <span class="city-icon">
-            04
-          </span>
-
-
-          <h3>
-            “Small function.”
-          </h3>
-
+          <h3>“Small function.”</h3>
 
           <p>
             Could mean 40 people.
             Could mean 600.
             No further information will be provided.
           </p>
-
         </article>
-
       </div>
-
     </section>
 
 
-
-    <!-- =================================================
-         IPL
-    ================================================== -->
-
+    <!-- IPL TREATY -->
     <section class="ipl-card reveal">
-
       <p class="eyebrow">
         TEMPORARY PEACE AGREEMENT
       </p>
 
-
       <h2>
         The IPL Treaty
       </h2>
-
 
       <p>
         For the duration of the wedding,
@@ -1454,103 +941,103 @@
         unrecognised agreement.
       </p>
 
-
       <div class="treaty">
-
         <div class="treaty-item">
           No historical scorecards during ceremonies.
         </div>
-
 
         <div class="treaty-item">
           No franchise arguments while somebody
           is trying to take a family photo.
         </div>
 
-
         <div class="treaty-item">
-          “This year is our year” may be used
-          only at your own emotional risk.
+          <strong>Ee Sala Cup Namde.</strong>
+          Historical evidence is not admissible
+          during wedding proceedings.
         </div>
-
 
         <div class="treaty-item">
           All disputes must be temporarily
           suspended when the buffet opens.
         </div>
 
-
         <div class="treaty-item">
           The wedding couple accepts no liability
           for cricket opinions expressed by guests.
         </div>
-
       </div>
-
     </section>
 
 
-
-    <!-- =================================================
-         ROAST ME
-    ================================================== -->
-
-    <section
-      class="roast-section reveal"
-      id="roast"
-    >
-
+    <!-- BLR VS CHENNAI ROAST -->
+    <section class="roast-section reveal" id="roast">
       <p class="eyebrow">
-        YOU HAVE BEEN WARNED
+        DIPLOMATIC RELATIONS HAVE DETERIORATED
       </p>
-
 
       <h2>
-        Roast Me.
+        BLR vs CHENNAI
       </h2>
 
-
-      <p class="roast-intro">
-        There are 100.
-        They will not repeat until you have
-        made all 100 poor decisions.
+      <p class="roast-intro" id="roastIntro">
+        Pick the city you are representing.
+        The other side will handle the roasting.
+        Twenty-five each. Zero apologies.
       </p>
 
+      <div class="city-choice-grid" id="cityChoices">
+        <button
+          class="city-choice"
+          type="button"
+          data-city="bangalore"
+        >
+          <strong>NAMMA BENGALURU</strong>
+          <span>
+            I accept traffic jokes, airport jokes
+            and allegations involving Silk Board.
+          </span>
+        </button>
 
-      <span
-        class="roast-counter"
-        id="roastCounter"
-      >
-        0 / 100 ROASTS
-      </span>
-
-
-      <div class="roast-display">
-
-        <p id="roastText">
-          Press the button.
-          Nothing bad will happen.
-          This sentence may not be legally binding.
-        </p>
-
+        <button
+          class="city-choice"
+          type="button"
+          data-city="chennai"
+        >
+          <strong>NAMMA CHENNAI</strong>
+          <span>
+            I accept heat jokes, filter-coffee judgement
+            and aggressive city pride.
+          </span>
+        </button>
       </div>
 
+      <p class="allegiance-status" id="allegianceStatus"></p>
 
-      <button
-        id="roastButton"
-        type="button"
-      >
-        ROAST ME
+      <span class="roast-counter" id="roastCounter">
+        CHOOSE A CITY TO BEGIN
+      </span>
+
+      <div class="roast-display">
+        <p id="roastText">
+          Pick a side first.
+          Neutrality has been suspended for the duration of this page.
+        </p>
+
+        <p class="cooldown-text" id="cooldownText"></p>
+      </div>
+
+      <button id="roastButton" type="button">
+        ROAST MY CITY
       </button>
 
-
-      <button
-        id="restartRoasts"
-        type="button"
-      >
-        I REGRET NOTHING. START AGAIN.
+      <button id="restartRoasts" type="button">
+        START THE 25 AGAIN
       </button>
 
+      <button id="transferButton" type="button">
+        REQUEST A TRANSFER →
+      </button>
 
       <p
         class="milestone"
@@ -1558,569 +1045,492 @@
         aria-live="polite"
       ></p>
 
+      <p
+        class="transfer-result"
+        id="transferResult"
+        aria-live="polite"
+      ></p>
     </section>
 
 
-
-    <!-- =================================================
-         CLOSING
-    ================================================== -->
-
+    <!-- CLOSING -->
     <section class="closing reveal">
+      <div class="closing-mark">N&S</div>
 
-      <div class="closing-mark">
-        N&S
-      </div>
-
-
-      <p class="eyebrow">
-        ENOUGH NONSENSE
-      </p>
-
+      <p class="eyebrow">ENOUGH CITY POLITICS</p>
 
       <h2>
         Back to the wedding.
       </h2>
 
-
       <p>
-        You have completed your completely
-        unofficial Bangalore × Chennai orientation.
-        No certificate will be issued.
+        You have completed your completely unofficial
+        Bangalore × Chennai orientation.
+        Nobody became more reasonable.
       </p>
-
 
       <a
         class="return-button"
-        href="index.html"
+        id="returnToWedding"
+        href="./index.html"
       >
-        ← RETURN TO THE WEDDING
+        ← Okay, enough city politics. Back to the wedding.
       </a>
 
+      <p class="return-note">
+        Return to exactly where you escaped from.
+      </p>
     </section>
 
   </main>
 
 
-
   <script>
+    const ACTIVITY_FORM_URL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSf9dI--LeJV0ZYcRWCN8iDaazydrszNWXkMYluN-7MzUlyDaQ/formResponse";
 
-    /* =====================================================
-       REVEAL ANIMATION
-    ===================================================== */
+    const ACTIVITY_NAME_FIELD =
+      "entry.1466085471";
+
+    const ACTIVITY_FIELD =
+      "entry.441812958";
+
+    const NAME_KEY = "nsGuestName";
+    const CITY_KEY = "nsBlrCity";
+    const RETURN_KEY = "nsReturnFromBlr";
+
+
+    function cleanName(value) {
+      return String(value || "")
+        .replace(/[<>]/g, "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 30);
+    }
+
+
+    function firstName(value) {
+      const cleaned = cleanName(value);
+      return cleaned ? cleaned.split(" ")[0] : "friend";
+    }
+
+
+    function storageGet(key) {
+      try {
+        return localStorage.getItem(key) || "";
+      } catch (error) {
+        return "";
+      }
+    }
+
+
+    function storageSet(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (error) {
+        /* Continue without local storage */
+      }
+    }
+
+
+    function sessionSet(key, value) {
+      try {
+        sessionStorage.setItem(key, value);
+      } catch (error) {
+        /* Continue without session storage */
+      }
+    }
+
+
+    const guestName = storageGet(NAME_KEY);
+    const guestFirstName = firstName(guestName);
+
+
+    function logActivity(activity) {
+      if (!guestName || !activity) {
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+
+        formData.append(
+          ACTIVITY_NAME_FIELD,
+          cleanName(guestName)
+        );
+
+        formData.append(
+          ACTIVITY_FIELD,
+          String(activity)
+        );
+
+        fetch(
+          ACTIVITY_FORM_URL,
+          {
+            method: "POST",
+            body: formData,
+            mode: "no-cors",
+            keepalive: true
+          }
+        ).catch(function () {
+          /* Tracking must never interrupt the page */
+        });
+
+      } catch (error) {
+        /* Tracking must never interrupt the page */
+      }
+    }
+
+
+    /* REVEAL ANIMATION */
 
     const revealElements =
       document.querySelectorAll(".reveal");
 
 
     if ("IntersectionObserver" in window) {
-
       const observer =
         new IntersectionObserver(
           entries => {
-
             entries.forEach(entry => {
-
               if (entry.isIntersecting) {
-
-                entry.target.classList.add(
-                  "visible"
-                );
-
-                observer.unobserve(
-                  entry.target
-                );
-
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
               }
-
             });
-
           },
           {
             threshold: 0.12
           }
         );
 
-
       revealElements.forEach(element => {
         observer.observe(element);
       });
 
     } else {
-
       revealElements.forEach(element => {
         element.classList.add("visible");
       });
-
     }
 
 
-
-    /* =====================================================
-       100 UNIQUE ROASTS
-    ===================================================== */
-
-    const roasts = [
-
-      "You say “coming in five minutes” with the confidence of someone who has not even started getting ready.",
-
-      "Your screen-time report arrives every week just to personally insult you.",
-
-      "You have opened the fridge, stared inside, closed it, and returned thirty seconds later expecting new inventory.",
-
-      "Your family WhatsApp group has more active management than most companies.",
-
-      "You don't procrastinate. You simply give problems enough time to develop character.",
-
-      "You have definitely asked “veg ah, non-veg ah?” before asking where the venue is.",
-
-      "Your phone battery has more trust issues than you do.",
-
-      "You treat “swalpa adjust maadi” like a complete urban-planning strategy.",
-
-      "You have survived Bangalore traffic long enough to stop measuring distance in kilometres.",
-
-      "You hear “small function only” and somehow arrive at an event with 600 people.",
-
-
-      "You have at least one relative who knows your life updates before you do.",
-
-      "Your alarm clock has learned that its opinion does not matter.",
-
-      "You say “one plate only” at a wedding buffet like anyone believes you.",
-
-      "Your definition of “nearby” changes dramatically depending on whether you are in Bangalore or Chennai.",
-
-      "You have used “signal illa” as a defence when you simply did not want to answer.",
-
-      "You don't need more browser tabs. You need closure.",
-
-      "You say “I'm downstairs” while the lift has not even reached your floor.",
-
-      "You can identify the relative who will ask “so, next is your turn?” from across the hall.",
-
-      "Your to-do list is less of a plan and more of a historical archive.",
-
-      "You have spent longer choosing what to watch than actually watching it.",
-
-
-      "Indian wedding printed time and actual time are distant cousins who meet occasionally.",
-
-      "You complain about Chennai heat and then voluntarily order hot filter coffee.",
-
-      "You complain about Bangalore traffic while actively contributing to Bangalore traffic.",
-
-      "One of your wedding outfits has attended more functions than some relatives.",
-
-      "You say “quick call?” like you aren't about to steal forty-five minutes of someone's life.",
-
-      "The phrase “family photo” has already taken twenty minutes from your future.",
-
-      "Your parents have forwarded you at least one message marked “VERY IMPORTANT” that absolutely was not.",
-
-      "You have said “just one dosa” and then allowed mathematics to stop applying.",
-
-      "You don't lose things. You place them in locations that future-you has not unlocked yet.",
-
-      "You have 47 photos of the same thing because apparently one of them may become historically significant.",
-
-
-      "In India, “adjust” can mean move, wait, squeeze, tolerate, compromise, or simply accept your fate.",
-
-      "You have received directions involving a temple, a bakery and “after that one signal.”",
-
-      "You have said “I know the route” while Google Maps quietly saved your reputation.",
-
-      "You have entered an auto, heard the fare, and briefly reconsidered whether the journey was necessary.",
-
-      "Your relationship with online shopping is less shopping and more surprise financial archaeology.",
-
-      "You have told someone “come home sometime” and would be genuinely shocked if they actually arrived.",
-
-      "There is an aunty somewhere who could obtain confidential information faster than an intelligence agency.",
-
-      "You have been asked whether you ate within thirty seconds of entering an Indian household.",
-
-      "You have judged a wedding based on parking before even seeing the couple.",
-
-      "Your ability to ignore a notification disappears the moment you are supposed to be working.",
-
-
-      "You call it “light rain” in Bangalore until traffic stops moving for two hours.",
-
-      "You have spent fifteen minutes discussing where to have chai and five minutes actually drinking it.",
-
-      "When your family says “we are leaving now,” nobody has worn their shoes yet.",
-
-      "Your camera roll is 20% memories and 80% screenshots you promised yourself you'd need.",
-
-      "You have checked your phone for the time and immediately forgotten what time it was.",
-
-      "You own a chair that has slowly been promoted to full-time clothes storage.",
-
-      "You have written “haha” while maintaining a completely neutral facial expression.",
-
-      "You have started cleaning your room because the task you were avoiding somehow seemed worse.",
-
-      "You have opened an app, forgotten why, closed it, and immediately reopened it.",
-
-      "You have said “I'll remember” instead of writing something down. You did not remember.",
-
-
-      "Your confidence when giving directions is completely unrelated to your actual knowledge of the route.",
-
-      "You have replied “on my way” while still deciding what to wear.",
-
-      "You own at least one charger that only works when positioned according to ancient geometry.",
-
-      "You have put something somewhere “safe” and successfully protected it from yourself.",
-
-      "You don't have unread emails. You have a digital museum.",
-
-      "Your ability to hear your name from across a crowded room is stronger than your ability to hear someone asking you to do chores.",
-
-      "You have mentally spent money that has not reached your bank account yet.",
-
-      "You have googled something you absolutely already knew just to confirm you were right.",
-
-      "You have sent “??” after waiting an amount of time that was not remotely reasonable.",
-
-      "You have carried every grocery bag in one trip because making two trips would apparently damage your honour.",
-
-
-      "You have looked at the weather app, disagreed with it, and dressed according to your own fictional forecast.",
-
-      "You say “I'll sleep early tonight” with the optimism of someone unfamiliar with your own behaviour.",
-
-      "You have watched a delivery map like your staring could make the driver move faster.",
-
-      "You have rehearsed an argument in the shower that will never happen.",
-
-      "You have bought something because it was on sale and somehow described this as saving money.",
-
-      "You have opened a message from the notification preview specifically so you wouldn't have to reply.",
-
-      "You have had a full conversation with someone while remembering absolutely none of it five minutes later.",
-
-      "You have taken a screenshot instead of remembering one simple piece of information.",
-
-      "You have started a sentence with “technically” because you knew you were about to become annoying.",
-
-      "You have searched the entire house for something that was in your hand.",
-
-
-      "You have turned the music down in the car because apparently your ears were interfering with your eyesight.",
-
-      "You have refreshed a tracking page as though the package might become intimidated.",
-
-      "You have said “I don't care where we eat” and then rejected every suggestion.",
-
-      "You have a favourite burner on the stove and will defend this preference without evidence.",
-
-      "You have walked into a room and immediately forgotten the entire purpose of the journey.",
-
-      "You have put your phone on silent and then complained that nobody called you.",
-
-      "You have read a menu online before arriving and still taken fifteen minutes to order.",
-
-      "You have an outfit you call “new” because only three people have seen it.",
-
-      "You have watched one short video and somehow emerged forty minutes later with no explanation.",
-
-      "You have typed a long message, deleted it, and replied “okay.”",
-
-
-      "You have used the calculator for arithmetic you absolutely could have done yourself.",
-
-      "You have waited for someone else to cross the road first because apparently they were appointed safety inspector.",
-
-      "You have smelled milk instead of checking the date because you trust your nose more than regulated labelling.",
-
-      "You have planned a productive Sunday and then accidentally experienced Sunday instead.",
-
-      "You have a drawer containing cables for devices humanity no longer remembers.",
-
-      "You have tried to unlock your front door with your car remote at least once in spirit.",
-
-      "You have complained that nobody takes good photos of you after rejecting seventeen perfectly normal photos.",
-
-      "You have eaten something directly from the fridge because using a plate felt unnecessarily bureaucratic.",
-
-      "You have answered “nothing” when asked what you want to eat and then become deeply involved in the final decision.",
-
-      "You have told yourself “one more episode” with the credibility of a politician during campaign season.",
-
-
-      "You have lowered your phone brightness to 1% and still acted personally attacked when somebody turned on the bedroom light.",
-
-      "You have a password variation system that would make a cybersecurity professional quietly leave the room.",
-
-      "You have checked whether a door is locked, walked away, and immediately wondered whether you checked it.",
-
-      "You have pretended not to see someone in public because the social energy budget was already exhausted.",
-
-      "You have started explaining something and realised halfway through that you don't actually know how it works.",
-
-      "You have sent a risky message and immediately thrown your phone away as though distance changes the outcome.",
-
-      "You have said “I'm listening” while your brain was very clearly attending another meeting.",
-
-      "You have chosen the longest checkout line with a statistical consistency worth studying.",
-
-      "You have opened the front camera by accident and received information you were not emotionally prepared for.",
-
-      "You have now pressed a button 100 times on a wedding website. I genuinely have nothing left to say. Please go outside."
-
+    /* ROAST DATA */
+
+    const bangaloreRoasts = [
+      "Bangalore calls 8 kilometres 'nearby' because admitting the truth would collapse the property market.",
+      "Your city built an international airport so far away that reaching it qualifies as domestic travel.",
+      "Silk Board is not a junction. It is a long-term relationship nobody consented to.",
+      "Bangalore weather is lovely. Congratulations on finding the one topic everyone uses to avoid discussing the traffic.",
+      "You don't ask how far something is in Bangalore. You ask how many podcasts the journey will take.",
+      "Every Bangalore startup begins with 'we're disrupting' and ends with three founders arguing over equity in a Koramangala café.",
+      "Your rent went up because somebody opened one artisanal coffee shop within a two-kilometre radius.",
+      "Bangalore has roads named after layouts, stages, crosses, mains and pure human surrender.",
+      "The city has more breweries than functioning shortcuts.",
+      "A Bangalore landlord can look at one coat of white paint and discover another ₹8,000 of monthly value.",
+      "Google Maps in Bangalore doesn't give an ETA. It offers an emotional estimate.",
+      "Bangalore people say 'the weather makes up for it' the way toxic relationships say 'but we have good chemistry.'",
+      "Your weekend plan begins with brunch and ends with three hours trying to leave Indiranagar.",
+      "Bangalore traffic has made 'working from cab' an actual productivity strategy.",
+      "Every road closure in Bangalore appears to have been personally arranged five minutes before you arrived.",
+      "The city's unofficial bird is the delivery rider trying to locate Block C, Phase 2, Extension 4.",
+      "Bangalore has somehow made paying premium rent for one bedroom feel like a career milestone.",
+      "You can leave home early in Bangalore and still arrive with a believable excuse for being late.",
+      "Half the city is in tech. The other half is waiting for someone in tech to reply on Slack.",
+      "Bangalore has mastered the art of turning a ten-minute plan into a calendar invite.",
+      "Every shortcut eventually becomes the main road because all of you discovered the same shortcut.",
+      "The pub closes, the startup pivots and the flyover construction continues forever.",
+      "Bangalore weather gives you three pleasant minutes so you forget what the commute just did to you.",
+      "Nobody in Bangalore knows where the city ends anymore. They just keep adding 'North' to things.",
+      "{name}, representing Bangalore means accepting that 'I'll be there in 20 minutes' is not a promise. It is creative writing."
     ];
 
 
+    const chennaiRoasts = [
+      "Chennai weather does not have seasons. It has different levels of personal attack.",
+      "You step outside in Chennai and immediately understand why every building values air-conditioning like a family member.",
+      "Filter coffee in Chennai is not a beverage. It is a standards committee with opinions about your entire upbringing.",
+      "An auto fare negotiation in Chennai can develop more plot twists than a full Tamil movie.",
+      "Chennai people will defend their favourite dosa place with evidence, witnesses and constitutional confidence.",
+      "ECR plans begin as a peaceful drive and somehow become a complete lifestyle decision.",
+      "The Chennai sun does not shine. It supervises.",
+      "Your city can serve boiling sambar in weather already capable of cooking it outside.",
+      "Chennai humidity turns every carefully planned hairstyle into a public consultation.",
+      "Ask three Chennai people where the best biryani is and congratulations, you have created a conflict-resolution workshop.",
+      "Chennai pride is so efficient it can be activated by simply pronouncing one street name incorrectly.",
+      "The city has two temperatures: hot and 'why did I wear this.'",
+      "Marina Beach is large enough to fit everyone who has ever told you their filter coffee is the authentic one.",
+      "Chennai traffic may move, but the auto driver's quote has already reached your destination before you.",
+      "Every Chennai family has at least one person who can explain why their neighbourhood used to be better before all these new buildings.",
+      "You don't need a weather forecast in Chennai. You need hydration and acceptance.",
+      "The phrase 'just five minutes on ECR' has ended many otherwise healthy schedules.",
+      "Chennai can turn one casual food recommendation into a forty-minute debate about authenticity.",
+      "The city's relationship with coffee is less preference and more constitutional protection.",
+      "You can identify a Chennai local by how personally they react when someone says all South Indian food is the same.",
+      "Chennai weddings begin early enough to make your alarm clock question the institution of marriage.",
+      "Every Chennai auto negotiation starts with optimism and ends with somebody saying 'seri, seri.'",
+      "The sea breeze arrives just in time to remind you that the humidity was saving something special for later.",
+      "Chennai doesn't need to announce city pride. It has already been printed on the conversation.",
+      "{name}, representing Chennai means accepting that the sun has also RSVP'd and plans to attend every outdoor event."
+    ];
 
-    /* =====================================================
-       SHUFFLE
-    ===================================================== */
+
+    const cooldowns = [
+      "Chill. It's a wedding. Your city is probably fine.",
+      "Please direct all complaints to the buffet.",
+      "Don't start a family WhatsApp argument over this.",
+      "Relax. The other city is getting roasted too."
+    ];
+
 
     function shuffle(array) {
-
       const copy = [...array];
 
-      for (
-        let i = copy.length - 1;
-        i > 0;
-        i--
-      ) {
-
-        const j =
-          Math.floor(
-            Math.random() * (i + 1)
-          );
-
-        [
-          copy[i],
-          copy[j]
-        ] = [
-          copy[j],
-          copy[i]
-        ];
-
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
       }
 
       return copy;
-
     }
 
 
+    function personalizeRoast(value) {
+      return String(value).replaceAll(
+        "{name}",
+        guestFirstName
+      );
+    }
 
-    let roastQueue = shuffle(roasts);
 
-    let roastCount = 0;
-
-
+    const cityChoices =
+      Array.from(
+        document.querySelectorAll("[data-city]")
+      );
 
     const roastText =
-      document.getElementById(
-        "roastText"
-      );
+      document.getElementById("roastText");
 
+    const cooldownText =
+      document.getElementById("cooldownText");
 
     const roastButton =
-      document.getElementById(
-        "roastButton"
-      );
-
+      document.getElementById("roastButton");
 
     const restartButton =
-      document.getElementById(
-        "restartRoasts"
-      );
+      document.getElementById("restartRoasts");
 
+    const transferButton =
+      document.getElementById("transferButton");
 
     const roastCounter =
-      document.getElementById(
-        "roastCounter"
-      );
-
+      document.getElementById("roastCounter");
 
     const milestone =
-      document.getElementById(
-        "milestone"
-      );
+      document.getElementById("milestone");
+
+    const allegianceStatus =
+      document.getElementById("allegianceStatus");
+
+    const transferResult =
+      document.getElementById("transferResult");
 
 
-
-    /* =====================================================
-       MILESTONES
-    ===================================================== */
-
-    const milestones = {
-
-      10:
-        "10 roasts. You're still here? Even your mother would tell you to do something useful.",
-
-      20:
-        "20. At this point somebody in your family has definitely asked what you're doing on your phone.",
-
-      30:
-        "30. This commitment is stronger than most people's gym membership.",
-
-      40:
-        "40. Bro, there is an entire wedding website outside this button.",
-
-      50:
-        "50. Halfway. Go drink water. Or chai. Obviously chai.",
-
-      60:
-        "60. This has now become the digital equivalent of sitting at a wedding after everyone else has left.",
-
-      70:
-        "70. Your relatives would be proud of this level of persistence if it were applied to literally anything useful.",
-
-      80:
-        "80. Even an Indian wedding photographer would have stopped taking pictures by now.",
-
-      90:
-        "90. Ten more. You have come too far to suddenly develop self-respect.",
-
-      100:
-        "100. Finished. Somewhere, one aunty is still asking when you're getting married."
-
-    };
+    let selectedCity = "";
+    let roastQueue = [];
+    let roastCount = 0;
+    let cooldownIndex = 0;
 
 
-
-    /* =====================================================
-       BUTTON LABELS
-    ===================================================== */
-
-    function getButtonLabel(count) {
-
-      if (count < 10) {
-        return "AGAIN";
-      }
-
-      if (count < 30) {
-        return "STILL HERE";
-      }
-
-      if (count < 50) {
-        return "SERIOUSLY?";
-      }
-
-      if (count < 70) {
-        return "YOU NEED HELP";
-      }
-
-      return "I HAVE COME TOO FAR";
-
+    function cityDisplay(city) {
+      return city === "bangalore"
+        ? "NAMMA BENGALURU"
+        : "NAMMA CHENNAI";
     }
 
 
-
-    /* =====================================================
-       SHOW ROAST
-    ===================================================== */
-
-    function showRoast() {
-
-      if (roastCount >= 100) {
-        return;
-      }
-
-
-      roastText.style.opacity = "0";
-
-
-      setTimeout(() => {
-
-        roastText.textContent =
-          roastQueue[roastCount];
-
-        roastText.style.opacity = "1";
-
-      }, 120);
-
-
-      roastCount++;
-
-
-      roastCounter.textContent =
-        `${roastCount} / 100 ROASTS`;
-
-
-      if (milestones[roastCount]) {
-
-        milestone.textContent =
-          milestones[roastCount];
-
-      } else {
-
-        milestone.textContent = "";
-
-      }
-
-
-      if (roastCount === 100) {
-
-        setTimeout(() => {
-
-          roastText.textContent =
-            "You survived all 100. There are no more roasts. Please return to the wedding like a functioning adult.";
-
-        }, 450);
-
-
-        roastButton.style.display =
-          "none";
-
-        restartButton.style.display =
-          "inline-flex";
-
-      } else {
-
-        roastButton.textContent =
-          getButtonLabel(roastCount);
-
-      }
-
+    function opponentDisplay(city) {
+      return city === "bangalore"
+        ? "Chennai"
+        : "Bangalore";
     }
 
 
+    function cityRoasts(city) {
+      return city === "bangalore"
+        ? bangaloreRoasts
+        : chennaiRoasts;
+    }
 
-    /* =====================================================
-       RESTART
-    ===================================================== */
 
-    function restartRoasts() {
+    function markSelectedCity() {
+      cityChoices.forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.city === selectedCity
+        );
+      });
+    }
 
-      roastQueue =
-        shuffle(roasts);
 
+    function resetRoastRound() {
+      roastQueue = shuffle(cityRoasts(selectedCity));
       roastCount = 0;
-
+      cooldownIndex = 0;
 
       roastCounter.textContent =
-        "0 / 100 ROASTS";
-
+        `0 / 25 ${selectedCity.toUpperCase()} ROASTS`;
 
       roastText.textContent =
-        "You came back? Incredible. Press the button and make the same 100 mistakes again.";
+        `${opponentDisplay(selectedCity)} has the microphone. This can only go well.`;
 
-
+      cooldownText.textContent = "";
       milestone.textContent = "";
-
+      transferResult.textContent = "";
 
       roastButton.textContent =
-        "ROAST ME";
-
+        "ROAST MY CITY AGAIN";
 
       roastButton.style.display =
         "inline-flex";
 
-
       restartButton.style.display =
         "none";
 
+      transferButton.style.display =
+        "inline-flex";
     }
 
+
+    function chooseCity(city, logSelection = true) {
+      selectedCity = city;
+      storageSet(CITY_KEY, city);
+
+      markSelectedCity();
+
+      allegianceStatus.textContent =
+        `${guestFirstName}, you are representing ${cityDisplay(city)}.`;
+
+      resetRoastRound();
+
+      if (logSelection) {
+        logActivity(
+          `city_selected_${city}`
+        );
+      }
+    }
+
+
+    cityChoices.forEach(button => {
+      button.addEventListener("click", function () {
+        chooseCity(
+          button.dataset.city || "bangalore"
+        );
+      });
+    });
+
+
+    function showRoast() {
+      if (!selectedCity || roastCount >= 25) {
+        return;
+      }
+
+      const currentRoast =
+        personalizeRoast(
+          roastQueue[roastCount]
+        );
+
+      roastText.style.opacity = "0";
+
+      setTimeout(function () {
+        roastText.textContent = currentRoast;
+        roastText.style.opacity = "1";
+      }, 120);
+
+      roastCount++;
+
+      roastCounter.textContent =
+        `${roastCount} / 25 ${selectedCity.toUpperCase()} ROASTS`;
+
+      cooldownText.textContent =
+        cooldowns[
+          cooldownIndex % cooldowns.length
+        ];
+
+      cooldownIndex++;
+
+      if (roastCount === 10) {
+        milestone.textContent =
+          "10 down. Diplomatic relations remain fragile.";
+      } else if (roastCount === 20) {
+        milestone.textContent =
+          "20 down. At this point changing cities would look suspicious.";
+      } else {
+        milestone.textContent = "";
+      }
+
+      if (roastCount === 25) {
+        roastButton.style.display = "none";
+        restartButton.style.display = "inline-flex";
+
+        roastCounter.textContent =
+          `25 / 25 ${selectedCity.toUpperCase()} ROASTS`;
+
+        roastText.textContent =
+          "YOU SURVIVED.";
+
+        cooldownText.textContent =
+          "25 roasts. Zero apologies. Now go attend the wedding before someone starts an actual Bangalore vs Chennai argument.";
+
+        milestone.textContent =
+          `${guestFirstName}, your city has officially survived the internet.`;
+
+        logActivity(
+          `25_roasts_survived_${selectedCity}`
+        );
+      }
+    }
+
+
+    function restartRoasts() {
+      if (!selectedCity) {
+        return;
+      }
+
+      resetRoastRound();
+    }
+
+
+    function requestTransfer() {
+      if (!selectedCity) {
+        return;
+      }
+
+      const oldCity = selectedCity;
+      const newCity =
+        oldCity === "bangalore"
+          ? "chennai"
+          : "bangalore";
+
+      selectedCity = newCity;
+      storageSet(CITY_KEY, newCity);
+
+      markSelectedCity();
+
+      allegianceStatus.textContent =
+        `${guestFirstName}, you are now representing ${cityDisplay(newCity)}.`;
+
+      resetRoastRound();
+
+      transferResult.textContent =
+        oldCity === "bangalore"
+          ? "TRANSFER APPROVED. Bangalore has released you from your contract. Chennai has reluctantly agreed to take you."
+          : "TRANSFER APPROVED. Chennai has released you from your contract. Bangalore has asked whether you can survive the commute.";
+
+      logActivity(
+        `transfer_${oldCity}_to_${newCity}`
+      );
+    }
 
 
     roastButton.addEventListener(
@@ -2128,13 +1538,40 @@
       showRoast
     );
 
-
     restartButton.addEventListener(
       "click",
       restartRoasts
     );
 
-  </script>
+    transferButton.addEventListener(
+      "click",
+      requestTransfer
+    );
 
+
+    const savedCity = storageGet(CITY_KEY);
+
+    if (
+      savedCity === "bangalore" ||
+      savedCity === "chennai"
+    ) {
+      chooseCity(savedCity, false);
+    }
+
+
+    /* RETURN TO EXACT POSITION ON MAIN INVITE */
+
+    document
+      .getElementById("returnToWedding")
+      .addEventListener(
+        "click",
+        function () {
+          sessionSet(
+            RETURN_KEY,
+            "1"
+          );
+        }
+      );
+  </script>
 </body>
 </html>

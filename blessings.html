@@ -5,3755 +5,2138 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#6b3b24">
 <title>Nikhil & Supriya | With Your Blessings</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-
 <link rel="preload" as="image" href="./images/blessings/realistic-lamp-unlit.png">
 <link rel="preload" as="image" href="./images/blessings/realistic-lamp.png">
-
 <style>
-
 :root{
-  --ivory:#fffaf0;
-  --cream:#f3dfbd;
-  --gold:#b6782d;
-  --gold2:#e0b76a;
-  --darkgold:#744313;
-  --brown:#3f281b;
-  --brown2:#684733;
-  --red:#903a30;
-  --deep:#382013;
-  --serif:"Cormorant Garamond",Georgia,serif;
-  --sans:"Manrope",Arial,sans-serif;
+--ivory:#fffaf0;
+--cream:#f3dfbd;
+--gold:#b6782d;
+--gold2:#e0b76a;
+--darkgold:#744313;
+--brown:#3f281b;
+--brown2:#684733;
+--red:#903a30;
+--deep:#382013;
+--serif:"Cormorant Garamond",Georgia,serif;
+--sans:"Manrope",Arial,sans-serif;
 }
-
-*{
-  box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 html{
-  scroll-behavior:smooth;
-  background:var(--ivory);
+scroll-behavior:smooth;
+background:var(--ivory);
 }
-
 body{
-  margin:0;
-  overflow-x:hidden;
-  color:var(--brown);
-  background:var(--ivory);
-  font-family:var(--sans);
+margin:0;
+overflow-x:hidden;
+color:var(--brown);
+background:var(--ivory);
+font-family:var(--sans);
 }
-
-body.locked{
-  overflow:hidden;
-}
-
+body.locked{overflow:hidden}
 img{
-  display:block;
-  width:100%;
+display:block;
+width:100%;
 }
-
-button,
-input,
-a{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
+button,input,a{font:inherit}
+button{cursor:pointer}
 .eyebrow{
-  margin:0 0 12px;
-  color:var(--darkgold);
-  font-size:.65rem;
-  font-weight:600;
-  letter-spacing:.22em;
-  text-transform:uppercase;
+margin:0 0 12px;
+color:var(--darkgold);
+font-size:.65rem;
+font-weight:600;
+letter-spacing:.22em;
+text-transform:uppercase;
 }
-
 .title{
-  margin:0;
-  font:500 clamp(2.8rem,9vw,5.3rem)/.98 var(--serif);
+margin:0;
+font:500 clamp(2.8rem,9vw,5.3rem)/.98 var(--serif);
 }
-
 .copy{
-  max-width:650px;
-  margin:18px auto 0;
-  color:var(--brown2);
-  font:400 clamp(1.15rem,3.5vw,1.48rem)/1.5 var(--serif);
+max-width:650px;
+margin:18px auto 0;
+color:var(--brown2);
+font:400 clamp(1.15rem,3.5vw,1.48rem)/1.5 var(--serif);
 }
-
 .divider{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-  margin:18px auto;
-  color:var(--gold);
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+margin:18px auto;
+color:var(--gold);
 }
-
 .divider:before,
 .divider:after{
-  content:"";
-  width:55px;
-  height:1px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    currentColor,
-    transparent
-  );
+content:"";
+width:55px;
+height:1px;
+background:linear-gradient(90deg,transparent,currentColor,transparent);
 }
-
 .reveal{
-  opacity:0;
-  transform:translateY(22px);
-  transition:.85s ease;
+opacity:0;
+transform:translateY(22px);
+transition:.85s ease;
 }
-
 .reveal.visible{
-  opacity:1;
-  transform:none;
+opacity:1;
+transform:none;
 }
 
-
-/* =====================================================
-   PETALS
-===================================================== */
+/* PETALS */
 
 #petals{
-  position:fixed;
-  inset:0;
-  z-index:2000;
-  pointer-events:none;
-  overflow:hidden;
+position:fixed;
+inset:0;
+z-index:2000;
+pointer-events:none;
+overflow:hidden;
 }
-
 .petal{
-  position:absolute;
-  top:-30px;
-  width:11px;
-  height:18px;
-  border-radius:80% 20% 75% 25%;
-  background:
-    radial-gradient(
-      circle at 35% 25%,
-      #ffece7,
-      #df847a 60%,
-      #b45249
-    );
-  animation:petalFall linear forwards;
+position:absolute;
+top:-30px;
+width:11px;
+height:18px;
+border-radius:80% 20% 75% 25%;
+background:radial-gradient(circle at 35% 25%,#ffece7,#df847a 60%,#b45249);
+animation:petalFall linear forwards;
 }
-
 .petal.white{
-  width:10px;
-  height:10px;
-  background:
-    radial-gradient(
-      circle,
-      #fffef9,
-      #eadbc1
-    );
+width:10px;
+height:10px;
+background:radial-gradient(circle,#fffef9,#eadbc1);
 }
-
 .petal.gold{
-  background:
-    radial-gradient(
-      circle,
-      #ffe7a1,
-      #e39a36 65%,
-      #a95e18
-    );
+background:radial-gradient(circle,#ffe7a1,#e39a36 65%,#a95e18);
 }
-
 @keyframes petalFall{
-  to{
-    transform:
-      translate3d(
-        var(--drift),
-        110vh,
-        0
-      )
-      rotate(var(--spin));
-  }
+to{
+transform:translate3d(var(--drift),110vh,0) rotate(var(--spin));
+}
 }
 
-
-/* =====================================================
-   ENTRANCE
-===================================================== */
+/* ENTRANCE */
 
 #entrance{
-  position:fixed;
-  inset:0;
-  z-index:1500;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  color:#fff9ea;
-  background:#28150b;
-  transition:
-    opacity 1s ease,
-    visibility 1s ease;
+position:fixed;
+inset:0;
+z-index:1500;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+color:#fff9ea;
+background:#28150b;
+transition:opacity 1s ease,visibility 1s ease;
 }
-
 #entrance.finished{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
+opacity:0;
+visibility:hidden;
+pointer-events:none;
 }
-
 .entrance-bg{
-  position:absolute;
-  inset:-4%;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(30,15,7,.06),
-      rgba(30,15,7,.18) 45%,
-      rgba(30,15,7,.74)
-    ),
-    url("./images/blessings/entrance-temple.png")
-    center/cover no-repeat;
-
-  transform:scale(1.03);
-
-  animation:
-    slowPush 13s ease-in-out infinite alternate;
-
-  transition:
-    transform 2s ease,
-    filter 1.6s ease;
+position:absolute;
+inset:-4%;
+background:
+linear-gradient(to bottom,
+rgba(30,15,7,.06),
+rgba(30,15,7,.18) 45%,
+rgba(30,15,7,.74)),
+url("./images/blessings/entrance-temple.png")
+center/cover no-repeat;
+transform:scale(1.03);
+animation:slowPush 13s ease-in-out infinite alternate;
+transition:transform 2s ease,filter 1.6s ease;
 }
-
 @keyframes slowPush{
-  to{
-    transform:scale(1.08);
-  }
+to{transform:scale(1.08)}
 }
-
 #entrance.entering .entrance-bg{
-  transform:scale(1.16);
-  filter:
-    brightness(1.15)
-    saturate(1.08);
+transform:scale(1.16);
+filter:brightness(1.15) saturate(1.08);
 }
-
 .entrance-glow{
-  position:absolute;
-  inset:0;
-  opacity:.3;
-
-  background:
-    radial-gradient(
-      circle at 50% 42%,
-      rgba(255,218,140,.55),
-      transparent 35%
-    );
-
-  transition:
-    opacity 1.4s ease;
+position:absolute;
+inset:0;
+opacity:.3;
+background:
+radial-gradient(circle at 50% 42%,
+rgba(255,218,140,.55),
+transparent 35%);
+transition:opacity 1.4s ease;
 }
-
-#entrance.entering .entrance-glow{
-  opacity:1;
-}
-
+#entrance.entering .entrance-glow{opacity:1}
 .entrance-content{
-  position:relative;
-  z-index:2;
-
-  width:min(92%,560px);
-
-  padding:
-    25px
-    18px;
-
-  text-align:center;
-
-  text-shadow:
-    0 3px 20px
-    rgba(0,0,0,.65);
-
-  transition:
-    .8s ease;
+position:relative;
+z-index:2;
+width:min(92%,560px);
+padding:25px 18px;
+text-align:center;
+text-shadow:0 3px 20px rgba(0,0,0,.65);
+transition:.8s ease;
 }
-
 #entrance.entering .entrance-content{
-  opacity:0;
-  transform:
-    translateY(-12px);
+opacity:0;
+transform:translateY(-12px);
 }
-
 .om{
-  width:62px;
-  height:62px;
-
-  display:grid;
-  place-items:center;
-
-  margin:
-    auto
-    auto
-    13px;
-
-  border:
-    1px solid
-    rgba(255,225,170,.7);
-
-  border-radius:50%;
-
-  color:#f3c979;
-
-  font:
-    500
-    2rem
-    var(--serif);
+width:62px;
+height:62px;
+display:grid;
+place-items:center;
+margin:auto auto 13px;
+border:1px solid rgba(255,225,170,.7);
+border-radius:50%;
+color:#f3c979;
+font:500 2rem var(--serif);
 }
-
 .mantra{
-  margin:
-    0
-    0
-    10px;
-
-  color:#f5d89f;
-
-  font:
-    500
-    .92rem
-    var(--serif);
-
-  letter-spacing:.08em;
+margin:0 0 10px;
+color:#f5d89f;
+font:500 .92rem var(--serif);
+letter-spacing:.08em;
 }
-
 .entrance-content h1{
-  margin:0;
-
-  font:
-    500
-    clamp(3.5rem,13vw,6rem)
-    /.88
-    var(--serif);
+margin:0;
+font:500 clamp(3.5rem,13vw,6rem)/.88 var(--serif);
 }
-
 .entrance-content h1 span{
-  display:block;
-
-  margin:6px;
-
-  color:#efbd68;
-
-  font-size:.65em;
-  font-style:italic;
+display:block;
+margin:6px;
+color:#efbd68;
+font-size:.65em;
+font-style:italic;
 }
-
 .date{
-  margin:
-    18px
-    0
-    10px;
-
-  font-size:.68rem;
-  font-weight:600;
-
-  letter-spacing:.17em;
-
-  text-transform:uppercase;
+margin:18px 0 10px;
+font-size:.68rem;
+font-weight:600;
+letter-spacing:.17em;
+text-transform:uppercase;
 }
-
 .entrance-copy{
-  margin:
-    0
-    0
-    18px;
-
-  font:
-    400
-    1.15rem
-    var(--serif);
+margin:0 0 18px;
+font:400 1.15rem var(--serif);
 }
-
 .name-box{
-  width:min(390px,100%);
-
-  margin:auto;
-
-  padding:16px;
-
-  border-radius:20px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,252,244,.98),
-      rgba(246,228,197,.97)
-    );
-
-  box-shadow:
-    0 18px 45px
-    rgba(20,10,5,.3);
-
-  text-shadow:none;
+width:min(390px,100%);
+margin:auto;
+padding:16px;
+border-radius:20px;
+background:linear-gradient(135deg,
+rgba(255,252,244,.98),
+rgba(246,228,197,.97));
+box-shadow:0 18px 45px rgba(20,10,5,.3);
+text-shadow:none;
 }
-
 .name-box label{
-  display:block;
-
-  margin-bottom:8px;
-
-  color:var(--brown);
-
-  font-size:.7rem;
-  font-weight:600;
-
-  letter-spacing:.13em;
-
-  text-transform:uppercase;
+display:block;
+margin-bottom:8px;
+color:var(--brown);
+font-size:.7rem;
+font-weight:600;
+letter-spacing:.13em;
+text-transform:uppercase;
 }
-
 #guestInput{
-  width:100%;
-  height:58px;
-
-  padding:
-    0
-    16px;
-
-  border:
-    2px solid
-    rgba(157,96,34,.4);
-
-  border-radius:13px;
-
-  outline:none;
-
-  color:var(--brown);
-
-  background:#fffdfa;
-
-  font:
-    500
-    1.3rem
-    var(--serif);
+width:100%;
+height:58px;
+padding:0 16px;
+border:2px solid rgba(157,96,34,.4);
+border-radius:13px;
+outline:none;
+color:var(--brown);
+background:#fffdfa;
+font:500 1.3rem var(--serif);
 }
-
 #guestInput:focus{
-  border-color:var(--gold);
-
-  box-shadow:
-    0 0 0 4px
-    rgba(180,119,45,.13);
+border-color:var(--gold);
+box-shadow:0 0 0 4px rgba(180,119,45,.13);
 }
-
 .enter-button{
-  width:100%;
-  min-height:56px;
-
-  margin-top:11px;
-
-  border:0;
-  border-radius:13px;
-
-  color:#fff9ec;
-
-  background:
-    linear-gradient(
-      135deg,
-      #754313,
-      #bd8030,
-      #84501d
-    );
-
-  font-size:.67rem;
-  font-weight:600;
-
-  letter-spacing:.12em;
-
-  text-transform:uppercase;
+width:100%;
+min-height:56px;
+margin-top:11px;
+border:0;
+border-radius:13px;
+color:#fff9ec;
+background:linear-gradient(135deg,#754313,#bd8030,#84501d);
+font-size:.67rem;
+font-weight:600;
+letter-spacing:.12em;
+text-transform:uppercase;
 }
-
 #nameError{
-  min-height:16px;
-
-  margin:
-    7px
-    0
-    0;
-
-  color:#a52f2f;
-
-  font-size:.72rem;
+min-height:16px;
+margin:7px 0 0;
+color:#a52f2f;
+font-size:.72rem;
 }
 
-
-/* =====================================================
-   GANESHA
-===================================================== */
+/* GANESHA */
 
 .ganesha-hero{
-  position:relative;
-
-  min-height:100svh;
-
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-
-  padding:
-    110px
-    22px
-    130px;
-
-  color:#fff9ec;
-
-  text-align:center;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(25,13,6,.02),
-      rgba(25,13,6,.12) 42%,
-      rgba(25,13,6,.76)
-    ),
-    url("./images/blessings/ganesha.png")
-    center/cover no-repeat;
+position:relative;
+min-height:100svh;
+display:flex;
+align-items:flex-end;
+justify-content:center;
+padding:110px 22px 130px;
+color:#fff9ec;
+text-align:center;
+background:
+linear-gradient(to bottom,
+rgba(25,13,6,.02),
+rgba(25,13,6,.12) 42%,
+rgba(25,13,6,.76)),
+url("./images/blessings/ganesha.png")
+center/cover no-repeat;
 }
-
 .ganesha-hero:after{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  right:0;
-  bottom:-2px;
-
-  height:220px;
-
-  background:
-    linear-gradient(
-      transparent,
-      var(--ivory)
-    );
+content:"";
+position:absolute;
+left:0;
+right:0;
+bottom:-2px;
+height:220px;
+background:linear-gradient(transparent,var(--ivory));
 }
-
 .hero-inner{
-  position:relative;
-
-  z-index:2;
-
-  width:min(720px,100%);
-
-  text-shadow:
-    0 3px 20px
-    rgba(0,0,0,.48);
+position:relative;
+z-index:2;
+width:min(720px,100%);
+text-shadow:0 3px 20px rgba(0,0,0,.48);
 }
-
 .hero-mantra{
-  display:inline-flex;
-
-  align-items:center;
-  justify-content:center;
-
-  min-height:44px;
-
-  margin:
-    0
-    auto
-    20px;
-
-  padding:
-    9px
-    21px;
-
-  border:
-    1px solid
-    rgba(255,226,167,.62);
-
-  border-radius:999px;
-
-  color:#ffe8af;
-
-  background:
-    rgba(49,25,10,.61);
-
-  box-shadow:
-    0 8px 28px
-    rgba(0,0,0,.18);
-
-  backdrop-filter:
-    blur(6px);
-
-  font:
-    600
-    .8rem
-    var(--serif);
-
-  letter-spacing:.12em;
-
-  text-shadow:
-    0 2px 10px
-    rgba(0,0,0,.9);
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-height:44px;
+margin:0 auto 20px;
+padding:9px 21px;
+border:1px solid rgba(255,226,167,.62);
+border-radius:999px;
+color:#ffe8af;
+background:rgba(49,25,10,.61);
+box-shadow:0 8px 28px rgba(0,0,0,.18);
+backdrop-filter:blur(6px);
+font:600 .8rem var(--serif);
+letter-spacing:.12em;
+text-shadow:0 2px 10px rgba(0,0,0,.9);
 }
-
 .ganesha-hero h2{
-  margin:0;
-
-  font:
-    500
-    clamp(4rem,14vw,7.2rem)
-    /.86
-    var(--serif);
+margin:0;
+font:500 clamp(4rem,14vw,7.2rem)/.86 var(--serif);
 }
-
 .ganesha-hero h2 span{
-  display:block;
-
-  margin:7px;
-
-  color:#eab45a;
-
-  font-size:.65em;
-  font-style:italic;
+display:block;
+margin:7px;
+color:#eab45a;
+font-size:.65em;
+font-style:italic;
 }
-
 .hero-message{
-  max-width:580px;
-
-  margin:
-    20px
-    auto
-    0;
-
-  font:
-    400
-    1.35rem
-    /1.45
-    var(--serif);
+max-width:580px;
+margin:20px auto 0;
+font:400 1.35rem/1.45 var(--serif);
 }
 
-
-/* =====================================================
-   WELCOME
-===================================================== */
+/* WELCOME */
 
 .welcome{
-  padding:
-    80px
-    22px
-    90px;
-
-  text-align:center;
-
-  background:
-    radial-gradient(
-      circle at 50% 48%,
-      rgba(221,172,94,.14),
-      transparent 42%
-    ),
-    var(--ivory);
+padding:80px 22px 90px;
+text-align:center;
+background:
+radial-gradient(circle at 50% 48%,
+rgba(221,172,94,.14),
+transparent 42%),
+var(--ivory);
 }
-
 .welcome-inner{
-  width:min(750px,100%);
-  margin:auto;
+width:min(750px,100%);
+margin:auto;
 }
-
 .welcome h3{
-  margin:0;
-
-  font:
-    500
-    clamp(2.8rem,9vw,4.8rem)
-    var(--serif);
+margin:0;
+font:500 clamp(2.8rem,9vw,4.8rem) var(--serif);
 }
+.guest-name{color:var(--red)}
 
-.guest-name{
-  color:var(--red);
-}
-
-
-/* =====================================================
-   CEREMONIAL BLESSING ANIMATION
-===================================================== */
+/* BLESSING */
 
 .blessing-scene{
-  position:relative;
-
-  overflow:hidden;
-
-  padding:
-    55px
-    20px
-    105px;
-
-  text-align:center;
-
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(222,171,87,.19),
-      transparent 35%
-    ),
-    linear-gradient(
-      to bottom,
-      var(--ivory),
-      #f7e6c8 52%,
-      var(--ivory)
-    );
+position:relative;
+overflow:hidden;
+padding:55px 20px 105px;
+text-align:center;
+background:
+radial-gradient(circle at 50% 45%,
+rgba(222,171,87,.19),
+transparent 35%),
+linear-gradient(to bottom,
+var(--ivory),
+#f7e6c8 52%,
+var(--ivory));
 }
-
 .blessing-inner{
-  width:min(820px,100%);
-  margin:auto;
+width:min(820px,100%);
+margin:auto;
 }
-
 .blessing-stage{
-  position:relative;
-
-  width:min(650px,98vw);
-
-  margin:
-    32px
-    auto
-    8px;
-
-  aspect-ratio:13/10;
+position:relative;
+width:min(650px,98vw);
+margin:32px auto 8px;
+aspect-ratio:13/10;
 }
-
 .blessing-halo{
-  position:absolute;
-
-  left:50%;
-  top:52%;
-
-  width:68%;
-  aspect-ratio:1;
-
-  transform:
-    translate(-50%,-50%)
-    scale(.9);
-
-  border-radius:50%;
-
-  opacity:.45;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255,235,180,.9),
-      rgba(222,164,66,.18) 46%,
-      transparent 72%
-    );
-
-  filter:blur(5px);
-
-  animation:
-    blessingHalo
-    6.8s
-    ease-in-out
-    infinite;
+position:absolute;
+left:50%;
+top:52%;
+width:68%;
+aspect-ratio:1;
+transform:translate(-50%,-50%) scale(.9);
+border-radius:50%;
+opacity:.45;
+background:
+radial-gradient(circle,
+rgba(255,235,180,.9),
+rgba(222,164,66,.18) 46%,
+transparent 72%);
+filter:blur(5px);
+animation:blessingHalo 6.8s ease-in-out infinite;
 }
-
 @keyframes blessingHalo{
-
-  0%,
-  22%,
-  100%{
-    opacity:.4;
-
-    transform:
-      translate(-50%,-50%)
-      scale(.9);
-  }
-
-  48%,
-  72%{
-    opacity:.9;
-
-    transform:
-      translate(-50%,-50%)
-      scale(1.06);
-  }
+0%,22%,100%{
+opacity:.4;
+transform:translate(-50%,-50%) scale(.9);
 }
-
+48%,72%{
+opacity:.9;
+transform:translate(-50%,-50%) scale(1.06);
+}
+}
 .blessing-art{
-  position:absolute;
-
-  inset:0;
-
-  width:100%;
-  height:100%;
-
-  overflow:visible;
-
-  filter:
-    drop-shadow(
-      0
-      18px
-      24px
-      rgba(88,51,22,.14)
-    );
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+overflow:visible;
+filter:drop-shadow(0 18px 24px rgba(88,51,22,.14));
 }
-
-
-/*
-The elders are now complete figures rather than
-detached floating hands.
-
-The movement is deliberately restrained so the
-scene feels like a traditional wedding illustration
-coming gently to life.
-*/
-
-.elder-person-left,
-.elder-person-right{
-  transform-box:fill-box;
-  transform-origin:center bottom;
-
-  animation:
-    elderBreath
-    6.8s
-    ease-in-out
-    infinite;
-}
-
-.elder-person-right{
-  animation-delay:.18s;
-}
-
-@keyframes elderBreath{
-
-  0%,
-  100%{
-    transform:translateY(0);
-  }
-
-  50%{
-    transform:translateY(-2px);
-  }
-}
-
-.elder-arm-left{
-  transform-box:fill-box;
-
-  transform-origin:
-    18%
-    88%;
-
-  animation:
-    elderBlessLeft
-    6.8s
-    cubic-bezier(.4,0,.2,1)
-    infinite;
-}
-
-.elder-arm-right{
-  transform-box:fill-box;
-
-  transform-origin:
-    82%
-    88%;
-
-  animation:
-    elderBlessRight
-    6.8s
-    cubic-bezier(.4,0,.2,1)
-    infinite;
-}
-
-@keyframes elderBlessLeft{
-
-  0%,
-  20%,
-  100%{
-    transform:
-      rotate(-7deg)
-      translateY(4px);
-  }
-
-  42%,
-  70%{
-    transform:
-      rotate(7deg)
-      translate(7px,-9px);
-  }
-
-  82%{
-    transform:
-      rotate(0)
-      translateY(0);
-  }
-}
-
-@keyframes elderBlessRight{
-
-  0%,
-  20%,
-  100%{
-    transform:
-      rotate(7deg)
-      translateY(4px);
-  }
-
-  42%,
-  70%{
-    transform:
-      rotate(-7deg)
-      translate(-7px,-9px);
-  }
-
-  82%{
-    transform:
-      rotate(0)
-      translateY(0);
-  }
-}
-
-
-/*
-The bride and groom stay visually grounded.
-
-They make only a small respectful movement
-while receiving the elders' blessing.
-*/
-
 .couple{
-  transform-box:fill-box;
-
-  transform-origin:center bottom;
-
-  animation:
-    coupleBlessing
-    6.8s
-    cubic-bezier(.4,0,.2,1)
-    infinite;
+transform-box:fill-box;
+transform-origin:center bottom;
+animation:coupleBlessing 6.8s cubic-bezier(.4,0,.2,1) infinite;
 }
-
 @keyframes coupleBlessing{
-
-  0%,
-  25%,
-  100%{
-    transform:
-      translateY(0)
-      rotate(0);
-  }
-
-  43%,
-  69%{
-    transform:
-      translateY(9px)
-      rotate(.25deg);
-  }
-
-  80%{
-    transform:
-      translateY(2px);
-  }
+0%,25%,100%{transform:translateY(0) rotate(0)}
+43%,69%{transform:translateY(9px) rotate(.25deg)}
+80%{transform:translateY(2px)}
 }
-
-
-/*
-Subtle movement on Supriya's traditional braid.
-*/
-
 .bride-braid{
-  transform-box:fill-box;
-
-  transform-origin:
-    top center;
-
-  animation:
-    braidSway
-    4.6s
-    ease-in-out
-    infinite;
+transform-box:fill-box;
+transform-origin:top center;
+animation:braidSway 4.6s ease-in-out infinite;
 }
-
 @keyframes braidSway{
-
-  50%{
-    transform:
-      rotate(1.6deg);
-  }
+50%{transform:rotate(1.6deg)}
 }
-
-
-/*
-The wedding garlands move very slightly.
-*/
-
 .garland-left{
-  transform-box:fill-box;
-
-  transform-origin:
-    top center;
-
-  animation:
-    garlandLeft
-    3.8s
-    ease-in-out
-    infinite;
+transform-box:fill-box;
+transform-origin:top center;
+animation:garlandLeft 3.8s ease-in-out infinite;
 }
-
 .garland-right{
-  transform-box:fill-box;
-
-  transform-origin:
-    top center;
-
-  animation:
-    garlandRight
-    3.8s
-    ease-in-out
-    infinite;
+transform-box:fill-box;
+transform-origin:top center;
+animation:garlandRight 3.8s ease-in-out infinite;
 }
-
-@keyframes garlandLeft{
-
-  50%{
-    transform:
-      rotate(1.4deg);
-  }
-}
-
-@keyframes garlandRight{
-
-  50%{
-    transform:
-      rotate(-1.4deg);
-  }
-}
-
-
-/*
-Small traditional diya flames in the blessing scene.
-*/
-
+@keyframes garlandLeft{50%{transform:rotate(1.4deg)}}
+@keyframes garlandRight{50%{transform:rotate(-1.4deg)}}
 .diya-flame{
-  transform-box:fill-box;
-
-  transform-origin:
-    center bottom;
-
-  animation:
-    diyaFlicker
-    1.4s
-    ease-in-out
-    infinite alternate;
+transform-box:fill-box;
+transform-origin:center bottom;
+animation:diyaFlicker 1.4s ease-in-out infinite alternate;
 }
-
 @keyframes diyaFlicker{
-
-  from{
-    transform:
-      scale(.92)
-      rotate(-2deg);
-
-    opacity:.82;
-  }
-
-  to{
-    transform:
-      scale(1.08)
-      rotate(2deg);
-
-    opacity:1;
-  }
+from{transform:scale(.92) rotate(-2deg);opacity:.82}
+to{transform:scale(1.08) rotate(2deg);opacity:1}
 }
 
-
-/*
-Akshata / jasmine / petals.
-*/
+/* MUCH FULLER FLOWER SHOWER */
 
 .akshata{
-  position:absolute;
-
-  z-index:4;
-
-  top:20%;
-
-  width:7px;
-  height:12px;
-
-  border-radius:
-    70%
-    30%
-    70%
-    30%;
-
-  opacity:0;
-
-  background:#e1a33e;
-
-  animation:
-    akshataFall
-    6.8s
-    ease-in
-    infinite;
+position:absolute;
+z-index:5;
+top:10%;
+width:8px;
+height:14px;
+opacity:0;
+pointer-events:none;
+background:#e1a33e;
+border-radius:75% 25% 70% 30%;
+animation:flowerBlessingFall var(--fall,7.2s) linear infinite;
+animation-delay:var(--delay,0s);
+filter:drop-shadow(0 2px 2px rgba(78,44,20,.12));
 }
-
 .akshata.jasmine{
-  width:9px;
-  height:9px;
-
-  border-radius:50%;
-
-  background:#fffdf4;
+width:12px;
+height:12px;
+border-radius:50%;
+background:#fffdf4;
+box-shadow:
+5px 0 0 -2px #fffdf4,
+-5px 0 0 -2px #fffdf4,
+0 5px 0 -2px #fffdf4,
+0 -5px 0 -2px #fffdf4;
 }
-
 .akshata.rose{
-  background:#c86e73;
+width:12px;
+height:18px;
+border-radius:80% 20% 70% 30%;
+background:linear-gradient(145deg,#e58a8d,#b64c59);
 }
-
-.a1{
-  left:38%;
-  animation-delay:.1s;
+.akshata.marigold{
+width:13px;
+height:13px;
+border-radius:48% 52% 44% 56%;
+background:radial-gradient(circle at 35% 30%,#ffd978,#ef9e24 62%,#c66c13);
 }
-
-.a2{
-  left:42%;
-  animation-delay:.34s;
+.akshata.rice{
+width:4px;
+height:11px;
+border-radius:70% 30% 70% 30%;
+background:#f5dca2;
 }
-
-.a3{
-  left:46%;
-  animation-delay:.58s;
+.akshata.whitepetal{
+width:10px;
+height:16px;
+border-radius:90% 15% 80% 25%;
+background:linear-gradient(145deg,#fffef8,#eadcc7);
 }
+.f1{left:27%;--delay:.10s;--fall:6.8s;--drift:34px}
+.f2{left:31%;--delay:.70s;--fall:7.5s;--drift:-25px}
+.f3{left:35%;--delay:1.25s;--fall:6.5s;--drift:44px}
+.f4{left:39%;--delay:.35s;--fall:7.9s;--drift:-42px}
+.f5{left:43%;--delay:1.75s;--fall:6.9s;--drift:28px}
+.f6{left:47%;--delay:.95s;--fall:7.2s;--drift:-35px}
+.f7{left:51%;--delay:.20s;--fall:6.6s;--drift:40px}
+.f8{left:55%;--delay:1.45s;--fall:7.7s;--drift:-31px}
+.f9{left:59%;--delay:.55s;--fall:6.7s;--drift:24px}
+.f10{left:63%;--delay:1.95s;--fall:7.4s;--drift:-46px}
+.f11{left:67%;--delay:1.10s;--fall:6.4s;--drift:36px}
+.f12{left:71%;--delay:.42s;--fall:7.8s;--drift:-28px}
+.f13{left:29%;--delay:2.10s;--fall:7.1s;--drift:45px}
+.f14{left:34%;--delay:2.55s;--fall:6.6s;--drift:-38px}
+.f15{left:40%;--delay:2.25s;--fall:7.6s;--drift:31px}
+.f16{left:46%;--delay:2.85s;--fall:6.9s;--drift:-44px}
+.f17{left:52%;--delay:2.40s;--fall:7.3s;--drift:38px}
+.f18{left:58%;--delay:3.05s;--fall:6.5s;--drift:-26px}
+.f19{left:64%;--delay:2.65s;--fall:7.9s;--drift:42px}
+.f20{left:69%;--delay:3.25s;--fall:6.8s;--drift:-36px}
+.f21{left:37%;--delay:3.45s;--fall:7.4s;--drift:27px}
+.f22{left:44%;--delay:3.80s;--fall:6.7s;--drift:-33px}
+.f23{left:50%;--delay:3.35s;--fall:7.8s;--drift:39px}
+.f24{left:57%;--delay:3.95s;--fall:6.6s;--drift:-41px}
+.f25{left:62%;--delay:4.25s;--fall:7.1s;--drift:30px}
+.f26{left:32%;--delay:4.55s;--fall:6.9s;--drift:-28px}
+.f27{left:48%;--delay:4.75s;--fall:7.5s;--drift:46px}
+.f28{left:54%;--delay:5.05s;--fall:6.5s;--drift:-39px}
+.f29{left:66%;--delay:4.60s;--fall:7.7s;--drift:33px}
+.f30{left:42%;--delay:5.35s;--fall:6.8s;--drift:-45px}
 
-.a4{
-  left:50%;
-  animation-delay:.2s;
+@keyframes flowerBlessingFall{
+0%{
+opacity:0;
+transform:translate3d(0,-35px,0) rotate(0deg) scale(.78);
 }
-
-.a5{
-  left:54%;
-  animation-delay:.48s;
+8%{opacity:.95}
+55%{opacity:1}
+92%{opacity:.82}
+100%{
+opacity:0;
+transform:translate3d(var(--drift,25px),330px,0) rotate(620deg) scale(1.04);
 }
-
-.a6{
-  left:58%;
-  animation-delay:.74s;
 }
-
-.a7{
-  left:62%;
-  animation-delay:.9s;
-}
-
-.a8{
-  left:47%;
-  animation-delay:1.05s;
-}
-
-.a9{
-  left:57%;
-  animation-delay:1.2s;
-}
-
-@keyframes akshataFall{
-
-  0%,
-  30%{
-    opacity:0;
-
-    transform:
-      translate3d(
-        0,
-        -24px,
-        0
-      )
-      rotate(0);
-  }
-
-  38%{
-    opacity:1;
-  }
-
-  69%{
-    opacity:.95;
-  }
-
-  86%,
-  100%{
-    opacity:0;
-
-    transform:
-      translate3d(
-        15px,
-        205px,
-        0
-      )
-      rotate(430deg);
-  }
-}
-
 .blessing-caption{
-  margin:
-    8px
-    auto
-    0;
-
-  color:var(--darkgold);
-
-  font:
-    italic
-    500
-    clamp(1.35rem,4.8vw,2rem)
-    /1.35
-    var(--serif);
+margin:8px auto 0;
+color:var(--darkgold);
+font:italic 500 clamp(1.35rem,4.8vw,2rem)/1.35 var(--serif);
 }
-
 .blessing-subcopy{
-  max-width:570px;
-
-  margin:
-    8px
-    auto
-    0;
-
-  color:var(--brown2);
-
-  font:
-    400
-    1.08rem
-    /1.45
-    var(--serif);
+max-width:570px;
+margin:8px auto 0;
+color:var(--brown2);
+font:400 1.08rem/1.45 var(--serif);
 }
 
-
-/* =====================================================
-   FAMILIES
-===================================================== */
+/* FAMILIES */
 
 .families{
-  position:relative;
-
-  padding:
-    100px
-    18px
-    125px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      var(--ivory),
-      rgba(255,249,236,.80),
-      var(--ivory)
-    ),
-    url("./images/blessings/family-temple.png")
-    center/cover no-repeat;
+position:relative;
+padding:100px 18px 125px;
+background:
+linear-gradient(to bottom,
+var(--ivory),
+rgba(255,249,236,.80),
+var(--ivory)),
+url("./images/blessings/family-temple.png")
+center/cover no-repeat;
 }
-
 .families:before{
-  content:"";
-
-  position:absolute;
-  inset:0;
-
-  background:
-    rgba(255,249,237,.75);
+content:"";
+position:absolute;
+inset:0;
+background:rgba(255,249,237,.75);
 }
-
 .family-inner{
-  position:relative;
-
-  z-index:2;
-
-  width:min(1050px,100%);
-
-  margin:auto;
-
-  text-align:center;
+position:relative;
+z-index:2;
+width:min(1050px,100%);
+margin:auto;
+text-align:center;
 }
-
 .family-grid{
-  position:relative;
-
-  display:grid;
-
-  grid-template-columns:
-    minmax(0,1fr)
-    minmax(0,1fr);
-
-  gap:
-    clamp(
-      30px,
-      8vw,
-      100px
-    );
-
-  align-items:start;
-
-  margin-top:52px;
+position:relative;
+display:grid;
+grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+gap:clamp(30px,8vw,100px);
+align-items:start;
+margin-top:52px;
 }
-
 .family-grid:after{
-  content:"";
-
-  position:absolute;
-
-  left:50%;
-  top:0;
-  bottom:0;
-
-  width:1px;
-
-  background:
-    linear-gradient(
-      transparent,
-      rgba(182,120,45,.7) 12%,
-      rgba(182,120,45,.7) 88%,
-      transparent
-    );
+content:"";
+position:absolute;
+left:50%;
+top:0;
+bottom:0;
+width:1px;
+background:
+linear-gradient(
+transparent,
+rgba(182,120,45,.7) 12%,
+rgba(182,120,45,.7) 88%,
+transparent);
 }
-
 .family{
-  display:grid;
-
-  grid-template-rows:
-    auto
-    minmax(150px,auto)
-    minmax(150px,auto)
-    minmax(150px,auto);
-
-  align-items:start;
-
-  padding:
-    0
-    14px;
+display:grid;
+grid-template-rows:
+auto
+minmax(150px,auto)
+minmax(150px,auto)
+minmax(150px,auto);
+align-items:start;
+padding:0 14px;
 }
-
 .family h4{
-  min-height:64px;
-
-  margin:
-    0
-    0
-    24px;
-
-  color:var(--darkgold);
-
-  font:
-    500
-    clamp(1.7rem,5vw,2.7rem)
-    var(--serif);
+min-height:64px;
+margin:0 0 24px;
+color:var(--darkgold);
+font:500 clamp(1.7rem,5vw,2.7rem) var(--serif);
 }
-
 .family-generation{
-  min-height:150px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:flex-start;
-
-  padding:
-    20px
-    8px
-    27px;
-
-  border-top:
-    1px solid
-    rgba(182,120,45,.15);
+min-height:150px;
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+padding:20px 8px 27px;
+border-top:1px solid rgba(182,120,45,.15);
 }
-
-.family-generation:first-of-type{
-  border-top:0;
-}
-
+.family-generation:first-of-type{border-top:0}
 .family small{
-  display:block;
-
-  min-height:20px;
-
-  margin:
-    0
-    0
-    10px;
-
-  color:var(--gold);
-
-  font-size:.54rem;
-  font-weight:600;
-
-  letter-spacing:.13em;
-
-  text-transform:uppercase;
+display:block;
+min-height:20px;
+margin:0 0 10px;
+color:var(--gold);
+font-size:.54rem;
+font-weight:600;
+letter-spacing:.13em;
+text-transform:uppercase;
 }
-
 .family p{
-  margin:0;
-
-  font:
-    400
-    clamp(.96rem,2.7vw,1.22rem)
-    /1.5
-    var(--serif);
+margin:0;
+font:400 clamp(.96rem,2.7vw,1.22rem)/1.5 var(--serif);
 }
-
 .family-ending{
-  margin:
-    45px
-    0
-    0;
-
-  font:
-    italic
-    400
-    1.5rem
-    var(--serif);
+margin:45px 0 0;
+font:italic 400 1.5rem var(--serif);
 }
 
-/* ===== END OF PART 1 ===== */
-  
-  /* =====================================================
-   EVENTS
-===================================================== */
+/* EVENTS */
 
 .events{
-  padding-top:75px;
-  background:var(--ivory);
+padding-top:75px;
+background:var(--ivory);
 }
-
 .events-head{
-  width:min(800px,calc(100% - 40px));
-  margin:0 auto 45px;
-  text-align:center;
+width:min(800px,calc(100% - 40px));
+margin:0 auto 45px;
+text-align:center;
 }
-
 .event{
-  position:relative;
-  min-height:72svh;
-  display:flex;
-  align-items:flex-end;
-  overflow:hidden;
+position:relative;
+min-height:72svh;
+display:flex;
+align-items:flex-end;
+overflow:hidden;
 }
-
 .event img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  animation:slowPush 14s ease-in-out infinite alternate;
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+animation:slowPush 14s ease-in-out infinite alternate;
 }
-
 .event:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      to bottom,
-      transparent 25%,
-      rgba(20,10,5,.12) 45%,
-      rgba(20,10,5,.9)
-    );
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(to bottom,
+transparent 25%,
+rgba(20,10,5,.12) 45%,
+rgba(20,10,5,.9));
 }
-
 .event-content{
-  position:relative;
-  z-index:2;
-  width:min(850px,calc(100% - 36px));
-  margin:auto;
-  padding:160px 0 65px;
-  color:#fff9ec;
-  text-align:center;
-  text-shadow:0 3px 18px rgba(0,0,0,.5);
+position:relative;
+z-index:2;
+width:min(850px,calc(100% - 36px));
+margin:auto;
+padding:160px 0 65px;
+color:#fff9ec;
+text-align:center;
+text-shadow:0 3px 18px rgba(0,0,0,.5);
 }
-
 .event h4{
-  margin:0;
-  font:500 clamp(3.5rem,12vw,6.3rem)/.9 var(--serif);
+margin:0;
+font:500 clamp(3.5rem,12vw,6.3rem)/.9 var(--serif);
 }
-
 .event-date{
-  margin:14px 0 0;
-  font:400 1.28rem var(--serif);
+margin:14px 0 0;
+font:400 1.28rem var(--serif);
 }
-
 .event-time{
-  margin:7px 0;
-  font:500 1.55rem var(--serif);
+margin:7px 0;
+font:500 1.55rem var(--serif);
 }
-
 .event-location{
-  margin:0;
-  font-size:.66rem;
-  font-weight:600;
-  letter-spacing:.15em;
-  text-transform:uppercase;
+margin:0;
+font-size:.66rem;
+font-weight:600;
+letter-spacing:.15em;
+text-transform:uppercase;
 }
 
-
-/* =====================================================
-   LAMP
-===================================================== */
+/* LAMP */
 
 .lamp-section{
-  position:relative;
-  overflow:hidden;
-  padding:100px 20px 115px;
-  text-align:center;
-  background:
-    radial-gradient(
-      circle at 50% 58%,
-      rgba(236,175,74,.23),
-      transparent 36%
-    ),
-    linear-gradient(
-      #fffaf0,
-      #f1dcba,
-      #fff7e7
-    );
+position:relative;
+overflow:hidden;
+padding:100px 20px 115px;
+text-align:center;
+background:
+radial-gradient(circle at 50% 58%,
+rgba(236,175,74,.23),
+transparent 36%),
+linear-gradient(#fffaf0,#f1dcba,#fff7e7);
 }
-
 .lamp-inner{
-  width:min(760px,100%);
-  margin:auto;
+width:min(760px,100%);
+margin:auto;
 }
-
 .real-lamp-wrap{
-  position:relative;
-  width:min(360px,80vw);
-  height:min(530px,115vw);
-  max-height:530px;
-  margin:28px auto 10px;
-  cursor:pointer;
-  border-radius:42%;
-  outline:none;
-  -webkit-tap-highlight-color:transparent;
+position:relative;
+width:min(360px,80vw);
+height:min(530px,115vw);
+max-height:530px;
+margin:28px auto 10px;
+cursor:pointer;
+border-radius:42%;
+outline:none;
+-webkit-tap-highlight-color:transparent;
 }
-
 .real-lamp-wrap:not(.lit){
-  animation:lampHint 3.2s ease-in-out infinite;
+animation:lampHint 3.2s ease-in-out infinite;
 }
-
 @keyframes lampHint{
-  0%,100%{
-    transform:translateY(0) scale(1);
-  }
-
-  50%{
-    transform:translateY(-4px) scale(1.012);
-  }
+0%,100%{transform:translateY(0) scale(1)}
+50%{transform:translateY(-4px) scale(1.012)}
 }
-
 .lamp-aura{
-  position:absolute;
-  z-index:0;
-  left:50%;
-  top:38%;
-  width:95%;
-  aspect-ratio:1;
-  transform:translate(-50%,-50%) scale(.25);
-  border-radius:50%;
-  opacity:0;
-  background:
-    radial-gradient(
-      circle,
-      rgba(255,232,156,.95),
-      rgba(255,186,53,.45) 30%,
-      rgba(210,112,21,.14) 52%,
-      transparent 72%
-    );
-  filter:blur(20px);
-  transition:opacity 1.4s ease,transform 1.6s ease;
+position:absolute;
+z-index:0;
+left:50%;
+top:38%;
+width:95%;
+aspect-ratio:1;
+transform:translate(-50%,-50%) scale(.25);
+border-radius:50%;
+opacity:0;
+background:
+radial-gradient(circle,
+rgba(255,232,156,.95),
+rgba(255,186,53,.45) 30%,
+rgba(210,112,21,.14) 52%,
+transparent 72%);
+filter:blur(20px);
+transition:opacity 1.4s ease,transform 1.6s ease;
 }
-
 .lamp-img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  pointer-events:none;
-  transition:
-    opacity 1.3s ease,
-    transform 1.3s ease,
-    filter 1.3s ease;
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:contain;
+pointer-events:none;
+transition:opacity 1.3s ease,transform 1.3s ease,filter 1.3s ease;
 }
-
 #lampUnlit{
-  z-index:2;
-  opacity:1;
-  filter:drop-shadow(0 18px 22px rgba(65,34,14,.2));
+z-index:2;
+opacity:1;
+filter:drop-shadow(0 18px 22px rgba(65,34,14,.2));
 }
-
 #lampLit{
-  z-index:3;
-  opacity:0;
-  transform:scale(.995);
+z-index:3;
+opacity:0;
+transform:scale(.995);
 }
-
-.real-lamp-wrap.lit{
-  animation:none;
-}
-
+.real-lamp-wrap.lit{animation:none}
 .real-lamp-wrap.lit #lampUnlit{
-  opacity:0;
-  transform:scale(1.008);
+opacity:0;
+transform:scale(1.008);
 }
-
 .real-lamp-wrap.lit #lampLit{
-  opacity:1;
-  transform:scale(1);
-  filter:
-    drop-shadow(0 18px 22px rgba(65,34,14,.2))
-    drop-shadow(0 0 30px rgba(255,183,53,.58))
-    brightness(1.04);
+opacity:1;
+transform:scale(1);
+filter:
+drop-shadow(0 18px 22px rgba(65,34,14,.2))
+drop-shadow(0 0 30px rgba(255,183,53,.58))
+brightness(1.04);
 }
-
 .real-lamp-wrap.lit .lamp-aura{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1.12);
-  animation:auraPulse 2.8s ease-in-out infinite;
+opacity:1;
+transform:translate(-50%,-50%) scale(1.12);
+animation:auraPulse 2.8s ease-in-out infinite;
 }
-
 @keyframes auraPulse{
-  50%{
-    opacity:.72;
-    transform:translate(-50%,-50%) scale(1.18);
-  }
+50%{
+opacity:.72;
+transform:translate(-50%,-50%) scale(1.18);
 }
-
+}
 .lamp-hint{
-  margin:-5px 0 16px;
-  color:#8a5c30;
-  font:italic 400 1rem var(--serif);
+margin:-5px 0 16px;
+color:#8a5c30;
+font:italic 400 1rem var(--serif);
 }
-
 .lamp-button{
-  min-height:54px;
-  padding:0 27px;
-  border:0;
-  border-radius:999px;
-  color:#fff9ec;
-  background:linear-gradient(135deg,#764415,#be8030,#86501b);
-  box-shadow:0 12px 28px rgba(90,50,20,.2);
-  font-size:.64rem;
-  font-weight:600;
-  letter-spacing:.11em;
-  text-transform:uppercase;
+min-height:54px;
+padding:0 27px;
+border:0;
+border-radius:999px;
+color:#fff9ec;
+background:linear-gradient(135deg,#764415,#be8030,#86501b);
+box-shadow:0 12px 28px rgba(90,50,20,.2);
+font-size:.64rem;
+font-weight:600;
+letter-spacing:.11em;
+text-transform:uppercase;
 }
-
 #lampMessage{
-  min-height:75px;
-  margin:22px auto 0;
-  opacity:0;
-  transform:translateY(10px);
-  font:400 1.45rem/1.45 var(--serif);
-  transition:.8s ease;
+min-height:75px;
+margin:22px auto 0;
+opacity:0;
+transform:translateY(10px);
+font:400 1.45rem/1.45 var(--serif);
+transition:.8s ease;
 }
-
 #lampMessage.show{
-  opacity:1;
-  transform:none;
+opacity:1;
+transform:none;
 }
 
-
-/* =====================================================
-   VENUE
-===================================================== */
+/* VENUE */
 
 .venue{
-  position:relative;
-  min-height:90svh;
-  display:flex;
-  align-items:center;
-  padding:120px 22px 170px;
-  color:#fff9ec;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(30,15,7,.02),
-      rgba(30,15,7,.18) 45%,
-      rgba(50,25,12,.82)
-    ),
-    url("./images/blessings/venue-sea.png")
-    center/cover no-repeat;
+position:relative;
+min-height:90svh;
+display:flex;
+align-items:center;
+padding:120px 22px 170px;
+color:#fff9ec;
+background:
+linear-gradient(to bottom,
+rgba(30,15,7,.02),
+rgba(30,15,7,.18) 45%,
+rgba(50,25,12,.82)),
+url("./images/blessings/venue-sea.png")
+center/cover no-repeat;
 }
-
 .venue:after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:220px;
-  background:linear-gradient(transparent,#4a2818);
+content:"";
+position:absolute;
+left:0;
+right:0;
+bottom:0;
+height:220px;
+background:linear-gradient(transparent,#4a2818);
 }
-
 .venue-inner{
-  position:relative;
-  z-index:2;
-  width:min(740px,100%);
-  margin:auto;
-  text-align:center;
-  text-shadow:0 3px 20px rgba(0,0,0,.5);
+position:relative;
+z-index:2;
+width:min(740px,100%);
+margin:auto;
+text-align:center;
+text-shadow:0 3px 20px rgba(0,0,0,.5);
 }
-
 .venue h3{
-  margin:0;
-  font:500 clamp(3rem,10vw,5.7rem)/.95 var(--serif);
+margin:0;
+font:500 clamp(3rem,10vw,5.7rem)/.95 var(--serif);
 }
-
 .map-button{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:50px;
-  margin-top:25px;
-  padding:0 24px;
-  border:1px solid rgba(255,230,190,.65);
-  border-radius:999px;
-  color:#fff;
-  background:rgba(65,33,16,.42);
-  text-decoration:none;
-  font-size:.62rem;
-  font-weight:600;
-  letter-spacing:.11em;
-  text-transform:uppercase;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-height:50px;
+margin-top:25px;
+padding:0 24px;
+border:1px solid rgba(255,230,190,.65);
+border-radius:999px;
+color:#fff;
+background:rgba(65,33,16,.42);
+text-decoration:none;
+font-size:.62rem;
+font-weight:600;
+letter-spacing:.11em;
+text-transform:uppercase;
 }
 
-
-/* =====================================================
-   INVITATION
-===================================================== */
+/* INVITATION */
 
 .invitation{
-  padding:95px 15px 115px;
-
-  background:
-    linear-gradient(
-      #4a2818,
-      #b38150 12%,
-      #ecd2a6 28%,
-      #fff8e9 100%
-    );
+padding:95px 15px 115px;
+background:
+linear-gradient(
+#4a2818,
+#b38150 12%,
+#ecd2a6 28%,
+#fff8e9 100%);
 }
-
 .invitation-head{
-  width:min(700px,100%);
-  margin:0 auto 35px;
-  color:#fff;
-  text-align:center;
+width:min(700px,100%);
+margin:0 auto 35px;
+color:#fff;
+text-align:center;
 }
-
-.invitation-head .eyebrow{
-  color:#f4d092;
-}
-
+.invitation-head .eyebrow{color:#f4d092}
 .invitation-card{
-  position:relative;
-  width:min(620px,100%);
-  margin:auto;
-  padding:58px 28px;
-  border:5px solid #a66a27;
-  outline:1px solid #e2b76c;
-  outline-offset:-14px;
-  text-align:center;
-
-  background:
-    radial-gradient(
-      circle at 50% 5%,
-      rgba(226,179,93,.18),
-      transparent 25%
-    ),
-    linear-gradient(
-      135deg,
-      #fffaf0,
-      #f3dfbd,
-      #fff9ed
-    );
-
-  box-shadow:0 35px 80px rgba(50,25,10,.3);
+position:relative;
+width:min(620px,100%);
+margin:auto;
+padding:58px 28px;
+border:5px solid #a66a27;
+outline:1px solid #e2b76c;
+outline-offset:-14px;
+text-align:center;
+background:
+radial-gradient(circle at 50% 5%,
+rgba(226,179,93,.18),
+transparent 25%),
+linear-gradient(135deg,#fffaf0,#f3dfbd,#fff9ed);
+box-shadow:0 35px 80px rgba(50,25,10,.3);
 }
-
 .invite-ganesha{
-  width:90px;
-  height:90px;
-  margin:auto;
-  overflow:hidden;
-  border:1px solid var(--gold);
-  border-radius:50%;
+width:90px;
+height:90px;
+margin:auto;
+overflow:hidden;
+border:1px solid var(--gold);
+border-radius:50%;
 }
-
 .invite-ganesha img{
-  height:100%;
-  object-fit:cover;
+height:100%;
+object-fit:cover;
 }
-
 .invitation-card h3{
-  margin:15px 0 5px;
-  font:500 clamp(3.2rem,11vw,5rem)/.85 var(--serif);
+margin:15px 0 5px;
+font:500 clamp(3.2rem,11vw,5rem)/.85 var(--serif);
 }
-
 .invitation-card h3 span{
-  display:block;
-  margin:7px;
-  color:var(--gold);
-  font-size:.62em;
-  font-style:italic;
+display:block;
+margin:7px;
+color:var(--gold);
+font-size:.62em;
+font-style:italic;
 }
-
 .invite-guest{
-  margin:14px 0;
-  color:var(--red);
-  font:600 clamp(2rem,7vw,3rem) var(--serif);
+margin:14px 0;
+color:var(--red);
+font:600 clamp(2rem,7vw,3rem) var(--serif);
 }
-
 .invite-events{
-  margin:25px auto;
-  font:400 1.05rem/1.65 var(--serif);
+margin:25px auto;
+font:400 1.05rem/1.65 var(--serif);
 }
-
-.invite-events strong{
-  color:var(--darkgold);
-}
-
+.invite-events strong{color:var(--darkgold)}
 .actions{
-  width:min(620px,100%);
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-  margin:23px auto 0;
+width:min(620px,100%);
+display:flex;
+flex-wrap:wrap;
+gap:9px;
+margin:23px auto 0;
 }
-
 .action{
-  flex:1 1 175px;
-  min-height:50px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:0 17px;
-  border:0;
-  border-radius:999px;
-  color:#fff;
-  background:var(--brown);
-  text-decoration:none;
-  font-size:.6rem;
-  font-weight:600;
-  letter-spacing:.1em;
-  text-transform:uppercase;
+flex:1 1 175px;
+min-height:50px;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:0 17px;
+border:0;
+border-radius:999px;
+color:#fff;
+background:var(--brown);
+text-decoration:none;
+font-size:.6rem;
+font-weight:600;
+letter-spacing:.1em;
+text-transform:uppercase;
 }
 
-
-/* =====================================================
-   CLOSING
-===================================================== */
+/* CLOSING */
 
 .closing{
-  position:relative;
-  min-height:88svh;
-  display:flex;
-  align-items:center;
-  padding:130px 22px 100px;
-  color:#fff8e9;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(50,25,12,.08),
-      rgba(35,17,8,.82)
-    ),
-    url("./images/blessings/closing-blessings.png")
-    center/cover no-repeat;
+position:relative;
+min-height:88svh;
+display:flex;
+align-items:center;
+padding:130px 22px 100px;
+color:#fff8e9;
+background:
+linear-gradient(to bottom,
+rgba(50,25,12,.08),
+rgba(35,17,8,.82)),
+url("./images/blessings/closing-blessings.png")
+center/cover no-repeat;
 }
-
 .closing-inner{
-  width:min(760px,100%);
-  margin:auto;
-  text-align:center;
-  text-shadow:0 3px 20px rgba(0,0,0,.55);
+width:min(760px,100%);
+margin:auto;
+text-align:center;
+text-shadow:0 3px 20px rgba(0,0,0,.55);
 }
-
 .closing h3{
-  margin:0;
-  font:500 clamp(2.7rem,9vw,5rem)/1.02 var(--serif);
+margin:0;
+font:500 clamp(2.7rem,9vw,5rem)/1.02 var(--serif);
 }
-
 .closing-name{
-  margin:27px 0 8px;
-  color:#f1c779;
-  font:italic 500 clamp(2.7rem,9vw,4.7rem) var(--serif);
+margin:27px 0 8px;
+color:#f1c779;
+font:italic 500 clamp(2.7rem,9vw,4.7rem) var(--serif);
 }
-
 .closing-lamp{
-  width:85px;
-  margin:24px auto 0;
-  opacity:.5;
-  transition:1s ease;
+width:85px;
+margin:24px auto 0;
+opacity:.5;
+transition:1s ease;
 }
-
 .closing-lamp.lit{
-  opacity:1;
-  filter:drop-shadow(0 0 20px rgba(255,183,53,.65));
+opacity:1;
+filter:drop-shadow(0 0 20px rgba(255,183,53,.65));
 }
 
-
-/* =====================================================
-   FLOATING BUTTONS
-===================================================== */
+/* FLOATING */
 
 .floating{
-  position:fixed;
-  right:15px;
-  bottom:17px;
-  z-index:300;
-  display:flex;
-  flex-direction:column;
-  gap:9px;
+position:fixed;
+right:15px;
+bottom:17px;
+z-index:300;
+display:flex;
+flex-direction:column;
+gap:9px;
 }
-
 .float{
-  width:52px;
-  height:52px;
-  display:grid;
-  place-items:center;
-  border:1px solid rgba(140,85,30,.25);
-  border-radius:50%;
-  color:var(--brown);
-  background:rgba(255,250,240,.95);
-  box-shadow:0 10px 28px rgba(50,25,10,.16);
-  font-size:1.3rem;
+width:52px;
+height:52px;
+display:grid;
+place-items:center;
+border:1px solid rgba(140,85,30,.25);
+border-radius:50%;
+color:var(--brown);
+background:rgba(255,250,240,.95);
+box-shadow:0 10px 28px rgba(50,25,10,.16);
+font-size:1.3rem;
 }
-
 .float.sound-on{
-  color:#754313;
-
-  box-shadow:
-    0 10px 28px rgba(50,25,10,.16),
-    0 0 0 4px rgba(182,120,45,.08);
+color:#754313;
+box-shadow:
+0 10px 28px rgba(50,25,10,.16),
+0 0 0 4px rgba(182,120,45,.08);
 }
-
-.float.sound-muted{
-  opacity:.58;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
+.float.sound-muted{opacity:.58}
 
 @media(max-width:620px){
-
-  .blessing-scene{
-    padding:42px 14px 82px;
-  }
-
-  .blessing-stage{
-    width:min(500px,100vw);
-    margin-top:25px;
-  }
-
-  .family-grid{
-    gap:18px;
-  }
-
-  .family{
-    grid-template-rows:
-      auto
-      minmax(165px,auto)
-      minmax(165px,auto)
-      minmax(165px,auto);
-
-    padding:0 4px;
-  }
-
-  .family h4{
-    min-height:58px;
-    margin-bottom:18px;
-    font-size:1.5rem;
-  }
-
-  .family-generation{
-    min-height:165px;
-    padding:18px 4px 28px;
-  }
-
-  .family small{
-    font-size:.48rem;
-    letter-spacing:.07em;
-  }
-
-  .family p{
-    font-size:.91rem;
-    line-height:1.5;
-  }
-
-  .real-lamp-wrap{
-    width:min(300px,76vw);
-    height:min(445px,112vw);
-  }
-
-  .invitation-card{
-    padding:55px 21px;
-  }
+.blessing-scene{padding:42px 14px 82px}
+.blessing-stage{
+width:min(500px,100vw);
+margin-top:25px;
 }
-
+.family-grid{gap:18px}
+.family{
+grid-template-rows:
+auto
+minmax(165px,auto)
+minmax(165px,auto)
+minmax(165px,auto);
+padding:0 4px;
+}
+.family h4{
+min-height:58px;
+margin-bottom:18px;
+font-size:1.5rem;
+}
+.family-generation{
+min-height:165px;
+padding:18px 4px 28px;
+}
+.family small{
+font-size:.48rem;
+letter-spacing:.07em;
+}
+.family p{
+font-size:.91rem;
+line-height:1.5;
+}
+.real-lamp-wrap{
+width:min(300px,76vw);
+height:min(445px,112vw);
+}
+.invitation-card{padding:55px 21px}
+}
 
 @media(prefers-reduced-motion:reduce){
-
-  *,
-  *:before,
-  *:after{
-    animation-duration:.01ms!important;
-    transition-duration:.01ms!important;
-  }
+*,
+*:before,
+*:after{
+animation-duration:.01ms!important;
+transition-duration:.01ms!important;
 }
-
+}
 </style>
 </head>
-
 
 <body class="locked">
 
 <div id="petals"></div>
 
-
-<!-- =====================================================
-     ENTRANCE
-===================================================== -->
-
 <section id="entrance">
+<div class="entrance-bg"></div>
+<div class="entrance-glow"></div>
 
-  <div class="entrance-bg"></div>
-  <div class="entrance-glow"></div>
+<div class="entrance-content">
+<div class="om">ॐ</div>
 
-  <div class="entrance-content">
+<p class="mantra">
+॥ SHRI GANESHAYA NAMAH ॥
+</p>
 
-    <div class="om">ॐ</div>
+<h1>
+Nikhil
+<span>&amp;</span>
+Supriya
+</h1>
 
-    <p class="mantra">
-      ॥ SHRI GANESHAYA NAMAH ॥
-    </p>
+<p class="date">
+21 · 22 November 2026
+</p>
 
-    <h1>
-      Nikhil
-      <span>&amp;</span>
-      Supriya
-    </h1>
+<p class="entrance-copy">
+We would be honoured to have your blessings.
+</p>
 
-    <p class="date">
-      21 · 22 November 2026
-    </p>
+<div class="name-box">
 
-    <p class="entrance-copy">
-      We would be honoured to have your blessings.
-    </p>
+<label for="guestInput">
+Your Name
+</label>
 
-    <div class="name-box">
+<input
+id="guestInput"
+type="text"
+maxlength="60"
+autocomplete="name"
+placeholder="Tap here and enter your name"
+>
 
-      <label for="guestInput">
-        Your Name
-      </label>
+<button
+id="enterCelebration"
+class="enter-button"
+type="button"
+>
+Enter the Celebration
+</button>
 
-      <input
-        id="guestInput"
-        type="text"
-        maxlength="60"
-        autocomplete="name"
-        placeholder="Tap here and enter your name"
-      >
+<p id="nameError"></p>
 
-      <button
-        id="enterCelebration"
-        class="enter-button"
-        type="button"
-      >
-        Enter the Celebration
-      </button>
-
-      <p id="nameError"></p>
-
-    </div>
-
-  </div>
-
+</div>
+</div>
 </section>
-
 
 <main>
 
-
-<!-- =====================================================
-     GANESHA
-===================================================== -->
-
 <section class="ganesha-hero">
+<div class="hero-inner reveal">
 
-  <div class="hero-inner reveal">
+<div class="hero-mantra">
+॥ SHRI GANESHAYA NAMAH ॥
+</div>
 
-    <div class="hero-mantra">
-      ॥ SHRI GANESHAYA NAMAH ॥
-    </div>
+<h2>
+Nikhil
+<span>&amp;</span>
+Supriya
+</h2>
 
-    <h2>
-      Nikhil
-      <span>&amp;</span>
-      Supriya
-    </h2>
+<div class="divider">❈</div>
 
-    <div class="divider">❈</div>
+<p class="hero-message">
+With the blessings of our families,
+we begin a beautiful new chapter together.
+</p>
 
-    <p class="hero-message">
-      With the blessings of our families,
-      we begin a beautiful new chapter together.
-    </p>
-
-  </div>
-
+</div>
 </section>
-
-
-<!-- =====================================================
-     WELCOME
-===================================================== -->
 
 <section class="welcome">
+<div class="welcome-inner reveal">
 
-  <div class="welcome-inner reveal">
+<p class="eyebrow">
+A celebration made complete by you
+</p>
 
-    <p class="eyebrow">
-      A celebration made complete by you
-    </p>
+<h3>
+Dear
+<span class="guest-name">
+Family &amp; Friends
+</span>,
+</h3>
 
-    <h3>
-      Dear
-      <span class="guest-name">
-        Family &amp; Friends
-      </span>,
-    </h3>
+<div class="divider">✦</div>
 
-    <div class="divider">✦</div>
+<p class="copy">
+Some celebrations are made complete not only by
+those who attend, but by the blessings they bring.
+It would mean a great deal to have yours.
+</p>
 
-    <p class="copy">
-      Some celebrations are made complete not only by
-      those who attend, but by the blessings they bring.
-      It would mean a great deal to have yours.
-    </p>
-
-  </div>
-
+</div>
 </section>
-
-
-<!-- =====================================================
-     CEREMONIAL BLESSING ANIMATION
-===================================================== -->
 
 <section class="blessing-scene">
-
-  <div class="blessing-inner reveal">
-
-    <p class="eyebrow">
-      With the blessings of our elders
-    </p>
-
-    <h3 class="title">
-      Blessings before beginnings.
-    </h3>
-
-
-    <div class="blessing-stage">
-
-      <div class="blessing-halo"></div>
-
-
-      <svg
-        class="blessing-art"
-        viewBox="0 0 650 500"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-label="South Indian bride and groom receiving blessings from elders"
-      >
-
-        <defs>
-
-          <linearGradient
-            id="goldSilk"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop offset="0" stop-color="#704015"/>
-            <stop offset=".35" stop-color="#d8a755"/>
-            <stop offset=".66" stop-color="#f1cf82"/>
-            <stop offset="1" stop-color="#81501d"/>
-          </linearGradient>
-
-
-          <linearGradient
-            id="brideSilk"
-            x1="0"
-            y1="0"
-            x2="0"
-            y2="1"
-          >
-            <stop offset="0" stop-color="#b93f3f"/>
-            <stop offset=".5" stop-color="#9b3034"/>
-            <stop offset="1" stop-color="#6f2329"/>
-          </linearGradient>
-
-
-          <linearGradient
-            id="bridePallu"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop offset="0" stop-color="#8f2730"/>
-            <stop offset=".55" stop-color="#c24b49"/>
-            <stop offset="1" stop-color="#7a2029"/>
-          </linearGradient>
-
-
-          <linearGradient
-            id="veshtiCream"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="0"
-          >
-            <stop offset="0" stop-color="#fffaf0"/>
-            <stop offset=".5" stop-color="#ead8b8"/>
-            <stop offset="1" stop-color="#fffdf6"/>
-          </linearGradient>
-
-
-          <linearGradient
-            id="elderSaree"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop offset="0" stop-color="#8d4b3c"/>
-            <stop offset=".55" stop-color="#b76b55"/>
-            <stop offset="1" stop-color="#71382f"/>
-          </linearGradient>
-
-
-          <linearGradient
-            id="skinWarm"
-            x1="0"
-            y1="0"
-            x2="1"
-            y2="1"
-          >
-            <stop offset="0" stop-color="#c78d68"/>
-            <stop offset="1" stop-color="#9c6447"/>
-          </linearGradient>
-
-
-          <radialGradient
-            id="flameGold"
-            cx="50%"
-            cy="70%"
-            r="70%"
-          >
-            <stop offset="0" stop-color="#fff7b8"/>
-            <stop offset=".45" stop-color="#ffbf3f"/>
-            <stop offset="1" stop-color="#d66a16"/>
-          </radialGradient>
-
-        </defs>
-
-
-        <!-- TEMPLE FLOOR / KOLAM -->
-
-        <ellipse
-          cx="325"
-          cy="455"
-          rx="205"
-          ry="25"
-          fill="#9b6429"
-          opacity=".09"
-        />
-
-        <g
-          fill="none"
-          stroke="#b6782d"
-          stroke-width="1.6"
-          opacity=".42"
-        >
-
-          <circle
-            cx="325"
-            cy="446"
-            r="36"
-          />
-
-          <circle
-            cx="325"
-            cy="446"
-            r="14"
-          />
-
-          <path
-            d="
-              M230 446
-              Q277 397 325 446
-              Q373 397 420 446
-              Q373 492 325 446
-              Q277 492 230 446Z
-            "
-          />
-
-          <path
-            d="
-              M270 446
-              Q325 420 380 446
-              Q325 472 270 446Z
-            "
-          />
-
-        </g>
-
-
-        <!-- TRADITIONAL BRASS LAMPS -->
-
-        <g opacity=".92">
-
-          <g transform="translate(96 307)">
-
-            <path
-              d="
-                M0 115 H52
-                M26 112 V45
-                M9 45
-                Q26 30 43 45
-                Q39 57 26 59
-                Q13 57 9 45Z
-              "
-              fill="none"
-              stroke="url(#goldSilk)"
-              stroke-width="6"
-              stroke-linecap="round"
-            />
-
-            <path
-              class="diya-flame"
-              d="
-                M26 34
-                C16 22 24 9 28 1
-                C38 15 38 27 26 34Z
-              "
-              fill="url(#flameGold)"
-            />
-
-          </g>
-
-
-          <g transform="translate(502 307)">
-
-            <path
-              d="
-                M0 115 H52
-                M26 112 V45
-                M9 45
-                Q26 30 43 45
-                Q39 57 26 59
-                Q13 57 9 45Z
-              "
-              fill="none"
-              stroke="url(#goldSilk)"
-              stroke-width="6"
-              stroke-linecap="round"
-            />
-
-            <path
-              class="diya-flame"
-              d="
-                M26 34
-                C16 22 24 9 28 1
-                C38 15 38 27 26 34Z
-              "
-              fill="url(#flameGold)"
-            />
-
-          </g>
-
-        </g>
-
-
-        <!-- =================================================
-             LEFT ELDER
-             Full person, with blessing arm attached
-        ================================================== -->
-
-        <g class="elder-person-left">
-
-          <ellipse
-            cx="122"
-            cy="155"
-            rx="31"
-            ry="35"
-            fill="url(#skinWarm)"
-          />
-
-          <path
-            d="
-              M92 153
-              Q96 111 123 115
-              Q151 117 154 151
-              Q143 129 122 128
-              Q104 129 92 153Z
-            "
-            fill="#d7d1c7"
-          />
-
-          <path
-            d="
-              M101 163
-              Q122 177 144 161
-            "
-            fill="none"
-            stroke="#86533d"
-            stroke-width="2"
-            opacity=".55"
-          />
-
-          <circle
-            cx="111"
-            cy="151"
-            r="2.4"
-            fill="#3d281e"
-          />
-
-          <circle
-            cx="135"
-            cy="151"
-            r="2.4"
-            fill="#3d281e"
-          />
-
-          <circle
-            cx="123"
-            cy="162"
-            r="2"
-            fill="#9b4f42"
-          />
-
-
-          <!-- Elder saree -->
-
-          <path
-            d="
-              M88 196
-              Q121 176 157 197
-              L178 393
-              L66 393
-              Q72 278 88 196Z
-            "
-            fill="url(#elderSaree)"
-            stroke="#6f3c2d"
-            stroke-width="2"
-          />
-
-          <path
-            d="
-              M95 195
-              Q124 225 159 199
-              L173 235
-              Q129 252 82 225Z
-            "
-            fill="#e3b866"
-            opacity=".92"
-          />
-
-          <path
-            d="
-              M79 269 Q124 245 169 272
-              M72 319 Q124 294 174 322
-              M68 366 Q123 344 177 369
-            "
-            fill="none"
-            stroke="#e0b56b"
-            stroke-width="3"
-            opacity=".75"
-          />
-
-
-          <!-- Natural attached blessing arm -->
-
-          <g class="elder-arm-left">
-
-            <path
-              d="
-                M147 213
-                Q183 189 214 155
-                Q225 143 237 152
-                Q247 161 238 173
-                Q204 214 165 238Z
-              "
-              fill="url(#skinWarm)"
-              stroke="#86533d"
-              stroke-width="2"
-            />
-
-            <path
-              d="
-                M235 151
-                Q251 138 266 142
-                Q275 145 272 153
-                Q267 160 253 163
-                L239 174Z
-              "
-              fill="url(#skinWarm)"
-              stroke="#86533d"
-              stroke-width="2"
-            />
-
-            <path
-              d="M157 211 L171 227"
-              stroke="#e0b56b"
-              stroke-width="7"
-              stroke-linecap="round"
-            />
-
-          </g>
-
-
-          <path
-            d="
-              M105 393 L103 432
-              M146 393 L149 432
-            "
-            stroke="#85543a"
-            stroke-width="8"
-            stroke-linecap="round"
-          />
-
-        </g>
-
-
-        <!-- =================================================
-             RIGHT ELDER
-             Full person, with blessing arm attached
-        ================================================== -->
-
-        <g class="elder-person-right">
-
-          <ellipse
-            cx="528"
-            cy="154"
-            rx="31"
-            ry="35"
-            fill="url(#skinWarm)"
-          />
-
-          <path
-            d="
-              M497 151
-              Q501 112 528 114
-              Q557 117 559 151
-              Q548 128 528 128
-              Q510 128 497 151Z
-            "
-            fill="#d6d0c5"
-          />
-
-          <path
-            d="
-              M506 161
-              Q528 176 549 160
-            "
-            fill="none"
-            stroke="#86533d"
-            stroke-width="2"
-            opacity=".55"
-          />
-
-          <circle
-            cx="517"
-            cy="150"
-            r="2.4"
-            fill="#3d281e"
-          />
-
-          <circle
-            cx="540"
-            cy="150"
-            r="2.4"
-            fill="#3d281e"
-          />
-
-          <path
-            d="
-              M520 171
-              Q528 177 536 171
-            "
-            fill="none"
-            stroke="#71483a"
-            stroke-width="2"
-          />
-
-
-          <!-- Elder veshti / angavastram -->
-
-          <path
-            d="
-              M493 196
-              Q528 178 562 197
-              L579 392
-              L477 392
-              Q481 280 493 196Z
-            "
-            fill="url(#veshtiCream)"
-            stroke="#c49548"
-            stroke-width="2"
-          />
-
-          <path
-            d="
-              M492 198
-              Q525 224 560 198
-              L569 241
-              Q528 257 486 232Z
-            "
-            fill="#b6782d"
-            opacity=".86"
-          />
-
-          <path
-            d="
-              M490 279 H568
-              M485 330 H574
-              M481 374 H577
-            "
-            stroke="#c9984b"
-            stroke-width="3"
-            opacity=".72"
-          />
-
-
-          <!-- Natural attached blessing arm -->
-
-          <g class="elder-arm-right">
-
-            <path
-              d="
-                M503 214
-                Q469 188 437 155
-                Q425 143 413 152
-                Q403 161 412 173
-                Q446 214 485 239Z
-              "
-              fill="url(#skinWarm)"
-              stroke="#86533d"
-              stroke-width="2"
-            />
-
-            <path
-              d="
-                M415 151
-                Q399 138 384 142
-                Q375 145 378 153
-                Q383 160 397 163
-                L411 174Z
-              "
-              fill="url(#skinWarm)"
-              stroke="#86533d"
-              stroke-width="2"
-            />
-
-            <path
-              d="M493 211 L479 227"
-              stroke="#d3a24f"
-              stroke-width="7"
-              stroke-linecap="round"
-            />
-
-          </g>
-
-
-          <path
-            d="
-              M508 392 L506 432
-              M548 392 L551 432
-            "
-            stroke="#85543a"
-            stroke-width="8"
-            stroke-linecap="round"
-          />
-
-        </g>
-
-
-        <!-- =================================================
-             SOUTH INDIAN BRIDE & GROOM
-        ================================================== -->
-
-        <g class="couple">
-
-
-          <!-- GROOM
-               Veshti + angavastram + traditional tilak
-          -->
-
-          <g>
-
-            <ellipse
-              cx="282"
-              cy="218"
-              rx="28"
-              ry="32"
-              fill="url(#skinWarm)"
-            />
-
-            <path
-              d="
-                M254 215
-                Q258 181 283 184
-                Q308 185 311 214
-                Q299 194 282 194
-                Q266 194 254 215Z
-              "
-              fill="#241b16"
-            />
-
-            <circle
-              cx="272"
-              cy="215"
-              r="2.2"
-              fill="#2d211b"
-            />
-
-            <circle
-              cx="293"
-              cy="215"
-              r="2.2"
-              fill="#2d211b"
-            />
-
-            <path
-              d="
-                M275 229
-                Q283 233 291 229
-              "
-              fill="none"
-              stroke="#754535"
-              stroke-width="2"
-            />
-
-            <path
-              d="M282 199 V207"
-              stroke="#f1d6a0"
-              stroke-width="2.6"
-            />
-
-
-            <!-- Veshti -->
-
-            <path
-              d="
-                M257 255
-                Q282 241 308 255
-                L317 397
-                L245 397Z
-              "
-              fill="url(#veshtiCream)"
-              stroke="#b6782d"
-              stroke-width="2.5"
-            />
-
-
-            <!-- Angavastram / gold border -->
-
-            <path
-              d="
-                M257 254
-                Q281 280 309 255
-                L313 279
-                Q282 292 251 274Z
-              "
-              fill="#b6782d"
-              opacity=".86"
-            />
-
-            <path
-              d="
-                M247 343 H315
-                M246 374 H316
-              "
-              stroke="#c99748"
-              stroke-width="3"
-            />
-
-            <path
-              d="
-                M259 398 L258 436
-                M302 398 L304 436
-              "
-              stroke="#8f5a3f"
-              stroke-width="7"
-              stroke-linecap="round"
-            />
-
-
-            <!-- Groom garland -->
-
-            <g
-              class="garland-left"
-              fill="none"
-              stroke="#fff7df"
-              stroke-width="8"
-              stroke-linecap="round"
-            >
-
-              <path
-                d="
-                  M263 257
-                  Q281 315 301 261
-                "
-              />
-
-            </g>
-
-            <g fill="#c85d68">
-
-              <circle
-                cx="269"
-                cy="279"
-                r="4"
-              />
-
-              <circle
-                cx="282"
-                cy="300"
-                r="4"
-              />
-
-              <circle
-                cx="296"
-                cy="280"
-                r="4"
-              />
-
-            </g>
-
-          </g>
-
-
-          <!-- BRIDE
-               Kanjeevaram + temple jewellery + jasmine braid
-          -->
-
-          <g>
-
-            <ellipse
-              cx="365"
-              cy="218"
-              rx="27"
-              ry="32"
-              fill="url(#skinWarm)"
-            />
-
-            <path
-              d="
-                M338 215
-                Q341 180 365 183
-                Q390 185 393 215
-                Q381 194 365 194
-                Q349 194 338 215Z
-              "
-              fill="#241b16"
-            />
-
-            <circle
-              cx="355"
-              cy="215"
-              r="2.2"
-              fill="#2d211b"
-            />
-
-            <circle
-              cx="376"
-              cy="215"
-              r="2.2"
-              fill="#2d211b"
-            />
-
-            <circle
-              cx="365"
-              cy="205"
-              r="3.1"
-              fill="#9d252a"
-            />
-
-            <path
-              d="
-                M357 229
-                Q365 234 373 229
-              "
-              fill="none"
-              stroke="#754535"
-              stroke-width="2"
-            />
-
-
-            <!-- Temple jewellery -->
-
-            <path
-              d="
-                M344 238
-                Q365 250 386 238
-              "
-              fill="none"
-              stroke="#e2b65d"
-              stroke-width="4"
-            />
-
-            <circle
-              cx="365"
-              cy="247"
-              r="5"
-              fill="#d8a74f"
-            />
-
-            <circle
-              cx="339"
-              cy="220"
-              r="4"
-              fill="#d8a74f"
-            />
-
-            <circle
-              cx="391"
-              cy="220"
-              r="4"
-              fill="#d8a74f"
-            />
-
-
-            <!-- Kanjeevaram silk -->
-
-            <path
-              d="
-                M340 253
-                Q365 242 390 254
-                Q412 319 421 399
-                L313 399
-                Q321 320 340 253Z
-              "
-              fill="url(#brideSilk)"
-              stroke="#e0b45f"
-              stroke-width="2.5"
-            />
-
-            <path
-              d="
-                M341 254
-                Q365 282 390 255
-                L401 287
-                Q367 303 330 283Z
-              "
-              fill="#d8a850"
-              opacity=".95"
-            />
-
-            <path
-              d="
-                M320 341
-                Q365 320 414 343
-
-                M316 374
-                Q365 352 418 376
-              "
-              fill="none"
-              stroke="#e7bd69"
-              stroke-width="3"
-            />
-
-
-            <!-- Gold pallu -->
-
-            <path
-              d="
-                M388 258
-                Q414 296 414 385
-              "
-              fill="none"
-              stroke="#f0cb78"
-              stroke-width="8"
-              opacity=".9"
-            />
-
-
-            <path
-              d="
-                M335 399 L334 436
-                M397 399 L399 436
-              "
-              stroke="#8f5a3f"
-              stroke-width="7"
-              stroke-linecap="round"
-            />
-
-
-            <!-- Long South Indian bridal braid + jasmine -->
-
-            <g class="bride-braid">
-
-              <path
-                d="
-                  M391 205
-                  Q414 249 403 313
-                  Q398 343 407 370
-                "
-                fill="none"
-                stroke="#251b16"
-                stroke-width="12"
-                stroke-linecap="round"
-              />
-
-              <g
-                fill="#fffdf3"
-                stroke="#eadcc4"
-                stroke-width="1"
-              >
-
-                <circle
-                  cx="398"
-                  cy="228"
-                  r="6"
-                />
-
-                <circle
-                  cx="404"
-                  cy="242"
-                  r="6"
-                />
-
-                <circle
-                  cx="406"
-                  cy="257"
-                  r="6"
-                />
-
-                <circle
-                  cx="407"
-                  cy="272"
-                  r="6"
-                />
-
-              </g>
-
-            </g>
-
-
-            <!-- Bride garland -->
-
-            <g
-              class="garland-right"
-              fill="none"
-              stroke="#fff7df"
-              stroke-width="8"
-              stroke-linecap="round"
-            >
-
-              <path
-                d="
-                  M346 258
-                  Q365 318 386 260
-                "
-              />
-
-            </g>
-
-
-            <g fill="#c85d68">
-
-              <circle
-                cx="352"
-                cy="281"
-                r="4"
-              />
-
-              <circle
-                cx="365"
-                cy="302"
-                r="4"
-              />
-
-              <circle
-                cx="380"
-                cy="281"
-                r="4"
-              />
-
-            </g>
-
-          </g>
-
-
-          <!-- Couple joined hands -->
-
-          <path
-            d="
-              M309 302
-              Q324 315 340 302
-            "
-            fill="none"
-            stroke="#9b674b"
-            stroke-width="7"
-            stroke-linecap="round"
-          />
-
-        </g>
-
-      </svg>
-
-
-      <!-- AKSHATA + FLOWERS -->
-
-      <i class="akshata a1"></i>
-      <i class="akshata jasmine a2"></i>
-      <i class="akshata rose a3"></i>
-      <i class="akshata a4"></i>
-      <i class="akshata jasmine a5"></i>
-      <i class="akshata rose a6"></i>
-      <i class="akshata a7"></i>
-      <i class="akshata jasmine a8"></i>
-      <i class="akshata rose a9"></i>
-
-    </div>
-
-
-    <p class="blessing-caption">
-      With the blessings of those who came before us.
-    </p>
-
-    <p class="blessing-subcopy">
-      May their love, prayers and good wishes
-      guide us into this new chapter.
-    </p>
-
-  </div>
-
+<div class="blessing-inner reveal">
+
+<p class="eyebrow">
+With the blessings of our elders
+</p>
+
+<h3 class="title">
+Blessings before beginnings.
+</h3>
+
+<div class="blessing-stage">
+
+<div class="blessing-halo"></div>
+
+<svg
+class="blessing-art"
+viewBox="0 0 650 500"
+xmlns="http://www.w3.org/2000/svg"
+aria-label="South Indian bride and groom surrounded by a shower of wedding flowers"
+>
+
+<defs>
+
+<linearGradient id="goldSilk" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#704015"/>
+<stop offset=".35" stop-color="#d8a755"/>
+<stop offset=".66" stop-color="#f1cf82"/>
+<stop offset="1" stop-color="#81501d"/>
+</linearGradient>
+
+<linearGradient id="brideSilk" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#b93f3f"/>
+<stop offset=".5" stop-color="#9b3034"/>
+<stop offset="1" stop-color="#6f2329"/>
+</linearGradient>
+
+<linearGradient id="bridePallu" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#8f2730"/>
+<stop offset=".55" stop-color="#c24b49"/>
+<stop offset="1" stop-color="#7a2029"/>
+</linearGradient>
+
+<linearGradient id="veshtiCream" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0" stop-color="#fffaf0"/>
+<stop offset=".5" stop-color="#ead8b8"/>
+<stop offset="1" stop-color="#fffdf6"/>
+</linearGradient>
+
+<linearGradient id="skinWarm" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#c78d68"/>
+<stop offset="1" stop-color="#9c6447"/>
+</linearGradient>
+
+<radialGradient id="flameGold" cx="50%" cy="70%" r="70%">
+<stop offset="0" stop-color="#fff7b8"/>
+<stop offset=".45" stop-color="#ffbf3f"/>
+<stop offset="1" stop-color="#d66a16"/>
+</radialGradient>
+
+</defs>
+
+<ellipse
+cx="325"
+cy="455"
+rx="205"
+ry="25"
+fill="#9b6429"
+opacity=".09"
+/>
+
+<g
+fill="none"
+stroke="#b6782d"
+stroke-width="1.6"
+opacity=".42"
+>
+<circle cx="325" cy="446" r="36"/>
+<circle cx="325" cy="446" r="14"/>
+<path d="M230 446 Q277 397 325 446 Q373 397 420 446 Q373 492 325 446 Q277 492 230 446Z"/>
+<path d="M270 446 Q325 420 380 446 Q325 472 270 446Z"/>
+</g>
+
+<!-- BRASS LAMPS -->
+
+<g opacity=".92">
+
+<g transform="translate(96 307)">
+<path
+d="M0 115 H52 M26 112 V45 M9 45 Q26 30 43 45 Q39 57 26 59 Q13 57 9 45Z"
+fill="none"
+stroke="url(#goldSilk)"
+stroke-width="6"
+stroke-linecap="round"
+/>
+<path
+class="diya-flame"
+d="M26 34 C16 22 24 9 28 1 C38 15 38 27 26 34Z"
+fill="url(#flameGold)"
+/>
+</g>
+
+<g transform="translate(502 307)">
+<path
+d="M0 115 H52 M26 112 V45 M9 45 Q26 30 43 45 Q39 57 26 59 Q13 57 9 45Z"
+fill="none"
+stroke="url(#goldSilk)"
+stroke-width="6"
+stroke-linecap="round"
+/>
+<path
+class="diya-flame"
+d="M26 34 C16 22 24 9 28 1 C38 15 38 27 26 34Z"
+fill="url(#flameGold)"
+/>
+</g>
+
+</g>
+
+<!--
+POST-MUHURTHAM COUPLE:
+NIKHIL = VIEWER LEFT
+SUPRIYA = VIEWER RIGHT
+-->
+
+<g class="couple">
+<g transform="translate(-65 -60) scale(1.20)">
+
+<!-- NIKHIL -->
+
+<g>
+
+<ellipse
+cx="282"
+cy="218"
+rx="28"
+ry="32"
+fill="url(#skinWarm)"
+/>
+
+<path
+d="M254 215 Q258 181 283 184 Q308 185 311 214 Q299 194 282 194 Q266 194 254 215Z"
+fill="#241b16"
+/>
+
+<circle cx="272" cy="215" r="2.2" fill="#2d211b"/>
+<circle cx="293" cy="215" r="2.2" fill="#2d211b"/>
+
+<path
+d="M275 229 Q283 233 291 229"
+fill="none"
+stroke="#754535"
+stroke-width="2"
+/>
+
+<path
+d="M282 199 V207"
+stroke="#f1d6a0"
+stroke-width="2.6"
+/>
+
+<path
+d="M257 255 Q282 241 308 255 L317 397 L245 397Z"
+fill="url(#veshtiCream)"
+stroke="#b6782d"
+stroke-width="2.5"
+/>
+
+<path
+d="M257 254 Q281 280 309 255 L313 279 Q282 292 251 274Z"
+fill="#b6782d"
+opacity=".86"
+/>
+
+<path
+d="M247 343 H315 M246 374 H316"
+stroke="#c99748"
+stroke-width="3"
+/>
+
+<path
+d="M259 398 L258 436 M302 398 L304 436"
+stroke="#8f5a3f"
+stroke-width="7"
+stroke-linecap="round"
+/>
+
+<g
+class="garland-left"
+fill="none"
+stroke="#fff7df"
+stroke-width="8"
+stroke-linecap="round"
+>
+<path d="M263 257 Q281 315 301 261"/>
+</g>
+
+<g fill="#c85d68">
+<circle cx="269" cy="279" r="4"/>
+<circle cx="282" cy="300" r="4"/>
+<circle cx="296" cy="280" r="4"/>
+</g>
+
+</g>
+
+<!-- SUPRIYA -->
+
+<g>
+
+<ellipse
+cx="365"
+cy="218"
+rx="27"
+ry="32"
+fill="url(#skinWarm)"
+/>
+
+<path
+d="M338 215 Q341 180 365 183 Q390 185 393 215 Q381 194 365 194 Q349 194 338 215Z"
+fill="#241b16"
+/>
+
+<circle cx="355" cy="215" r="2.2" fill="#2d211b"/>
+<circle cx="376" cy="215" r="2.2" fill="#2d211b"/>
+<circle cx="365" cy="205" r="3.1" fill="#9d252a"/>
+
+<path
+d="M357 229 Q365 234 373 229"
+fill="none"
+stroke="#754535"
+stroke-width="2"
+/>
+
+<path
+d="M344 238 Q365 250 386 238"
+fill="none"
+stroke="#e2b65d"
+stroke-width="4"
+/>
+
+<circle cx="365" cy="247" r="5" fill="#d8a74f"/>
+<circle cx="339" cy="220" r="4" fill="#d8a74f"/>
+<circle cx="391" cy="220" r="4" fill="#d8a74f"/>
+
+<path
+d="M340 253 Q365 242 390 254 Q412 319 421 399 L313 399 Q321 320 340 253Z"
+fill="url(#brideSilk)"
+stroke="#e0b45f"
+stroke-width="2.5"
+/>
+
+<path
+d="M341 254 Q365 282 390 255 L401 287 Q367 303 330 283Z"
+fill="#d8a850"
+opacity=".95"
+/>
+
+<path
+d="M320 341 Q365 320 414 343 M316 374 Q365 352 418 376"
+fill="none"
+stroke="#e7bd69"
+stroke-width="3"
+/>
+
+<path
+d="M388 258 Q414 296 414 385"
+fill="none"
+stroke="#f0cb78"
+stroke-width="8"
+opacity=".9"
+/>
+
+<path
+d="M335 399 L334 436 M397 399 L399 436"
+stroke="#8f5a3f"
+stroke-width="7"
+stroke-linecap="round"
+/>
+
+<g class="bride-braid">
+
+<path
+d="M391 205 Q414 249 403 313 Q398 343 407 370"
+fill="none"
+stroke="#251b16"
+stroke-width="12"
+stroke-linecap="round"
+/>
+
+<g
+fill="#fffdf3"
+stroke="#eadcc4"
+stroke-width="1"
+>
+<circle cx="398" cy="228" r="6"/>
+<circle cx="404" cy="242" r="6"/>
+<circle cx="406" cy="257" r="6"/>
+<circle cx="407" cy="272" r="6"/>
+</g>
+
+</g>
+
+<g
+class="garland-right"
+fill="none"
+stroke="#fff7df"
+stroke-width="8"
+stroke-linecap="round"
+>
+<path d="M346 258 Q365 318 386 260"/>
+</g>
+
+<g fill="#c85d68">
+<circle cx="352" cy="281" r="4"/>
+<circle cx="365" cy="302" r="4"/>
+<circle cx="380" cy="281" r="4"/>
+</g>
+
+</g>
+
+<!-- JOINED HANDS -->
+
+<path
+d="M309 302 Q324 315 340 302"
+fill="none"
+stroke="#9b674b"
+stroke-width="7"
+stroke-linecap="round"
+/>
+
+</g>
+</g>
+
+</svg>
+
+<!-- FLOWER BLESSING -->
+
+<i class="akshata jasmine f1"></i>
+<i class="akshata rose f2"></i>
+<i class="akshata marigold f3"></i>
+<i class="akshata rice f4"></i>
+<i class="akshata whitepetal f5"></i>
+<i class="akshata jasmine f6"></i>
+<i class="akshata rose f7"></i>
+<i class="akshata marigold f8"></i>
+<i class="akshata rice f9"></i>
+<i class="akshata whitepetal f10"></i>
+<i class="akshata jasmine f11"></i>
+<i class="akshata rose f12"></i>
+<i class="akshata marigold f13"></i>
+<i class="akshata rice f14"></i>
+<i class="akshata whitepetal f15"></i>
+<i class="akshata jasmine f16"></i>
+<i class="akshata rose f17"></i>
+<i class="akshata marigold f18"></i>
+<i class="akshata rice f19"></i>
+<i class="akshata whitepetal f20"></i>
+<i class="akshata jasmine f21"></i>
+<i class="akshata rose f22"></i>
+<i class="akshata marigold f23"></i>
+<i class="akshata rice f24"></i>
+<i class="akshata whitepetal f25"></i>
+<i class="akshata jasmine f26"></i>
+<i class="akshata rose f27"></i>
+<i class="akshata marigold f28"></i>
+<i class="akshata rice f29"></i>
+<i class="akshata whitepetal f30"></i>
+
+</div>
+
+<p class="blessing-caption">
+Showered with love, prayers and blessings.
+</p>
+
+<p class="blessing-subcopy">
+May every flower carry a good wish into our new chapter.
+</p>
+
+</div>
 </section>
-
-
-<!-- ===== END OF PART 2 ===== -->
-  <!-- =====================================================
-     FAMILIES
-===================================================== -->
 
 <section class="families">
 
-  <div class="family-inner reveal">
+<div class="family-inner reveal">
 
-    <p class="eyebrow">
-      Our Families
-    </p>
+<p class="eyebrow">
+Our Families
+</p>
 
-    <h3 class="title">
-      Two families.<br>
-      One new beginning.
-    </h3>
+<h3 class="title">
+Two families.<br>
+One new beginning.
+</h3>
 
-    <div class="family-grid">
+<div class="family-grid">
 
-      <!-- NIKHIL -->
+<div class="family">
 
-      <div class="family">
+<h4>Nikhil's Family</h4>
 
-        <h4>Nikhil's Family</h4>
+<div class="family-generation">
+<small>Grandson of</small>
+<p>
+Late Mr. K. Narasimha Murthy
+<br>
+&amp; Late Mrs. C. V. Meenakshi
+</p>
+</div>
 
-        <div class="family-generation">
+<div class="family-generation">
+<small>and</small>
+<p>
+Late Mr. Sudhir Konai
+<br>
+&amp; Late Mrs. Sara Konai
+</p>
+</div>
 
-          <small>Grandson of</small>
+<div class="family-generation">
+<small>Son of</small>
+<p>
+Mr. Prashanth Konai
+<br>
+&amp; Mrs. K. N. Jayashree
+</p>
+</div>
 
-          <p>
-            Late Mr. K. Narasimha Murthy
-            <br>
-            &amp; Late Mrs. C. V. Meenakshi
-          </p>
+</div>
 
-        </div>
+<div class="family">
 
-        <div class="family-generation">
+<h4>Supriya's Family</h4>
 
-          <small>and</small>
+<div class="family-generation">
+<small>Granddaughter of</small>
+<p>
+Late Mr. Sundaramoorthy
+<br>
+&amp; Late Mrs. Suseela
+</p>
+</div>
 
-          <p>
-            Late Mr. Sudhir Konai
-            <br>
-            &amp; Late Mrs. Sara Konai
-          </p>
+<div class="family-generation">
+<small>and</small>
+<p>
+Late Mr. Thengovan
+<br>
+&amp; Mrs. Uma
+</p>
+</div>
 
-        </div>
+<div class="family-generation">
+<small>Daughter of</small>
+<p>
+Mr. P. S. Ilangovan
+<br>
+&amp; Mrs. I. Valarmathi
+</p>
+</div>
 
-        <div class="family-generation">
+</div>
 
-          <small>Son of</small>
+</div>
 
-          <p>
-            Mr. Prashanth Konai
-            <br>
-            &amp; Mrs. K. N. Jayashree
-          </p>
+<p class="family-ending">
+Two families. Two journeys. One new beginning.
+</p>
 
-        </div>
-
-      </div>
-
-
-      <!-- SUPRIYA -->
-
-      <div class="family">
-
-        <h4>Supriya's Family</h4>
-
-        <div class="family-generation">
-
-          <small>Granddaughter of</small>
-
-          <p>
-            Late Mr. Sundaramoorthy
-            <br>
-            &amp; Late Mrs. Suseela
-          </p>
-
-        </div>
-
-        <div class="family-generation">
-
-          <small>and</small>
-
-          <p>
-            Late Mr. Thengovan
-            <br>
-            &amp; Mrs. Uma
-          </p>
-
-        </div>
-
-        <div class="family-generation">
-
-          <small>Daughter of</small>
-
-          <p>
-            Mr. P. S. Ilangovan
-            <br>
-            &amp; Mrs. I. Valarmathi
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <p class="family-ending">
-      Two families. Two journeys. One new beginning.
-    </p>
-
-  </div>
-
+</div>
 </section>
-
-
-<!-- =====================================================
-     EVENTS
-===================================================== -->
 
 <section class="events">
 
-  <div class="events-head reveal">
+<div class="events-head reveal">
 
-    <p class="eyebrow">
-      The Celebrations
-    </p>
+<p class="eyebrow">
+The Celebrations
+</p>
 
-    <h3 class="title">
-      Three beautiful moments.
-    </h3>
+<h3 class="title">
+Three beautiful moments.
+</h3>
 
-    <p class="copy">
-      We would be honoured to celebrate them with you.
-    </p>
+<p class="copy">
+We would be honoured to celebrate them with you.
+</p>
 
-  </div>
+</div>
 
+<article class="event">
 
-  <article class="event">
+<img
+src="./images/blessings/engagement.png"
+alt="Engagement"
+>
 
-    <img
-      src="./images/blessings/engagement.png"
-      alt="Engagement"
-    >
+<div class="event-content reveal">
 
-    <div class="event-content reveal">
+<h4>Engagement</h4>
 
-      <h4>Engagement</h4>
+<div class="divider">❈</div>
 
-      <div class="divider">❈</div>
+<p class="event-date">
+Saturday · 21 November 2026
+</p>
 
-      <p class="event-date">
-        Saturday · 21 November 2026
-      </p>
+<p class="event-time">
+10:30 AM
+</p>
 
-      <p class="event-time">
-        10:30 AM
-      </p>
+<p class="event-location">
+Lake Lawn
+</p>
 
-      <p class="event-location">
-        Lake Lawn
-      </p>
+</div>
+</article>
 
-    </div>
+<article class="event">
 
-  </article>
+<img
+src="./images/blessings/reception.png"
+alt="Reception"
+>
 
+<div class="event-content reveal">
 
-  <article class="event">
+<h4>Reception</h4>
 
-    <img
-      src="./images/blessings/reception.png"
-      alt="Reception"
-    >
+<div class="divider">✦</div>
 
-    <div class="event-content reveal">
+<p class="event-date">
+Saturday · 21 November 2026
+</p>
 
-      <h4>Reception</h4>
+<p class="event-time">
+6:00 PM
+</p>
 
-      <div class="divider">✦</div>
+<p class="event-location">
+Lake Lawn
+</p>
 
-      <p class="event-date">
-        Saturday · 21 November 2026
-      </p>
+</div>
+</article>
 
-      <p class="event-time">
-        6:00 PM
-      </p>
+<article class="event">
 
-      <p class="event-location">
-        Lake Lawn
-      </p>
+<img
+src="./images/blessings/muhurtham.png"
+alt="Muhurtham"
+>
 
-    </div>
+<div class="event-content reveal">
 
-  </article>
+<h4>Muhurtham</h4>
 
+<div class="divider">❈</div>
 
-  <article class="event">
+<p class="event-date">
+Sunday · 22 November 2026
+</p>
 
-    <img
-      src="./images/blessings/muhurtham.png"
-      alt="Muhurtham"
-    >
+<p class="event-time">
+8:30 – 10:00 AM
+</p>
 
-    <div class="event-content reveal">
+<p class="event-location">
+Palm Beach Lawn
+</p>
 
-      <h4>Muhurtham</h4>
-
-      <div class="divider">❈</div>
-
-      <p class="event-date">
-        Sunday · 22 November 2026
-      </p>
-
-      <p class="event-time">
-        8:30 – 10:00 AM
-      </p>
-
-      <p class="event-location">
-        Palm Beach Lawn
-      </p>
-
-    </div>
-
-  </article>
+</div>
+</article>
 
 </section>
-
-
-<!-- =====================================================
-     LIGHT A LAMP
-===================================================== -->
 
 <section class="lamp-section">
 
-  <div class="lamp-inner reveal">
+<div class="lamp-inner reveal">
 
-    <p class="eyebrow">
-      A Blessing From You
-    </p>
+<p class="eyebrow">
+A Blessing From You
+</p>
 
-    <h3 class="title">
-      Light a lamp for us.
-    </h3>
+<h3 class="title">
+Light a lamp for us.
+</h3>
 
-    <p class="copy">
-      A small blessing from you,
-      carried with us into our new beginning.
-    </p>
+<p class="copy">
+A small blessing from you,
+carried with us into our new beginning.
+</p>
 
-    <div
-      id="lampWrap"
-      class="real-lamp-wrap"
-      role="button"
-      tabindex="0"
-      aria-label="Light a lamp for Nikhil and Supriya"
-    >
+<div
+id="lampWrap"
+class="real-lamp-wrap"
+role="button"
+tabindex="0"
+aria-label="Light a lamp for Nikhil and Supriya"
+>
 
-      <div class="lamp-aura"></div>
+<div class="lamp-aura"></div>
 
-      <img
-        id="lampUnlit"
-        class="lamp-img"
-        src="./images/blessings/realistic-lamp-unlit.png"
-        alt="Traditional South Indian brass lamp"
-      >
+<img
+id="lampUnlit"
+class="lamp-img"
+src="./images/blessings/realistic-lamp-unlit.png"
+alt="Traditional South Indian brass lamp"
+>
 
-      <img
-        id="lampLit"
-        class="lamp-img"
-        src="./images/blessings/realistic-lamp.png"
-        alt="Lit traditional South Indian brass lamp"
-      >
+<img
+id="lampLit"
+class="lamp-img"
+src="./images/blessings/realistic-lamp.png"
+alt="Lit traditional South Indian brass lamp"
+>
 
-    </div>
+</div>
 
-    <p class="lamp-hint">
-      Tap the lamp to light it
-    </p>
+<p class="lamp-hint">
+Tap the lamp to light it
+</p>
 
-    <button
-      id="lightLamp"
-      class="lamp-button"
-      type="button"
-    >
-      Light a Lamp for Nikhil &amp; Supriya
-    </button>
+<button
+id="lightLamp"
+class="lamp-button"
+type="button"
+>
+Light a Lamp for Nikhil &amp; Supriya
+</button>
 
-    <div
-      id="lampMessage"
-      aria-live="polite"
-    ></div>
+<div
+id="lampMessage"
+aria-live="polite"
+></div>
 
-  </div>
-
+</div>
 </section>
-
-
-<!-- =====================================================
-     VENUE
-===================================================== -->
 
 <section class="venue">
 
-  <div class="venue-inner reveal">
+<div class="venue-inner reveal">
 
-    <p class="eyebrow" style="color:#f2cd8b">
-      Where We Come Together
-    </p>
+<p
+class="eyebrow"
+style="color:#f2cd8b"
+>
+Where We Come Together
+</p>
 
-    <h3>
-      MGM Beach Resort
-    </h3>
+<h3>
+MGM Beach Resort
+</h3>
 
-    <p class="date">
-      ECR · Chennai
-    </p>
+<p class="date">
+ECR · Chennai
+</p>
 
-    <div class="divider">✦</div>
+<div class="divider">✦</div>
 
-    <p style="font:400 1.4rem/1.45 var(--serif)">
-      Between the temple bells and the sound of the sea,
-      we'll begin our next chapter.
-    </p>
+<p style="font:400 1.4rem/1.45 var(--serif)">
+Between the temple bells and the sound of the sea,
+we'll begin our next chapter.
+</p>
 
-    <a
-      id="mapButton"
-      class="map-button"
-      href="#"
-      target="_blank"
-      rel="noopener"
-    >
-      Open MGM Beach Resort in Maps
-    </a>
+<a
+id="mapButton"
+class="map-button"
+href="#"
+target="_blank"
+rel="noopener"
+>
+Open MGM Beach Resort in Maps
+</a>
 
-  </div>
-
+</div>
 </section>
 
+<section
+id="yourInvitation"
+class="invitation"
+>
 
-<!-- =====================================================
-     INVITATION
-===================================================== -->
+<div class="invitation-head reveal">
 
-<section id="yourInvitation" class="invitation">
+<p class="eyebrow">
+Made especially for you
+</p>
 
-  <div class="invitation-head reveal">
+<h3 class="title">
+Your invitation.
+</h3>
 
-    <p class="eyebrow">
-      Made especially for you
-    </p>
+</div>
 
-    <h3 class="title">
-      Your invitation.
-    </h3>
+<div class="invitation-card reveal">
 
-  </div>
+<div class="invite-ganesha">
 
+<img
+src="./images/blessings/ganesha.png"
+alt="Ganesha"
+>
 
-  <div class="invitation-card reveal">
+</div>
 
-    <div class="invite-ganesha">
+<p
+style="
+color:#754313;
+margin:13px 0;
+font:500 .9rem var(--serif)
+"
+>
+॥ SHRI GANESHAYA NAMAH ॥
+</p>
 
-      <img
-        src="./images/blessings/ganesha.png"
-        alt="Ganesha"
-      >
+<p class="eyebrow">
+With the blessings of our families
+</p>
 
-    </div>
+<h3>
+Nikhil
+<span>&amp;</span>
+Supriya
+</h3>
 
-    <p
-      style="
-        color:#754313;
-        margin:13px 0;
-        font:500 .9rem var(--serif)
-      "
-    >
-      ॥ SHRI GANESHAYA NAMAH ॥
-    </p>
+<p style="font:400 1.12rem var(--serif)">
+request the pleasure and blessings of
+</p>
 
-    <p class="eyebrow">
-      With the blessings of our families
-    </p>
+<div class="invite-guest guest-name">
+Family &amp; Friends
+</div>
 
-    <h3>
-      Nikhil
-      <span>&amp;</span>
-      Supriya
-    </h3>
+<p style="font:400 1.05rem var(--serif)">
+as we celebrate the beginning of our life together
+</p>
 
-    <p style="font:400 1.12rem var(--serif)">
-      request the pleasure and blessings of
-    </p>
+<div class="divider">❈</div>
 
-    <div class="invite-guest guest-name">
-      Family &amp; Friends
-    </div>
+<div class="invite-events">
 
-    <p style="font:400 1.05rem var(--serif)">
-      as we celebrate the beginning of our life together
-    </p>
+<strong>ENGAGEMENT</strong>
+<br>
+21 November 2026 · 10:30 AM · Lake Lawn
 
-    <div class="divider">❈</div>
+<br><br>
 
-    <div class="invite-events">
+<strong>RECEPTION</strong>
+<br>
+21 November 2026 · 6:00 PM · Lake Lawn
 
-      <strong>ENGAGEMENT</strong>
-      <br>
-      21 November 2026 · 10:30 AM · Lake Lawn
+<br><br>
 
-      <br><br>
+<strong>MUHURTHAM</strong>
+<br>
+22 November 2026 · 8:30–10:00 AM · Palm Beach Lawn
 
-      <strong>RECEPTION</strong>
-      <br>
-      21 November 2026 · 6:00 PM · Lake Lawn
+</div>
 
-      <br><br>
+<div class="divider">✦</div>
 
-      <strong>MUHURTHAM</strong>
-      <br>
-      22 November 2026 · 8:30–10:00 AM · Palm Beach Lawn
+<p style="font:500 1.15rem var(--serif)">
+<strong>MGM Beach Resort</strong>
+<br>
+ECR · Chennai
+</p>
 
-    </div>
+<p style="font:italic 400 1.05rem var(--serif)">
+Your presence and blessings will mean the world to us.
+</p>
 
-    <div class="divider">✦</div>
+</div>
 
-    <p style="font:500 1.15rem var(--serif)">
-      <strong>MGM Beach Resort</strong>
-      <br>
-      ECR · Chennai
-    </p>
+<div class="actions reveal">
 
-    <p style="font:italic 400 1.05rem var(--serif)">
-      Your presence and blessings will mean the world to us.
-    </p>
+<button
+id="saveInvite"
+class="action"
+type="button"
+>
+Save My Invitation
+</button>
 
-  </div>
+<button
+id="calendarButton"
+class="action"
+type="button"
+>
+Add to Calendar
+</button>
 
+<a
+id="inviteMap"
+class="action"
+href="#"
+target="_blank"
+rel="noopener"
+>
+Open Maps
+</a>
 
-  <div class="actions reveal">
-
-    <button
-      id="saveInvite"
-      class="action"
-      type="button"
-    >
-      Save My Invitation
-    </button>
-
-    <button
-      id="calendarButton"
-      class="action"
-      type="button"
-    >
-      Add to Calendar
-    </button>
-
-    <a
-      id="inviteMap"
-      class="action"
-      href="#"
-      target="_blank"
-      rel="noopener"
-    >
-      Open Maps
-    </a>
-
-  </div>
-
+</div>
 </section>
-
-
-<!-- =====================================================
-     CLOSING
-===================================================== -->
 
 <section class="closing">
 
-  <div class="closing-inner reveal">
+<div class="closing-inner reveal">
 
-    <p class="eyebrow" style="color:#f1c779">
-      With Your Blessings
-    </p>
+<p
+class="eyebrow"
+style="color:#f1c779"
+>
+With Your Blessings
+</p>
 
-    <h3>
-      A wedding lasts a few days.
-      <br>
-      The blessings stay for a lifetime.
-    </h3>
+<h3>
+A wedding lasts a few days.
+<br>
+The blessings stay for a lifetime.
+</h3>
 
-    <p style="font:400 1.35rem var(--serif)">
-      Thank you for being part of ours.
-    </p>
+<p style="font:400 1.35rem var(--serif)">
+Thank you for being part of ours.
+</p>
 
-    <p class="closing-name">
-      Nikhil &amp; Supriya
-    </p>
+<p class="closing-name">
+Nikhil &amp; Supriya
+</p>
 
-    <p class="date">
-      21 · 22 November 2026
-      <br>
-      MGM Beach Resort · Chennai
-    </p>
+<p class="date">
+21 · 22 November 2026
+<br>
+MGM Beach Resort · Chennai
+</p>
 
-    <img
-      id="closingLamp"
-      class="closing-lamp"
-      src="./images/blessings/realistic-lamp-unlit.png"
-      alt=""
-    >
+<img
+id="closingLamp"
+class="closing-lamp"
+src="./images/blessings/realistic-lamp-unlit.png"
+alt=""
+>
 
-    <p style="color:#f1c779;font:500 1.25rem var(--serif)">
-      ॥ शुभमस्तु ॥
-    </p>
+<p style="color:#f1c779;font:500 1.25rem var(--serif)">
+॥ शुभमस्तु ॥
+</p>
 
-  </div>
-
+</div>
 </section>
 
 </main>
 
-
 <div class="floating">
 
-  <button
-    id="soundButton"
-    class="float sound-muted"
-    type="button"
-    aria-label="Turn temple and sea ambience on"
-    title="Temple & sea ambience"
-  >
-    ♪
-  </button>
+<button
+id="soundButton"
+class="float sound-muted"
+type="button"
+aria-label="Turn temple and sea ambience on"
+title="Temple & sea ambience"
+>
+♪
+</button>
 
-  <button
-    id="inviteJump"
-    class="float"
-    type="button"
-    aria-label="Go to invitation"
-  >
-    ✉
-  </button>
+<button
+id="inviteJump"
+class="float"
+type="button"
+aria-label="Go to invitation"
+>
+✉
+</button>
 
-  <button
-    id="topButton"
-    class="float"
-    type="button"
-    aria-label="Back to top"
-  >
-    ↑
-  </button>
+<button
+id="topButton"
+class="float"
+type="button"
+aria-label="Back to top"
+>
+↑
+</button>
 
 </div>
-
-
 <script>
+const GOOGLE_FORM_ACTION = "PASTE_GOOGLE_FORM_RESPONSE_URL_HERE";
+const GOOGLE_FORM_GUEST_FIELD = "entry.PASTE_GUEST_FIELD_ID_HERE";
+const GOOGLE_FORM_ACTIVITY_FIELD = "entry.PASTE_ACTIVITY_FIELD_ID_HERE";
 
-/* =====================================================
-   GOOGLE FORM — PRIVATE GUEST RECORD
-===================================================== */
-
-/*
-  LEAVE THESE THREE PLACEHOLDERS FOR NOW.
-
-  Once we create your Google Form, we will replace them
-  with the real Google Form values.
-*/
-
-const GOOGLE_FORM_ACTION =
-  "PASTE_GOOGLE_FORM_RESPONSE_URL_HERE";
-
-const GOOGLE_FORM_GUEST_FIELD =
-  "entry.PASTE_GUEST_FIELD_ID_HERE";
-
-const GOOGLE_FORM_ACTIVITY_FIELD =
-  "entry.PASTE_ACTIVITY_FIELD_ID_HERE";
-
-
-/* =====================================================
-   PERSONALIZATION
-===================================================== */
-
-const params =
-  new URLSearchParams(location.search);
+const params = new URLSearchParams(location.search);
 
 function cleanName(value){
-
   return String(value || "")
     .replace(/[<>]/g,"")
     .replace(/\s+/g," ")
     .trim()
     .slice(0,60);
-
 }
 
-let guestName =
-  cleanName(params.get("guest"));
+let guestName = cleanName(params.get("guest"));
 
-const guestInput =
-  document.getElementById("guestInput");
+const guestInput = document.getElementById("guestInput");
 
 if(guestName){
   guestInput.value = guestName;
@@ -3764,24 +2147,17 @@ function displayName(){
 }
 
 function updateNames(){
-
   document
     .querySelectorAll(".guest-name")
     .forEach(element=>{
       element.textContent = displayName();
     });
-
 }
 
 updateNames();
 
 
-/* =====================================================
-   GOOGLE FORM LOGGING
-===================================================== */
-
 function googleFormIsConnected(){
-
   return Boolean(
     GOOGLE_FORM_ACTION &&
     !GOOGLE_FORM_ACTION.includes("PASTE_GOOGLE") &&
@@ -3790,7 +2166,6 @@ function googleFormIsConnected(){
     GOOGLE_FORM_ACTIVITY_FIELD &&
     !GOOGLE_FORM_ACTIVITY_FIELD.includes("PASTE_ACTIVITY")
   );
-
 }
 
 function logGuestEvent(eventName){
@@ -3828,8 +2203,7 @@ function logGuestEvent(eventName){
 
   try{
 
-    const data =
-      new URLSearchParams();
+    const data = new URLSearchParams();
 
     data.append(
       GOOGLE_FORM_GUEST_FIELD,
@@ -3852,7 +2226,6 @@ function logGuestEvent(eventName){
     );
 
   }catch(error){}
-
 }
 
 
@@ -3902,7 +2275,8 @@ function enterWebsite(){
 
     entrance.classList.add("finished");
 
-    document.body.classList.remove("locked");
+    document.body
+      .classList.remove("locked");
 
     window.scrollTo(0,0);
 
@@ -3940,7 +2314,11 @@ const revealObserver =
       entries.forEach(entry=>{
 
         if(entry.isIntersecting){
-          entry.target.classList.add("visible");
+
+          entry.target
+            .classList
+            .add("visible");
+
         }
 
       });
@@ -4019,7 +2397,7 @@ function petalShower(count=40){
 
 
 /* =====================================================
-   AUDIO
+   AUDIO ENGINE
 ===================================================== */
 
 let audioContext = null;
@@ -4039,7 +2417,6 @@ function getAudioContext(){
   }
 
   return audioContext;
-
 }
 
 
@@ -4061,7 +2438,7 @@ function getSiteOutput(context){
     siteMasterGain =
       context.createGain();
 
-    siteMasterGain.gain.value = .92;
+    siteMasterGain.gain.value = 1;
 
     siteMasterGain.connect(
       context.destination
@@ -4074,9 +2451,13 @@ function getSiteOutput(context){
 }
 
 
+/* =====================================================
+   SEA
+===================================================== */
+
 function makeSeaNoiseBuffer(context){
 
-  const seconds = 8;
+  const seconds = 10;
 
   const length =
     Math.floor(
@@ -4093,20 +2474,20 @@ function makeSeaNoiseBuffer(context){
   const data =
     buffer.getChannelData(0);
 
-  let previous = 0;
+  let brown = 0;
 
   for(let i=0;i<length;i++){
 
     const white =
       Math.random()*2-1;
 
-    previous =
-      previous*.985 +
-      white*.015;
+    brown =
+      brown*.992 +
+      white*.008;
 
     data[i] =
-      previous*.9 +
-      white*.1;
+      brown*.82 +
+      white*.18;
 
   }
 
@@ -4115,15 +2496,296 @@ function makeSeaNoiseBuffer(context){
 }
 
 
+function createSeaLayer(
+  context,
+  destination
+){
+
+  const sea =
+    context.createBufferSource();
+
+  sea.buffer =
+    makeSeaNoiseBuffer(context);
+
+  sea.loop = true;
+
+
+  const low =
+    context.createBiquadFilter();
+
+  low.type = "lowpass";
+  low.frequency.value = 1650;
+  low.Q.value = .28;
+
+
+  const high =
+    context.createBiquadFilter();
+
+  high.type = "highpass";
+  high.frequency.value = 90;
+
+
+  const gain =
+    context.createGain();
+
+  gain.gain.value = .34;
+
+
+  const swell =
+    context.createOscillator();
+
+  swell.type = "sine";
+  swell.frequency.value = .085;
+
+
+  const swellDepth =
+    context.createGain();
+
+  swellDepth.gain.value = .12;
+
+
+  swell.connect(swellDepth);
+  swellDepth.connect(gain.gain);
+
+  sea.connect(low);
+  low.connect(high);
+  high.connect(gain);
+  gain.connect(destination);
+
+  sea.start();
+  swell.start();
+
+}
+
+
+/* =====================================================
+   SHRUTI / TEMPLE BED
+===================================================== */
+
+function createShrutiBed(
+  context,
+  destination
+){
+
+  const bus =
+    context.createGain();
+
+  bus.gain.value = .075;
+
+  bus.connect(destination);
+
+
+  [
+    [146.83,"sine",.58,-3],
+    [220.00,"sine",.28,2],
+    [293.66,"triangle",.11,-2]
+  ].forEach(
+    ([frequency,type,level,detune])=>{
+
+      const oscillator =
+        context.createOscillator();
+
+      const gain =
+        context.createGain();
+
+      oscillator.type = type;
+
+      oscillator.frequency.value =
+        frequency;
+
+      oscillator.detune.value =
+        detune;
+
+      gain.gain.value =
+        level;
+
+      oscillator.connect(gain);
+
+      gain.connect(bus);
+
+      oscillator.start();
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SOUTH-INDIAN-INSPIRED TEMPLE MELODY
+===================================================== */
+
+function createNadaswaramPhrase(
+  context,
+  destination
+){
+
+  const phraseBus =
+    context.createGain();
+
+  phraseBus.gain.value =
+    .0001;
+
+  phraseBus.connect(destination);
+
+
+  const tone =
+    context.createOscillator();
+
+  tone.type = "sawtooth";
+
+
+  const warmth =
+    context.createBiquadFilter();
+
+  warmth.type = "bandpass";
+  warmth.frequency.value = 1050;
+  warmth.Q.value = 1.15;
+
+
+  const softener =
+    context.createBiquadFilter();
+
+  softener.type = "lowpass";
+  softener.frequency.value = 2300;
+
+
+  const vibrato =
+    context.createOscillator();
+
+  vibrato.type = "sine";
+  vibrato.frequency.value = 5.2;
+
+
+  const vibratoDepth =
+    context.createGain();
+
+  vibratoDepth.gain.value = 5.5;
+
+
+  vibrato.connect(vibratoDepth);
+
+  vibratoDepth.connect(
+    tone.frequency
+  );
+
+  tone.connect(warmth);
+
+  warmth.connect(softener);
+
+  softener.connect(phraseBus);
+
+  tone.start();
+  vibrato.start();
+
+
+  const notes = [
+    293.66,
+    329.63,
+    349.23,
+    392.00,
+    349.23,
+    329.63,
+    293.66,
+    261.63,
+    293.66,
+    329.63,
+    293.66,
+    246.94
+  ];
+
+  let step = 0;
+
+
+  function playStep(){
+
+    if(!ambienceStarted){
+      return;
+    }
+
+    const now =
+      context.currentTime;
+
+    const frequency =
+      notes[
+        step % notes.length
+      ];
+
+
+    tone.frequency
+      .cancelScheduledValues(now);
+
+    tone.frequency
+      .setTargetAtTime(
+        frequency,
+        now,
+        .055
+      );
+
+
+    phraseBus.gain
+      .cancelScheduledValues(now);
+
+    phraseBus.gain
+      .setValueAtTime(
+        .0001,
+        now
+      );
+
+    phraseBus.gain
+      .exponentialRampToValueAtTime(
+        .045,
+        now+.10
+      );
+
+    phraseBus.gain
+      .exponentialRampToValueAtTime(
+        .018,
+        now+.48
+      );
+
+    phraseBus.gain
+      .exponentialRampToValueAtTime(
+        .0001,
+        now+.86
+      );
+
+
+    step += 1;
+
+    setTimeout(
+      playStep,
+      900 + Math.random()*420
+    );
+
+  }
+
+  setTimeout(
+    playStep,
+    1700
+  );
+
+}
+
+
+/* =====================================================
+   OCCASIONAL DISTANT TEMPLE BELL
+===================================================== */
+
 function scheduleAmbientBell(){
 
   if(ambienceBellTimer){
-    clearTimeout(ambienceBellTimer);
+
+    clearTimeout(
+      ambienceBellTimer
+    );
+
   }
 
   const delay =
-    24000 +
-    Math.random()*22000;
+    32000 +
+    Math.random()*26000;
+
 
   ambienceBellTimer =
     setTimeout(()=>{
@@ -4134,10 +2796,10 @@ function scheduleAmbientBell(){
         audioContext
       ){
 
-        indianGhantaStrike(
+        southIndianTempleBell(
           audioContext,
           audioContext.currentTime+.03,
-          .13
+          .16
         );
 
       }
@@ -4148,6 +2810,10 @@ function scheduleAmbientBell(){
 
 }
 
+
+/* =====================================================
+   START / STOP AMBIENCE
+===================================================== */
 
 async function startTempleSeaAmbience(){
 
@@ -4161,8 +2827,11 @@ async function startTempleSeaAmbience(){
   try{
 
     if(context.state === "suspended"){
+
       await context.resume();
+
     }
+
 
     if(!ambienceStarted){
 
@@ -4171,115 +2840,59 @@ async function startTempleSeaAmbience(){
       const output =
         getSiteOutput(context);
 
+
       ambienceGain =
         context.createGain();
 
-      ambienceGain.gain.value = .24;
+      /*
+        Louder than the previous version.
+      */
+
+      ambienceGain.gain.value =
+        .72;
 
       ambienceGain.connect(output);
 
 
-      /* SEA */
+      createSeaLayer(
+        context,
+        ambienceGain
+      );
 
-      const sea =
-        context.createBufferSource();
+      createShrutiBed(
+        context,
+        ambienceGain
+      );
 
-      sea.buffer =
-        makeSeaNoiseBuffer(context);
-
-      sea.loop = true;
-
-      const seaFilter =
-        context.createBiquadFilter();
-
-      seaFilter.type = "lowpass";
-      seaFilter.frequency.value = 980;
-      seaFilter.Q.value = .35;
-
-      const seaGain =
-        context.createGain();
-
-      seaGain.gain.value = .16;
-
-      const waveLfo =
-        context.createOscillator();
-
-      const waveDepth =
-        context.createGain();
-
-      waveLfo.type = "sine";
-      waveLfo.frequency.value = .075;
-
-      waveDepth.gain.value = .055;
-
-      waveLfo.connect(waveDepth);
-      waveDepth.connect(seaGain.gain);
-
-      sea.connect(seaFilter);
-      seaFilter.connect(seaGain);
-      seaGain.connect(ambienceGain);
-
-      sea.start();
-      waveLfo.start();
-
-
-      /* SUBTLE TEMPLE DRONE */
-
-      const droneBus =
-        context.createGain();
-
-      droneBus.gain.value = .07;
-
-      droneBus.connect(ambienceGain);
-
-      [
-        [146.83,"sine",.48],
-        [220.00,"sine",.25],
-        [293.66,"triangle",.08]
-      ].forEach(
-        ([frequency,type,level],index)=>{
-
-          const oscillator =
-            context.createOscillator();
-
-          const gain =
-            context.createGain();
-
-          oscillator.type = type;
-          oscillator.frequency.value = frequency;
-
-          oscillator.detune.value =
-            index===1 ? 3 : -2;
-
-          gain.gain.value = level;
-
-          oscillator.connect(gain);
-          gain.connect(droneBus);
-
-          oscillator.start();
-
-        }
+      createNadaswaramPhrase(
+        context,
+        ambienceGain
       );
 
       scheduleAmbientBell();
 
     }
 
+
     ambienceMuted = false;
+
 
     if(siteMasterGain){
 
-      siteMasterGain.gain.cancelScheduledValues(
-        context.currentTime
-      );
+      siteMasterGain.gain
+        .cancelScheduledValues(
+          context.currentTime
+        );
 
-      siteMasterGain.gain.setTargetAtTime(
-        .92,
-        context.currentTime,
-        .12
-      );
+      siteMasterGain.gain
+        .setTargetAtTime(
+          1,
+          context.currentTime,
+          .10
+        );
 
     }
+
 
     updateSoundButton();
 
@@ -4297,21 +2910,26 @@ async function startTempleSeaAmbience(){
 
 function muteTempleSeaAmbience(){
 
-  if(!audioContext || !siteMasterGain){
+  if(
+    !audioContext ||
+    !siteMasterGain
+  ){
     return;
   }
 
   ambienceMuted = true;
 
-  siteMasterGain.gain.cancelScheduledValues(
-    audioContext.currentTime
-  );
+  siteMasterGain.gain
+    .cancelScheduledValues(
+      audioContext.currentTime
+    );
 
-  siteMasterGain.gain.setTargetAtTime(
-    .0001,
-    audioContext.currentTime,
-    .08
-  );
+  siteMasterGain.gain
+    .setTargetAtTime(
+      .0001,
+      audioContext.currentTime,
+      .08
+    );
 
   updateSoundButton();
 
@@ -4321,7 +2939,9 @@ function muteTempleSeaAmbience(){
 function updateSoundButton(){
 
   const button =
-    document.getElementById("soundButton");
+    document.getElementById(
+      "soundButton"
+    );
 
   if(!button){
     return;
@@ -4355,10 +2975,10 @@ function updateSoundButton(){
 
 
 /* =====================================================
-   TEMPLE BELL
+   SOUTH INDIAN TEMPLE BELL
 ===================================================== */
 
-function createMetalImpact(
+function createBronzeClapper(
   context,
   startTime,
   destination,
@@ -4367,7 +2987,7 @@ function createMetalImpact(
 
   const length =
     Math.floor(
-      context.sampleRate*.075
+      context.sampleRate*.11
     );
 
   const buffer =
@@ -4380,6 +3000,7 @@ function createMetalImpact(
   const data =
     buffer.getChannelData(0);
 
+
   for(let i=0;i<length;i++){
 
     const progress =
@@ -4387,27 +3008,27 @@ function createMetalImpact(
 
     data[i] =
       (Math.random()*2-1) *
-      Math.pow(1-progress,6);
+      Math.pow(
+        1-progress,
+        5
+      );
 
   }
+
 
   const noise =
     context.createBufferSource();
 
   noise.buffer = buffer;
 
-  const highPass =
+
+  const band =
     context.createBiquadFilter();
 
-  highPass.type = "highpass";
-  highPass.frequency.value = 1700;
+  band.type = "bandpass";
+  band.frequency.value = 1900;
+  band.Q.value = .8;
 
-  const bandPass =
-    context.createBiquadFilter();
-
-  bandPass.type = "bandpass";
-  bandPass.frequency.value = 3600;
-  bandPass.Q.value = 1.15;
 
   const gain =
     context.createGain();
@@ -4417,19 +3038,23 @@ function createMetalImpact(
     startTime
   );
 
-  gain.gain.exponentialRampToValueAtTime(
-    .17*volume,
-    startTime+.004
-  );
+  gain.gain
+    .exponentialRampToValueAtTime(
+      .22*volume,
+      startTime+.006
+    );
 
-  gain.gain.exponentialRampToValueAtTime(
-    .0001,
-    startTime+.085
-  );
+  gain.gain
+    .exponentialRampToValueAtTime(
+      .0001,
+      startTime+.11
+    );
 
-  noise.connect(highPass);
-  highPass.connect(bandPass);
-  bandPass.connect(gain);
+
+  noise.connect(band);
+
+  band.connect(gain);
+
   gain.connect(destination);
 
   noise.start(startTime);
@@ -4437,7 +3062,7 @@ function createMetalImpact(
 }
 
 
-function indianGhantaStrike(
+function southIndianTempleBell(
   context,
   startTime,
   volume=1
@@ -4446,14 +3071,16 @@ function indianGhantaStrike(
   const master =
     context.createGain();
 
+
   const compressor =
     context.createDynamicsCompressor();
 
-  compressor.threshold.value = -16;
-  compressor.knee.value = 8;
-  compressor.ratio.value = 2.5;
-  compressor.attack.value = .002;
-  compressor.release.value = .22;
+  compressor.threshold.value = -13;
+  compressor.knee.value = 10;
+  compressor.ratio.value = 2.2;
+  compressor.attack.value = .003;
+  compressor.release.value = .42;
+
 
   master.connect(compressor);
 
@@ -4461,35 +3088,57 @@ function indianGhantaStrike(
     getSiteOutput(context)
   );
 
+
+  /*
+    Lower bronze fundamental with irregular
+    metallic harmonics for a heavier kovil-mani feel.
+  */
+
   const partials = [
-    [875,.28,1.55],
-    [1228,.23,1.38],
-    [1665,.18,1.18],
-    [2188,.13,.98],
-    [2875,.09,.78],
-    [3710,.055,.58],
-    [4690,.03,.40]
+
+    [392.0,.34,3.9],
+
+    [548.8,.26,3.5],
+
+    [744.8,.22,3.0],
+
+    [1019.2,.17,2.7],
+
+    [1372.0,.12,2.2],
+
+    [1813.0,.085,1.8],
+
+    [2380.0,.055,1.35],
+
+    [3120.0,.03,.95]
+
   ];
 
-  master.gain.setValueAtTime(
-    .0001,
-    startTime
-  );
 
-  master.gain.exponentialRampToValueAtTime(
-    .62*volume,
-    startTime+.006
-  );
+  master.gain
+    .setValueAtTime(
+      .0001,
+      startTime
+    );
 
-  master.gain.exponentialRampToValueAtTime(
-    .17*volume,
-    startTime+.22
-  );
+  master.gain
+    .exponentialRampToValueAtTime(
+      .72*volume,
+      startTime+.008
+    );
 
-  master.gain.exponentialRampToValueAtTime(
-    .0001,
-    startTime+1.85
-  );
+  master.gain
+    .exponentialRampToValueAtTime(
+      .30*volume,
+      startTime+.28
+    );
+
+  master.gain
+    .exponentialRampToValueAtTime(
+      .0001,
+      startTime+4.15
+    );
+
 
   partials.forEach(
     ([frequency,level,decay],index)=>{
@@ -4500,100 +3149,91 @@ function indianGhantaStrike(
       const gain =
         context.createGain();
 
+
       oscillator.type =
-        index < 4
+        index < 5
           ? "sine"
           : "triangle";
 
-      oscillator.frequency.setValueAtTime(
-        frequency*1.018,
-        startTime
-      );
 
-      oscillator.frequency.exponentialRampToValueAtTime(
-        frequency,
-        startTime+.07
-      );
+      oscillator.frequency
+        .setValueAtTime(
+          frequency*1.012,
+          startTime
+        );
 
-      oscillator.detune.setValueAtTime(
-        index%2===0 ? 7 : -9,
-        startTime
-      );
+      oscillator.frequency
+        .exponentialRampToValueAtTime(
+          frequency,
+          startTime+.10
+        );
 
-      gain.gain.setValueAtTime(
-        .0001,
-        startTime
-      );
 
-      gain.gain.exponentialRampToValueAtTime(
-        level,
-        startTime+.005
-      );
+      oscillator.detune.value =
+        index%2
+          ? -5
+          : 4;
 
-      gain.gain.exponentialRampToValueAtTime(
-        level*.18,
-        startTime+.16
-      );
 
-      gain.gain.exponentialRampToValueAtTime(
-        .0001,
-        startTime+decay
-      );
+      gain.gain
+        .setValueAtTime(
+          .0001,
+          startTime
+        );
+
+      gain.gain
+        .exponentialRampToValueAtTime(
+          level,
+          startTime+.007
+        );
+
+      gain.gain
+        .exponentialRampToValueAtTime(
+          level*.26,
+          startTime+.32
+        );
+
+      gain.gain
+        .exponentialRampToValueAtTime(
+          .0001,
+          startTime+decay
+        );
+
 
       oscillator.connect(gain);
+
       gain.connect(master);
 
-      oscillator.start(startTime);
-      oscillator.stop(startTime+decay+.08);
+
+      oscillator.start(
+        startTime
+      );
+
+      oscillator.stop(
+        startTime+
+        decay+
+        .12
+      );
 
     }
   );
 
-  createMetalImpact(
+
+  createBronzeClapper(
     context,
     startTime,
     master,
     volume
   );
 
-  const shimmer =
-    context.createOscillator();
-
-  const shimmerGain =
-    context.createGain();
-
-  shimmer.type = "triangle";
-
-  shimmer.frequency.setValueAtTime(
-    5450,
-    startTime
-  );
-
-  shimmer.frequency.exponentialRampToValueAtTime(
-    4200,
-    startTime+.28
-  );
-
-  shimmerGain.gain.setValueAtTime(
-    .035*volume,
-    startTime+.004
-  );
-
-  shimmerGain.gain.exponentialRampToValueAtTime(
-    .0001,
-    startTime+.42
-  );
-
-  shimmer.connect(shimmerGain);
-  shimmerGain.connect(master);
-
-  shimmer.start(startTime);
-  shimmer.stop(startTime+.45);
-
 }
 
 
-async function playTwoTempleBells(){
+/* =====================================================
+   SEVEN TEMPLE BELLS
+===================================================== */
+
+async function playSevenTempleBells(){
 
   const context =
     getAudioContext();
@@ -4605,22 +3245,54 @@ async function playTwoTempleBells(){
   try{
 
     if(context.state === "suspended"){
+
       await context.resume();
+
     }
 
+
     const now =
-      context.currentTime+.025;
+      context.currentTime+.03;
 
-    indianGhantaStrike(
-      context,
-      now,
-      .92
-    );
 
-    indianGhantaStrike(
-      context,
-      now+.68,
-      .82
+    /*
+      Seven distinct strikes.
+      Slightly uneven spacing prevents it from
+      sounding like a digital notification.
+    */
+
+    const spacing = [
+      0,
+      1.05,
+      2.08,
+      3.14,
+      4.18,
+      5.25,
+      6.34
+    ];
+
+
+    const levels = [
+      .95,
+      .92,
+      .90,
+      .94,
+      .89,
+      .92,
+      1.0
+    ];
+
+
+    spacing.forEach(
+      (offset,index)=>{
+
+        southIndianTempleBell(
+          context,
+          now+offset,
+          levels[index]
+        );
+
+      }
     );
 
   }catch(error){
@@ -4640,22 +3312,34 @@ async function playTwoTempleBells(){
 ===================================================== */
 
 const lampWrap =
-  document.getElementById("lampWrap");
+  document.getElementById(
+    "lampWrap"
+  );
 
 const lampButton =
-  document.getElementById("lightLamp");
+  document.getElementById(
+    "lightLamp"
+  );
 
 const lampMessage =
-  document.getElementById("lampMessage");
+  document.getElementById(
+    "lampMessage"
+  );
 
 const lampUnlit =
-  document.getElementById("lampUnlit");
+  document.getElementById(
+    "lampUnlit"
+  );
 
 const lampLitImage =
-  document.getElementById("lampLit");
+  document.getElementById(
+    "lampLit"
+  );
 
 const closingLamp =
-  document.getElementById("closingLamp");
+  document.getElementById(
+    "closingLamp"
+  );
 
 let lampIsLit = false;
 
@@ -4682,23 +3366,41 @@ async function lightTheLamp(){
   lampIsLit = true;
 
   lampButton.disabled = true;
-  lampButton.style.opacity = ".72";
 
-  playTwoTempleBells();
+  lampButton.style.opacity =
+    ".72";
+
+
+  /*
+    Seven South Indian temple bell strikes.
+  */
+
+  playSevenTempleBells();
+
 
   try{
 
     if(lampLitImage.decode){
+
       await lampLitImage.decode();
+
     }
 
   }catch(error){}
 
+
   setTimeout(()=>{
 
-    lampWrap.classList.add("lit");
+    lampWrap.classList.add(
+      "lit"
+    );
 
   },160);
+
+
+  /*
+    A larger flower shower as the lamp lights.
+  */
 
   setTimeout(()=>{
 
@@ -4706,29 +3408,44 @@ async function lightTheLamp(){
 
   },720);
 
+
   setTimeout(()=>{
 
     lampButton.textContent =
       "Your Lamp Is Lit";
 
-    lampButton.style.opacity = "1";
+    lampButton.style.opacity =
+      "1";
+
 
     lampMessage.innerHTML =
       "Thank you, <strong>" +
-      safeHTML(displayName()) +
+      safeHTML(
+        displayName()
+      ) +
       "</strong>.<br>" +
       "Your blessings are with us.";
 
-    lampMessage.classList.add("show");
+
+    lampMessage.classList.add(
+      "show"
+    );
+
 
     closingLamp.src =
       "./images/blessings/realistic-lamp.png";
 
-    closingLamp.classList.add("lit");
+    closingLamp.classList.add(
+      "lit"
+    );
 
-    logGuestEvent("lamp_lit");
+
+    logGuestEvent(
+      "lamp_lit"
+    );
 
   },1250);
+
 
   setTimeout(()=>{
 
@@ -4850,45 +3567,66 @@ document
         "PRODID:-//Nikhil Supriya Wedding//EN"
       ];
 
+
       weddingEvents.forEach(
         event=>{
 
           lines.push(
+
             "BEGIN:VEVENT",
-            "DTSTART:"+event.start,
-            "DTEND:"+event.end,
-            "SUMMARY:"+event.title,
-            "LOCATION:"+event.location,
+
+            "DTSTART:"+
+            event.start,
+
+            "DTEND:"+
+            event.end,
+
+            "SUMMARY:"+
+            event.title,
+
+            "LOCATION:"+
+            event.location,
+
             "END:VEVENT"
+
           );
 
         }
       );
 
+
       lines.push(
         "END:VCALENDAR"
       );
 
+
       const blob =
         new Blob(
-          [lines.join("\r\n")],
+          [
+            lines.join("\r\n")
+          ],
           {
             type:"text/calendar"
           }
         );
 
+
       const url =
         URL.createObjectURL(blob);
 
+
       const anchor =
         document.createElement("a");
+
 
       anchor.href = url;
 
       anchor.download =
         "Nikhil-Supriya-Wedding.ics";
 
+
       anchor.click();
+
 
       setTimeout(
         ()=>URL.revokeObjectURL(url),
@@ -4935,20 +3673,26 @@ function drawCover(
 ){
 
   const imageRatio =
-    image.width/image.height;
+    image.width /
+    image.height;
 
   const boxRatio =
-    width/height;
+    width /
+    height;
+
 
   let sx=0;
   let sy=0;
+
   let sw=image.width;
   let sh=image.height;
+
 
   if(imageRatio > boxRatio){
 
     sw =
-      image.height*boxRatio;
+      image.height *
+      boxRatio;
 
     sx =
       (image.width-sw)/2;
@@ -4956,12 +3700,14 @@ function drawCover(
   }else{
 
     sh =
-      image.width/boxRatio;
+      image.width /
+      boxRatio;
 
     sy =
       (image.height-sh)/2;
 
   }
+
 
   context.drawImage(
     image,
@@ -4989,10 +3735,17 @@ function drawCenteredText(
 
   context.save();
 
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  context.font = font;
-  context.fillStyle = color;
+  context.textAlign =
+    "center";
+
+  context.textBaseline =
+    "middle";
+
+  context.font =
+    font;
+
+  context.fillStyle =
+    color;
 
   context.fillText(
     value,
@@ -5015,20 +3768,28 @@ function fitGuestName(
 
   let size = 90;
 
+
   while(size > 48){
 
     context.font =
       `600 ${size}px "Cormorant Garamond",Georgia,serif`;
 
+
     if(
-      context.measureText(value).width <= maxWidth
+      context.measureText(
+        value
+      ).width <= maxWidth
     ){
+
       break;
+
     }
+
 
     size -= 2;
 
   }
+
 
   drawCenteredText(
     context,
@@ -5055,9 +3816,11 @@ document
       button.textContent =
         "Preparing Invitation...";
 
+
       try{
 
         await document.fonts.ready;
+
 
         const [
           temple,
@@ -5080,17 +3843,29 @@ document
 
         ]);
 
+
         const canvas =
-          document.createElement("canvas");
+          document.createElement(
+            "canvas"
+          );
+
 
         canvas.width = 1800;
+
         canvas.height = 2400;
 
-        const context =
-          canvas.getContext("2d");
 
-        const W = canvas.width;
-        const H = canvas.height;
+        const context =
+          canvas.getContext(
+            "2d"
+          );
+
+
+        const W =
+          canvas.width;
+
+        const H =
+          canvas.height;
 
 
         if(temple){
@@ -5141,17 +3916,22 @@ document
             1840
           );
 
+
         paper.addColorStop(
           0,
           "rgba(255,252,242,.97)"
         );
+
 
         paper.addColorStop(
           1,
           "rgba(255,239,211,.93)"
         );
 
-        context.fillStyle = paper;
+
+        context.fillStyle =
+          paper;
+
 
         context.fillRect(
           300,
@@ -5166,6 +3946,7 @@ document
 
         context.lineWidth = 5;
 
+
         context.strokeRect(
           325,
           135,
@@ -5178,6 +3959,7 @@ document
           "#e2b86b";
 
         context.lineWidth = 2;
+
 
         context.strokeRect(
           345,
@@ -5203,6 +3985,7 @@ document
 
           context.clip();
 
+
           drawCover(
             context,
             ganesha,
@@ -5211,6 +3994,7 @@ document
             170,
             170
           );
+
 
           context.restore();
 
@@ -5226,6 +4010,7 @@ document
           "#754313"
         );
 
+
         drawCenteredText(
           context,
           "WITH THE BLESSINGS OF OUR FAMILIES",
@@ -5234,6 +4019,7 @@ document
           '600 23px "Manrope",Arial,sans-serif',
           "#754313"
         );
+
 
         drawCenteredText(
           context,
@@ -5244,6 +4030,7 @@ document
           "#482818"
         );
 
+
         drawCenteredText(
           context,
           "&",
@@ -5252,6 +4039,7 @@ document
           'italic 500 76px "Cormorant Garamond",Georgia,serif',
           "#a83d3d"
         );
+
 
         drawCenteredText(
           context,
@@ -5262,6 +4050,7 @@ document
           "#482818"
         );
 
+
         drawCenteredText(
           context,
           "request the pleasure and blessings of",
@@ -5271,6 +4060,7 @@ document
           "#67452f"
         );
 
+
         fitGuestName(
           context,
           displayName(),
@@ -5278,6 +4068,7 @@ document
           1025,
           900
         );
+
 
         drawCenteredText(
           context,
@@ -5293,6 +4084,7 @@ document
           "#b6782d";
 
         context.lineWidth = 2;
+
 
         context.beginPath();
 
@@ -5314,6 +4106,7 @@ document
           900,
           1280
         ];
+
 
         const eventData = [
 
@@ -5347,6 +4140,7 @@ document
             const x =
               eventColumns[index];
 
+
             drawCenteredText(
               context,
               event[0],
@@ -5355,6 +4149,7 @@ document
               '600 22px "Manrope",Arial,sans-serif',
               "#86501c"
             );
+
 
             drawCenteredText(
               context,
@@ -5365,6 +4160,7 @@ document
               "#482818"
             );
 
+
             drawCenteredText(
               context,
               event[2],
@@ -5373,6 +4169,7 @@ document
               '600 31px "Cormorant Garamond",Georgia,serif',
               "#482818"
             );
+
 
             drawCenteredText(
               context,
@@ -5390,6 +4187,7 @@ document
         context.strokeStyle =
           "rgba(174,108,35,.35)";
 
+
         context.beginPath();
 
         context.moveTo(
@@ -5403,6 +4201,7 @@ document
         );
 
         context.stroke();
+
 
         context.beginPath();
 
@@ -5428,6 +4227,7 @@ document
           "#744313"
         );
 
+
         drawCenteredText(
           context,
           "E C R  ·  Chennai",
@@ -5436,6 +4236,7 @@ document
           '500 38px "Cormorant Garamond",Georgia,serif',
           "#482818"
         );
+
 
         drawCenteredText(
           context,
@@ -5446,6 +4247,7 @@ document
           "#6a4630"
         );
 
+
         drawCenteredText(
           context,
           "Two families, two cities, one celebration.",
@@ -5454,6 +4256,7 @@ document
           'italic 500 38px "Cormorant Garamond",Georgia,serif',
           "#472819"
         );
+
 
         drawCenteredText(
           context,
@@ -5476,6 +4279,7 @@ document
 
             }
 
+
             const safeName =
               displayName()
                 .replace(
@@ -5488,8 +4292,10 @@ document
                 ) ||
               "Guest";
 
+
             const filename =
               `Nikhil-Supriya-Invitation-${safeName}.jpg`;
+
 
             logGuestEvent(
               "invite_saved"
@@ -5507,6 +4313,7 @@ document
                   }
                 );
 
+
               if(
                 navigator.share &&
                 navigator.canShare &&
@@ -5523,6 +4330,7 @@ document
                     "Nikhil & Supriya Wedding Invitation"
 
                 });
+
 
                 button.disabled = false;
 
@@ -5555,22 +4363,31 @@ document
             const url =
               URL.createObjectURL(blob);
 
+
             const link =
               document.createElement("a");
 
-            link.href = url;
-            link.download = filename;
 
-            document.body.appendChild(link);
+            link.href = url;
+
+            link.download =
+              filename;
+
+
+            document.body
+              .appendChild(link);
+
 
             link.click();
 
             link.remove();
 
+
             setTimeout(
               ()=>URL.revokeObjectURL(url),
               1500
             );
+
 
             button.disabled = false;
 
@@ -5599,11 +4416,14 @@ document
 
 
 /* =====================================================
-   SOUND CONTROL
+   SOUND BUTTON
 ===================================================== */
 
 const soundButton =
-  document.getElementById("soundButton");
+  document.getElementById(
+    "soundButton"
+  );
+
 
 soundButton.addEventListener(
   "click",
@@ -5697,6 +4517,5 @@ function safeHTML(value){
 }
 
 </script>
-
 </body>
 </html>

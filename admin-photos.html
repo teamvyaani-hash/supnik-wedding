@@ -114,6 +114,17 @@
       border-color: #a64d62;
     }
 
+    button.feature {
+      background: #5c4722;
+      border-color: #b89048;
+      color: #ffe3a5;
+    }
+
+    button.unfeature {
+      background: #39323c;
+      border-color: #77647b;
+    }
+
     button:disabled {
       opacity: .5;
       cursor: wait;
@@ -197,6 +208,16 @@
       text-transform: capitalize;
     }
 
+    .featured-label {
+      display: inline-block;
+      color: var(--gold);
+      border: 1px solid #8c6d3d;
+      border-radius: 30px;
+      padding: 4px 10px;
+      margin: 10px 0 0 7px;
+      font-size: 12px;
+    }
+
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -205,7 +226,7 @@
     }
 
     .actions button {
-      flex: 1;
+      flex: 1 1 90px;
       font-size: 13px;
       padding: 10px 8px;
     }
@@ -262,7 +283,7 @@
     <section id="dashboard" class="hidden">
       <div class="eyebrow">Private gallery control</div>
       <h1>Through Your Eyes</h1>
-      <p>Review guest submissions before they appear on the Wedding Wall.</p>
+      <p>Review guest submissions and choose your carousel highlights.</p>
 
       <div class="stats">
         <div class="stat">
@@ -277,6 +298,10 @@
           <strong id="rejectedCount">0</strong>
           <span>Rejected</span>
         </div>
+        <div class="stat">
+          <strong id="featuredCount">0</strong>
+          <span>Featured</span>
+        </div>
       </div>
 
       <div class="toolbar">
@@ -290,6 +315,7 @@
         <select id="statusFilter" aria-label="Filter status">
           <option value="pending">Pending</option>
           <option value="approved">Approved</option>
+          <option value="featured">Featured only</option>
           <option value="rejected">Rejected</option>
           <option value="all">All statuses</option>
         </select>
@@ -363,33 +389,51 @@
       }
     }
 
-    function textElement(tag, className, text) {
+    function textElement(tag, className, content) {
       const element = document.createElement(tag);
       element.className = className;
-      element.textContent = text;
+      element.textContent = content;
       return element;
     }
 
     function render() {
-      const counts = { pending: 0, approved: 0, rejected: 0 };
+      const counts = {
+        pending: 0,
+        approved: 0,
+        rejected: 0,
+        featured: 0
+      };
 
       photos.forEach(photo => {
         if (Object.hasOwn(counts, photo.status)) {
           counts[photo.status]++;
+        }
+
+        if (photo.status === "approved" && photo.featured === true) {
+          counts.featured++;
         }
       });
 
       $("pendingCount").textContent = counts.pending;
       $("approvedCount").textContent = counts.approved;
       $("rejectedCount").textContent = counts.rejected;
+      $("featuredCount").textContent = counts.featured;
 
       const event = $("eventFilter").value;
       const status = $("statusFilter").value;
 
-      const visible = photos.filter(photo =>
-        (event === "all" || photo.event === event) &&
-        (status === "all" || photo.status === status)
-      );
+      const visible = photos.filter(photo => {
+        const matchesEvent =
+          event === "all" || photo.event === event;
+
+        const matchesStatus =
+          status === "all" ||
+          (status === "featured"
+            ? photo.status === "approved" && photo.featured === true
+            : photo.status === status);
+
+        return matchesEvent && matchesStatus;
+      });
 
       const container = $("photos");
       container.replaceChildren();
@@ -408,7 +452,8 @@
         const img = document.createElement("img");
         img.loading = "lazy";
         img.alt = `Photo submitted by ${photo.guestName || "Guest"}`;
-        img.src = `${API}?action=image&id=${encodeURIComponent(photo.uploadId)}`;
+        img.src =
+          `${API}?action=image&id=${encodeURIComponent(photo.uploadId)}`;
 
         const details = document.createElement("div");
         details.className = "details";
@@ -433,8 +478,41 @@
           textElement("span", "status", photo.status)
         );
 
+        if (photo.status === "approved" && photo.featured === true) {
+          details.appendChild(
+            textElement("span", "featured-label", "★ Featured")
+          );
+        }
+
         const actions = document.createElement("div");
         actions.className = "actions";
+
+        async function updatePhoto(action, payload, successText) {
+          const buttons = actions.querySelectorAll("button");
+          buttons.forEach(button => button.disabled = true);
+          $("dashboardMessage").textContent = "Saving...";
+
+          try {
+            const result = await request(action, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+
+            if (action === "feature") {
+              photo.featured = result.featured === true;
+            } else if (action === "moderate") {
+              photo.status = result.status;
+              photo.featured = result.featured === true;
+            }
+
+            render();
+            $("dashboardMessage").textContent = successText;
+          } catch (error) {
+            $("dashboardMessage").textContent = error.message;
+            buttons.forEach(button => button.disabled = false);
+          }
+        }
 
         for (const [label, value, css] of [
           ["Approve", "approved", "approve"],
@@ -446,30 +524,42 @@
           const button = document.createElement("button");
           button.textContent = label;
           button.className = css;
-          button.addEventListener("click", async () => {
-            button.disabled = true;
-            $("dashboardMessage").textContent = `Saving ${label.toLowerCase()}...`;
 
-            try {
-              await request("moderate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  id: photo.uploadId,
-                  status: value
-                })
-              });
-
-              photo.status = value;
-              render();
-              $("dashboardMessage").textContent = `Photo marked ${value}.`;
-            } catch (error) {
-              $("dashboardMessage").textContent = error.message;
-              button.disabled = false;
-            }
+          button.addEventListener("click", () => {
+            updatePhoto(
+              "moderate",
+              { id: photo.uploadId, status: value },
+              `Photo marked ${value}.`
+            );
           });
 
           actions.appendChild(button);
+        }
+
+        if (photo.status === "approved") {
+          const featureButton = document.createElement("button");
+
+          featureButton.textContent = photo.featured
+            ? "★ Unfeature"
+            : "☆ Feature";
+
+          featureButton.className = photo.featured
+            ? "unfeature"
+            : "feature";
+
+          featureButton.addEventListener("click", () => {
+            const nextFeatured = !photo.featured;
+
+            updatePhoto(
+              "feature",
+              { id: photo.uploadId, featured: nextFeatured },
+              nextFeatured
+                ? "Photo added to Featured Moments."
+                : "Photo removed from Featured Moments."
+            );
+          });
+
+          actions.appendChild(featureButton);
         }
 
         details.appendChild(actions);

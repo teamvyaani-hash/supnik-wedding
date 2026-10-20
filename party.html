@@ -22,7 +22,9 @@
       --border: rgba(255,245,233,.17);
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -31,9 +33,17 @@
       font-family: Manrope, sans-serif;
     }
 
-    button, input { font: inherit; }
-    button { cursor: pointer; }
-    [hidden] { display: none !important; }
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
 
     .shell {
       width: min(100% - 30px, 820px);
@@ -318,10 +328,21 @@
     }
 
     @media (max-width: 420px) {
-      .panel { padding: 18px; }
-      .card { padding: 15px; }
-      .card h3 { font-size: 13px; }
-      .team-choice { padding: 16px 8px; }
+      .panel {
+        padding: 18px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .card h3 {
+        font-size: 13px;
+      }
+
+      .team-choice {
+        padding: 16px 8px;
+      }
     }
   </style>
 </head>
@@ -452,8 +473,8 @@
       </div>
 
       <p class="muted" style="text-align:center;margin:18px 0 0">
-        The competition opens once Secret Missions
-        and live scoring are activated.
+        Complete Secret Missions to start earning points
+        for your team.
       </p>
     </section>
 
@@ -497,12 +518,12 @@
         <span class="card-icon">◉</span>
         <h3>SECRET MISSIONS</h3>
         <p>
-          Meet strangers, make friends, complete
-          challenges and earn bragging rights.
+          Meet strangers, make friends, exchange guest
+          codes and earn points for your city.
         </p>
-        <span class="coming-soon">
-          COMING SOON
-        </span>
+        <a href="./missions.html">
+          START YOUR MISSIONS →
+        </a>
       </article>
 
       <article class="card">
@@ -533,9 +554,13 @@
       <div class="leaderboard">
         <div class="card-icon">✦</div>
         <p>
-          The leaderboard will appear here
-          when live scoring is enabled.
+          Your live individual leaderboard is available
+          inside Secret Missions.
         </p>
+        <a href="./missions.html"
+           style="color:var(--gold);font-size:12px;font-weight:800;text-decoration:none">
+          VIEW LEADERBOARD →
+        </a>
       </div>
     </section>
 
@@ -597,9 +622,8 @@
             STORAGE_KEY,
             JSON.stringify(player)
           );
-          return true;
         } catch {
-          return false;
+          // Registration remains usable for this session.
         }
       }
 
@@ -607,7 +631,7 @@
         try {
           localStorage.removeItem(STORAGE_KEY);
         } catch {
-          // Registration still works in this session.
+          // Continue without browser storage.
         }
       }
 

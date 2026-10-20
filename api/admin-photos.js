@@ -1,529 +1,342 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Photo Moderation | Nikhil & Supriya</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #101015;
-      --panel: #1b1a21;
-      --line: #38333b;
-      --gold: #e9c993;
-      --muted: #b7adb5;
-      --text: #fff8f0;
+import { createHmac, createHash, timingSafeEqual } from "node:crypto";
+import { Readable } from "node:stream";
+import { get } from "@vercel/blob";
+
+const COOKIE = "ns_photo_admin";
+const SESSION_SECONDS = 8 * 60 * 60;
+const MAX_LOGIN_ATTEMPTS = 8;
+const EVENTS = new Set(["engagement", "reception", "muhurtham"]);
+const STATUSES = new Set(["pending", "approved", "rejected"]);
+const ID_PATTERN = /^[a-f0-9-]{36}$/i;
+
+function respond(res, status, data) {
+  res.setHeader("Cache-Control", "private, no-store");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  return res.status(status).json(data);
+}
+
+function configured() {
+  return Boolean(
+    process.env.WEDDING_ADMIN_PASSWORD &&
+    process.env.WEDDING_ADMIN_SESSION_SECRET?.length >= 32 &&
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_URL &&
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN &&
+    process.env.BLOB_READ_WRITE_TOKEN
+  );
+}
+
+function redisSettings() {
+  return {
+    url: process.env.UPSTASH_REDIS_REST_KV_REST_API_URL.replace(/\/$/, ""),
+    token: process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN
+  };
+}
+
+async function redis(command) {
+  const { url, token } = redisSettings();
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(command),
+    cache: "no-store"
+  });
+
+  if (!response.ok) throw new Error("Redis request failed");
+
+  const data = await response.json();
+  if (data.error) throw new Error("Redis command failed");
+  return data.result;
+}
+
+function secureCompare(a, b) {
+  const first = createHash("sha256").update(String(a)).digest();
+  const second = createHash("sha256").update(String(b)).digest();
+  return timingSafeEqual(first, second);
+}
+
+function signature(value) {
+  return createHmac(
+    "sha256",
+    process.env.WEDDING_ADMIN_SESSION_SECRET
+  ).update(value).digest("hex");
+}
+
+function makeSession() {
+  const expires = String(Date.now() + SESSION_SECONDS * 1000);
+  return `${expires}.${signature(expires)}`;
+}
+
+function parseCookies(req) {
+  const cookies = {};
+  for (const entry of String(req.headers.cookie || "").split(";")) {
+    const index = entry.indexOf("=");
+    if (index < 0) continue;
+    cookies[entry.slice(0, index).trim()] = entry.slice(index + 1).trim();
+  }
+  return cookies;
+}
+
+function authenticated(req) {
+  const value = parseCookies(req)[COOKIE];
+  if (!value) return false;
+
+  const separator = value.indexOf(".");
+  if (separator < 1) return false;
+
+  const expires = value.slice(0, separator);
+  const suppliedSignature = value.slice(separator + 1);
+
+  if (!/^\d{13}$/.test(expires)) return false;
+  if (Number(expires) <= Date.now()) return false;
+  if (Number(expires) > Date.now() + SESSION_SECONDS * 1000) return false;
+
+  return secureCompare(suppliedSignature, signature(expires));
+}
+
+function setSessionCookie(res, value, maxAge) {
+  res.setHeader(
+    "Set-Cookie",
+    `${COOKIE}=${value}; Path=/api/admin-photos; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}`
+  );
+}
+
+function sameOrigin(req) {
+  const origin = req.headers.origin;
+  const host = req.headers.host;
+
+  if (typeof origin !== "string" || typeof host !== "string") return false;
+
+  try {
+    const parsed = new URL(origin);
+    return parsed.protocol === "https:" && parsed.host === host;
+  } catch {
+    return false;
+  }
+}
+
+function ipAddress(req) {
+  const forwarded = req.headers["x-forwarded-for"];
+  return String(Array.isArray(forwarded) ? forwarded[0] : forwarded || "unknown")
+    .split(",")[0].trim().slice(0, 100);
+}
+
+async function loginAllowed(req) {
+  const key = `ns:admin:login:${createHash("sha256")
+    .update(ipAddress(req)).digest("hex")}`;
+
+  const attempts = Number(await redis(["INCR", key]));
+  if (attempts === 1) await redis(["EXPIRE", key, 900]);
+
+  return attempts <= MAX_LOGIN_ATTEMPTS;
+}
+
+function parseRecord(raw) {
+  if (raw == null) return null;
+
+  let value = raw;
+  for (let i = 0; i < 2 && typeof value === "string"; i++) {
+    try {
+      value = JSON.parse(value);
+    } catch {
+      return null;
+    }
+  }
+
+  if (!value || typeof value !== "object") return null;
+  if (!ID_PATTERN.test(String(value.uploadId || ""))) return null;
+  if (!EVENTS.has(value.event)) return null;
+  if (!STATUSES.has(value.status)) return null;
+  if (typeof value.pathname !== "string") return null;
+  if (!value.pathname.startsWith(`wedding-pov/${value.event}/`)) return null;
+
+  return value;
+}
+
+function recordKey(id) {
+  return `ns:pov:photo:${id}`;
+}
+
+async function readRecord(id) {
+  if (!ID_PATTERN.test(String(id || ""))) return null;
+  return parseRecord(await redis(["GET", recordKey(id)]));
+}
+
+async function listRecords() {
+  const keys = [];
+  let cursor = "0";
+  let iterations = 0;
+
+  do {
+    const result = await redis([
+      "SCAN", cursor, "MATCH", "ns:pov:photo:*", "COUNT", "100"
+    ]);
+
+    if (!Array.isArray(result) || result.length < 2) {
+      throw new Error("Invalid Redis scan result");
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.5;
+    cursor = String(result[0]);
+    for (const key of result[1] || []) {
+      if (keys.length < 1000) keys.push(key);
     }
 
-    header {
-      border-bottom: 1px solid var(--line);
-      padding: 25px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+    iterations++;
+  } while (cursor !== "0" && iterations < 100 && keys.length < 1000);
 
-    .brand {
-      font-family: Georgia, serif;
-      color: var(--gold);
-      font-size: 23px;
-    }
+  const uniqueKeys = [...new Set(keys)];
+  const photos = [];
 
-    .eyebrow {
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-    }
+  for (let i = 0; i < uniqueKeys.length; i += 100) {
+    const chunk = uniqueKeys.slice(i, i + 100);
+    const values = await redis(["MGET", ...chunk]);
 
-    main {
-      width: min(1200px, 92%);
-      margin: 45px auto 80px;
-    }
-
-    h1 {
-      font-family: Georgia, serif;
-      font-weight: normal;
-      font-size: clamp(32px, 5vw, 50px);
-      margin: 8px 0;
-    }
-
-    p { color: var(--muted); }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 25px;
-    }
-
-    .login {
-      max-width: 430px;
-      margin: 80px auto;
-    }
-
-    input, select, button {
-      font: inherit;
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-
-    input, select {
-      background: #121116;
-      color: white;
-      border: 1px solid var(--line);
-    }
-
-    input { width: 100%; }
-
-    button {
-      cursor: pointer;
-      border: 1px solid var(--line);
-      background: #302a30;
-      color: white;
-    }
-
-    button.primary {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: #171218;
-      font-weight: 700;
-    }
-
-    button.approve {
-      background: #214b36;
-      border-color: #3d815a;
-    }
-
-    button.reject {
-      background: #582c37;
-      border-color: #a64d62;
-    }
-
-    button:disabled {
-      opacity: .5;
-      cursor: wait;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 25px 0;
-    }
-
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 25px 0;
-    }
-
-    .stat {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px 20px;
-      min-width: 110px;
-    }
-
-    .stat strong {
-      display: block;
-      color: var(--gold);
-      font-size: 25px;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-      gap: 20px;
-    }
-
-    .photo {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .photo img {
-      width: 100%;
-      height: 260px;
-      object-fit: contain;
-      background: #09090c;
-      display: block;
-    }
-
-    .details { padding: 16px; }
-
-    .guest {
-      font-size: 17px;
-      font-weight: 700;
-      overflow-wrap: anywhere;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    .status {
-      display: inline-block;
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      padding: 4px 10px;
-      font-size: 12px;
-      margin-top: 10px;
-      text-transform: capitalize;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .actions button {
-      flex: 1;
-      font-size: 13px;
-      padding: 10px 8px;
-    }
-
-    .message {
-      margin: 14px 0;
-      color: var(--gold);
-      min-height: 22px;
-    }
-
-    .hidden { display: none !important; }
-
-    .empty {
-      text-align: center;
-      padding: 50px 20px;
-      color: var(--muted);
-      border: 1px dashed var(--line);
-      border-radius: 16px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div>
-      <div class="eyebrow">The Wedding Pass</div>
-      <div class="brand">Nikhil & Supriya</div>
-    </div>
-    <button id="logout" class="hidden">Sign out</button>
-  </header>
-
-  <main>
-    <section id="loginPanel" class="panel login">
-      <div class="eyebrow">Private administration</div>
-      <h1>Photo Moderation</h1>
-      <p>Only Nikhil and Supriya should have access to this dashboard.</p>
-
-      <form id="loginForm">
-        <label for="password">Admin password</label>
-        <input
-          id="password"
-          type="password"
-          autocomplete="current-password"
-          required
-          style="margin:10px 0 15px"
-        >
-        <button class="primary" type="submit" style="width:100%">
-          Unlock dashboard
-        </button>
-      </form>
-
-      <div id="loginMessage" class="message" role="status"></div>
-    </section>
-
-    <section id="dashboard" class="hidden">
-      <div class="eyebrow">Private gallery control</div>
-      <h1>Through Your Eyes</h1>
-      <p>Review guest submissions before they appear on the Wedding Wall.</p>
-
-      <div class="stats">
-        <div class="stat">
-          <strong id="pendingCount">0</strong>
-          <span>Pending</span>
-        </div>
-        <div class="stat">
-          <strong id="approvedCount">0</strong>
-          <span>Approved</span>
-        </div>
-        <div class="stat">
-          <strong id="rejectedCount">0</strong>
-          <span>Rejected</span>
-        </div>
-      </div>
-
-      <div class="toolbar">
-        <select id="eventFilter" aria-label="Filter event">
-          <option value="all">All events</option>
-          <option value="engagement">Engagement</option>
-          <option value="reception">Reception</option>
-          <option value="muhurtham">Muhurtham</option>
-        </select>
-
-        <select id="statusFilter" aria-label="Filter status">
-          <option value="pending">Pending</option>
-          <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
-          <option value="all">All statuses</option>
-        </select>
-
-        <button id="refresh">Refresh photos</button>
-      </div>
-
-      <div id="dashboardMessage" class="message" role="status"></div>
-      <div id="photos" class="grid"></div>
-    </section>
-  </main>
-
-  <script>
-    const API = "/api/admin-photos";
-    const $ = id => document.getElementById(id);
-    let photos = [];
-
-    async function request(action, options = {}) {
-      const response = await fetch(
-        `${API}?action=${encodeURIComponent(action)}`,
-        {
-          credentials: "same-origin",
-          cache: "no-store",
-          ...options
-        }
-      );
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        const error = new Error(data.error || "Request failed.");
-        error.status = response.status;
-        throw error;
-      }
-
-      return data;
-    }
-
-    function showLogin() {
-      $("loginPanel").classList.remove("hidden");
-      $("dashboard").classList.add("hidden");
-      $("logout").classList.add("hidden");
-      photos = [];
-      $("photos").replaceChildren();
-    }
-
-    function showDashboard() {
-      $("loginPanel").classList.add("hidden");
-      $("dashboard").classList.remove("hidden");
-      $("logout").classList.remove("hidden");
-    }
-
-    async function loadPhotos() {
-      $("dashboardMessage").textContent = "Loading photos...";
-
-      try {
-        const data = await request("list");
-        photos = Array.isArray(data.photos) ? data.photos : [];
-        render();
-
-        $("dashboardMessage").textContent = data.truncated
-          ? "Showing a partial list. More than 1,000 records may exist."
-          : `${photos.length} photo record(s) loaded.`;
-      } catch (error) {
-        if (error.status === 401) {
-          showLogin();
-          $("loginMessage").textContent = "Session expired. Please sign in.";
-        } else {
-          $("dashboardMessage").textContent = error.message;
-        }
+    for (const raw of values || []) {
+      const record = parseRecord(raw);
+      if (record) {
+        photos.push({
+          uploadId: record.uploadId,
+          event: record.event,
+          guestName: String(record.guestName || "Guest").slice(0, 60),
+          status: record.status,
+          uploadedAt: record.uploadedAt || null
+        });
       }
     }
+  }
 
-    function textElement(tag, className, text) {
-      const element = document.createElement(tag);
-      element.className = className;
-      element.textContent = text;
-      return element;
+  photos.sort((a, b) =>
+    String(b.uploadedAt).localeCompare(String(a.uploadedAt))
+  );
+
+  return {
+    photos,
+    truncated: cursor !== "0" || uniqueKeys.length >= 1000
+  };
+}
+
+function validStatusTransition(status) {
+  return STATUSES.has(status);
+}
+
+export default async function handler(req, res) {
+  if (!configured()) {
+    return respond(res, 503, { error: "Admin service is not configured." });
+  }
+
+  const action = String(req.query.action || "");
+
+  if (req.method === "POST") {
+    if (!sameOrigin(req)) {
+      return respond(res, 403, { error: "Request origin not allowed." });
     }
 
-    function render() {
-      const counts = { pending: 0, approved: 0, rejected: 0 };
+    if (!String(req.headers["content-type"] || "")
+      .toLowerCase().startsWith("application/json")) {
+      return respond(res, 415, { error: "JSON required." });
+    }
+  }
 
-      photos.forEach(photo => {
-        if (Object.hasOwn(counts, photo.status)) {
-          counts[photo.status]++;
-        }
+  try {
+    if (req.method === "POST" && action === "login") {
+      if (!(await loginAllowed(req))) {
+        return respond(res, 429, {
+          error: "Too many login attempts. Try again in 15 minutes."
+        });
+      }
+
+      const supplied = req.body?.password;
+      if (typeof supplied !== "string" ||
+          supplied.length > 512 ||
+          !secureCompare(supplied, process.env.WEDDING_ADMIN_PASSWORD)) {
+        return respond(res, 401, { error: "Incorrect password." });
+      }
+
+      setSessionCookie(res, makeSession(), SESSION_SECONDS);
+      return respond(res, 200, { ok: true });
+    }
+
+    if (req.method === "POST" && action === "logout") {
+      setSessionCookie(res, "", 0);
+      return respond(res, 200, { ok: true });
+    }
+
+    if (!authenticated(req)) {
+      return respond(res, 401, { error: "Please sign in." });
+    }
+
+    if (req.method === "GET" && action === "session") {
+      return respond(res, 200, { authenticated: true });
+    }
+
+    if (req.method === "GET" && action === "list") {
+      return respond(res, 200, await listRecords());
+    }
+
+    if (req.method === "GET" && action === "image") {
+      const id = String(req.query.id || "");
+      const record = await readRecord(id);
+
+      if (!record) {
+        return respond(res, 404, { error: "Photo not found." });
+      }
+
+      const result = await get(record.pathname, { access: "private" });
+
+      if (!result || result.statusCode !== 200 || !result.stream) {
+        return respond(res, 404, { error: "Image unavailable." });
+      }
+
+      const type = String(result.blob?.contentType || "application/octet-stream");
+      const safeType = [
+        "image/jpeg", "image/png", "image/webp",
+        "image/heic", "image/heif"
+      ].includes(type) ? type : "application/octet-stream";
+
+      res.setHeader("Content-Type", safeType);
+      res.setHeader("Cache-Control", "private, no-store");
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.setHeader("Content-Security-Policy", "default-src 'none'; sandbox");
+      res.setHeader("Content-Disposition", "inline");
+      return Readable.fromWeb(result.stream).pipe(res);
+    }
+
+    if (req.method === "POST" && action === "moderate") {
+      const id = String(req.body?.id || "");
+      const status = String(req.body?.status || "");
+
+      if (!ID_PATTERN.test(id) || !validStatusTransition(status)) {
+        return respond(res, 400, { error: "Invalid moderation request." });
+      }
+
+      const record = await readRecord(id);
+      if (!record) {
+        return respond(res, 404, { error: "Photo not found." });
+      }
+
+      const updated = {
+        ...record,
+        status,
+        reviewedAt: new Date().toISOString()
+      };
+
+      await redis(["SET", recordKey(id), JSON.stringify(updated)]);
+
+      return respond(res, 200, {
+        ok: true,
+        id,
+        status
       });
-
-      $("pendingCount").textContent = counts.pending;
-      $("approvedCount").textContent = counts.approved;
-      $("rejectedCount").textContent = counts.rejected;
-
-      const event = $("eventFilter").value;
-      const status = $("statusFilter").value;
-
-      const visible = photos.filter(photo =>
-        (event === "all" || photo.event === event) &&
-        (status === "all" || photo.status === status)
-      );
-
-      const container = $("photos");
-      container.replaceChildren();
-
-      if (!visible.length) {
-        container.appendChild(
-          textElement("div", "empty", "No photos match these filters.")
-        );
-        return;
-      }
-
-      for (const photo of visible) {
-        const card = document.createElement("article");
-        card.className = "photo";
-
-        const img = document.createElement("img");
-        img.loading = "lazy";
-        img.alt = `Photo submitted by ${photo.guestName || "Guest"}`;
-        img.src = `${API}?action=image&id=${encodeURIComponent(photo.uploadId)}`;
-
-        const details = document.createElement("div");
-        details.className = "details";
-
-        details.appendChild(
-          textElement("div", "guest", photo.guestName || "Guest")
-        );
-
-        details.appendChild(
-          textElement(
-            "div",
-            "meta",
-            `${photo.event} · ${
-              photo.uploadedAt
-                ? new Date(photo.uploadedAt).toLocaleString("en-IN")
-                : "Date unavailable"
-            }`
-          )
-        );
-
-        details.appendChild(
-          textElement("span", "status", photo.status)
-        );
-
-        const actions = document.createElement("div");
-        actions.className = "actions";
-
-        for (const [label, value, css] of [
-          ["Approve", "approved", "approve"],
-          ["Reject", "rejected", "reject"],
-          ["Pending", "pending", ""]
-        ]) {
-          if (photo.status === value) continue;
-
-          const button = document.createElement("button");
-          button.textContent = label;
-          button.className = css;
-          button.addEventListener("click", async () => {
-            button.disabled = true;
-            $("dashboardMessage").textContent = `Saving ${label.toLowerCase()}...`;
-
-            try {
-              await request("moderate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  id: photo.uploadId,
-                  status: value
-                })
-              });
-
-              photo.status = value;
-              render();
-              $("dashboardMessage").textContent = `Photo marked ${value}.`;
-            } catch (error) {
-              $("dashboardMessage").textContent = error.message;
-              button.disabled = false;
-            }
-          });
-
-          actions.appendChild(button);
-        }
-
-        details.appendChild(actions);
-        card.appendChild(img);
-        card.appendChild(details);
-        container.appendChild(card);
-      }
     }
 
-    $("loginForm").addEventListener("submit", async event => {
-      event.preventDefault();
-      $("loginMessage").textContent = "Signing in...";
-
-      try {
-        await request("login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password: $("password").value })
-        });
-
-        $("password").value = "";
-        $("loginMessage").textContent = "";
-        showDashboard();
-        await loadPhotos();
-      } catch (error) {
-        $("loginMessage").textContent = error.message;
-      }
+    return respond(res, 405, { error: "Unsupported request." });
+  } catch (error) {
+    console.error("Admin photo API failure:", error?.message);
+    return respond(res, 500, {
+      error: "The request could not be completed. Check Vercel logs."
     });
-
-    $("logout").addEventListener("click", async () => {
-      try {
-        await request("logout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: "{}"
-        });
-      } catch {}
-
-      showLogin();
-    });
-
-    $("refresh").addEventListener("click", loadPhotos);
-    $("eventFilter").addEventListener("change", render);
-    $("statusFilter").addEventListener("change", render);
-
-    (async () => {
-      try {
-        await request("session");
-        showDashboard();
-        await loadPhotos();
-      } catch {
-        showLogin();
-      }
-    })();
-  </script>
-</body>
-</html>
+  }
+}

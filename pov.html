@@ -1,0 +1,962 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#241d1d">
+
+  <title>Through Your Eyes | Nikhil & Supriya</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #241d1d;
+      --surface: #352929;
+      --cream: #fff5e9;
+      --gold: #e5b98f;
+      --muted: #d1bfb4;
+      --line: rgba(255,245,233,.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: "Manrope", sans-serif;
+      min-height: 100vh;
+    }
+
+    body[data-event="engagement"] {
+      --bg: #34282b;
+      --surface: #49373d;
+      --gold: #efc5b1;
+    }
+
+    body[data-event="reception"] {
+      --bg: #211b20;
+      --surface: #352833;
+      --gold: #e4b78c;
+    }
+
+    body[data-event="muhurtham"] {
+      --bg: #342a22;
+      --surface: #493a2b;
+      --gold: #ebc891;
+    }
+
+    button, input { font: inherit; }
+
+    button { cursor: pointer; }
+
+    button:focus-visible,
+    input:focus-visible,
+    a:focus-visible,
+    select:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    [hidden] { display: none !important; }
+
+    .shell {
+      width: min(100% - 32px, 760px);
+      margin: auto;
+      padding: 24px 0 55px;
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 22px;
+    }
+
+    .brand {
+      color: var(--gold);
+      font-family: "Cinzel", serif;
+      letter-spacing: 3px;
+      font-size: 19px;
+    }
+
+    .back {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 48px 8px 30px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      font-family: "Cinzel", serif;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: clamp(37px, 9vw, 66px);
+      line-height: 1.14;
+      margin: 18px 0;
+    }
+
+    .hero p {
+      max-width: 460px;
+      margin: auto;
+      font-size: 13px;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .sparkle {
+      color: var(--gold);
+      letter-spacing: 10px;
+      margin-top: 25px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      margin: 18px 0;
+    }
+
+    .label {
+      display: block;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel h2 {
+      font-size: 23px;
+      margin: 0 0 10px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .field-label {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin: 18px 0 8px;
+    }
+
+    .text-input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(0,0,0,.18);
+      color: var(--cream);
+      padding: 15px;
+      font-size: 14px;
+    }
+
+    .events {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .event {
+      background: rgba(0,0,0,.13);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      color: var(--cream);
+      padding: 15px 5px;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .event small {
+      display: block;
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .event.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #241d1d;
+      font-weight: 800;
+    }
+
+    .event.selected small {
+      color: #49352a;
+    }
+
+    .dropzone {
+      display: block;
+      width: 100%;
+      border: 1.5px dashed rgba(229,185,143,.55);
+      background: rgba(0,0,0,.13);
+      border-radius: 18px;
+      padding: 35px 18px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .dropzone:focus-within {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    .camera-icon {
+      display: block;
+      font-size: 39px;
+      color: var(--gold);
+      margin-bottom: 15px;
+    }
+
+    .dropzone strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .dropzone span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    .preview-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 25px 0 15px;
+    }
+
+    .preview-heading h3 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .counter {
+      color: var(--gold);
+      font-size: 11px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 9px;
+    }
+
+    .photo {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(0,0,0,.2);
+    }
+
+    .photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo .placeholder {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .remove {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(25,20,20,.9);
+      color: white;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .primary {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 16px;
+      background: var(--gold);
+      color: #241d1d;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .7px;
+    }
+
+    .primary:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .outline {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      background: transparent;
+      color: var(--cream);
+      font-size: 12px;
+    }
+
+    .notice {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--gold);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 45px;
+      border-top: 1px solid var(--line);
+      padding-top: 25px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 2;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 400px) {
+      .panel { padding: 17px; }
+      .gallery { gap: 6px; }
+      .events { gap: 5px; }
+      .event { font-size: 10px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+
+    <header class="top">
+      <div class="brand">N × S</div>
+
+      <a href="./celebrate.html" class="back">
+        ← THE WEDDING PASS
+      </a>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">
+        Nikhil & Supriya
+      </div>
+
+      <h1>
+        THROUGH<br>
+        YOUR EYES
+      </h1>
+
+      <p>
+        We have a photographer.
+        But they can't see what you see.
+        The unexpected laughs, the stolen moments,
+        the beautiful chaos.
+        <br><br>
+        Show us the wedding through your eyes.
+      </p>
+
+      <div class="sparkle">✦ ✧ ✦</div>
+    </section>
+
+    <section class="panel">
+      <div class="label">
+        01 / Who's sharing?
+      </div>
+
+      <h2>Hello, <span id="guestGreeting">Guest</span>.</h2>
+
+      <p class="muted">
+        Tell us your name so we know who captured
+        these moments.
+      </p>
+
+      <label class="field-label" for="guestName">
+        Your name
+      </label>
+
+      <input
+        id="guestName"
+        class="text-input"
+        type="text"
+        maxlength="30"
+        autocomplete="name"
+        placeholder="Your name"
+      >
+    </section>
+
+    <section class="panel">
+      <div class="label">
+        02 / The celebration
+      </div>
+
+      <h2>Which chapter?</h2>
+
+      <p class="muted">
+        We've suggested the current celebration
+        using Indian Standard Time.
+        You can change it if these photos
+        were taken earlier.
+      </p>
+
+      <div class="events"
+           role="group"
+           aria-label="Select celebration">
+
+        <button
+          type="button"
+          class="event"
+          data-event="engagement"
+          aria-pressed="false">
+          Engagement
+          <small>21 Nov · AM</small>
+        </button>
+
+        <button
+          type="button"
+          class="event"
+          data-event="reception"
+          aria-pressed="false">
+          Reception
+          <small>21 Nov · PM</small>
+        </button>
+
+        <button
+          type="button"
+          class="event"
+          data-event="muhurtham"
+          aria-pressed="false">
+          Muhurtham
+          <small>22 Nov · AM</small>
+        </button>
+      </div>
+
+      <p class="muted" id="eventDescription">
+        Select your celebration.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="label">
+        03 / Your camera roll
+      </div>
+
+      <h2>The moments you caught.</h2>
+
+      <p class="muted">
+        Select up to 20 photos per batch.
+        You can come back and share more
+        whenever you like.
+      </p>
+
+      <label class="dropzone" for="photoInput">
+        <span class="camera-icon" aria-hidden="true">▧</span>
+
+        <strong>Tap to choose your photos</strong>
+
+        <span>
+          Choose from your phone's photo library
+          or camera.
+          <br>
+          Up to 20 photos per batch.
+        </span>
+
+        <input
+          id="photoInput"
+          class="file-input"
+          type="file"
+          accept="image/*,.heic,.heif"
+          multiple
+        >
+      </label>
+
+      <div id="previewArea" hidden>
+        <div class="preview-heading">
+          <h3>Your selection</h3>
+
+          <div class="counter" id="photoCounter">
+            0 / 20
+          </div>
+        </div>
+
+        <div class="gallery"
+             id="photoGallery"
+             aria-label="Selected photos">
+        </div>
+
+        <div class="actions">
+          <button
+            type="button"
+            class="outline"
+            id="clearPhotos">
+            CLEAR SELECTION
+          </button>
+
+          <button
+            type="button"
+            class="primary"
+            id="uploadButton"
+            disabled>
+            UPLOAD PHOTOS →
+          </button>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>Privacy first.</strong>
+        Your selected photos remain on your
+        device until you submit them.
+        Once secure uploads are connected,
+        photos will be stored privately and
+        won't appear in a public gallery
+        without approval.
+      </div>
+
+      <div
+        class="status"
+        id="statusMessage"
+        role="status"
+        aria-live="polite">
+      </div>
+    </section>
+
+    <footer>
+      NIKHIL × SUPRIYA
+      <br>
+      21–22 NOVEMBER 2026
+      <br>
+      MGM BEACH RESORT · CHENNAI
+    </footer>
+
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const MAX_PHOTOS = 20;
+
+      const EVENTS = {
+        engagement: {
+          title: "Engagement",
+          description:
+            "21 November · Morning · Lake Lawn"
+        },
+        reception: {
+          title: "Reception",
+          description:
+            "21 November · Evening · Lake Lawn"
+        },
+        muhurtham: {
+          title: "Muhurtham",
+          description:
+            "22 November · Morning · Palm Beach Lawn"
+        }
+      };
+
+      const $ = id => document.getElementById(id);
+
+      const nameInput = $("guestName");
+      const greeting = $("guestGreeting");
+      const photoInput = $("photoInput");
+      const gallery = $("photoGallery");
+      const previewArea = $("previewArea");
+      const counter = $("photoCounter");
+      const uploadButton = $("uploadButton");
+      const status = $("statusMessage");
+
+      let selectedEvent = "engagement";
+      let photos = [];
+
+      function readStorage(key) {
+        try {
+          return localStorage.getItem(key) || "";
+        } catch {
+          return "";
+        }
+      }
+
+      function writeStorage(key, value) {
+        try {
+          localStorage.setItem(key, value);
+        } catch {}
+      }
+
+      function getAutomaticEvent() {
+        const now = Date.now();
+
+        if (
+          now >= Date.parse(
+            "2026-11-22T05:00:00+05:30"
+          )
+        ) {
+          return "muhurtham";
+        }
+
+        if (
+          now >= Date.parse(
+            "2026-11-21T17:00:00+05:30"
+          )
+        ) {
+          return "reception";
+        }
+
+        return "engagement";
+      }
+
+      function getInitialEvent() {
+        const params =
+          new URLSearchParams(location.search);
+
+        const requested = params.get("event");
+
+        if (EVENTS[requested]) {
+          return requested;
+        }
+
+        const saved =
+          readStorage("nsWeddingPassEvent");
+
+        if (EVENTS[saved]) {
+          return saved;
+        }
+
+        return getAutomaticEvent();
+      }
+
+      function selectEvent(eventId) {
+        if (!EVENTS[eventId]) return;
+
+        selectedEvent = eventId;
+
+        document.body.dataset.event = eventId;
+
+        document
+          .querySelectorAll("[data-event]")
+          .forEach(button => {
+            const active =
+              button.dataset.event === eventId;
+
+            button.classList.toggle(
+              "selected",
+              active
+            );
+
+            button.setAttribute(
+              "aria-pressed",
+              String(active)
+            );
+          });
+
+        $("eventDescription").textContent =
+          EVENTS[eventId].description;
+      }
+
+      function updateGuest() {
+        const name = nameInput.value
+          .replace(/[<>]/g, "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 30);
+
+        greeting.textContent =
+          name ? name.split(" ")[0] : "Guest";
+
+        if (name) {
+          writeStorage("nsGuestName", name);
+        }
+      }
+
+      function showStatus(message) {
+        status.textContent = message;
+      }
+
+      function releasePhoto(photo) {
+        if (photo.url) {
+          URL.revokeObjectURL(photo.url);
+        }
+      }
+
+      function renderPhotos() {
+        gallery.replaceChildren();
+
+        photos.forEach((photo, index) => {
+          const card =
+            document.createElement("div");
+
+          card.className = "photo";
+
+          if (photo.previewable && photo.url) {
+            const img =
+              document.createElement("img");
+
+            img.src = photo.url;
+            img.alt =
+              "Selected photo " + (index + 1);
+
+            img.addEventListener("error", () => {
+              img.remove();
+
+              const fallback =
+                document.createElement("div");
+
+              fallback.className = "placeholder";
+              fallback.textContent =
+                "Photo selected · Preview unavailable";
+
+              card.prepend(fallback);
+            });
+
+            card.appendChild(img);
+          } else {
+            const placeholder =
+              document.createElement("div");
+
+            placeholder.className = "placeholder";
+            placeholder.textContent =
+              "Photo selected · Preview unavailable";
+
+            card.appendChild(placeholder);
+          }
+
+          const remove =
+            document.createElement("button");
+
+          remove.type = "button";
+          remove.className = "remove";
+          remove.textContent = "×";
+          remove.setAttribute(
+            "aria-label",
+            "Remove photo " + (index + 1)
+          );
+
+          remove.addEventListener("click", () => {
+            const removed = photos.splice(index, 1);
+
+            removed.forEach(releasePhoto);
+
+            renderPhotos();
+            showStatus("");
+          });
+
+          card.appendChild(remove);
+          gallery.appendChild(card);
+        });
+
+        counter.textContent =
+          photos.length + " / " + MAX_PHOTOS;
+
+        previewArea.hidden = photos.length === 0;
+
+        // Upload remains disabled until secure
+        // cloud storage is implemented.
+        uploadButton.disabled = true;
+      }
+
+      function addPhotos(files) {
+        const available =
+          MAX_PHOTOS - photos.length;
+
+        if (available <= 0) {
+          showStatus(
+            "You've selected 20 photos. " +
+            "Remove one to choose another."
+          );
+          return;
+        }
+
+        const incoming = Array.from(files);
+        const accepted = [];
+
+        for (const file of incoming) {
+          const name = file.name.toLowerCase();
+
+          const isImage =
+            file.type.startsWith("image/") ||
+            /\.(heic|heif|jpg|jpeg|png|webp|gif|avif)$/
+              .test(name);
+
+          if (isImage) {
+            accepted.push(file);
+          }
+        }
+
+        const chosen = accepted.slice(0, available);
+
+        chosen.forEach(file => {
+          const previewable =
+            /^(image\/jpeg|image\/png|image\/webp|image\/gif|image\/avif)$/
+              .test(file.type);
+
+          photos.push({
+            file,
+            previewable,
+            url: previewable
+              ? URL.createObjectURL(file)
+              : null
+          });
+        });
+
+        renderPhotos();
+
+        if (accepted.length > available) {
+          showStatus(
+            "Only " + available +
+            " additional photos could be selected. " +
+            "The limit is 20 per batch."
+          );
+        } else if (accepted.length < incoming.length) {
+          showStatus(
+            "Some files were skipped because " +
+            "they weren't recognized as photos."
+          );
+        } else if (chosen.length) {
+          showStatus(
+            chosen.length +
+            " photo(s) added to your selection."
+          );
+        } else {
+          showStatus(
+            "Please select photos from your device."
+          );
+        }
+      }
+
+      function clearPhotos() {
+        photos.forEach(releasePhoto);
+        photos = [];
+
+        photoInput.value = "";
+
+        renderPhotos();
+        showStatus("Selection cleared.");
+      }
+
+      function initialize() {
+        const savedName =
+          readStorage("nsGuestName");
+
+        nameInput.value = savedName;
+        updateGuest();
+
+        selectEvent(getInitialEvent());
+
+        document
+          .querySelectorAll("[data-event]")
+          .forEach(button => {
+            button.addEventListener("click", () => {
+              selectEvent(button.dataset.event);
+            });
+          });
+
+        nameInput.addEventListener(
+          "input",
+          updateGuest
+        );
+
+        photoInput.addEventListener(
+          "change",
+          event => {
+            addPhotos(event.target.files);
+
+            // Allow selecting the same files again
+            // after removing them.
+            photoInput.value = "";
+          }
+        );
+
+        $("clearPhotos").addEventListener(
+          "click",
+          clearPhotos
+        );
+
+        uploadButton.addEventListener(
+          "click",
+          () => {
+            showStatus(
+              "Secure photo uploads are not " +
+              "connected yet. No photos have " +
+              "been submitted."
+            );
+          }
+        );
+
+        window.addEventListener(
+          "pagehide",
+          () => {
+            photos.forEach(releasePhoto);
+          }
+        );
+      }
+
+      initialize();
+    })();
+  </script>
+</body>
+</html>

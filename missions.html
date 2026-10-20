@@ -4,187 +4,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#211b20">
 <title>Secret Missions | Nikhil & Supriya</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --bg:#211b20;
   --panel:#352833;
+  --dark:#2b222b;
   --gold:#e4b78c;
   --cream:#fff5e9;
   --muted:#cbb8c2;
-  --line:#65515f;
+  --border:rgba(255,245,233,.17);
 }
 * {box-sizing:border-box}
 body {
   margin:0;
   background:var(--bg);
   color:var(--cream);
-  font-family:system-ui,sans-serif;
+  font-family:Manrope,sans-serif;
 }
 main {
-  width:min(92%,760px);
+  width:min(100% - 30px,760px);
   margin:auto;
   padding:25px 0 70px;
 }
 a {color:var(--gold)}
-h1,h2 {
-  font-family:Georgia,serif;
-  font-weight:normal;
+h1,h2,h3 {
+  font-family:Cinzel,serif;
+  font-weight:500;
 }
 h1 {
   font-size:clamp(38px,8vw,62px);
   margin:15px 0;
 }
 .eyebrow {
-  font-size:11px;
-  letter-spacing:3px;
   color:var(--gold);
+  font-size:10px;
+  letter-spacing:3px;
+  font-weight:800;
 }
 .muted {
   color:var(--muted);
-  line-height:1.7;
-  font-size:14px;
+  font-size:12px;
+  line-height:1.9;
 }
 .panel {
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:22px;
   margin:18px 0;
+  padding:22px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
 }
 label {
   display:block;
-  font-size:13px;
   margin:12px 0 7px;
+  color:var(--muted);
+  font-size:12px;
 }
 input {
   width:100%;
-  background:#211b20;
-  color:var(--cream);
-  border:1px solid var(--line);
+  padding:14px;
+  background:var(--dark);
+  border:1px solid var(--border);
   border-radius:10px;
-  padding:13px;
+  color:var(--cream);
   font:inherit;
 }
 button {
   cursor:pointer;
+  padding:13px 18px;
   border:0;
   border-radius:10px;
   background:var(--gold);
-  color:#211b20;
-  padding:13px 18px;
+  color:var(--bg);
   font:inherit;
-  font-weight:700;
+  font-size:12px;
+  font-weight:800;
 }
-button:disabled {
-  opacity:.55;
-  cursor:default;
-}
-.teams {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.teams button {
-  background:#211b20;
+button:disabled {opacity:.5}
+.wide {width:100%;margin-top:14px}
+.secondary {
+  background:transparent;
   color:var(--cream);
-  border:1px solid var(--line);
-  padding:18px 8px;
+  border:1px solid var(--border);
 }
-.teams button.selected {
-  border:2px solid var(--gold);
-  background:#59413c;
-}
-.wide {
-  width:100%;
-  margin-top:15px;
+.row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
 }
 .code {
-  font-size:36px;
-  letter-spacing:6px;
+  margin:15px 0;
   color:var(--gold);
-  font-weight:700;
+  font-size:clamp(28px,8vw,38px);
+  letter-spacing:5px;
+  font-weight:800;
 }
 .mission {
-  border-top:1px solid var(--line);
-  padding:18px 0;
+  padding:20px 0;
+  border-top:1px solid var(--border);
 }
 .mission h3 {margin:0 0 8px}
 .mission p {
   color:var(--muted);
-  font-size:13px;
-  line-height:1.7;
+  font-size:12px;
+  line-height:1.8;
 }
 .points {
+  color:var(--gold)!important;
+  font-weight:800;
+}
+.completed {
   color:var(--gold);
   font-size:12px;
+  font-weight:800;
 }
-.row {
+.leader {
   display:flex;
-  align-items:center;
   justify-content:space-between;
   gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
 }
+.leader strong {color:var(--gold)}
 .status {
-  min-height:20px;
-  font-size:13px;
+  margin-top:15px;
   color:var(--gold);
-}
-.score {
-  font-size:24px;
-  color:var(--gold);
+  font-size:12px;
+  line-height:1.7;
 }
 [hidden] {display:none!important}
-small {color:var(--muted)}
 </style>
 </head>
 
 <body>
 <main>
+
 <a href="./party.html">← Reception Mode</a>
 
-<div style="text-align:center;margin:35px 0">
+<header style="text-align:center;margin:40px 0">
   <div class="eyebrow">
     NIKHIL × SUPRIYA · 21 NOVEMBER 2026
   </div>
   <h1>Secret Missions</h1>
   <p class="muted">
-    Meet someone new. Exchange codes.
-    Earn points for yourself and your city.
+    Meet someone new. Exchange guest codes.
+    Collect points. Make memories.
   </p>
-</div>
+</header>
 
-<section class="panel" id="register">
-  <h2>Join the Showdown</h2>
+<section class="panel" id="register" hidden>
+  <h2>Join the Fun</h2>
   <p class="muted">
-    Choose your wedding side.
-    Your personal code will appear after registration.
+    Enter your name to get your personal guest code.
   </p>
 
   <form id="join">
     <label for="name">Your name</label>
     <input
       id="name"
-      maxlength="30"
       minlength="2"
+      maxlength="30"
       required
       placeholder="Enter your name"
     >
 
-    <label>Choose your team</label>
-    <div class="teams">
-      <button type="button" data-team="bangalore">
-        Bangalore
-        <small>Groom's side</small>
-      </button>
-      <button type="button" data-team="chennai">
-        Chennai
-        <small>Bride's side</small>
-      </button>
-    </div>
-
-    <button class="wide" type="submit">
-      GET MY GUEST CODE →
+    <button class="wide" id="joinButton" type="submit">
+      GET MY CODE →
     </button>
   </form>
 </section>
@@ -194,281 +187,289 @@ small {color:var(--muted)}
     <div>
       <div class="eyebrow">YOUR PLAYER PASS</div>
       <h2 id="playerName"></h2>
-      <p class="muted" id="playerTeam"></p>
     </div>
-    <button id="switch" type="button">Change</button>
+    <button class="secondary" id="switch" type="button">
+      Switch
+    </button>
   </div>
 
   <p class="muted">
-    Show this code to guests you meet.
-    Avoid sharing it publicly online.
+    Share your code with people you meet,
+    but avoid posting it publicly.
   </p>
 
   <div class="code" id="myCode"></div>
-  <p>Your points: <strong id="myPoints">0</strong></p>
+
+  <p>
+    Your points:
+    <strong id="myPoints" style="color:var(--gold)">0</strong>
+  </p>
 </section>
 
 <section class="panel" id="missions" hidden>
   <h2>Your Missions</h2>
   <p class="muted">
-    Complete a challenge with another guest,
-    then enter their six-digit code.
-    Each mission can earn points once.
+    Complete the real-world challenge, then enter
+    the other guest's six-digit code to claim points.
+    Each mission can be claimed once.
   </p>
+
   <div id="missionList"></div>
 </section>
 
 <section class="panel">
-  <h2>City Showdown</h2>
-
-  <div class="teams">
-    <div>
-      <strong>Bangalore</strong>
-      <div class="score" id="bangalore">—</div>
-    </div>
-    <div>
-      <strong>Chennai</strong>
-      <div class="score" id="chennai">—</div>
-    </div>
-  </div>
-
+  <div class="eyebrow">HALL OF FAME</div>
+  <h2>Individual Leaderboard</h2>
   <p class="muted">
-    Scores currently show total points earned.
-    Team-size-adjusted rankings can be added later.
+    Every point is earned through a guest interaction.
   </p>
-
-  <h2>Individual Leaders</h2>
-  <div id="leaders" class="muted">
-    Sign in to view the leaderboard.
+  <div id="leaders">
+    <p class="muted">Loading...</p>
   </div>
 </section>
 
-<p class="status" id="status"
-   role="status" aria-live="polite"></p>
+<p class="status" id="status" role="status" aria-live="polite"></p>
 
 </main>
 
 <script>
-const API = '/api/reception';
-const KEY = 'nsReceptionToken';
+(() => {
+  const API = "/api/reception";
+  const KEY = "nsReceptionToken";
+  const $ = id => document.getElementById(id);
 
-let token = localStorage.getItem(KEY) || '';
-let team = '';
+  let token = localStorage.getItem(KEY) || "";
 
-const $ = id => document.getElementById(id);
-
-async function request(action, extra = {}) {
-  const response = await fetch(API, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-      action,
-      token,
-      ...extra
-    })
-  });
-
-  const result = await response.json();
-
-  if (!response.ok) {
-    throw Error(result.error || 'Request failed');
+  function message(text) {
+    $("status").textContent = text;
   }
 
-  return result;
-}
-
-function message(text) {
-  $('status').textContent = text;
-}
-
-function display(result) {
-  $('register').hidden = true;
-  $('profile').hidden = false;
-  $('missions').hidden = false;
-
-  const player = result.player;
-
-  $('playerName').textContent = player.name;
-  $('playerTeam').textContent =
-    player.team === 'bangalore'
-      ? "Team Bangalore · Groom's Side"
-      : "Team Chennai · Bride's Side";
-
-  $('myCode').textContent = player.code;
-  $('myPoints').textContent = player.points;
-
-  const completed = new Set(result.completed || []);
-  $('missionList').replaceChildren();
-
-  for (const mission of result.missions) {
-    const container = document.createElement('div');
-    container.className = 'mission';
-
-    const title = document.createElement('h3');
-    title.textContent = mission.title;
-
-    const description = document.createElement('p');
-    description.textContent = mission.description;
-
-    const points = document.createElement('p');
-    points.className = 'points';
-    points.textContent = `+${mission.points} points`;
-
-    container.append(title, description, points);
-
-    if (completed.has(mission.id)) {
-      const done = document.createElement('strong');
-      done.textContent = '✓ Completed';
-      container.append(done);
-    } else {
-      const form = document.createElement('form');
-      const label = document.createElement('label');
-      label.textContent = "Other guest's six-digit code";
-
-      const input = document.createElement('input');
-      input.required = true;
-      input.inputMode = 'numeric';
-      input.pattern = '[0-9]{6}';
-      input.maxLength = 6;
-      input.placeholder = '123456';
-
-      const button = document.createElement('button');
-      button.textContent = 'VERIFY & CLAIM POINTS';
-      button.className = 'wide';
-
-      form.append(label, input, button);
-
-      form.addEventListener('submit', async event => {
-        event.preventDefault();
-        button.disabled = true;
-
-        try {
-          await request('claim', {
-            missionId: mission.id,
-            partnerCode: input.value.trim()
-          });
-
-          message('Mission complete! Points awarded.');
-          await refresh();
-        } catch (error) {
-          message(error.message);
-        } finally {
-          button.disabled = false;
-        }
-      });
-
-      container.append(form);
-    }
-
-    $('missionList').append(container);
-  }
-
-  if (result.leaderboard) {
-    $('bangalore').textContent =
-      result.leaderboard.teams.bangalore;
-
-    $('chennai').textContent =
-      result.leaderboard.teams.chennai;
-
-    $('leaders').replaceChildren();
-
-    result.leaderboard.players.forEach((player, index) => {
-      const line = document.createElement('p');
-
-      line.textContent =
-        `${index + 1}. ${player.name} · ` +
-        `${player.team === 'bangalore'
-          ? 'Bangalore' : 'Chennai'} · ` +
-        `${player.points} pts`;
-
-      $('leaders').append(line);
-    });
-  }
-}
-
-async function refresh() {
-  if (!token) return;
-
-  const result = await request('state');
-  display(result);
-}
-
-document.querySelectorAll('[data-team]').forEach(button => {
-  button.addEventListener('click', () => {
-    team = button.dataset.team;
-
-    document.querySelectorAll('[data-team]')
-      .forEach(item => {
-        item.classList.toggle(
-          'selected',
-          item === button
-        );
-      });
-  });
-});
-
-$('join').addEventListener('submit', async event => {
-  event.preventDefault();
-
-  if (!team) {
-    message('Please choose a team.');
-    return;
-  }
-
-  const button = event.submitter;
-  button.disabled = true;
-
-  try {
-    const result = await request('join', {
-      name: $('name').value.trim(),
-      team
+  async function request(action, data = {}) {
+    const response = await fetch(API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action,
+        token,
+        ...data
+      })
     });
 
-    token = result.token;
-    localStorage.setItem(KEY, token);
+    const raw = await response.text();
+    let result;
 
-    message('Welcome to the showdown!');
-    await refresh();
-  } catch (error) {
-    message(error.message);
-  } finally {
-    button.disabled = false;
+    try {
+      result = JSON.parse(raw);
+    } catch {
+      throw new Error(
+        "The reception server returned an invalid response."
+      );
+    }
+
+    if (!response.ok) {
+      throw new Error(result.error || "Request failed.");
+    }
+
+    return result;
   }
-});
 
-$('switch').addEventListener('click', () => {
-  if (!confirm(
-    'Register a different player on this device? ' +
-    'Your existing points will remain on the server.'
-  )) return;
+  function renderLeaders(data) {
+    const container = $("leaders");
+    container.replaceChildren();
 
-  localStorage.removeItem(KEY);
-  token = '';
+    const players = data?.players || [];
 
-  $('profile').hidden = true;
-  $('missions').hidden = true;
-  $('register').hidden = false;
+    if (!players.length) {
+      const empty = document.createElement("p");
+      empty.className = "muted";
+      empty.textContent =
+        "No points yet. Be the first!";
+      container.append(empty);
+      return;
+    }
 
-  message('');
-});
+    players.forEach((player, index) => {
+      const row = document.createElement("div");
+      row.className = "leader";
 
-if (token) {
-  refresh().catch(error => {
-    message(error.message);
+      const name = document.createElement("span");
+      name.textContent =
+        `${index + 1}. ${player.name}`;
 
-    if (error.message.includes('Player not found')) {
-      localStorage.removeItem(KEY);
-      token = '';
-      $('register').hidden = false;
+      const points = document.createElement("strong");
+      points.textContent = `${player.points} pts`;
+
+      row.append(name, points);
+      container.append(row);
+    });
+  }
+
+  function display(result) {
+    $("register").hidden = true;
+    $("profile").hidden = false;
+    $("missions").hidden = false;
+
+    $("playerName").textContent = result.player.name;
+    $("myCode").textContent = result.player.code;
+    $("myPoints").textContent = result.player.points;
+
+    const completed = new Set(result.completed || []);
+    const list = $("missionList");
+
+    list.replaceChildren();
+
+    result.missions.forEach(mission => {
+      const item = document.createElement("article");
+      item.className = "mission";
+
+      const title = document.createElement("h3");
+      title.textContent = mission.title;
+
+      const description = document.createElement("p");
+      description.textContent = mission.description;
+
+      const points = document.createElement("p");
+      points.className = "points";
+      points.textContent = `+${mission.points} POINTS`;
+
+      item.append(title, description, points);
+
+      if (completed.has(mission.id)) {
+        const done = document.createElement("span");
+        done.className = "completed";
+        done.textContent = "✓ MISSION COMPLETED";
+        item.append(done);
+      } else {
+        const form = document.createElement("form");
+
+        const label = document.createElement("label");
+        label.textContent = "Other guest's code";
+
+        const input = document.createElement("input");
+        input.required = true;
+        input.inputMode = "numeric";
+        input.pattern = "[0-9]{6}";
+        input.maxLength = 6;
+        input.placeholder = "123456";
+
+        const button = document.createElement("button");
+        button.className = "wide";
+        button.type = "submit";
+        button.textContent = "VERIFY & CLAIM POINTS";
+
+        form.append(label, input, button);
+
+        form.addEventListener("submit", async event => {
+          event.preventDefault();
+          button.disabled = true;
+          message("");
+
+          try {
+            await request("claim", {
+              missionId: mission.id,
+              partnerCode: input.value.trim()
+            });
+
+            message("Mission complete! Points awarded.");
+            await refresh();
+          } catch (error) {
+            message(error.message);
+          } finally {
+            button.disabled = false;
+          }
+        });
+
+        item.append(form);
+      }
+
+      list.append(item);
+    });
+
+    renderLeaders(result.leaderboard);
+  }
+
+  async function refresh() {
+    if (!token) {
+      $("register").hidden = false;
+      return;
+    }
+
+    const result = await request("state");
+    display(result);
+  }
+
+  $("join").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const button = $("joinButton");
+    button.disabled = true;
+    message("");
+
+    try {
+      const result = await request("join", {
+        name: $("name").value.trim()
+      });
+
+      token = result.token;
+      localStorage.setItem(KEY, token);
+
+      await refresh();
+      message("Welcome to Secret Missions!");
+    } catch (error) {
+      message(error.message);
+    } finally {
+      button.disabled = false;
     }
   });
-}
 
-setInterval(() => {
-  if (token && document.visibilityState === 'visible') {
-    refresh().catch(() => {});
+  $("switch").addEventListener("click", () => {
+    if (!confirm(
+      "Switch guest? Your current points will remain saved."
+    )) return;
+
+    localStorage.removeItem(KEY);
+    token = "";
+
+    $("profile").hidden = true;
+    $("missions").hidden = true;
+    $("register").hidden = false;
+
+    $("name").value = "";
+    message("");
+  });
+
+  async function initialize() {
+    if (!token) {
+      $("register").hidden = false;
+      return;
+    }
+
+    try {
+      await refresh();
+    } catch (error) {
+      message(error.message);
+
+      if (error.message.includes("Player not found")) {
+        localStorage.removeItem(KEY);
+        token = "";
+        $("register").hidden = false;
+      }
+    }
   }
-}, 30000);
+
+  initialize();
+
+  setInterval(() => {
+    if (
+      token &&
+      document.visibilityState === "visible"
+    ) {
+      refresh().catch(() => {});
+    }
+  }, 30000);
+})();
 </script>
 </body>
 </html>

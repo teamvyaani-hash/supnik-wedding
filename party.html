@@ -15,319 +15,223 @@
 :root {
   --bg:#211b20;
   --panel:#352833;
-  --panel2:#2b222b;
+  --dark:#2b222b;
   --gold:#e4b78c;
   --cream:#fff5e9;
   --muted:#cbb8c2;
   --border:rgba(255,245,233,.17);
 }
-
-* { box-sizing:border-box; }
-
+* {box-sizing:border-box}
 body {
   margin:0;
   background:var(--bg);
   color:var(--cream);
   font-family:Manrope,sans-serif;
 }
-
-button,input { font:inherit; }
-button { cursor:pointer; }
-[hidden] { display:none!important; }
-
+button,input {font:inherit}
+button {cursor:pointer}
+[hidden] {display:none!important}
 .shell {
   width:min(100% - 30px,820px);
   margin:auto;
   padding:24px 0 70px;
 }
-
 .topbar {
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   border-bottom:1px solid var(--border);
   padding-bottom:20px;
 }
-
 .monogram {
-  font-family:Cinzel,serif;
-  font-size:20px;
-  letter-spacing:3px;
   color:var(--gold);
+  font:20px Cinzel,serif;
+  letter-spacing:3px;
 }
-
 .topbar a {
   color:var(--muted);
+  font-size:12px;
   text-decoration:none;
-  font-size:12px;
 }
-
 .hero {
+  padding:55px 10px 30px;
   text-align:center;
-  padding:50px 10px 25px;
 }
-
-.eyebrow {
-  color:var(--gold);
-  font-size:10px;
-  letter-spacing:3px;
-  font-weight:800;
-  text-transform:uppercase;
-}
-
-h1,h2,h3 {
-  font-family:Cinzel,serif;
-  font-weight:500;
-}
-
-h1 {
-  font-size:clamp(38px,9vw,65px);
-  line-height:1.15;
-  margin:18px 0;
-}
-
-h2 { font-size:23px; }
-
-.hero p,.muted {
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.9;
-}
-
-.panel {
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:24px;
-  margin-top:20px;
-}
-
-.label {
+.eyebrow,.label {
   color:var(--gold);
   font-size:10px;
   font-weight:800;
   letter-spacing:2px;
   text-transform:uppercase;
 }
-
-.field {
-  display:block;
-  margin:20px 0;
+h1,h2,h3 {
+  font-family:Cinzel,serif;
+  font-weight:500;
 }
-
+h1 {
+  font-size:clamp(38px,9vw,65px);
+  line-height:1.15;
+  margin:18px 0;
+}
+h2 {font-size:24px}
+.hero p,.muted {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+}
+.panel {
+  margin-top:20px;
+  padding:24px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:var(--panel);
+}
+.field {display:block;margin:20px 0}
 .field span {
   display:block;
-  font-size:12px;
-  color:var(--muted);
   margin-bottom:8px;
+  color:var(--muted);
+  font-size:12px;
 }
-
 .field input {
   width:100%;
   padding:15px;
+  color:var(--cream);
+  background:var(--dark);
+  border:1px solid var(--border);
   border-radius:12px;
-  border:1px solid var(--border);
-  background:var(--panel2);
-  color:var(--cream);
 }
-
-.teams,.scoreboard,.cards {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-
-.team-choice {
-  padding:20px 8px;
-  border:1px solid var(--border);
-  background:var(--panel2);
-  color:var(--cream);
-  border-radius:15px;
-}
-
-.team-choice strong {
-  display:block;
-  font-size:13px;
-  margin-bottom:8px;
-}
-
-.team-choice span {
-  font-size:11px;
-  color:var(--muted);
-}
-
-.team-choice.selected {
-  border:2px solid var(--gold);
-  background:#554039;
-}
-
 .primary {
   display:block;
   width:100%;
+  margin-top:18px;
   padding:16px;
   border:0;
   border-radius:12px;
-  background:var(--gold);
   color:var(--bg);
+  background:var(--gold);
   font-size:12px;
   font-weight:800;
+  letter-spacing:1px;
   text-align:center;
   text-decoration:none;
-  letter-spacing:1px;
-  margin-top:18px;
 }
-
-.primary:disabled {
-  opacity:.55;
-  cursor:wait;
-}
-
+.primary:disabled {opacity:.6}
 .secondary {
   padding:10px 12px;
-  border:1px solid var(--border);
-  border-radius:10px;
   color:var(--cream);
   background:transparent;
+  border:1px solid var(--border);
+  border-radius:10px;
   font-size:11px;
 }
-
 .welcome {
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
   gap:12px;
 }
-
 .code {
   margin-top:20px;
   padding:20px;
-  background:var(--panel2);
   border-radius:14px;
+  background:var(--dark);
   text-align:center;
 }
-
 .code strong {
   display:block;
-  color:var(--gold);
-  font-size:clamp(27px,7vw,38px);
-  letter-spacing:5px;
-  margin:10px 0;
-}
-
-.scoreboard { margin-top:20px; }
-
-.score-card {
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px 10px;
-  text-align:center;
-}
-
-.score-card strong {
-  color:var(--gold);
-  font-size:13px;
-}
-
-.score-card .score {
-  font-family:Cinzel,serif;
-  font-size:29px;
   margin:12px 0;
+  color:var(--gold);
+  font-size:clamp(28px,7vw,38px);
+  letter-spacing:5px;
 }
-
-.score-card span {
-  color:var(--muted);
-  font-size:10px;
+.stats {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
 }
-
-.section-heading {
+.stat {
+  padding:20px 12px;
+  border-radius:14px;
+  background:var(--dark);
   text-align:center;
-  margin:45px 0 22px;
 }
-
+.stat strong {
+  display:block;
+  color:var(--gold);
+  font-size:28px;
+}
+.stat span {
+  color:var(--muted);
+  font-size:11px;
+}
+.section-heading {
+  margin:45px 0 22px;
+  text-align:center;
+}
+.cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
 .card {
   display:flex;
   flex-direction:column;
   min-height:210px;
-  background:var(--panel);
+  padding:20px;
   border:1px solid var(--border);
   border-radius:18px;
-  padding:20px;
+  background:var(--panel);
 }
-
 .card-icon {
-  color:var(--gold);
-  font-size:27px;
   margin-bottom:18px;
+  color:var(--gold);
+  font-size:28px;
 }
-
-.card h3 {
-  font-size:15px;
-  margin:0 0 12px;
-}
-
+.card h3 {font-size:15px;margin:0 0 12px}
 .card p {
+  flex:1;
   color:var(--muted);
   font-size:11px;
   line-height:1.8;
-  flex:1;
 }
-
 .card a,.coming-soon {
   color:var(--gold);
   font-size:11px;
   font-weight:800;
   text-decoration:none;
 }
-
-.coming-soon { opacity:.7; }
-
+.coming-soon {opacity:.7}
 .leader {
   display:flex;
   justify-content:space-between;
   gap:12px;
-  align-items:center;
-  border-bottom:1px solid var(--border);
   padding:14px 0;
+  border-bottom:1px solid var(--border);
   font-size:12px;
 }
-
-.leader:last-child { border-bottom:0; }
-
-.leader small {
-  display:block;
-  margin-top:4px;
-  color:var(--muted);
-}
-
-.leader strong {
-  color:var(--gold);
-  white-space:nowrap;
-}
-
+.leader:last-child {border-bottom:0}
+.leader strong {color:var(--gold)}
 .status {
-  font-size:12px;
   color:var(--gold);
+  font-size:12px;
   line-height:1.7;
-  margin-top:12px;
 }
-
 footer {
   margin-top:50px;
   padding-top:25px;
   border-top:1px solid var(--border);
-  text-align:center;
   color:var(--muted);
   font-size:10px;
   letter-spacing:2px;
   line-height:2;
+  text-align:center;
 }
-
 @media(max-width:420px) {
-  .panel { padding:18px; }
-  .card { padding:15px; }
-  .card h3 { font-size:13px; }
-  .team-choice { padding:16px 8px; }
+  .panel {padding:18px}
+  .card {padding:15px}
+  .card h3 {font-size:13px}
 }
 </style>
 </head>
@@ -341,85 +245,58 @@ footer {
 </header>
 
 <section class="hero">
-  <div class="eyebrow">
-    21 November 2026 · Chennai
-  </div>
-
+  <div class="eyebrow">21 November 2026 · Chennai</div>
   <h1>RECEPTION<br>MODE</h1>
-
   <p>
-    Two families. Two cities. One legendary night.
+    One celebration. Hundreds of stories.
     <br>
-    The party is better when everyone plays.
+    Tonight, strangers become friends.
   </p>
 </section>
 
-<!-- REGISTRATION -->
-
 <section class="panel" id="registration" hidden>
-  <div class="label">Join the Celebration</div>
-  <h2>First, pick your side.</h2>
+  <div class="label">Your Reception Pass</div>
+  <h2>Ready to join the fun?</h2>
 
   <p class="muted">
-    Choose the side of the wedding you're celebrating with.
-    You'll receive your personal guest code for Secret Missions.
+    Enter your name to receive a personal guest code.
+    No teams, no pressure — just fun challenges
+    and a little friendly competition.
   </p>
 
   <form id="joinForm">
     <label class="field">
-      <span>Your name</span>
+      <span>What should we call you?</span>
       <input
         id="guestName"
         type="text"
         minlength="2"
         maxlength="30"
-        placeholder="What should we call you?"
+        placeholder="Your name"
         autocomplete="name"
         required
       >
     </label>
 
-    <div class="teams">
-      <button
-        type="button"
-        class="team-choice"
-        data-team="bangalore"
-        aria-pressed="false"
-      >
-        <strong>BANGALORE</strong>
-        <span>Groom's Side</span>
-      </button>
-
-      <button
-        type="button"
-        class="team-choice"
-        data-team="chennai"
-        aria-pressed="false"
-      >
-        <strong>CHENNAI</strong>
-        <span>Bride's Side</span>
-      </button>
-    </div>
-
     <p class="status" id="joinError" role="alert"></p>
 
     <button class="primary" id="joinButton" type="submit">
-      JOIN THE SHOWDOWN →
+      GET MY RECEPTION PASS →
     </button>
   </form>
 </section>
 
-<!-- REGISTERED PLAYER -->
-
 <section class="panel" id="playerPanel" hidden>
   <div class="welcome">
     <div>
-      <div class="label">Your Reception Pass</div>
+      <div class="label">You're in!</div>
       <h2 id="welcomeName">Welcome!</h2>
-      <p class="muted" id="welcomeTeam"></p>
+      <p class="muted">
+        Your adventure starts here.
+      </p>
     </div>
 
-    <button class="secondary" id="changePlayer" type="button">
+    <button class="secondary" id="changePlayer">
       Switch Guest
     </button>
   </div>
@@ -428,62 +305,35 @@ footer {
     <div class="label">Your Secret Guest Code</div>
     <strong id="playerCode">------</strong>
     <p class="muted">
-      Exchange this code with other guests to verify missions.
-      Don't post it publicly.
+      Exchange this code with guests you meet
+      to complete Secret Missions.
     </p>
-    <button class="secondary" id="copyCode" type="button">
+    <button class="secondary" id="copyCode">
       COPY CODE
     </button>
   </div>
 
-  <p class="muted" style="text-align:center">
-    Your individual points:
-    <strong id="playerPoints" style="color:var(--gold)">0</strong>
-  </p>
-
-  <a class="primary" href="./missions.html">
-    CONTINUE MY MISSIONS →
-  </a>
-</section>
-
-<!-- LIVE CITY SHOWDOWN -->
-
-<section class="panel">
-  <div class="label">The City Showdown</div>
-  <h2>Bangalore vs. Chennai</h2>
-
-  <p class="muted">
-    Complete missions to earn points for yourself
-    and your wedding team.
-  </p>
-
-  <div class="scoreboard">
-    <div class="score-card">
-      <strong>BANGALORE</strong>
-      <div class="score" id="bangaloreScore">—</div>
-      <span>Groom's Side</span>
+  <div class="stats">
+    <div class="stat">
+      <strong id="playerPoints">0</strong>
+      <span>Your points</span>
     </div>
-
-    <div class="score-card">
-      <strong>CHENNAI</strong>
-      <div class="score" id="chennaiScore">—</div>
-      <span>Bride's Side</span>
+    <div class="stat">
+      <strong id="playerRank">—</strong>
+      <span>Your top-20 position</span>
     </div>
   </div>
 
-  <p class="muted" style="text-align:center">
-    Total points earned by each team.
-  </p>
-  <p class="status" id="scoreStatus" role="status"></p>
+  <a class="primary" href="./missions.html">
+    PLAY SECRET MISSIONS →
+  </a>
 </section>
-
-<!-- ACTIVITIES -->
 
 <section class="section-heading">
   <div class="eyebrow">The Experience</div>
   <h2>Choose Your Adventure</h2>
   <p class="muted">
-    Capture moments, meet people, and make memories.
+    Capture moments, meet people, make memories.
   </p>
 </section>
 
@@ -493,61 +343,55 @@ footer {
     <span class="card-icon">✳</span>
     <h3>THROUGH YOUR EYES</h3>
     <p>
-      Share the candid moments our photographer might miss.
+      Share the candid moments
+      our photographer might miss.
     </p>
-    <a href="./pov.html">
-      SHARE YOUR POV →
-    </a>
+    <a href="./pov.html">SHARE YOUR POV →</a>
   </article>
 
   <article class="card">
     <span class="card-icon">♡</span>
     <h3>THE WEDDING WALL</h3>
     <p>
-      Relive the celebration through photos shared by guests.
+      See the celebration through
+      everyone's eyes.
     </p>
-    <a href="./wall.html">
-      VIEW MOMENTS →
-    </a>
+    <a href="./wall.html">VIEW MOMENTS →</a>
   </article>
 
   <article class="card">
     <span class="card-icon">◉</span>
     <h3>SECRET MISSIONS</h3>
     <p>
-      Meet strangers, exchange guest codes, and earn points.
+      Meet strangers, exchange codes,
+      complete challenges and collect points.
     </p>
-    <a href="./missions.html">
-      START YOUR MISSIONS →
-    </a>
+    <a href="./missions.html">START MISSIONS →</a>
   </article>
 
   <article class="card">
     <span class="card-icon">✦</span>
-    <h3>THE CITY FINAL</h3>
+    <h3>THE RECEPTION WALL</h3>
     <p>
-      Bangalore versus Chennai. One city takes the crown.
+      Funny observations, memorable moments
+      and advice for the newlyweds.
     </p>
-    <span class="coming-soon">
-      COMING SOON
-    </span>
+    <span class="coming-soon">COMING SOON</span>
   </article>
 
 </section>
 
-<!-- INDIVIDUAL LEADERBOARD -->
-
 <section class="panel">
   <div class="label">Hall of Fame</div>
   <h2>Individual Leaderboard</h2>
-
   <p class="muted">
-    The guests earning the most points across Secret Missions.
+    Who's making the most memories tonight?
   </p>
 
   <div id="leaderboard">
     <p class="muted">Loading rankings...</p>
   </div>
+  <p class="status" id="scoreStatus" role="status"></p>
 </section>
 
 <footer>
@@ -563,13 +407,11 @@ footer {
 <script>
 (() => {
   const API = "/api/reception";
-  const TOKEN_KEY = "nsReceptionToken";
-  const OLD_KEY = "nsReceptionPlayer";
-
+  const KEY = "nsReceptionToken";
   const $ = id => document.getElementById(id);
 
-  let token = localStorage.getItem(TOKEN_KEY) || "";
-  let selectedTeam = "";
+  let token = localStorage.getItem(KEY) || "";
+  let currentPlayer = null;
 
   async function request(action, data = {}) {
     const response = await fetch(API, {
@@ -577,11 +419,7 @@ footer {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        action,
-        token,
-        ...data
-      })
+      body: JSON.stringify({ action, token, ...data })
     });
 
     const raw = await response.text();
@@ -591,14 +429,12 @@ footer {
       result = JSON.parse(raw);
     } catch {
       throw new Error(
-        "The reception server returned an invalid response."
+        "Reception server returned an invalid response."
       );
     }
 
     if (!response.ok) {
-      throw new Error(
-        result.error || "The request failed."
-      );
+      throw new Error(result.error || "Request failed.");
     }
 
     return result;
@@ -610,67 +446,51 @@ footer {
   }
 
   function showPlayer(player) {
+    currentPlayer = player;
+
     $("registration").hidden = true;
     $("playerPanel").hidden = false;
 
     $("welcomeName").textContent =
-      "Hey, " + player.name + "!";
-
-    $("welcomeTeam").textContent =
-      player.team === "bangalore"
-        ? "Team Bangalore · Groom's Side"
-        : "Team Chennai · Bride's Side";
+      `Hey, ${player.name}!`;
 
     $("playerCode").textContent = player.code;
     $("playerPoints").textContent = player.points;
   }
 
   function renderLeaderboard(data) {
-    if (!data) return;
-
-    $("bangaloreScore").textContent =
-      Number(data.teams.bangalore || 0).toLocaleString();
-
-    $("chennaiScore").textContent =
-      Number(data.teams.chennai || 0).toLocaleString();
-
-    $("scoreStatus").textContent = "";
-
     const container = $("leaderboard");
     container.replaceChildren();
 
-    if (!data.players.length) {
+    const players = data?.players || [];
+
+    if (!players.length) {
       const empty = document.createElement("p");
       empty.className = "muted";
       empty.textContent =
-        "No points earned yet. Be the first!";
+        "No points yet. Be the first!";
       container.append(empty);
-      return;
     }
 
-    data.players.forEach((player, index) => {
-      const line = document.createElement("div");
-      line.className = "leader";
-
-      const details = document.createElement("div");
+    players.forEach((player, index) => {
+      const row = document.createElement("div");
+      row.className = "leader";
 
       const name = document.createElement("span");
-      name.textContent =
-        `${index + 1}. ${player.name}`;
-
-      const team = document.createElement("small");
-      team.textContent =
-        player.team === "bangalore"
-          ? "Team Bangalore"
-          : "Team Chennai";
+      name.textContent = `${index + 1}. ${player.name}`;
 
       const points = document.createElement("strong");
       points.textContent = `${player.points} pts`;
 
-      details.append(name, team);
-      line.append(details, points);
-      container.append(line);
+      row.append(name, points);
+      container.append(row);
     });
+
+    // The leaderboard currently returns the top 20.
+    // Exact rank outside that range is not available.
+    $("playerRank").textContent = "—";
+
+    $("scoreStatus").textContent = "";
   }
 
   async function refresh() {
@@ -685,36 +505,8 @@ footer {
     renderLeaderboard(result.leaderboard);
   }
 
-  document.querySelectorAll("[data-team]")
-    .forEach(button => {
-      button.addEventListener("click", () => {
-        selectedTeam = button.dataset.team;
-
-        document.querySelectorAll("[data-team]")
-          .forEach(item => {
-            const active = item === button;
-
-            item.classList.toggle("selected", active);
-            item.setAttribute(
-              "aria-pressed",
-              String(active)
-            );
-          });
-
-        $("joinError").textContent = "";
-      });
-    });
-
   $("joinForm").addEventListener("submit", async event => {
     event.preventDefault();
-
-    const name = $("guestName").value.trim();
-
-    if (!selectedTeam) {
-      $("joinError").textContent =
-        "Please choose Bangalore or Chennai.";
-      return;
-    }
 
     const button = $("joinButton");
     button.disabled = true;
@@ -722,17 +514,13 @@ footer {
 
     try {
       const result = await request("join", {
-        name,
-        team: selectedTeam
+        name: $("guestName").value.trim()
       });
 
       token = result.token;
-
-      localStorage.setItem(TOKEN_KEY, token);
-      localStorage.removeItem(OLD_KEY);
+      localStorage.setItem(KEY, token);
 
       await refresh();
-
     } catch (error) {
       $("joinError").textContent = error.message;
     } finally {
@@ -741,39 +529,29 @@ footer {
   });
 
   $("changePlayer").addEventListener("click", () => {
-    const confirmed = confirm(
-      "Switch to another guest on this device? " +
-      "Your current player's points will remain on the server."
-    );
+    if (!confirm(
+      "Switch guest? Your existing points remain saved."
+    )) return;
 
-    if (!confirmed) return;
-
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(OLD_KEY);
+    localStorage.removeItem(KEY);
+    localStorage.removeItem("nsReceptionPlayer");
 
     token = "";
-    selectedTeam = "";
-
+    currentPlayer = null;
     $("guestName").value = "";
-
-    document.querySelectorAll("[data-team]")
-      .forEach(button => {
-        button.classList.remove("selected");
-        button.setAttribute("aria-pressed", "false");
-      });
 
     showRegistration();
   });
 
   $("copyCode").addEventListener("click", async () => {
-    const code = $("playerCode").textContent;
-
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(
+        $("playerCode").textContent
+      );
       $("copyCode").textContent = "COPIED!";
     } catch {
       $("copyCode").textContent =
-        "SELECT CODE ABOVE TO COPY";
+        "SELECT THE CODE ABOVE";
     }
   });
 
@@ -786,24 +564,21 @@ footer {
     try {
       await refresh();
     } catch (error) {
+      $("scoreStatus").textContent = error.message;
+
       if (error.message.includes("Player not found")) {
-        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(KEY);
         token = "";
-        showRegistration();
-      } else {
-        $("scoreStatus").textContent = error.message;
-        showRegistration();
       }
+
+      showRegistration();
     }
   }
 
   initialize();
 
   setInterval(() => {
-    if (
-      token &&
-      document.visibilityState === "visible"
-    ) {
+    if (token && document.visibilityState === "visible") {
       refresh().catch(error => {
         $("scoreStatus").textContent = error.message;
       });

@@ -1,39 +1,697 @@
-<div class="cards">
 
-  <div class="card">
-    <span class="card-icon">✳</span>
-    <h3>THROUGH YOUR EYES</h3>
-    <p>
-      Share the candid moments
-      our photographer might miss.
-    </p>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211b20">
 
-  <div class="card">
-    <span class="card-icon">♡</span>
-    <h3>THE RECEPTION WALL</h3>
-    <p>
-      Funny observations, memories
-      and messages from the crowd.
-    </p>
-  </div>
+  <title>Reception Mode | Nikhil & Supriya</title>
 
-  <div class="card">
-    <span class="card-icon">◉</span>
-    <h3>SECRET MISSIONS</h3>
-    <p>
-      Meet strangers, make friends,
-      earn bragging rights.
-    </p>
-  </div>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <div class="card">
-    <span class="card-icon">✦</span>
-    <h3>THE CITY FINAL</h3>
-    <p>
-      Bangalore versus Chennai.
-      One city takes the crown.
-    </p>
-  </div>
+  <style>
+    :root {
+      --bg: #211b20;
+      --panel: #352833;
+      --gold: #e4b78c;
+      --cream: #fff5e9;
+      --muted: #cbb8c2;
+      --border: rgba(255,245,233,.17);
+    }
 
-</div>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: Manrope, sans-serif;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    [hidden] { display: none !important; }
+
+    .shell {
+      width: min(100% - 30px, 820px);
+      margin: auto;
+      padding: 24px 0 70px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+
+    .monogram {
+      font-family: Cinzel, serif;
+      color: var(--gold);
+      font-size: 20px;
+      letter-spacing: 3px;
+    }
+
+    .topbar a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 55px 12px 25px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    h1, h2, h3 {
+      font-family: Cinzel, serif;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: clamp(38px, 9vw, 65px);
+      line-height: 1.15;
+      margin: 18px 0;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .label {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .panel h2 {
+      font-size: 23px;
+      margin: 14px 0;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .field {
+      display: block;
+      margin-top: 20px;
+    }
+
+    .field span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.2);
+      color: white;
+      outline-color: var(--gold);
+    }
+
+    .teams {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .team-choice {
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(0,0,0,.12);
+      color: var(--cream);
+      padding: 20px 12px;
+      text-align: center;
+    }
+
+    .team-choice strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .team-choice span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .team-choice.selected {
+      background: rgba(228,183,140,.17);
+      border: 2px solid var(--gold);
+    }
+
+    .primary {
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      background: var(--gold);
+      color: #211b20;
+      padding: 16px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .welcome {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .small-button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--cream);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 11px;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .score-card {
+      text-align: center;
+      background: rgba(0,0,0,.14);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 10px;
+    }
+
+    .score-card strong {
+      display: block;
+      font-size: 15px;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .score-card .score {
+      font-family: Cinzel, serif;
+      font-size: 26px;
+      margin: 12px 0;
+    }
+
+    .score-card span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin: 45px 0 22px;
+    }
+
+    .section-heading h2 {
+      font-size: 28px;
+      margin: 12px 0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-icon {
+      color: var(--gold);
+      font-size: 28px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-size: 15px;
+      margin: 0 0 12px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+      flex: 1;
+    }
+
+    .card a,
+    .card .coming-soon {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .coming-soon {
+      opacity: .75;
+    }
+
+    .leaderboard {
+      margin-top: 18px;
+      padding: 20px;
+      background: rgba(0,0,0,.14);
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .leaderboard p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    footer {
+      margin-top: 50px;
+      border-top: 1px solid var(--border);
+      padding-top: 25px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 2px;
+      line-height: 2;
+    }
+
+    @media (max-width: 420px) {
+      .panel { padding: 18px; }
+      .card { padding: 15px; }
+      .card h3 { font-size: 13px; }
+      .team-choice { padding: 16px 8px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+
+    <header class="topbar">
+      <div class="monogram">N × S</div>
+      <a href="./celebrate.html">← Wedding Pass</a>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">
+        21 November 2026 · Chennai
+      </div>
+
+      <h1>RECEPTION<br>MODE</h1>
+
+      <p>
+        Two families. Two cities. One legendary night.
+        <br>
+        The party is better when everyone plays.
+      </p>
+    </section>
+
+    <!-- GUEST REGISTRATION -->
+
+    <section class="panel" id="registration">
+      <div class="label">Join the celebration</div>
+
+      <h2>First, pick your side.</h2>
+
+      <p class="muted">
+        Are you celebrating with the groom's side
+        or the bride's side? Choose your team
+        and join the fun.
+      </p>
+
+      <form id="joinForm">
+        <label class="field">
+          <span>What should we call you?</span>
+          <input
+            id="guestName"
+            type="text"
+            maxlength="30"
+            placeholder="Your name"
+            autocomplete="name"
+            required
+          >
+        </label>
+
+        <div class="teams">
+          <button
+            type="button"
+            class="team-choice"
+            data-team="bangalore"
+            aria-pressed="false"
+          >
+            <strong>TEAM BANGALORE</strong>
+            <span>Groom's Side</span>
+          </button>
+
+          <button
+            type="button"
+            class="team-choice"
+            data-team="chennai"
+            aria-pressed="false"
+          >
+            <strong>TEAM CHENNAI</strong>
+            <span>Bride's Side</span>
+          </button>
+        </div>
+
+        <p class="muted" id="teamError" hidden>
+          Please select your team before continuing.
+        </p>
+
+        <button type="submit" class="primary">
+          JOIN THE SHOWDOWN →
+        </button>
+      </form>
+    </section>
+
+    <!-- RETURNING PLAYER -->
+
+    <section class="panel" id="playerPanel" hidden>
+      <div class="welcome">
+        <div>
+          <div class="label">You're in!</div>
+          <h2 id="welcomeName">Welcome!</h2>
+          <p class="muted" id="welcomeTeam"></p>
+        </div>
+
+        <button class="small-button" id="changePlayer">
+          Change
+        </button>
+      </div>
+    </section>
+
+    <!-- CITY SHOWDOWN -->
+
+    <section class="panel">
+      <div class="label">The City Showdown</div>
+
+      <h2>Bangalore vs. Chennai</h2>
+
+      <p class="muted">
+        Every mission you complete will earn points
+        for you and your team.
+        Which side will claim the crown?
+      </p>
+
+      <div class="scoreboard">
+        <div class="score-card">
+          <strong>BANGALORE</strong>
+          <span>Groom's Side</span>
+          <div class="score">—</div>
+          <span>Awaiting live scores</span>
+        </div>
+
+        <div class="score-card">
+          <strong>CHENNAI</strong>
+          <span>Bride's Side</span>
+          <div class="score">—</div>
+          <span>Awaiting live scores</span>
+        </div>
+      </div>
+
+      <p class="muted" style="text-align:center;margin:18px 0 0">
+        The competition opens once Secret Missions
+        and live scoring are activated.
+      </p>
+    </section>
+
+    <!-- ACTIVITIES -->
+
+    <section class="section-heading">
+      <div class="eyebrow">The Experience</div>
+      <h2>Choose Your Adventure</h2>
+      <p class="muted">
+        Capture moments, meet people, and make memories.
+      </p>
+    </section>
+
+    <section class="cards">
+
+      <article class="card">
+        <span class="card-icon">✳</span>
+        <h3>THROUGH YOUR EYES</h3>
+        <p>
+          Share the candid moments our photographer
+          might miss.
+        </p>
+        <a href="./pov.html">
+          SHARE YOUR POV →
+        </a>
+      </article>
+
+      <article class="card">
+        <span class="card-icon">♡</span>
+        <h3>THE WEDDING WALL</h3>
+        <p>
+          Relive the celebration through photos
+          shared by our guests.
+        </p>
+        <a href="./wall.html">
+          VIEW MOMENTS →
+        </a>
+      </article>
+
+      <article class="card">
+        <span class="card-icon">◉</span>
+        <h3>SECRET MISSIONS</h3>
+        <p>
+          Meet strangers, make friends, complete
+          challenges and earn bragging rights.
+        </p>
+        <span class="coming-soon">
+          COMING SOON
+        </span>
+      </article>
+
+      <article class="card">
+        <span class="card-icon">✦</span>
+        <h3>THE CITY FINAL</h3>
+        <p>
+          Bangalore versus Chennai.
+          The ultimate showdown for the city crown.
+        </p>
+        <span class="coming-soon">
+          COMING SOON
+        </span>
+      </article>
+
+    </section>
+
+    <!-- INDIVIDUAL LEADERBOARD -->
+
+    <section class="panel">
+      <div class="label">Hall of Fame</div>
+      <h2>Individual Leaderboard</h2>
+
+      <p class="muted">
+        Every legend starts somewhere.
+        Complete missions to climb the rankings.
+      </p>
+
+      <div class="leaderboard">
+        <div class="card-icon">✦</div>
+        <p>
+          The leaderboard will appear here
+          when live scoring is enabled.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      NIKHIL × SUPRIYA
+      <br>
+      21 NOVEMBER 2026
+      <br>
+      MGM BEACH RESORT · CHENNAI
+    </footer>
+
+  </main>
+
+  <script>
+    (() => {
+      const STORAGE_KEY = "nsReceptionPlayer";
+
+      const registration =
+        document.getElementById("registration");
+
+      const playerPanel =
+        document.getElementById("playerPanel");
+
+      const guestNameInput =
+        document.getElementById("guestName");
+
+      const teamError =
+        document.getElementById("teamError");
+
+      const teamButtons =
+        document.querySelectorAll("[data-team]");
+
+      let selectedTeam = null;
+
+      function readPlayer() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (!saved) return null;
+
+          const player = JSON.parse(saved);
+
+          if (
+            typeof player.name !== "string" ||
+            !player.name.trim() ||
+            !["bangalore", "chennai"].includes(player.team)
+          ) {
+            return null;
+          }
+
+          return player;
+        } catch {
+          return null;
+        }
+      }
+
+      function savePlayer(player) {
+        try {
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(player)
+          );
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      function clearPlayer() {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch {
+          // Registration still works in this session.
+        }
+      }
+
+      function displayPlayer(player) {
+        registration.hidden = true;
+        playerPanel.hidden = false;
+
+        document.getElementById("welcomeName")
+          .textContent = `Hey, ${player.name}!`;
+
+        const teamName =
+          player.team === "bangalore"
+            ? "Team Bangalore · Groom's Side"
+            : "Team Chennai · Bride's Side";
+
+        document.getElementById("welcomeTeam")
+          .textContent = `You're representing ${teamName}.`;
+      }
+
+      function displayRegistration() {
+        playerPanel.hidden = true;
+        registration.hidden = false;
+      }
+
+      teamButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          selectedTeam = button.dataset.team;
+          teamError.hidden = true;
+
+          teamButtons.forEach(item => {
+            const active = item === button;
+            item.classList.toggle("selected", active);
+            item.setAttribute("aria-pressed", String(active));
+          });
+        });
+      });
+
+      document.getElementById("joinForm")
+        .addEventListener("submit", event => {
+          event.preventDefault();
+
+          const name = guestNameInput.value.trim();
+
+          if (!name) {
+            guestNameInput.focus();
+            return;
+          }
+
+          if (!selectedTeam) {
+            teamError.hidden = false;
+            return;
+          }
+
+          const player = {
+            name,
+            team: selectedTeam
+          };
+
+          savePlayer(player);
+          displayPlayer(player);
+        });
+
+      document.getElementById("changePlayer")
+        .addEventListener("click", () => {
+          clearPlayer();
+          selectedTeam = null;
+
+          teamButtons.forEach(button => {
+            button.classList.remove("selected");
+            button.setAttribute("aria-pressed", "false");
+          });
+
+          guestNameInput.value = "";
+          displayRegistration();
+        });
+
+      const existingPlayer = readPlayer();
+
+      if (existingPlayer) {
+        displayPlayer(existingPlayer);
+      } else {
+        displayRegistration();
+      }
+    })();
+  </script>
+</body>
+</html>

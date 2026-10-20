@@ -20,7 +20,10 @@ function redisConfig() {
     throw new Error("Redis is not configured");
   }
 
-  return { url: url.replace(/\/$/, ""), token };
+  return {
+    url: url.replace(/\/$/, ""),
+    token
+  };
 }
 
 async function redis(command) {
@@ -104,14 +107,20 @@ async function getApprovedPhotos() {
     cursor = String(result[0]);
 
     for (const key of result[1]) {
-      if (keys.length < MAX_RECORDS) keys.push(key);
+      if (keys.length < MAX_RECORDS) {
+        keys.push(key);
+      }
     }
 
     scans++;
-  } while (cursor !== "0" && scans < 100 && keys.length < MAX_RECORDS);
+  } while (
+    cursor !== "0" &&
+    scans < 100 &&
+    keys.length < MAX_RECORDS
+  );
 
-  const records = [];
   const uniqueKeys = [...new Set(keys)];
+  const records = [];
 
   for (let i = 0; i < uniqueKeys.length; i += 100) {
     const batch = uniqueKeys.slice(i, i + 100);
@@ -126,7 +135,10 @@ async function getApprovedPhotos() {
           guestName: String(photo.guestName || "Guest").slice(0, 60),
           event: photo.event,
           uploadedAt: photo.uploadedAt || null,
-          imageUrl: `/api/wedding-wall?action=image&id=${encodeURIComponent(photo.uploadId)}`
+          featured: photo.featured === true,
+          featuredAt: photo.featuredAt || null,
+          imageUrl:
+            `/api/wedding-wall?action=image&id=${encodeURIComponent(photo.uploadId)}`
         });
       }
     }
@@ -138,7 +150,8 @@ async function getApprovedPhotos() {
 
   return {
     photos: records,
-    hasMoreRecords: cursor !== "0" || uniqueKeys.length >= MAX_RECORDS
+    hasMoreRecords:
+      cursor !== "0" || uniqueKeys.length >= MAX_RECORDS
   };
 }
 
@@ -147,13 +160,19 @@ async function serveImage(req, res) {
   const photo = await getApprovedPhoto(id);
 
   if (!photo) {
-    return json(res, 404, { error: "Photo unavailable" });
+    return json(res, 404, {
+      error: "Photo unavailable"
+    });
   }
 
-  const blob = await get(photo.pathname, { access: "private" });
+  const blob = await get(photo.pathname, {
+    access: "private"
+  });
 
   if (!blob || blob.statusCode !== 200 || !blob.stream) {
-    return json(res, 404, { error: "Image unavailable" });
+    return json(res, 404, {
+      error: "Image unavailable"
+    });
   }
 
   const type = String(blob.blob?.contentType || "");
@@ -168,12 +187,18 @@ async function serveImage(req, res) {
 
   res.setHeader(
     "Content-Type",
-    allowedTypes.has(type) ? type : "application/octet-stream"
+    allowedTypes.has(type)
+      ? type
+      : "application/octet-stream"
   );
+
   res.setHeader("Content-Disposition", "inline");
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Content-Security-Policy", "default-src 'none'; sandbox");
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'none'; sandbox"
+  );
 
   return Readable.fromWeb(blob.stream).pipe(res);
 }
@@ -181,7 +206,10 @@ async function serveImage(req, res) {
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
-    return json(res, 405, { error: "Method not allowed" });
+
+    return json(res, 405, {
+      error: "Method not allowed"
+    });
   }
 
   if (
@@ -189,7 +217,9 @@ export default async function handler(req, res) {
     !process.env.UPSTASH_REDIS_REST_KV_REST_API_URL ||
     !process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN
   ) {
-    return json(res, 503, { error: "Gallery unavailable" });
+    return json(res, 503, {
+      error: "Gallery unavailable"
+    });
   }
 
   try {
@@ -203,9 +233,14 @@ export default async function handler(req, res) {
       return await serveImage(req, res);
     }
 
-    return json(res, 400, { error: "Unknown action" });
+    return json(res, 400, {
+      error: "Unknown action"
+    });
   } catch (error) {
     console.error("Wedding Wall error:", error?.message);
-    return json(res, 500, { error: "Could not load gallery" });
+
+    return json(res, 500, {
+      error: "Could not load gallery"
+    });
   }
 }

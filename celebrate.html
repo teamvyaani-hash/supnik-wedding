@@ -1,0 +1,772 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#241d1d">
+
+  <title>The Wedding Pass | Nikhil & Supriya</title>
+
+  <meta name="description"
+        content="One celebration, countless memories. Join Nikhil and Supriya's wedding experience.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #241d1d;
+      --surface: #302525;
+      --cream: #fff5e9;
+      --gold: #e3b98f;
+      --muted: #d0bdb1;
+      --line: rgba(255,245,233,.17);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: "Manrope", sans-serif;
+      transition: background .4s ease;
+    }
+
+    body[data-event="engagement"] {
+      --bg: #34282b;
+      --surface: #48353a;
+      --gold: #f0c9b3;
+    }
+
+    body[data-event="reception"] {
+      --bg: #211b20;
+      --surface: #352833;
+      --gold: #e4b78c;
+    }
+
+    body[data-event="muhurtham"] {
+      --bg: #342a22;
+      --surface: #493a2b;
+      --gold: #ebc891;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    .shell {
+      width: min(100% - 32px, 780px);
+      margin: auto;
+      padding: 24px 0 48px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .monogram {
+      font-family: "Cinzel", serif;
+      font-size: 20px;
+      letter-spacing: 3px;
+      color: var(--gold);
+    }
+
+    .topdate {
+      font-size: 10px;
+      letter-spacing: 1.7px;
+      color: var(--muted);
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 54px 8px 30px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1, h2 {
+      font-family: "Cinzel", serif;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: clamp(35px, 9vw, 65px);
+      line-height: 1.12;
+      margin: 20px 0;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      max-width: 420px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .ornament {
+      margin: 26px auto 0;
+      color: var(--gold);
+      letter-spacing: 12px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .section-label {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel h2 {
+      font-size: 24px;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .field {
+      display: block;
+      margin: 18px 0 12px;
+    }
+
+    .field span {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 9px;
+      color: var(--muted);
+    }
+
+    .field input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(0,0,0,.18);
+      padding: 15px;
+      color: var(--cream);
+      font-size: 14px;
+    }
+
+    .primary {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 12px;
+      background: var(--gold);
+      color: #241d1d;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .secondary {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--cream);
+      padding: 10px 12px;
+      font-size: 11px;
+    }
+
+    .welcome-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .event-card {
+      margin-top: 16px;
+      border: 1px solid rgba(227,185,143,.35);
+      border-radius: 18px;
+      padding: 24px;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(227,185,143,.15),
+          transparent 65%
+        ),
+        rgba(0,0,0,.12);
+    }
+
+    .event-status {
+      display: inline-block;
+      border: 1px solid rgba(227,185,143,.4);
+      border-radius: 30px;
+      color: var(--gold);
+      font-size: 10px;
+      padding: 7px 12px;
+      margin-bottom: 20px;
+    }
+
+    .event-name {
+      font-family: "Cinzel", serif;
+      font-size: clamp(28px, 7vw, 42px);
+      margin-bottom: 8px;
+    }
+
+    .event-subtitle {
+      color: var(--gold);
+      font-style: italic;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .event-details {
+      display: grid;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .event-picker {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .event-option {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(0,0,0,.1);
+      color: var(--cream);
+      padding: 14px 5px;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .event-option span {
+      display: block;
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .event-option.is-selected {
+      background: var(--gold);
+      color: #241d1d;
+      border-color: var(--gold);
+      font-weight: 800;
+    }
+
+    .event-option.is-selected span {
+      color: #49352a;
+    }
+
+    .reset-row {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .reset-row button {
+      border: none;
+      background: none;
+      color: var(--gold);
+      text-decoration: underline;
+      font-size: 11px;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin: 42px 0 20px;
+    }
+
+    .section-heading h2 {
+      font-size: 28px;
+      margin: 12px 0;
+    }
+
+    .activities {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .activity {
+      display: flex;
+      flex-direction: column;
+      min-height: 185px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .activity .symbol {
+      font-size: 26px;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+
+    .activity h3 {
+      font-family: "Cinzel", serif;
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .activity p {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .activity button,
+    .activity a {
+      border: 0;
+      background: none;
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      text-decoration: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    .activity.featured {
+      grid-column: 1 / -1;
+      min-height: 200px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(227,185,143,.16),
+          transparent 65%
+        ),
+        var(--surface);
+    }
+
+    .activity.featured h3 {
+      font-size: 21px;
+    }
+
+    .note {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .toast {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 20px;
+      max-width: 420px;
+      margin: auto;
+      background: var(--cream);
+      color: #241d1d;
+      padding: 16px 20px;
+      border-radius: 14px;
+      font-size: 12px;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0,0,0,.3);
+      z-index: 20;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding-top: 25px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      line-height: 2;
+    }
+
+    @media (max-width: 420px) {
+      .panel {
+        padding: 18px;
+      }
+
+      .activity {
+        padding: 15px;
+      }
+
+      .activity h3 {
+        font-size: 13px;
+      }
+
+      .activity.featured h3 {
+        font-size: 19px;
+      }
+    }
+  </style>
+
+  <script src="./celebrate.js" defer></script>
+</head>
+
+<body>
+  <main class="shell">
+
+    <header class="topbar">
+      <div class="monogram">N × S</div>
+
+      <div class="topdate">
+        21–22 November 2026
+        <br>
+        MGM Beach Resort · Chennai
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">
+        Nikhil & Supriya present
+      </div>
+
+      <h1>
+        THE<br>
+        WEDDING PASS
+      </h1>
+
+      <p>
+        Three celebrations. Two families.
+        One unforgettable story.
+        And now, you're part of it.
+      </p>
+
+      <div class="ornament">✦ ✧ ✦</div>
+    </section>
+
+    <!-- GUEST ENTRY -->
+
+    <section class="panel" data-guest-entry hidden>
+      <div class="section-label">
+        First things first
+      </div>
+
+      <h2>What should we call you?</h2>
+
+      <p class="muted">
+        No accounts. No passwords.
+        Just your name and a little wedding magic.
+      </p>
+
+      <form data-guest-form>
+        <label class="field">
+          <span>Your name</span>
+
+          <input
+            type="text"
+            name="guestName"
+            placeholder="Enter your name"
+            maxlength="30"
+            autocomplete="name"
+            required
+          >
+        </label>
+
+        <button class="primary" type="submit">
+          LET ME IN →
+        </button>
+      </form>
+    </section>
+
+    <!-- RETURNING GUEST -->
+
+    <section class="panel" data-guest-welcome hidden>
+      <div class="welcome-row">
+        <div>
+          <div class="section-label">
+            You're on the guest list
+          </div>
+
+          <h2 style="margin-bottom:0">
+            Hey, <span data-guest-name>Guest</span>!
+          </h2>
+        </div>
+
+        <button class="secondary"
+                type="button"
+                data-change-guest>
+          Not you?
+        </button>
+      </div>
+    </section>
+
+    <!-- CURRENT EVENT -->
+
+    <section class="panel">
+      <div class="section-label">
+        Your celebration
+      </div>
+
+      <div class="event-card">
+        <div class="event-status" data-event-status>
+          Loading the celebration...
+        </div>
+
+        <div class="event-name" data-event-name>
+          Engagement
+        </div>
+
+        <div class="event-subtitle" data-event-subtitle>
+          The Beginning
+        </div>
+
+        <div class="event-details">
+          <div>
+            ◷ <span data-event-date>
+              21 November 2026
+            </span>
+          </div>
+
+          <div>
+            ✧ <span data-event-time>
+              10:30 AM IST
+            </span>
+          </div>
+
+          <div>
+            ◇ <span data-event-venue>
+              Lake Lawn
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin:22px 0 10px">
+        Sharing memories from another event?
+        Choose it below.
+      </p>
+
+      <div class="event-picker"
+           aria-label="Select celebration">
+
+        <button class="event-option"
+                type="button"
+                data-select-event="engagement">
+          Engagement
+          <span>21 Nov · AM</span>
+        </button>
+
+        <button class="event-option"
+                type="button"
+                data-select-event="reception">
+          Reception
+          <span>21 Nov · PM</span>
+        </button>
+
+        <button class="event-option"
+                type="button"
+                data-select-event="muhurtham">
+          Muhurtham
+          <span>22 Nov · AM</span>
+        </button>
+      </div>
+
+      <div class="reset-row">
+        <button type="button"
+                data-use-current-event>
+          Back to Current Event
+        </button>
+      </div>
+
+      <p class="muted"
+         style="text-align:center;margin:18px 0 0">
+        Wedding time:
+        <span data-ist-clock>IST</span>
+      </p>
+    </section>
+
+    <!-- ACTIVITIES -->
+
+    <section class="section-heading">
+      <div class="eyebrow">
+        The experience
+      </div>
+
+      <h2>Make it yours.</h2>
+
+      <p class="muted">
+        Some moments deserve more than a camera roll.
+      </p>
+    </section>
+
+    <section class="activities">
+
+      <!-- 1. GUEST POV -->
+
+      <article class="activity featured">
+        <div class="symbol">✧</div>
+
+        <h3>Through Your Eyes</h3>
+
+        <p>
+          The best wedding photos aren't always
+          taken by photographers. Show us
+          what the day looked like from your side.
+          Share up to 20 photos at a time.
+        </p>
+
+        <button type="button"
+                data-coming-soon="Photo uploads">
+          SHARE YOUR POV →
+        </button>
+      </article>
+
+      <!-- 2. WALL -->
+
+      <article class="activity">
+        <div class="symbol">♡</div>
+
+        <h3>The Wedding Wall</h3>
+
+        <p>
+          A wish, a memory, an inside joke.
+          Leave something for Nikhil and Supriya.
+        </p>
+
+        <button type="button"
+                data-coming-soon="The Wedding Wall">
+          LEAVE A MESSAGE →
+        </button>
+      </article>
+
+      <!-- 3. RECEPTION -->
+
+      <article class="activity"
+               data-reception-only
+               hidden>
+        <div class="symbol">✦</div>
+
+        <h3>Reception Mode</h3>
+
+        <p>
+          Secret Missions, friendly competition
+          and the Bangalore × Chennai finale.
+        </p>
+
+        <a href="./party.html">
+          ENTER RECEPTION MODE →
+        </a>
+      </article>
+
+    </section>
+
+    <p class="note">
+      Your photos and messages will be collected
+      privately until they're approved for sharing.
+      <br>
+      One QR. Every celebration.
+    </p>
+
+    <footer>
+      NIKHIL × SUPRIYA
+      <br>
+      21–22 NOVEMBER 2026
+      <br>
+      MGM BEACH RESORT · CHENNAI
+    </footer>
+
+  </main>
+
+  <!-- NOTIFICATION -->
+
+  <div class="toast"
+       id="comingSoonToast"
+       role="status"
+       aria-live="polite"
+       hidden>
+  </div>
+
+  <script>
+    (() => {
+      const toast = document.getElementById(
+        "comingSoonToast"
+      );
+
+      let toastTimeout;
+
+      document
+        .querySelectorAll("[data-coming-soon]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            const feature =
+              button.dataset.comingSoon;
+
+            toast.textContent =
+              feature +
+              " is being prepared. " +
+              "Check back soon!";
+
+            toast.hidden = false;
+
+            clearTimeout(toastTimeout);
+
+            toastTimeout = setTimeout(() => {
+              toast.hidden = true;
+            }, 3500);
+          });
+        });
+    })();
+  </script>
+
+</body>
+</html>

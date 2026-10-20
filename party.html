@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+  <meta name="theme-color" content="#211B1B">
+
+  <title>Reception Mode | Nikhil & Supriya</title>
+
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+  <style>
+    :root {
+      --dark: #211b1b;
+      --cream: #fff4e8;
+      --gold: #e2b68c;
+      --muted: #d6c2b4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--dark);
+      color: var(--cream);
+      font-family: "Manrope", sans-serif;
+    }
+
+    .page {
+      min-height: 100svh;
+      max-width: 760px;
+      margin: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+    }
+
+    .brand {
+      font-family: "Cinzel", serif;
+      font-size: 23px;
+      color: var(--gold);
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 0;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+    }
+
+    h1 {
+      font-family: "Cinzel", serif;
+      font-size: clamp(48px, 12vw, 90px);
+      line-height: 1;
+      letter-spacing: -2px;
+      margin: 25px 0;
+    }
+
+    h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .intro {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.9;
+      max-width: 480px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 35px 0;
+    }
+
+    .card {
+      border: 1px solid #67514b;
+      border-radius: 15px;
+      padding: 20px 14px;
+      background: #2e2524;
+    }
+
+    .card-icon {
+      color: var(--gold);
+      font-size: 28px;
+    }
+
+    .card h3 {
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      background: var(--cream);
+      color: var(--dark);
+      border: 0;
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+    }
+
+    .footer {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-align: center;
+      padding: 25px 0;
+    }
+
+    @media (max-width: 390px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="top">
+      <span class="brand">N × S</span>
+      <span>21 NOVEMBER 2026</span>
+    </header>
+
+    <section class="hero">
+
+      <p class="eyebrow">
+        NIKHIL & SUPRIYA PRESENT
+      </p>
+
+      <h1>
+        RECEPTION<br>
+        <em>MODE.</em>
+      </h1>
+
+      <p class="intro">
+        One wedding. Two cities.
+        Four hundred opinions.
+
+        Tonight, you're not just a guest.
+        You're part of the story.
+      </p>
+
+      <div class="cards">
+
+        <div class="card">
+          <span class="card-icon">✳</span>
+          <h3>THROUGH YOUR EYES</h3>
+          <p>
+            Share the candid moments
+            our photographer might miss.
+          </p>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">✦</span>
+          <h3>THE CITY FINAL</h3>
+          <p>
+            Bangalore versus Chennai.
+            One city takes the crown.
+          </p>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">◉</span>
+          <h3>SECRET MISSIONS</h3>
+          <p>
+            Meet strangers, make friends,
+            earn bragging rights.
+          </p>
+        </div>
+
+        <div class="card">
+          <span class="card-icon">♡</span>
+          <h3>THE RECEPTION WALL</h3>
+          <p>
+            Funny observations, memories
+            and messages from the crowd.
+          </p>
+        </div>
+
+      </div>
+
+      <button class="button" id="enterButton">
+        ENTER RECEPTION MODE →
+      </button>
+
+    </section>
+
+    <footer class="footer">
+      MGM BEACH RESORT · CHENNAI
+    </footer>
+
+  </main>
+
+  <script>
+    document.getElementById("enterButton")
+      .addEventListener("click", function () {
+        alert(
+          "Welcome to Reception Mode! " +
+          "Guest entry is coming in Step 2."
+        );
+      });
+  </script>
+
+</body>
+</html>
+  

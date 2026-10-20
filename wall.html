@@ -30,9 +30,14 @@
       font-family: system-ui, -apple-system, sans-serif;
     }
 
-    button, a { -webkit-tap-highlight-color: transparent; }
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    button { font: inherit; cursor: pointer; }
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
 
     header {
       padding: 25px 20px 30px;
@@ -492,7 +497,17 @@
       const carousel = $("carousel");
       carousel.replaceChildren();
 
-      const featured = state.filtered.slice(0, 10);
+      // Show selected featured photos.
+      // Fall back to newest approved photos if none are featured.
+      const selectedFeatured = state.filtered.filter(
+        photo => photo.featured === true
+      );
+
+      const featured = (
+        selectedFeatured.length > 0
+          ? selectedFeatured
+          : state.filtered
+      ).slice(0, 10);
 
       $("featuredSection").classList.toggle(
         "hidden",
@@ -518,11 +533,16 @@
         info.appendChild(text("span", "", photo.event));
         card.appendChild(info);
 
-        card.addEventListener("click", () => showViewer(index));
+        // Find the actual photo in the full filtered gallery.
+        const galleryIndex = state.filtered.findIndex(
+          item => item.id === photo.id
+        );
+
+        card.addEventListener("click", () => showViewer(galleryIndex));
         card.addEventListener("keydown", event => {
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
-            showViewer(index);
+            showViewer(galleryIndex);
           }
         });
 
@@ -611,18 +631,18 @@
           typeof photo.event === "string"
         );
 
-        const previousIds = state.photos
-          .map(photo => `${photo.id}:${photo.event}`)
+        const previousSignature = state.photos
+          .map(photo => `${photo.id}:${photo.event}:${photo.featured}`)
           .join("|");
 
-        const nextIds = nextPhotos
-          .map(photo => `${photo.id}:${photo.event}`)
+        const nextSignature = nextPhotos
+          .map(photo => `${photo.id}:${photo.event}:${photo.featured}`)
           .join("|");
 
         state.photos = nextPhotos;
         state.loaded = true;
 
-        if (!silent || previousIds !== nextIds) {
+        if (!silent || previousSignature !== nextSignature) {
           render();
         }
       } catch (error) {
@@ -710,7 +730,10 @@
     loadPhotos();
 
     setInterval(() => {
-      if (document.visibilityState === "visible" && !$("lightbox").open) {
+      if (
+        document.visibilityState === "visible" &&
+        !$("lightbox").open
+      ) {
         loadPhotos(true);
       }
     }, 30000);

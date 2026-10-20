@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#120e17">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Wedding Wall | Nikhil & Supriya</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #120e17;
+      --panel: #211925;
+      --gold: #e9c68c;
+      --cream: #fff7ec;
+      --muted: #c2b4bc;
+      --border: #4a3947;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--cream);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    button { font: inherit; cursor: pointer; }
+
+    header {
+      padding: 25px 20px 30px;
+      text-align: center;
+      background: radial-gradient(
+        ellipse at top, #493044, var(--bg) 80%
+      );
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 11px;
+      color: var(--gold);
+    }
+
+    h1, h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: normal;
+    }
+
+    h1 {
+      font-size: clamp(43px, 9vw, 75px);
+      margin: 14px 0 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 20px;
+      line-height: 1.7;
+    }
+
+    .names {
+      font-family: Georgia, serif;
+      color: var(--gold);
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    main {
+      width: min(1180px, 94%);
+      margin: auto;
+      padding-bottom: 100px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 30px 4px 15px;
+    }
+
+    h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin: 0;
+    }
+
+    .section-heading p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 9px;
+      overflow-x: auto;
+      padding: 15px 2px 20px;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar { display: none; }
+
+    .filter {
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      background: var(--panel);
+      color: var(--cream);
+      padding: 11px 17px;
+      font-size: 13px;
+    }
+
+    .filter.active {
+      background: var(--gold);
+      color: #221521;
+      border-color: var(--gold);
+      font-weight: bold;
+    }
+
+    .carousel-wrap { position: relative; }
+
+    .carousel {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding: 5px 2px 18px;
+      scrollbar-width: none;
+    }
+
+    .carousel::-webkit-scrollbar { display: none; }
+
+    .slide {
+      flex: 0 0 min(78vw, 450px);
+      scroll-snap-align: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .slide img {
+      display: block;
+      width: 100%;
+      height: clamp(280px, 46vw, 460px);
+      object-fit: cover;
+      background: #0b090d;
+    }
+
+    .slide-info {
+      padding: 14px 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .slide-info strong {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .slide-info span {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: capitalize;
+    }
+
+    .carousel-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .arrow {
+      background: var(--panel);
+      color: var(--gold);
+      border: 1px solid var(--border);
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      font-size: 20px;
+    }
+
+    .gallery {
+      columns: 3 220px;
+      column-gap: 14px;
+      margin-top: 15px;
+    }
+
+    .tile {
+      break-inside: avoid;
+      margin-bottom: 14px;
+      border-radius: 15px;
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .tile img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #0b090d;
+    }
+
+    .tile-info {
+      padding: 12px 13px;
+    }
+
+    .credit {
+      color: var(--cream);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .event-name {
+      color: var(--gold);
+      text-transform: capitalize;
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .notice {
+      padding: 45px 20px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px dashed var(--border);
+      border-radius: 17px;
+      line-height: 1.8;
+    }
+
+    .hidden { display: none !important; }
+
+    .upload-link {
+      position: fixed;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      text-decoration: none;
+      background: var(--gold);
+      color: #241722;
+      border-radius: 50px;
+      padding: 15px 24px;
+      font-size: 14px;
+      font-weight: 750;
+      box-shadow: 0 8px 35px #0009;
+      white-space: nowrap;
+    }
+
+    dialog {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: #09080bef;
+      color: var(--cream);
+    }
+
+    dialog::backdrop { background: #000e; }
+
+    .viewer {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 15px 35px;
+      gap: 15px;
+    }
+
+    .viewer img {
+      max-width: 100%;
+      max-height: calc(100dvh - 180px);
+      object-fit: contain;
+    }
+
+    .viewer-credit {
+      text-align: center;
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    .viewer-close {
+      position: absolute;
+      top: 15px;
+      right: 17px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 43px;
+      height: 43px;
+      background: #302632;
+      color: white;
+      font-size: 24px;
+    }
+
+    .viewer-nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    .viewer-nav button {
+      padding: 10px 22px;
+      border-radius: 25px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-family: Georgia, serif;
+      padding: 35px 15px 115px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .gallery {
+        columns: 2;
+        column-gap: 9px;
+      }
+
+      .tile { margin-bottom: 9px; }
+
+      .slide { flex-basis: 85vw; }
+
+      .slide img { height: 340px; }
+
+      .credit { font-size: 12px; }
+
+      .section-heading { align-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="eyebrow">21 & 22 November 2026 · Chennai</div>
+    <h1>Our Wedding Wall</h1>
+    <div class="names">Nikhil & Supriya</div>
+    <p class="subtitle">
+      A thousand little moments, seen through the eyes of
+      the people who made our celebration unforgettable.
+    </p>
+  </header>
+
+  <main>
+    <div class="filters" aria-label="Filter wedding photos">
+      <button class="filter active" data-event="all">All Moments</button>
+      <button class="filter" data-event="engagement">Engagement</button>
+      <button class="filter" data-event="reception">Reception</button>
+      <button class="filter" data-event="muhurtham">Muhurtham</button>
+    </div>
+
+    <section id="featuredSection">
+      <div class="section-heading">
+        <div>
+          <h2>Featured Moments</h2>
+          <p>Swipe through the memories</p>
+        </div>
+        <div class="carousel-controls">
+          <button class="arrow" id="previous" aria-label="Previous photo">
+            &#8249;
+          </button>
+          <button class="arrow" id="next" aria-label="Next photo">
+            &#8250;
+          </button>
+        </div>
+      </div>
+
+      <div id="carousel" class="carousel" aria-label="Featured photos"></div>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div>
+          <h2>Through Your Eyes</h2>
+          <p>Every smile, every dance, every little memory.</p>
+        </div>
+      </div>
+
+      <div id="message" class="notice">Loading wedding memories...</div>
+      <div id="gallery" class="gallery"></div>
+    </section>
+  </main>
+
+  <a class="upload-link" href="/pov.html">
+    + Share Your Moment
+  </a>
+
+  <dialog id="lightbox" aria-label="Photo viewer">
+    <button class="viewer-close" id="closeViewer" aria-label="Close">
+      &times;
+    </button>
+
+    <div class="viewer">
+      <img id="viewerImage" alt="Wedding photo">
+      <div class="viewer-credit" id="viewerCredit"></div>
+      <div class="viewer-nav">
+        <button id="viewerPrevious">Previous</button>
+        <button id="viewerNext">Next</button>
+      </div>
+    </div>
+  </dialog>
+
+  <footer>
+    Made with love · Nikhil & Supriya
+  </footer>
+
+  <script>
+    const API = "/api/wedding-wall?action=list";
+
+    const state = {
+      photos: [],
+      filtered: [],
+      event: "all",
+      viewerIndex: 0,
+      loaded: false
+    };
+
+    const $ = id => document.getElementById(id);
+
+    function photoUrl(photo) {
+      return photo.imageUrl;
+    }
+
+    function makeImage(photo, eager = false) {
+      const image = document.createElement("img");
+      image.src = photoUrl(photo);
+      image.alt = `Wedding moment captured by ${photo.guestName || "Guest"}`;
+      image.loading = eager ? "eager" : "lazy";
+      image.decoding = "async";
+      return image;
+    }
+
+    function text(tag, className, content) {
+      const element = document.createElement(tag);
+      element.className = className;
+      element.textContent = content;
+      return element;
+    }
+
+    function showViewer(index) {
+      if (!state.filtered.length) return;
+
+      state.viewerIndex = (
+        index + state.filtered.length
+      ) % state.filtered.length;
+
+      updateViewer();
+
+      if (!$("lightbox").open) {
+        $("lightbox").showModal();
+      }
+    }
+
+    function updateViewer() {
+      const photo = state.filtered[state.viewerIndex];
+      if (!photo) return;
+
+      $("viewerImage").src = photoUrl(photo);
+      $("viewerImage").alt =
+        `Wedding photo captured by ${photo.guestName || "Guest"}`;
+
+      $("viewerCredit").textContent =
+        `Captured by ${photo.guestName || "Guest"} · ${photo.event}`;
+    }
+
+    function moveViewer(direction) {
+      showViewer(state.viewerIndex + direction);
+    }
+
+    function renderCarousel() {
+      const carousel = $("carousel");
+      carousel.replaceChildren();
+
+      const featured = state.filtered.slice(0, 10);
+
+      $("featuredSection").classList.toggle(
+        "hidden",
+        featured.length === 0
+      );
+
+      featured.forEach((photo, index) => {
+        const card = document.createElement("article");
+        card.className = "slide";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", "Open featured photo");
+
+        card.appendChild(makeImage(photo, index === 0));
+
+        const info = document.createElement("div");
+        info.className = "slide-info";
+
+        info.appendChild(
+          text("strong", "", `Captured by ${photo.guestName || "Guest"}`)
+        );
+
+        info.appendChild(text("span", "", photo.event));
+        card.appendChild(info);
+
+        card.addEventListener("click", () => showViewer(index));
+        card.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            showViewer(index);
+          }
+        });
+
+        carousel.appendChild(card);
+      });
+    }
+
+    function renderGallery() {
+      const gallery = $("gallery");
+      const message = $("message");
+
+      gallery.replaceChildren();
+
+      if (!state.filtered.length) {
+        message.classList.remove("hidden");
+        message.textContent = state.loaded
+          ? "No approved photos here yet. Be the first to share a moment!"
+          : "Loading wedding memories...";
+        return;
+      }
+
+      message.classList.add("hidden");
+
+      state.filtered.forEach((photo, index) => {
+        const tile = document.createElement("article");
+        tile.className = "tile";
+        tile.tabIndex = 0;
+        tile.setAttribute("role", "button");
+        tile.setAttribute("aria-label", "View wedding photo");
+
+        tile.appendChild(makeImage(photo));
+
+        const info = document.createElement("div");
+        info.className = "tile-info";
+
+        info.appendChild(
+          text("div", "credit", `Captured by ${photo.guestName || "Guest"}`)
+        );
+
+        info.appendChild(
+          text("div", "event-name", photo.event)
+        );
+
+        tile.appendChild(info);
+
+        tile.addEventListener("click", () => showViewer(index));
+        tile.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            showViewer(index);
+          }
+        });
+
+        gallery.appendChild(tile);
+      });
+    }
+
+    function render() {
+      state.filtered = state.photos.filter(photo =>
+        state.event === "all" || photo.event === state.event
+      );
+
+      renderCarousel();
+      renderGallery();
+    }
+
+    async function loadPhotos(silent = false) {
+      try {
+        const response = await fetch(API, {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Gallery request failed");
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data.photos)) {
+          throw new Error("Invalid gallery response");
+        }
+
+        const nextPhotos = data.photos.filter(photo =>
+          typeof photo.id === "string" &&
+          typeof photo.imageUrl === "string" &&
+          typeof photo.event === "string"
+        );
+
+        const previousIds = state.photos
+          .map(photo => `${photo.id}:${photo.event}`)
+          .join("|");
+
+        const nextIds = nextPhotos
+          .map(photo => `${photo.id}:${photo.event}`)
+          .join("|");
+
+        state.photos = nextPhotos;
+        state.loaded = true;
+
+        if (!silent || previousIds !== nextIds) {
+          render();
+        }
+      } catch (error) {
+        if (!silent) {
+          $("message").classList.remove("hidden");
+          $("message").textContent =
+            "We couldn't load the gallery right now. Please try again.";
+        }
+      }
+    }
+
+    document.querySelectorAll(".filter").forEach(button => {
+      button.addEventListener("click", () => {
+        state.event = button.dataset.event;
+
+        document.querySelectorAll(".filter").forEach(item => {
+          item.classList.toggle(
+            "active",
+            item === button
+          );
+        });
+
+        render();
+      });
+    });
+
+    function moveCarousel(direction) {
+      const carousel = $("carousel");
+      const firstSlide = carousel.querySelector(".slide");
+
+      if (!firstSlide) return;
+
+      const distance = firstSlide.getBoundingClientRect().width + 15;
+
+      carousel.scrollBy({
+        left: direction * distance,
+        behavior: "smooth"
+      });
+    }
+
+    $("previous").addEventListener("click", () => moveCarousel(-1));
+    $("next").addEventListener("click", () => moveCarousel(1));
+
+    $("closeViewer").addEventListener("click", () => {
+      $("lightbox").close();
+    });
+
+    $("viewerPrevious").addEventListener("click", () => moveViewer(-1));
+    $("viewerNext").addEventListener("click", () => moveViewer(1));
+
+    $("lightbox").addEventListener("click", event => {
+      if (event.target === $("lightbox")) {
+        $("lightbox").close();
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (!$("lightbox").open) return;
+
+      if (event.key === "ArrowLeft") moveViewer(-1);
+      if (event.key === "ArrowRight") moveViewer(1);
+    });
+
+    let touchStartX = null;
+
+    $("lightbox").addEventListener("touchstart", event => {
+      touchStartX = event.changedTouches[0]?.screenX ?? null;
+    }, { passive: true });
+
+    $("lightbox").addEventListener("touchend", event => {
+      if (touchStartX === null) return;
+
+      const endX = event.changedTouches[0]?.screenX;
+      if (endX === undefined) return;
+
+      const difference = endX - touchStartX;
+
+      if (Math.abs(difference) > 60) {
+        moveViewer(difference < 0 ? 1 : -1);
+      }
+
+      touchStartX = null;
+    }, { passive: true });
+
+    loadPhotos();
+
+    setInterval(() => {
+      if (document.visibilityState === "visible" && !$("lightbox").open) {
+        loadPhotos(true);
+      }
+    }, 30000);
+  </script>
+</body>
+</html>

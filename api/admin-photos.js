@@ -35,6 +35,7 @@ function redisSettings() {
 
 async function redis(command) {
   const { url, token } = redisSettings();
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -49,6 +50,7 @@ async function redis(command) {
 
   const data = await response.json();
   if (data.error) throw new Error("Redis command failed");
+
   return data.result;
 }
 
@@ -72,11 +74,14 @@ function makeSession() {
 
 function parseCookies(req) {
   const cookies = {};
+
   for (const entry of String(req.headers.cookie || "").split(";")) {
     const index = entry.indexOf("=");
     if (index < 0) continue;
+
     cookies[entry.slice(0, index).trim()] = entry.slice(index + 1).trim();
   }
+
   return cookies;
 }
 
@@ -120,8 +125,10 @@ function sameOrigin(req) {
 
 function ipAddress(req) {
   const forwarded = req.headers["x-forwarded-for"];
-  return String(Array.isArray(forwarded) ? forwarded[0] : forwarded || "unknown")
-    .split(",")[0].trim().slice(0, 100);
+
+  return String(
+    Array.isArray(forwarded) ? forwarded[0] : forwarded || "unknown"
+  ).split(",")[0].trim().slice(0, 100);
 }
 
 async function loginAllowed(req) {
@@ -129,7 +136,10 @@ async function loginAllowed(req) {
     .update(ipAddress(req)).digest("hex")}`;
 
   const attempts = Number(await redis(["INCR", key]));
-  if (attempts === 1) await redis(["EXPIRE", key, 900]);
+
+  if (attempts === 1) {
+    await redis(["EXPIRE", key, 900]);
+  }
 
   return attempts <= MAX_LOGIN_ATTEMPTS;
 }
@@ -138,6 +148,7 @@ function parseRecord(raw) {
   if (raw == null) return null;
 
   let value = raw;
+
   for (let i = 0; i < 2 && typeof value === "string"; i++) {
     try {
       value = JSON.parse(value);
@@ -151,7 +162,10 @@ function parseRecord(raw) {
   if (!EVENTS.has(value.event)) return null;
   if (!STATUSES.has(value.status)) return null;
   if (typeof value.pathname !== "string") return null;
-  if (!value.pathname.startsWith(`wedding-pov/${value.event}/`)) return null;
+
+  if (!value.pathname.startsWith(`wedding-pov/${value.event}/`)) {
+    return null;
+  }
 
   return value;
 }
@@ -162,6 +176,7 @@ function recordKey(id) {
 
 async function readRecord(id) {
   if (!ID_PATTERN.test(String(id || ""))) return null;
+
   return parseRecord(await redis(["GET", recordKey(id)]));
 }
 
@@ -180,6 +195,7 @@ async function listRecords() {
     }
 
     cursor = String(result[0]);
+
     for (const key of result[1] || []) {
       if (keys.length < 1000) keys.push(key);
     }
@@ -196,12 +212,14 @@ async function listRecords() {
 
     for (const raw of values || []) {
       const record = parseRecord(raw);
+
       if (record) {
         photos.push({
           uploadId: record.uploadId,
           event: record.event,
           guestName: String(record.guestName || "Guest").slice(0, 60),
           status: record.status,
+          featured: record.status === "approved" && record.featured === true,
           uploadedAt: record.uploadedAt || null
         });
       }
@@ -218,20 +236,20 @@ async function listRecords() {
   };
 }
 
-function validStatusTransition(status) {
-  return STATUSES.has(status);
-}
-
 export default async function handler(req, res) {
   if (!configured()) {
-    return respond(res, 503, { error: "Admin service is not configured." });
+    return respond(res, 503, {
+      error: "Admin service is not configured."
+    });
   }
 
   const action = String(req.query.action || "");
 
   if (req.method === "POST") {
     if (!sameOrigin(req)) {
-      return respond(res, 403, { error: "Request origin not allowed." });
+      return respond(res, 403, {
+        error: "Request origin not allowed."
+      });
     }
 
     if (!String(req.headers["content-type"] || "")
@@ -249,9 +267,12 @@ export default async function handler(req, res) {
       }
 
       const supplied = req.body?.password;
-      if (typeof supplied !== "string" ||
-          supplied.length > 512 ||
-          !secureCompare(supplied, process.env.WEDDING_ADMIN_PASSWORD)) {
+
+      if (
+        typeof supplied !== "string" ||
+        supplied.length > 512 ||
+        !secureCompare(supplied, process.env.WEDDING_ADMIN_PASSWORD)
+      ) {
         return respond(res, 401, { error: "Incorrect password." });
       }
 
@@ -290,7 +311,10 @@ export default async function handler(req, res) {
         return respond(res, 404, { error: "Image unavailable." });
       }
 
-      const type = String(result.blob?.contentType || "application/octet-stream");
+      const type = String(
+        result.blob?.contentType || "application/octet-stream"
+      );
+
       const safeType = [
         "image/jpeg", "image/png", "image/webp",
         "image/heic", "image/heif"
@@ -299,8 +323,12 @@ export default async function handler(req, res) {
       res.setHeader("Content-Type", safeType);
       res.setHeader("Cache-Control", "private, no-store");
       res.setHeader("X-Content-Type-Options", "nosniff");
-      res.setHeader("Content-Security-Policy", "default-src 'none'; sandbox");
+      res.setHeader(
+        "Content-Security-Policy",
+        "default-src 'none'; sandbox"
+      );
       res.setHeader("Content-Disposition", "inline");
+
       return Readable.fromWeb(result.stream).pipe(res);
     }
 
@@ -308,11 +336,14 @@ export default async function handler(req, res) {
       const id = String(req.body?.id || "");
       const status = String(req.body?.status || "");
 
-      if (!ID_PATTERN.test(id) || !validStatusTransition(status)) {
-        return respond(res, 400, { error: "Invalid moderation request." });
+      if (!ID_PATTERN.test(id) || !STATUSES.has(status)) {
+        return respond(res, 400, {
+          error: "Invalid moderation request."
+        });
       }
 
       const record = await readRecord(id);
+
       if (!record) {
         return respond(res, 404, { error: "Photo not found." });
       }
@@ -320,6 +351,7 @@ export default async function handler(req, res) {
       const updated = {
         ...record,
         status,
+        featured: status === "approved" && record.featured === true,
         reviewedAt: new Date().toISOString()
       };
 
@@ -328,13 +360,55 @@ export default async function handler(req, res) {
       return respond(res, 200, {
         ok: true,
         id,
-        status
+        status,
+        featured: updated.featured
       });
     }
 
-    return respond(res, 405, { error: "Unsupported request." });
+    // NEW: Feature or unfeature an approved photo.
+    if (req.method === "POST" && action === "feature") {
+      const id = String(req.body?.id || "");
+      const featured = req.body?.featured;
+
+      if (!ID_PATTERN.test(id) || typeof featured !== "boolean") {
+        return respond(res, 400, {
+          error: "Invalid featured photo request."
+        });
+      }
+
+      const record = await readRecord(id);
+
+      if (!record) {
+        return respond(res, 404, { error: "Photo not found." });
+      }
+
+      if (record.status !== "approved") {
+        return respond(res, 400, {
+          error: "Only approved photos can be featured."
+        });
+      }
+
+      const updated = {
+        ...record,
+        featured,
+        featuredAt: featured ? new Date().toISOString() : null
+      };
+
+      await redis(["SET", recordKey(id), JSON.stringify(updated)]);
+
+      return respond(res, 200, {
+        ok: true,
+        id,
+        featured
+      });
+    }
+
+    return respond(res, 405, {
+      error: "Unsupported request."
+    });
   } catch (error) {
     console.error("Admin photo API failure:", error?.message);
+
     return respond(res, 500, {
       error: "The request could not be completed. Check Vercel logs."
     });

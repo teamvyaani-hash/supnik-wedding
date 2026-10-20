@@ -3,7 +3,7 @@
   "name": "supnik-wedding",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
+  "description": "Nikhil and Supriya wedding website and private guest photo uploads",
   "dependencies": {
     "@vercel/blob": "^2.0.0"
   }

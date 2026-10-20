@@ -2,720 +2,814 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#211b20">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#211b20">
+<title>Reception Mode | Nikhil & Supriya</title>
 
-  <title>Reception Mode | Nikhil & Supriya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#211b20;
+  --panel:#352833;
+  --panel2:#2b222b;
+  --gold:#e4b78c;
+  --cream:#fff5e9;
+  --muted:#cbb8c2;
+  --border:rgba(255,245,233,.17);
+}
 
-  <style>
-    :root {
-      --bg: #211b20;
-      --panel: #352833;
-      --gold: #e4b78c;
-      --cream: #fff5e9;
-      --muted: #cbb8c2;
-      --border: rgba(255,245,233,.17);
-    }
+* { box-sizing:border-box; }
 
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--cream);
+  font-family:Manrope,sans-serif;
+}
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--cream);
-      font-family: Manrope, sans-serif;
-    }
+button,input { font:inherit; }
+button { cursor:pointer; }
+[hidden] { display:none!important; }
 
-    button, input {
-      font: inherit;
-    }
+.shell {
+  width:min(100% - 30px,820px);
+  margin:auto;
+  padding:24px 0 70px;
+}
 
-    button {
-      cursor: pointer;
-    }
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  padding-bottom:20px;
+}
 
-    [hidden] {
-      display: none !important;
-    }
+.monogram {
+  font-family:Cinzel,serif;
+  font-size:20px;
+  letter-spacing:3px;
+  color:var(--gold);
+}
 
-    .shell {
-      width: min(100% - 30px, 820px);
-      margin: auto;
-      padding: 24px 0 70px;
-    }
+.topbar a {
+  color:var(--muted);
+  text-decoration:none;
+  font-size:12px;
+}
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 20px;
-    }
+.hero {
+  text-align:center;
+  padding:50px 10px 25px;
+}
 
-    .monogram {
-      font-family: Cinzel, serif;
-      color: var(--gold);
-      font-size: 20px;
-      letter-spacing: 3px;
-    }
+.eyebrow {
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:3px;
+  font-weight:800;
+  text-transform:uppercase;
+}
 
-    .topbar a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 12px;
-    }
+h1,h2,h3 {
+  font-family:Cinzel,serif;
+  font-weight:500;
+}
 
-    .hero {
-      text-align: center;
-      padding: 55px 12px 25px;
-    }
+h1 {
+  font-size:clamp(38px,9vw,65px);
+  line-height:1.15;
+  margin:18px 0;
+}
 
-    .eyebrow {
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 10px;
-      font-weight: 800;
-    }
+h2 { font-size:23px; }
 
-    h1, h2, h3 {
-      font-family: Cinzel, serif;
-      font-weight: 500;
-    }
+.hero p,.muted {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+}
 
-    h1 {
-      font-size: clamp(38px, 9vw, 65px);
-      line-height: 1.15;
-      margin: 18px 0;
-    }
+.panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:24px;
+  margin-top:20px;
+}
 
-    .hero p {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.9;
-    }
+.label {
+  color:var(--gold);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
 
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-      margin-top: 20px;
-    }
+.field {
+  display:block;
+  margin:20px 0;
+}
 
-    .label {
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 10px;
-      font-weight: 800;
-    }
+.field span {
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
 
-    .panel h2 {
-      font-size: 23px;
-      margin: 14px 0;
-    }
+.field input {
+  width:100%;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:var(--cream);
+}
 
-    .muted {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.8;
-    }
+.teams,.scoreboard,.cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
 
-    .field {
-      display: block;
-      margin-top: 20px;
-    }
+.team-choice {
+  padding:20px 8px;
+  border:1px solid var(--border);
+  background:var(--panel2);
+  color:var(--cream);
+  border-radius:15px;
+}
 
-    .field span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
+.team-choice strong {
+  display:block;
+  font-size:13px;
+  margin-bottom:8px;
+}
 
-    .field input {
-      width: 100%;
-      padding: 15px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,.2);
-      color: white;
-      outline-color: var(--gold);
-    }
+.team-choice span {
+  font-size:11px;
+  color:var(--muted);
+}
 
-    .teams {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin: 20px 0;
-    }
+.team-choice.selected {
+  border:2px solid var(--gold);
+  background:#554039;
+}
 
-    .team-choice {
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      background: rgba(0,0,0,.12);
-      color: var(--cream);
-      padding: 20px 12px;
-      text-align: center;
-    }
+.primary {
+  display:block;
+  width:100%;
+  padding:16px;
+  border:0;
+  border-radius:12px;
+  background:var(--gold);
+  color:var(--bg);
+  font-size:12px;
+  font-weight:800;
+  text-align:center;
+  text-decoration:none;
+  letter-spacing:1px;
+  margin-top:18px;
+}
 
-    .team-choice strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
+.primary:disabled {
+  opacity:.55;
+  cursor:wait;
+}
 
-    .team-choice span {
-      color: var(--muted);
-      font-size: 11px;
-    }
+.secondary {
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--cream);
+  background:transparent;
+  font-size:11px;
+}
 
-    .team-choice.selected {
-      background: rgba(228,183,140,.17);
-      border: 2px solid var(--gold);
-    }
+.welcome {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
 
-    .primary {
-      display: block;
-      width: 100%;
-      border: 0;
-      border-radius: 12px;
-      background: var(--gold);
-      color: #211b20;
-      padding: 16px;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
+.code {
+  margin-top:20px;
+  padding:20px;
+  background:var(--panel2);
+  border-radius:14px;
+  text-align:center;
+}
 
-    .welcome {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
+.code strong {
+  display:block;
+  color:var(--gold);
+  font-size:clamp(27px,7vw,38px);
+  letter-spacing:5px;
+  margin:10px 0;
+}
 
-    .small-button {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--cream);
-      padding: 10px 12px;
-      border-radius: 10px;
-      font-size: 11px;
-    }
+.scoreboard { margin-top:20px; }
 
-    .scoreboard {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 18px;
-    }
+.score-card {
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px 10px;
+  text-align:center;
+}
 
-    .score-card {
-      text-align: center;
-      background: rgba(0,0,0,.14);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px 10px;
-    }
+.score-card strong {
+  color:var(--gold);
+  font-size:13px;
+}
 
-    .score-card strong {
-      display: block;
-      font-size: 15px;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
+.score-card .score {
+  font-family:Cinzel,serif;
+  font-size:29px;
+  margin:12px 0;
+}
 
-    .score-card .score {
-      font-family: Cinzel, serif;
-      font-size: 26px;
-      margin: 12px 0;
-    }
+.score-card span {
+  color:var(--muted);
+  font-size:10px;
+}
 
-    .score-card span {
-      color: var(--muted);
-      font-size: 10px;
-    }
+.section-heading {
+  text-align:center;
+  margin:45px 0 22px;
+}
 
-    .section-heading {
-      text-align: center;
-      margin: 45px 0 22px;
-    }
+.card {
+  display:flex;
+  flex-direction:column;
+  min-height:210px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+}
 
-    .section-heading h2 {
-      font-size: 28px;
-      margin: 12px 0;
-    }
+.card-icon {
+  color:var(--gold);
+  font-size:27px;
+  margin-bottom:18px;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+.card h3 {
+  font-size:15px;
+  margin:0 0 12px;
+}
 
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 20px;
-      min-height: 210px;
-      display: flex;
-      flex-direction: column;
-    }
+.card p {
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+  flex:1;
+}
 
-    .card-icon {
-      color: var(--gold);
-      font-size: 28px;
-      margin-bottom: 18px;
-    }
+.card a,.coming-soon {
+  color:var(--gold);
+  font-size:11px;
+  font-weight:800;
+  text-decoration:none;
+}
 
-    .card h3 {
-      font-size: 15px;
-      margin: 0 0 12px;
-    }
+.coming-soon { opacity:.7; }
 
-    .card p {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.8;
-      flex: 1;
-    }
+.leader {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  padding:14px 0;
+  font-size:12px;
+}
 
-    .card a,
-    .card .coming-soon {
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 800;
-      text-decoration: none;
-    }
+.leader:last-child { border-bottom:0; }
 
-    .coming-soon {
-      opacity: .75;
-    }
+.leader small {
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+}
 
-    .leaderboard {
-      margin-top: 18px;
-      padding: 20px;
-      background: rgba(0,0,0,.14);
-      border-radius: 14px;
-      text-align: center;
-    }
+.leader strong {
+  color:var(--gold);
+  white-space:nowrap;
+}
 
-    .leaderboard p {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.8;
-    }
+.status {
+  font-size:12px;
+  color:var(--gold);
+  line-height:1.7;
+  margin-top:12px;
+}
 
-    footer {
-      margin-top: 50px;
-      border-top: 1px solid var(--border);
-      padding-top: 25px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: 2px;
-      line-height: 2;
-    }
+footer {
+  margin-top:50px;
+  padding-top:25px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:2px;
+  line-height:2;
+}
 
-    @media (max-width: 420px) {
-      .panel {
-        padding: 18px;
-      }
-
-      .card {
-        padding: 15px;
-      }
-
-      .card h3 {
-        font-size: 13px;
-      }
-
-      .team-choice {
-        padding: 16px 8px;
-      }
-    }
-  </style>
+@media(max-width:420px) {
+  .panel { padding:18px; }
+  .card { padding:15px; }
+  .card h3 { font-size:13px; }
+  .team-choice { padding:16px 8px; }
+}
+</style>
 </head>
 
 <body>
-  <main class="shell">
+<main class="shell">
 
-    <header class="topbar">
-      <div class="monogram">N × S</div>
-      <a href="./celebrate.html">← Wedding Pass</a>
-    </header>
+<header class="topbar">
+  <div class="monogram">N × S</div>
+  <a href="./celebrate.html">← Wedding Pass</a>
+</header>
 
-    <section class="hero">
-      <div class="eyebrow">
-        21 November 2026 · Chennai
-      </div>
+<section class="hero">
+  <div class="eyebrow">
+    21 November 2026 · Chennai
+  </div>
 
-      <h1>RECEPTION<br>MODE</h1>
+  <h1>RECEPTION<br>MODE</h1>
 
-      <p>
-        Two families. Two cities. One legendary night.
-        <br>
-        The party is better when everyone plays.
-      </p>
-    </section>
+  <p>
+    Two families. Two cities. One legendary night.
+    <br>
+    The party is better when everyone plays.
+  </p>
+</section>
 
-    <!-- GUEST REGISTRATION -->
+<!-- REGISTRATION -->
 
-    <section class="panel" id="registration">
-      <div class="label">Join the celebration</div>
+<section class="panel" id="registration" hidden>
+  <div class="label">Join the Celebration</div>
+  <h2>First, pick your side.</h2>
 
-      <h2>First, pick your side.</h2>
+  <p class="muted">
+    Choose the side of the wedding you're celebrating with.
+    You'll receive your personal guest code for Secret Missions.
+  </p>
 
-      <p class="muted">
-        Are you celebrating with the groom's side
-        or the bride's side? Choose your team
-        and join the fun.
-      </p>
+  <form id="joinForm">
+    <label class="field">
+      <span>Your name</span>
+      <input
+        id="guestName"
+        type="text"
+        minlength="2"
+        maxlength="30"
+        placeholder="What should we call you?"
+        autocomplete="name"
+        required
+      >
+    </label>
 
-      <form id="joinForm">
-        <label class="field">
-          <span>What should we call you?</span>
-          <input
-            id="guestName"
-            type="text"
-            maxlength="30"
-            placeholder="Your name"
-            autocomplete="name"
-            required
-          >
-        </label>
+    <div class="teams">
+      <button
+        type="button"
+        class="team-choice"
+        data-team="bangalore"
+        aria-pressed="false"
+      >
+        <strong>BANGALORE</strong>
+        <span>Groom's Side</span>
+      </button>
 
-        <div class="teams">
-          <button
-            type="button"
-            class="team-choice"
-            data-team="bangalore"
-            aria-pressed="false"
-          >
-            <strong>TEAM BANGALORE</strong>
-            <span>Groom's Side</span>
-          </button>
+      <button
+        type="button"
+        class="team-choice"
+        data-team="chennai"
+        aria-pressed="false"
+      >
+        <strong>CHENNAI</strong>
+        <span>Bride's Side</span>
+      </button>
+    </div>
 
-          <button
-            type="button"
-            class="team-choice"
-            data-team="chennai"
-            aria-pressed="false"
-          >
-            <strong>TEAM CHENNAI</strong>
-            <span>Bride's Side</span>
-          </button>
-        </div>
+    <p class="status" id="joinError" role="alert"></p>
 
-        <p class="muted" id="teamError" hidden>
-          Please select your team before continuing.
-        </p>
+    <button class="primary" id="joinButton" type="submit">
+      JOIN THE SHOWDOWN →
+    </button>
+  </form>
+</section>
 
-        <button type="submit" class="primary">
-          JOIN THE SHOWDOWN →
-        </button>
-      </form>
-    </section>
+<!-- REGISTERED PLAYER -->
 
-    <!-- RETURNING PLAYER -->
+<section class="panel" id="playerPanel" hidden>
+  <div class="welcome">
+    <div>
+      <div class="label">Your Reception Pass</div>
+      <h2 id="welcomeName">Welcome!</h2>
+      <p class="muted" id="welcomeTeam"></p>
+    </div>
 
-    <section class="panel" id="playerPanel" hidden>
-      <div class="welcome">
-        <div>
-          <div class="label">You're in!</div>
-          <h2 id="welcomeName">Welcome!</h2>
-          <p class="muted" id="welcomeTeam"></p>
-        </div>
+    <button class="secondary" id="changePlayer" type="button">
+      Switch Guest
+    </button>
+  </div>
 
-        <button class="small-button" id="changePlayer">
-          Change
-        </button>
-      </div>
-    </section>
+  <div class="code">
+    <div class="label">Your Secret Guest Code</div>
+    <strong id="playerCode">------</strong>
+    <p class="muted">
+      Exchange this code with other guests to verify missions.
+      Don't post it publicly.
+    </p>
+    <button class="secondary" id="copyCode" type="button">
+      COPY CODE
+    </button>
+  </div>
 
-    <!-- CITY SHOWDOWN -->
+  <p class="muted" style="text-align:center">
+    Your individual points:
+    <strong id="playerPoints" style="color:var(--gold)">0</strong>
+  </p>
 
-    <section class="panel">
-      <div class="label">The City Showdown</div>
+  <a class="primary" href="./missions.html">
+    CONTINUE MY MISSIONS →
+  </a>
+</section>
 
-      <h2>Bangalore vs. Chennai</h2>
+<!-- LIVE CITY SHOWDOWN -->
 
-      <p class="muted">
-        Every mission you complete will earn points
-        for you and your team.
-        Which side will claim the crown?
-      </p>
+<section class="panel">
+  <div class="label">The City Showdown</div>
+  <h2>Bangalore vs. Chennai</h2>
 
-      <div class="scoreboard">
-        <div class="score-card">
-          <strong>BANGALORE</strong>
-          <span>Groom's Side</span>
-          <div class="score">—</div>
-          <span>Awaiting live scores</span>
-        </div>
+  <p class="muted">
+    Complete missions to earn points for yourself
+    and your wedding team.
+  </p>
 
-        <div class="score-card">
-          <strong>CHENNAI</strong>
-          <span>Bride's Side</span>
-          <div class="score">—</div>
-          <span>Awaiting live scores</span>
-        </div>
-      </div>
+  <div class="scoreboard">
+    <div class="score-card">
+      <strong>BANGALORE</strong>
+      <div class="score" id="bangaloreScore">—</div>
+      <span>Groom's Side</span>
+    </div>
 
-      <p class="muted" style="text-align:center;margin:18px 0 0">
-        Complete Secret Missions to start earning points
-        for your team.
-      </p>
-    </section>
+    <div class="score-card">
+      <strong>CHENNAI</strong>
+      <div class="score" id="chennaiScore">—</div>
+      <span>Bride's Side</span>
+    </div>
+  </div>
 
-    <!-- ACTIVITIES -->
+  <p class="muted" style="text-align:center">
+    Total points earned by each team.
+  </p>
+  <p class="status" id="scoreStatus" role="status"></p>
+</section>
 
-    <section class="section-heading">
-      <div class="eyebrow">The Experience</div>
-      <h2>Choose Your Adventure</h2>
-      <p class="muted">
-        Capture moments, meet people, and make memories.
-      </p>
-    </section>
+<!-- ACTIVITIES -->
 
-    <section class="cards">
+<section class="section-heading">
+  <div class="eyebrow">The Experience</div>
+  <h2>Choose Your Adventure</h2>
+  <p class="muted">
+    Capture moments, meet people, and make memories.
+  </p>
+</section>
 
-      <article class="card">
-        <span class="card-icon">✳</span>
-        <h3>THROUGH YOUR EYES</h3>
-        <p>
-          Share the candid moments our photographer
-          might miss.
-        </p>
-        <a href="./pov.html">
-          SHARE YOUR POV →
-        </a>
-      </article>
+<section class="cards">
 
-      <article class="card">
-        <span class="card-icon">♡</span>
-        <h3>THE WEDDING WALL</h3>
-        <p>
-          Relive the celebration through photos
-          shared by our guests.
-        </p>
-        <a href="./wall.html">
-          VIEW MOMENTS →
-        </a>
-      </article>
+  <article class="card">
+    <span class="card-icon">✳</span>
+    <h3>THROUGH YOUR EYES</h3>
+    <p>
+      Share the candid moments our photographer might miss.
+    </p>
+    <a href="./pov.html">
+      SHARE YOUR POV →
+    </a>
+  </article>
 
-      <article class="card">
-        <span class="card-icon">◉</span>
-        <h3>SECRET MISSIONS</h3>
-        <p>
-          Meet strangers, make friends, exchange guest
-          codes and earn points for your city.
-        </p>
-        <a href="./missions.html">
-          START YOUR MISSIONS →
-        </a>
-      </article>
+  <article class="card">
+    <span class="card-icon">♡</span>
+    <h3>THE WEDDING WALL</h3>
+    <p>
+      Relive the celebration through photos shared by guests.
+    </p>
+    <a href="./wall.html">
+      VIEW MOMENTS →
+    </a>
+  </article>
 
-      <article class="card">
-        <span class="card-icon">✦</span>
-        <h3>THE CITY FINAL</h3>
-        <p>
-          Bangalore versus Chennai.
-          The ultimate showdown for the city crown.
-        </p>
-        <span class="coming-soon">
-          COMING SOON
-        </span>
-      </article>
+  <article class="card">
+    <span class="card-icon">◉</span>
+    <h3>SECRET MISSIONS</h3>
+    <p>
+      Meet strangers, exchange guest codes, and earn points.
+    </p>
+    <a href="./missions.html">
+      START YOUR MISSIONS →
+    </a>
+  </article>
 
-    </section>
+  <article class="card">
+    <span class="card-icon">✦</span>
+    <h3>THE CITY FINAL</h3>
+    <p>
+      Bangalore versus Chennai. One city takes the crown.
+    </p>
+    <span class="coming-soon">
+      COMING SOON
+    </span>
+  </article>
 
-    <!-- INDIVIDUAL LEADERBOARD -->
+</section>
 
-    <section class="panel">
-      <div class="label">Hall of Fame</div>
-      <h2>Individual Leaderboard</h2>
+<!-- INDIVIDUAL LEADERBOARD -->
 
-      <p class="muted">
-        Every legend starts somewhere.
-        Complete missions to climb the rankings.
-      </p>
+<section class="panel">
+  <div class="label">Hall of Fame</div>
+  <h2>Individual Leaderboard</h2>
 
-      <div class="leaderboard">
-        <div class="card-icon">✦</div>
-        <p>
-          Your live individual leaderboard is available
-          inside Secret Missions.
-        </p>
-        <a href="./missions.html"
-           style="color:var(--gold);font-size:12px;font-weight:800;text-decoration:none">
-          VIEW LEADERBOARD →
-        </a>
-      </div>
-    </section>
+  <p class="muted">
+    The guests earning the most points across Secret Missions.
+  </p>
 
-    <footer>
-      NIKHIL × SUPRIYA
-      <br>
-      21 NOVEMBER 2026
-      <br>
-      MGM BEACH RESORT · CHENNAI
-    </footer>
+  <div id="leaderboard">
+    <p class="muted">Loading rankings...</p>
+  </div>
+</section>
 
-  </main>
+<footer>
+  NIKHIL × SUPRIYA
+  <br>
+  21 NOVEMBER 2026
+  <br>
+  MGM BEACH RESORT · CHENNAI
+</footer>
 
-  <script>
-    (() => {
-      const STORAGE_KEY = "nsReceptionPlayer";
+</main>
 
-      const registration =
-        document.getElementById("registration");
+<script>
+(() => {
+  const API = "/api/reception";
+  const TOKEN_KEY = "nsReceptionToken";
+  const OLD_KEY = "nsReceptionPlayer";
 
-      const playerPanel =
-        document.getElementById("playerPanel");
+  const $ = id => document.getElementById(id);
 
-      const guestNameInput =
-        document.getElementById("guestName");
+  let token = localStorage.getItem(TOKEN_KEY) || "";
+  let selectedTeam = "";
 
-      const teamError =
-        document.getElementById("teamError");
+  async function request(action, data = {}) {
+    const response = await fetch(API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action,
+        token,
+        ...data
+      })
+    });
 
-      const teamButtons =
-        document.querySelectorAll("[data-team]");
+    const raw = await response.text();
+    let result;
 
-      let selectedTeam = null;
+    try {
+      result = JSON.parse(raw);
+    } catch {
+      throw new Error(
+        "The reception server returned an invalid response."
+      );
+    }
 
-      function readPlayer() {
-        try {
-          const saved = localStorage.getItem(STORAGE_KEY);
-          if (!saved) return null;
+    if (!response.ok) {
+      throw new Error(
+        result.error || "The request failed."
+      );
+    }
 
-          const player = JSON.parse(saved);
+    return result;
+  }
 
-          if (
-            typeof player.name !== "string" ||
-            !player.name.trim() ||
-            !["bangalore", "chennai"].includes(player.team)
-          ) {
-            return null;
-          }
+  function showRegistration() {
+    $("registration").hidden = false;
+    $("playerPanel").hidden = true;
+  }
 
-          return player;
-        } catch {
-          return null;
-        }
-      }
+  function showPlayer(player) {
+    $("registration").hidden = true;
+    $("playerPanel").hidden = false;
 
-      function savePlayer(player) {
-        try {
-          localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(player)
-          );
-        } catch {
-          // Registration remains usable for this session.
-        }
-      }
+    $("welcomeName").textContent =
+      "Hey, " + player.name + "!";
 
-      function clearPlayer() {
-        try {
-          localStorage.removeItem(STORAGE_KEY);
-        } catch {
-          // Continue without browser storage.
-        }
-      }
+    $("welcomeTeam").textContent =
+      player.team === "bangalore"
+        ? "Team Bangalore · Groom's Side"
+        : "Team Chennai · Bride's Side";
 
-      function displayPlayer(player) {
-        registration.hidden = true;
-        playerPanel.hidden = false;
+    $("playerCode").textContent = player.code;
+    $("playerPoints").textContent = player.points;
+  }
 
-        document.getElementById("welcomeName")
-          .textContent = `Hey, ${player.name}!`;
+  function renderLeaderboard(data) {
+    if (!data) return;
 
-        const teamName =
-          player.team === "bangalore"
-            ? "Team Bangalore · Groom's Side"
-            : "Team Chennai · Bride's Side";
+    $("bangaloreScore").textContent =
+      Number(data.teams.bangalore || 0).toLocaleString();
 
-        document.getElementById("welcomeTeam")
-          .textContent = `You're representing ${teamName}.`;
-      }
+    $("chennaiScore").textContent =
+      Number(data.teams.chennai || 0).toLocaleString();
 
-      function displayRegistration() {
-        playerPanel.hidden = true;
-        registration.hidden = false;
-      }
+    $("scoreStatus").textContent = "";
 
-      teamButtons.forEach(button => {
-        button.addEventListener("click", () => {
-          selectedTeam = button.dataset.team;
-          teamError.hidden = true;
+    const container = $("leaderboard");
+    container.replaceChildren();
 
-          teamButtons.forEach(item => {
+    if (!data.players.length) {
+      const empty = document.createElement("p");
+      empty.className = "muted";
+      empty.textContent =
+        "No points earned yet. Be the first!";
+      container.append(empty);
+      return;
+    }
+
+    data.players.forEach((player, index) => {
+      const line = document.createElement("div");
+      line.className = "leader";
+
+      const details = document.createElement("div");
+
+      const name = document.createElement("span");
+      name.textContent =
+        `${index + 1}. ${player.name}`;
+
+      const team = document.createElement("small");
+      team.textContent =
+        player.team === "bangalore"
+          ? "Team Bangalore"
+          : "Team Chennai";
+
+      const points = document.createElement("strong");
+      points.textContent = `${player.points} pts`;
+
+      details.append(name, team);
+      line.append(details, points);
+      container.append(line);
+    });
+  }
+
+  async function refresh() {
+    if (!token) {
+      showRegistration();
+      return;
+    }
+
+    const result = await request("state");
+
+    showPlayer(result.player);
+    renderLeaderboard(result.leaderboard);
+  }
+
+  document.querySelectorAll("[data-team]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        selectedTeam = button.dataset.team;
+
+        document.querySelectorAll("[data-team]")
+          .forEach(item => {
             const active = item === button;
+
             item.classList.toggle("selected", active);
-            item.setAttribute("aria-pressed", String(active));
+            item.setAttribute(
+              "aria-pressed",
+              String(active)
+            );
           });
-        });
+
+        $("joinError").textContent = "";
+      });
+    });
+
+  $("joinForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const name = $("guestName").value.trim();
+
+    if (!selectedTeam) {
+      $("joinError").textContent =
+        "Please choose Bangalore or Chennai.";
+      return;
+    }
+
+    const button = $("joinButton");
+    button.disabled = true;
+    $("joinError").textContent = "";
+
+    try {
+      const result = await request("join", {
+        name,
+        team: selectedTeam
       });
 
-      document.getElementById("joinForm")
-        .addEventListener("submit", event => {
-          event.preventDefault();
+      token = result.token;
 
-          const name = guestNameInput.value.trim();
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.removeItem(OLD_KEY);
 
-          if (!name) {
-            guestNameInput.focus();
-            return;
-          }
+      await refresh();
 
-          if (!selectedTeam) {
-            teamError.hidden = false;
-            return;
-          }
+    } catch (error) {
+      $("joinError").textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
 
-          const player = {
-            name,
-            team: selectedTeam
-          };
+  $("changePlayer").addEventListener("click", () => {
+    const confirmed = confirm(
+      "Switch to another guest on this device? " +
+      "Your current player's points will remain on the server."
+    );
 
-          savePlayer(player);
-          displayPlayer(player);
-        });
+    if (!confirmed) return;
 
-      document.getElementById("changePlayer")
-        .addEventListener("click", () => {
-          clearPlayer();
-          selectedTeam = null;
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(OLD_KEY);
 
-          teamButtons.forEach(button => {
-            button.classList.remove("selected");
-            button.setAttribute("aria-pressed", "false");
-          });
+    token = "";
+    selectedTeam = "";
 
-          guestNameInput.value = "";
-          displayRegistration();
-        });
+    $("guestName").value = "";
 
-      const existingPlayer = readPlayer();
+    document.querySelectorAll("[data-team]")
+      .forEach(button => {
+        button.classList.remove("selected");
+        button.setAttribute("aria-pressed", "false");
+      });
 
-      if (existingPlayer) {
-        displayPlayer(existingPlayer);
+    showRegistration();
+  });
+
+  $("copyCode").addEventListener("click", async () => {
+    const code = $("playerCode").textContent;
+
+    try {
+      await navigator.clipboard.writeText(code);
+      $("copyCode").textContent = "COPIED!";
+    } catch {
+      $("copyCode").textContent =
+        "SELECT CODE ABOVE TO COPY";
+    }
+  });
+
+  async function initialize() {
+    if (!token) {
+      showRegistration();
+      return;
+    }
+
+    try {
+      await refresh();
+    } catch (error) {
+      if (error.message.includes("Player not found")) {
+        localStorage.removeItem(TOKEN_KEY);
+        token = "";
+        showRegistration();
       } else {
-        displayRegistration();
+        $("scoreStatus").textContent = error.message;
+        showRegistration();
       }
-    })();
-  </script>
+    }
+  }
+
+  initialize();
+
+  setInterval(() => {
+    if (
+      token &&
+      document.visibilityState === "visible"
+    ) {
+      refresh().catch(error => {
+        $("scoreStatus").textContent = error.message;
+      });
+    }
+  }, 30000);
+})();
+</script>
 </body>
 </html>

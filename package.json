@@ -6,6 +6,7 @@
   "type": "module",
   "description": "Nikhil and Supriya wedding website",
   "dependencies": {
-    "@vercel/blob": "^2.3.0"
+    "@vercel/blob": "^2.3.0",
+    "@upstash/redis": "^1.35.0"
   }
 }

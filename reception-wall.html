@@ -176,6 +176,8 @@ button:disabled {opacity:.55}
     <label for="guestName">Your name</label>
     <input
       id="guestName"
+      type="text"
+      autocomplete="name"
       required
       minlength="2"
       maxlength="35"
@@ -237,6 +239,7 @@ button:disabled {opacity:.55}
 <script>
 (() => {
   const API = "/api/reception-wall";
+  const NAME_KEY = "nsGuestName";
   const $ = id => document.getElementById(id);
 
   const labels = {
@@ -245,6 +248,34 @@ button:disabled {opacity:.55}
     funny: "Funny Observations",
     memory: "A Favourite Memory"
   };
+
+  function readSavedName() {
+    try {
+      return localStorage.getItem(NAME_KEY) || "";
+    } catch {
+      return "";
+    }
+  }
+
+  function saveGuestName(name) {
+    const cleanName = String(name || "").trim();
+
+    if (!cleanName) return;
+
+    try {
+      localStorage.setItem(NAME_KEY, cleanName);
+    } catch {
+      // Continue normally if browser storage is unavailable.
+    }
+  }
+
+  function prefillGuestName() {
+    const savedName = readSavedName().trim();
+
+    if (savedName && !$("guestName").value.trim()) {
+      $("guestName").value = savedName.slice(0, 35);
+    }
+  }
 
   async function request(data) {
     const response = await fetch(API, {
@@ -283,6 +314,8 @@ button:disabled {opacity:.55}
         empty.textContent =
           "No approved messages yet. Be the first to leave one!";
         wall.append(empty);
+
+        $("wallStatus").textContent = "";
         return;
       }
 
@@ -318,24 +351,39 @@ button:disabled {opacity:.55}
     button.disabled = true;
     $("submitStatus").textContent = "";
 
+    const submittedName = $("guestName").value.trim();
+
     try {
       const result = await request({
         action: "submit",
-        name: $("guestName").value.trim(),
+        name: submittedName,
         category: $("category").value,
         message: $("message").value.trim(),
         website: $("website").value
       });
 
+      // Remember the name only after a successful submission.
+      saveGuestName(submittedName);
+
       $("submitStatus").textContent =
         result.message || "Submitted for approval.";
 
+      // Clear the message, but retain the guest's name.
       $("message").value = "";
     } catch (error) {
       $("submitStatus").textContent = error.message;
     } finally {
       button.disabled = false;
     }
+  });
+
+  // Reuse the name entered in Reception Mode or photo uploads.
+  prefillGuestName();
+
+  // Refresh the prefill when returning from another page,
+  // without overwriting a name the guest is currently editing.
+  window.addEventListener("pageshow", () => {
+    prefillGuestName();
   });
 
   loadWall();

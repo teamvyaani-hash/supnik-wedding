@@ -259,6 +259,8 @@ footer {
 
   <p class="muted">
     Enter your name to receive a personal guest code.
+    If you've already shared a photo, we've remembered
+    your name for you.
     No teams, no pressure — just fun challenges
     and a little friendly competition.
   </p>
@@ -409,9 +411,50 @@ footer {
 (() => {
   const API = "/api/reception";
   const KEY = "nsReceptionToken";
+  const NAME_KEY = "nsGuestName";
   const $ = id => document.getElementById(id);
 
-  let token = localStorage.getItem(KEY) || "";
+  function readStorage(key) {
+    try {
+      return localStorage.getItem(key) || "";
+    } catch {
+      return "";
+    }
+  }
+
+  function writeStorage(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      // Storage may be unavailable in private browsing.
+    }
+  }
+
+  function removeStorage(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // Keep the page usable even if storage is unavailable.
+    }
+  }
+
+  function rememberName(name) {
+    const cleanName = String(name || "").trim();
+
+    if (cleanName) {
+      writeStorage(NAME_KEY, cleanName);
+    }
+  }
+
+  function prefillName() {
+    const savedName = readStorage(NAME_KEY).trim();
+
+    if (savedName && !$("guestName").value.trim()) {
+      $("guestName").value = savedName.slice(0, 30);
+    }
+  }
+
+  let token = readStorage(KEY);
   let currentPlayer = null;
 
   async function request(action, data = {}) {
@@ -441,9 +484,13 @@ footer {
     return result;
   }
 
-  function showRegistration() {
+  function showRegistration(options = {}) {
     $("registration").hidden = false;
     $("playerPanel").hidden = true;
+
+    if (!options.skipPrefill) {
+      prefillName();
+    }
   }
 
   function showPlayer(player) {
@@ -457,6 +504,10 @@ footer {
 
     $("playerCode").textContent = player.code;
     $("playerPoints").textContent = player.points;
+
+    // The authenticated reception identity takes priority
+    // over any name previously entered on another page.
+    rememberName(player.name);
   }
 
   function renderLeaderboard(data) {
@@ -513,13 +564,18 @@ footer {
     button.disabled = true;
     $("joinError").textContent = "";
 
+    const submittedName = $("guestName").value.trim();
+
     try {
       const result = await request("join", {
-        name: $("guestName").value.trim()
+        name: submittedName
       });
 
       token = result.token;
-      localStorage.setItem(KEY, token);
+      writeStorage(KEY, token);
+
+      // Only save the name after registration succeeds.
+      rememberName(submittedName);
 
       await refresh();
     } catch (error) {
@@ -534,14 +590,18 @@ footer {
       "Switch guest? Your existing points remain saved."
     )) return;
 
-    localStorage.removeItem(KEY);
-    localStorage.removeItem("nsReceptionPlayer");
+    removeStorage(KEY);
+    removeStorage("nsReceptionPlayer");
+
+    // Clear the shared name on this device so the next
+    // guest doesn't accidentally submit under the old name.
+    removeStorage(NAME_KEY);
 
     token = "";
     currentPlayer = null;
     $("guestName").value = "";
 
-    showRegistration();
+    showRegistration({ skipPrefill: true });
   });
 
   $("copyCode").addEventListener("click", async () => {
@@ -557,6 +617,8 @@ footer {
   });
 
   async function initialize() {
+    prefillName();
+
     if (!token) {
       showRegistration();
       return;
@@ -568,7 +630,7 @@ footer {
       $("scoreStatus").textContent = error.message;
 
       if (error.message.includes("Player not found")) {
-        localStorage.removeItem(KEY);
+        removeStorage(KEY);
         token = "";
       }
 

@@ -2,618 +2,745 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Photo Moderation | Nikhil & Supriya</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #101015;
-      --panel: #1b1a21;
-      --line: #38333b;
-      --gold: #e9c993;
-      --muted: #b7adb5;
-      --text: #fff8f0;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.5;
-    }
-
-    header {
-      border-bottom: 1px solid var(--line);
-      padding: 25px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      font-family: Georgia, serif;
-      color: var(--gold);
-      font-size: 23px;
-    }
-
-    .eyebrow {
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-    }
-
-    main {
-      width: min(1200px, 92%);
-      margin: 45px auto 80px;
-    }
-
-    h1 {
-      font-family: Georgia, serif;
-      font-weight: normal;
-      font-size: clamp(32px, 5vw, 50px);
-      margin: 8px 0;
-    }
-
-    p { color: var(--muted); }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 25px;
-    }
-
-    .login {
-      max-width: 430px;
-      margin: 80px auto;
-    }
-
-    input, select, button {
-      font: inherit;
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-
-    input, select {
-      background: #121116;
-      color: white;
-      border: 1px solid var(--line);
-    }
-
-    input { width: 100%; }
-
-    button {
-      cursor: pointer;
-      border: 1px solid var(--line);
-      background: #302a30;
-      color: white;
-    }
-
-    button.primary {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: #171218;
-      font-weight: 700;
-    }
-
-    button.approve {
-      background: #214b36;
-      border-color: #3d815a;
-    }
-
-    button.reject {
-      background: #582c37;
-      border-color: #a64d62;
-    }
-
-    button.feature {
-      background: #5c4722;
-      border-color: #b89048;
-      color: #ffe3a5;
-    }
-
-    button.unfeature {
-      background: #39323c;
-      border-color: #77647b;
-    }
-
-    button:disabled {
-      opacity: .5;
-      cursor: wait;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 25px 0;
-    }
-
-    .stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin: 25px 0;
-    }
-
-    .stat {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px 20px;
-      min-width: 110px;
-    }
-
-    .stat strong {
-      display: block;
-      color: var(--gold);
-      font-size: 25px;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-      gap: 20px;
-    }
-
-    .photo {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .photo img {
-      width: 100%;
-      height: 260px;
-      object-fit: contain;
-      background: #09090c;
-      display: block;
-    }
-
-    .details { padding: 16px; }
-
-    .guest {
-      font-size: 17px;
-      font-weight: 700;
-      overflow-wrap: anywhere;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    .status {
-      display: inline-block;
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      padding: 4px 10px;
-      font-size: 12px;
-      margin-top: 10px;
-      text-transform: capitalize;
-    }
-
-    .featured-label {
-      display: inline-block;
-      color: var(--gold);
-      border: 1px solid #8c6d3d;
-      border-radius: 30px;
-      padding: 4px 10px;
-      margin: 10px 0 0 7px;
-      font-size: 12px;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .actions button {
-      flex: 1 1 90px;
-      font-size: 13px;
-      padding: 10px 8px;
-    }
-
-    .message {
-      margin: 14px 0;
-      color: var(--gold);
-      min-height: 22px;
-    }
-
-    .hidden { display: none !important; }
-
-    .empty {
-      text-align: center;
-      padding: 50px 20px;
-      color: var(--muted);
-      border: 1px dashed var(--line);
-      border-radius: 16px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Wedding Admin | Nikhil & Supriya</title>
+<style>
+:root {
+  color-scheme:dark;
+  --bg:#101015;
+  --panel:#1b1a21;
+  --line:#38333b;
+  --gold:#e9c993;
+  --muted:#b7adb5;
+  --text:#fff8f0;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,sans-serif;
+  line-height:1.5;
+}
+header {
+  border-bottom:1px solid var(--line);
+  padding:24px 5%;
+  display:flex;align-items:center;
+  justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.brand {font:23px Georgia,serif;color:var(--gold)}
+.eyebrow {
+  color:var(--muted);font-size:11px;
+  text-transform:uppercase;letter-spacing:3px;
+}
+main {width:min(1200px,92%);margin:35px auto 80px}
+h1 {
+  font:normal clamp(30px,5vw,48px) Georgia,serif;
+  margin:8px 0;
+}
+p {color:var(--muted)}
+.panel,.item {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+}
+.panel {padding:24px}
+.login {max-width:430px;margin:70px auto}
+input,select,button {
+  font:inherit;border-radius:10px;padding:12px 14px;
+}
+input,select {
+  background:#121116;color:white;border:1px solid var(--line);
+}
+input {width:100%}
+button {
+  cursor:pointer;background:#302a30;
+  border:1px solid var(--line);color:white;
+}
+button:disabled {opacity:.5;cursor:wait}
+.primary {
+  background:var(--gold);border-color:var(--gold);
+  color:#171218;font-weight:700;
+}
+.approve {background:#214b36;border-color:#3d815a}
+.reject {background:#582c37;border-color:#a64d62}
+.feature {
+  background:#5c4722;border-color:#b89048;color:#ffe3a5;
+}
+.unfeature {background:#39323c;border-color:#77647b}
+.hidden {display:none!important}
+.message {
+  color:var(--gold);min-height:22px;
+  margin:14px 0;overflow-wrap:anywhere;
+}
+.tabs {
+  display:flex;gap:10px;
+  margin:26px 0 22px;
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+}
+.tab {
+  flex:1;max-width:230px;
+  font-weight:700;
+}
+.tab.active {
+  background:var(--gold);color:#171218;
+  border-color:var(--gold);
+}
+.stats {
+  display:flex;flex-wrap:wrap;
+  gap:12px;margin:22px 0;
+}
+.stat {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;padding:14px 20px;
+  min-width:110px;
+}
+.stat strong {
+  display:block;color:var(--gold);font-size:25px;
+}
+.stat span {color:var(--muted);font-size:12px}
+.toolbar {
+  display:flex;flex-wrap:wrap;
+  gap:12px;margin:24px 0;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(245px,1fr));
+  gap:20px;
+}
+.item {overflow:hidden}
+.item img {
+  width:100%;height:260px;object-fit:contain;
+  background:#09090c;display:block;
+}
+.details {padding:16px}
+.guest {
+  font-size:17px;font-weight:700;
+  overflow-wrap:anywhere;
+}
+.meta {
+  color:var(--muted);font-size:13px;margin-top:5px;
+}
+.status,.featured-label {
+  display:inline-block;border:1px solid var(--line);
+  border-radius:30px;padding:4px 10px;
+  font-size:12px;margin-top:10px;
+  text-transform:capitalize;
+}
+.featured-label {
+  color:var(--gold);border-color:#8c6d3d;
+  margin-left:7px;
+}
+.actions {
+  display:flex;flex-wrap:wrap;
+  gap:8px;margin-top:15px;
+}
+.actions button {
+  flex:1 1 90px;font-size:13px;padding:10px 8px;
+}
+.empty {
+  text-align:center;padding:45px 20px;
+  color:var(--muted);border:1px dashed var(--line);
+  border-radius:16px;
+}
+.message-grid {
+  display:grid;grid-template-columns:repeat(
+    auto-fill,minmax(min(100%,340px),1fr)
+  );gap:16px;
+}
+.wish {
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  color:var(--text);line-height:1.75;
+}
+@media(max-width:500px) {
+  .tabs .tab {font-size:14px;padding:12px 8px}
+  .toolbar select,.toolbar button {flex:1}
+  .stat {flex:1}
+}
+</style>
 </head>
 <body>
-  <header>
-    <div>
-      <div class="eyebrow">The Wedding Pass</div>
-      <div class="brand">Nikhil & Supriya</div>
+<header>
+  <div>
+    <div class="eyebrow">The Wedding Pass</div>
+    <div class="brand">Nikhil &amp; Supriya</div>
+  </div>
+  <button id="logout" class="hidden">Sign out</button>
+</header>
+
+<main>
+<section id="loginPanel" class="panel login">
+  <div class="eyebrow">Private administration</div>
+  <h1>Wedding Admin</h1>
+  <p>Manage guest photos and Reception Wall messages in one place.</p>
+  <form id="loginForm">
+    <label for="password">Admin password</label>
+    <input id="password" type="password"
+      autocomplete="current-password" required
+      style="margin:10px 0 15px">
+    <button class="primary" type="submit" style="width:100%">
+      Unlock dashboard
+    </button>
+  </form>
+  <div id="loginMessage" class="message" role="status"></div>
+</section>
+
+<section id="dashboard" class="hidden">
+  <div class="eyebrow">Private wedding control</div>
+  <h1>Wedding Dashboard</h1>
+  <p>Review and approve what guests share with us.</p>
+
+  <nav class="tabs" aria-label="Admin sections">
+    <button id="photosTab" class="tab active"
+      type="button" aria-selected="true">
+      Photos
+    </button>
+    <button id="messagesTab" class="tab"
+      type="button" aria-selected="false">
+      Guest Messages
+    </button>
+  </nav>
+
+  <section id="photosSection">
+    <h2>Photo Approvals</h2>
+    <p>Manage uploads and choose featured moments.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <strong id="pendingCount">0</strong>
+        <span>Pending</span>
+      </div>
+      <div class="stat">
+        <strong id="approvedCount">0</strong>
+        <span>Approved</span>
+      </div>
+      <div class="stat">
+        <strong id="rejectedCount">0</strong>
+        <span>Rejected</span>
+      </div>
+      <div class="stat">
+        <strong id="featuredCount">0</strong>
+        <span>Featured</span>
+      </div>
     </div>
-    <button id="logout" class="hidden">Sign out</button>
-  </header>
 
-  <main>
-    <section id="loginPanel" class="panel login">
-      <div class="eyebrow">Private administration</div>
-      <h1>Photo Moderation</h1>
-      <p>Only Nikhil and Supriya should have access to this dashboard.</p>
+    <div class="toolbar">
+      <select id="eventFilter" aria-label="Filter event">
+        <option value="all">All events</option>
+        <option value="engagement">Engagement</option>
+        <option value="reception">Reception</option>
+        <option value="muhurtham">Muhurtham</option>
+      </select>
+      <select id="statusFilter" aria-label="Filter photo status">
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="featured">Featured only</option>
+        <option value="rejected">Rejected</option>
+        <option value="all">All statuses</option>
+      </select>
+      <button id="refreshPhotos">Refresh photos</button>
+    </div>
 
-      <form id="loginForm">
-        <label for="password">Admin password</label>
-        <input
-          id="password"
-          type="password"
-          autocomplete="current-password"
-          required
-          style="margin:10px 0 15px"
-        >
-        <button class="primary" type="submit" style="width:100%">
-          Unlock dashboard
-        </button>
-      </form>
+    <div id="photoNotice" class="message" role="status"></div>
+    <div id="photos" class="grid"></div>
+  </section>
 
-      <div id="loginMessage" class="message" role="status"></div>
-    </section>
+  <section id="messagesSection" class="hidden">
+    <h2>Guest Message Approvals</h2>
+    <p>Review wishes before they appear on the Reception Wall.</p>
 
-    <section id="dashboard" class="hidden">
-      <div class="eyebrow">Private gallery control</div>
-      <h1>Through Your Eyes</h1>
-      <p>Review guest submissions and choose your carousel highlights.</p>
-
-      <div class="stats">
-        <div class="stat">
-          <strong id="pendingCount">0</strong>
-          <span>Pending</span>
-        </div>
-        <div class="stat">
-          <strong id="approvedCount">0</strong>
-          <span>Approved</span>
-        </div>
-        <div class="stat">
-          <strong id="rejectedCount">0</strong>
-          <span>Rejected</span>
-        </div>
-        <div class="stat">
-          <strong id="featuredCount">0</strong>
-          <span>Featured</span>
-        </div>
+    <div class="stats">
+      <div class="stat">
+        <strong id="messagePending">0</strong>
+        <span>Pending</span>
       </div>
-
-      <div class="toolbar">
-        <select id="eventFilter" aria-label="Filter event">
-          <option value="all">All events</option>
-          <option value="engagement">Engagement</option>
-          <option value="reception">Reception</option>
-          <option value="muhurtham">Muhurtham</option>
-        </select>
-
-        <select id="statusFilter" aria-label="Filter status">
-          <option value="pending">Pending</option>
-          <option value="approved">Approved</option>
-          <option value="featured">Featured only</option>
-          <option value="rejected">Rejected</option>
-          <option value="all">All statuses</option>
-        </select>
-
-        <button id="refresh">Refresh photos</button>
+      <div class="stat">
+        <strong id="messageApproved">0</strong>
+        <span>Approved</span>
       </div>
+      <div class="stat">
+        <strong id="messageRejected">0</strong>
+        <span>Rejected</span>
+      </div>
+    </div>
 
-      <div id="dashboardMessage" class="message" role="status"></div>
-      <div id="photos" class="grid"></div>
-    </section>
-  </main>
+    <div class="toolbar">
+      <select id="messageFilter" aria-label="Filter message status">
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="all">All messages</option>
+      </select>
+      <button id="refreshMessages">Refresh messages</button>
+    </div>
 
-  <script>
-    const API = "/api/admin-photos";
-    const $ = id => document.getElementById(id);
-    let photos = [];
+    <div id="messageNotice" class="message" role="status"></div>
+    <div id="messages" class="message-grid"></div>
+  </section>
+</section>
+</main>
 
-    async function request(action, options = {}) {
-      const response = await fetch(
-        `${API}?action=${encodeURIComponent(action)}`,
-        {
-          credentials: "same-origin",
-          cache: "no-store",
-          ...options
-        }
+<script>
+(() => {
+  const API = "/api/admin-photos";
+  const $ = id => document.getElementById(id);
+
+  let photos = [];
+  let messages = [];
+  let messagesLoaded = false;
+
+  async function request(action, options = {}) {
+    const response = await fetch(
+      `${API}?action=${encodeURIComponent(action)}`,
+      {
+        credentials: "same-origin",
+        cache: "no-store",
+        ...options
+      }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      const error = new Error(data.error || "Request failed.");
+      error.status = response.status;
+      throw error;
+    }
+
+    return data;
+  }
+
+  function element(tag, className, value) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    node.textContent = value == null ? "" : String(value);
+    return node;
+  }
+
+  function showLogin() {
+    $("loginPanel").classList.remove("hidden");
+    $("dashboard").classList.add("hidden");
+    $("logout").classList.add("hidden");
+    photos = [];
+    messages = [];
+    messagesLoaded = false;
+    $("photos").replaceChildren();
+    $("messages").replaceChildren();
+  }
+
+  function showDashboard() {
+    $("loginPanel").classList.add("hidden");
+    $("dashboard").classList.remove("hidden");
+    $("logout").classList.remove("hidden");
+  }
+
+  function handleError(error, notice) {
+    if (error.status === 401) {
+      showLogin();
+      $("loginMessage").textContent =
+        "Session expired. Please sign in.";
+    } else {
+      $(notice).textContent = error.message;
+    }
+  }
+
+  function selectTab(tab) {
+    const isPhotos = tab === "photos";
+
+    $("photosSection").classList.toggle("hidden", !isPhotos);
+    $("messagesSection").classList.toggle("hidden", isPhotos);
+
+    $("photosTab").classList.toggle("active", isPhotos);
+    $("messagesTab").classList.toggle("active", !isPhotos);
+
+    $("photosTab").setAttribute(
+      "aria-selected", String(isPhotos)
+    );
+    $("messagesTab").setAttribute(
+      "aria-selected", String(!isPhotos)
+    );
+
+    if (!isPhotos && !messagesLoaded) {
+      loadMessages();
+    }
+  }
+
+  async function loadPhotos() {
+    $("photoNotice").textContent = "Loading photos...";
+
+    try {
+      const data = await request("list");
+      photos = Array.isArray(data.photos) ? data.photos : [];
+      renderPhotos();
+
+      $("photoNotice").textContent = data.truncated
+        ? "Showing a partial list. More than 1,000 records may exist."
+        : `${photos.length} photo record(s) loaded.`;
+    } catch (error) {
+      handleError(error, "photoNotice");
+    }
+  }
+
+  function renderPhotos() {
+    const counts = {
+      pending: 0,
+      approved: 0,
+      rejected: 0,
+      featured: 0
+    };
+
+    photos.forEach(photo => {
+      if (Object.hasOwn(counts, photo.status)) {
+        counts[photo.status]++;
+      }
+      if (
+        photo.status === "approved" &&
+        photo.featured === true
+      ) {
+        counts.featured++;
+      }
+    });
+
+    $("pendingCount").textContent = counts.pending;
+    $("approvedCount").textContent = counts.approved;
+    $("rejectedCount").textContent = counts.rejected;
+    $("featuredCount").textContent = counts.featured;
+
+    const event = $("eventFilter").value;
+    const status = $("statusFilter").value;
+
+    const visible = photos.filter(photo => {
+      const matchesEvent =
+        event === "all" || photo.event === event;
+
+      const matchesStatus =
+        status === "all" ||
+        (status === "featured"
+          ? photo.status === "approved" &&
+            photo.featured === true
+          : photo.status === status);
+
+      return matchesEvent && matchesStatus;
+    });
+
+    const container = $("photos");
+    container.replaceChildren();
+
+    if (!visible.length) {
+      container.appendChild(
+        element("div", "empty", "No photos match these filters.")
+      );
+      return;
+    }
+
+    for (const photo of visible) {
+      const card = element("article", "item", "");
+      const img = document.createElement("img");
+
+      img.loading = "lazy";
+      img.alt = `Photo submitted by ${photo.guestName || "Guest"}`;
+      img.src =
+        `${API}?action=image&id=${encodeURIComponent(photo.uploadId)}`;
+
+      const details = element("div", "details", "");
+      details.appendChild(
+        element("div", "guest", photo.guestName || "Guest")
       );
 
-      const data = await response.json().catch(() => ({}));
+      details.appendChild(
+        element(
+          "div",
+          "meta",
+          `${photo.event} · ${
+            photo.uploadedAt
+              ? new Date(photo.uploadedAt).toLocaleString("en-IN")
+              : "Date unavailable"
+          }`
+        )
+      );
 
-      if (!response.ok) {
-        const error = new Error(data.error || "Request failed.");
-        error.status = response.status;
-        throw error;
+      details.appendChild(
+        element("span", "status", photo.status)
+      );
+
+      if (
+        photo.status === "approved" &&
+        photo.featured === true
+      ) {
+        details.appendChild(
+          element("span", "featured-label", "★ Featured")
+        );
       }
 
-      return data;
-    }
+      const actions = element("div", "actions", "");
 
-    function showLogin() {
-      $("loginPanel").classList.remove("hidden");
-      $("dashboard").classList.add("hidden");
-      $("logout").classList.add("hidden");
-      photos = [];
-      $("photos").replaceChildren();
-    }
+      async function updatePhoto(action, payload, successText) {
+        const buttons = actions.querySelectorAll("button");
+        buttons.forEach(button => button.disabled = true);
+        $("photoNotice").textContent = "Saving...";
 
-    function showDashboard() {
-      $("loginPanel").classList.add("hidden");
-      $("dashboard").classList.remove("hidden");
-      $("logout").classList.remove("hidden");
-    }
+        try {
+          const result = await request(action, {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(payload)
+          });
 
-    async function loadPhotos() {
-      $("dashboardMessage").textContent = "Loading photos...";
+          if (action === "feature") {
+            photo.featured = result.featured === true;
+          } else if (action === "moderate") {
+            photo.status = result.status;
+            photo.featured = result.featured === true;
+          }
 
-      try {
-        const data = await request("list");
-        photos = Array.isArray(data.photos) ? data.photos : [];
-        render();
-
-        $("dashboardMessage").textContent = data.truncated
-          ? "Showing a partial list. More than 1,000 records may exist."
-          : `${photos.length} photo record(s) loaded.`;
-      } catch (error) {
-        if (error.status === 401) {
-          showLogin();
-          $("loginMessage").textContent = "Session expired. Please sign in.";
-        } else {
-          $("dashboardMessage").textContent = error.message;
-        }
-      }
-    }
-
-    function textElement(tag, className, content) {
-      const element = document.createElement(tag);
-      element.className = className;
-      element.textContent = content;
-      return element;
-    }
-
-    function render() {
-      const counts = {
-        pending: 0,
-        approved: 0,
-        rejected: 0,
-        featured: 0
-      };
-
-      photos.forEach(photo => {
-        if (Object.hasOwn(counts, photo.status)) {
-          counts[photo.status]++;
-        }
-
-        if (photo.status === "approved" && photo.featured === true) {
-          counts.featured++;
-        }
-      });
-
-      $("pendingCount").textContent = counts.pending;
-      $("approvedCount").textContent = counts.approved;
-      $("rejectedCount").textContent = counts.rejected;
-      $("featuredCount").textContent = counts.featured;
-
-      const event = $("eventFilter").value;
-      const status = $("statusFilter").value;
-
-      const visible = photos.filter(photo => {
-        const matchesEvent =
-          event === "all" || photo.event === event;
-
-        const matchesStatus =
-          status === "all" ||
-          (status === "featured"
-            ? photo.status === "approved" && photo.featured === true
-            : photo.status === status);
-
-        return matchesEvent && matchesStatus;
-      });
-
-      const container = $("photos");
-      container.replaceChildren();
-
-      if (!visible.length) {
-        container.appendChild(
-          textElement("div", "empty", "No photos match these filters.")
-        );
-        return;
-      }
-
-      for (const photo of visible) {
-        const card = document.createElement("article");
-        card.className = "photo";
-
-        const img = document.createElement("img");
-        img.loading = "lazy";
-        img.alt = `Photo submitted by ${photo.guestName || "Guest"}`;
-        img.src =
-          `${API}?action=image&id=${encodeURIComponent(photo.uploadId)}`;
-
-        const details = document.createElement("div");
-        details.className = "details";
-
-        details.appendChild(
-          textElement("div", "guest", photo.guestName || "Guest")
-        );
-
-        details.appendChild(
-          textElement(
-            "div",
-            "meta",
-            `${photo.event} · ${
-              photo.uploadedAt
-                ? new Date(photo.uploadedAt).toLocaleString("en-IN")
-                : "Date unavailable"
-            }`
-          )
-        );
-
-        details.appendChild(
-          textElement("span", "status", photo.status)
-        );
-
-        if (photo.status === "approved" && photo.featured === true) {
-          details.appendChild(
-            textElement("span", "featured-label", "★ Featured")
-          );
-        }
-
-        const actions = document.createElement("div");
-        actions.className = "actions";
-
-        async function updatePhoto(action, payload, successText) {
-          const buttons = actions.querySelectorAll("button");
-          buttons.forEach(button => button.disabled = true);
-          $("dashboardMessage").textContent = "Saving...";
-
-          try {
-            const result = await request(action, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload)
-            });
-
-            if (action === "feature") {
-              photo.featured = result.featured === true;
-            } else if (action === "moderate") {
-              photo.status = result.status;
-              photo.featured = result.featured === true;
-            }
-
-            render();
-            $("dashboardMessage").textContent = successText;
-          } catch (error) {
-            $("dashboardMessage").textContent = error.message;
+          renderPhotos();
+          $("photoNotice").textContent = successText;
+        } catch (error) {
+          if (error.status === 401) {
+            handleError(error, "photoNotice");
+          } else {
+            $("photoNotice").textContent = error.message;
             buttons.forEach(button => button.disabled = false);
           }
         }
-
-        for (const [label, value, css] of [
-          ["Approve", "approved", "approve"],
-          ["Reject", "rejected", "reject"],
-          ["Pending", "pending", ""]
-        ]) {
-          if (photo.status === value) continue;
-
-          const button = document.createElement("button");
-          button.textContent = label;
-          button.className = css;
-
-          button.addEventListener("click", () => {
-            updatePhoto(
-              "moderate",
-              { id: photo.uploadId, status: value },
-              `Photo marked ${value}.`
-            );
-          });
-
-          actions.appendChild(button);
-        }
-
-        if (photo.status === "approved") {
-          const featureButton = document.createElement("button");
-
-          featureButton.textContent = photo.featured
-            ? "★ Unfeature"
-            : "☆ Feature";
-
-          featureButton.className = photo.featured
-            ? "unfeature"
-            : "feature";
-
-          featureButton.addEventListener("click", () => {
-            const nextFeatured = !photo.featured;
-
-            updatePhoto(
-              "feature",
-              { id: photo.uploadId, featured: nextFeatured },
-              nextFeatured
-                ? "Photo added to Featured Moments."
-                : "Photo removed from Featured Moments."
-            );
-          });
-
-          actions.appendChild(featureButton);
-        }
-
-        details.appendChild(actions);
-        card.appendChild(img);
-        card.appendChild(details);
-        container.appendChild(card);
       }
+
+      for (const [label, value, css] of [
+        ["Approve", "approved", "approve"],
+        ["Reject", "rejected", "reject"],
+        ["Pending", "pending", ""]
+      ]) {
+        if (photo.status === value) continue;
+
+        const button = element("button", css, label);
+
+        button.addEventListener("click", () => {
+          updatePhoto(
+            "moderate",
+            {id:photo.uploadId,status:value},
+            `Photo marked ${value}.`
+          );
+        });
+
+        actions.appendChild(button);
+      }
+
+      if (photo.status === "approved") {
+        const button = element(
+          "button",
+          photo.featured ? "unfeature" : "feature",
+          photo.featured ? "★ Unfeature" : "☆ Feature"
+        );
+
+        button.addEventListener("click", () => {
+          const next = !photo.featured;
+
+          updatePhoto(
+            "feature",
+            {id:photo.uploadId,featured:next},
+            next
+              ? "Photo added to Featured Moments."
+              : "Photo removed from Featured Moments."
+          );
+        });
+
+        actions.appendChild(button);
+      }
+
+      details.appendChild(actions);
+      card.append(img, details);
+      container.appendChild(card);
+    }
+  }
+
+  async function loadMessages() {
+    $("messageNotice").textContent = "Loading guest messages...";
+
+    try {
+      const data = await request("messages-list");
+      messages = Array.isArray(data.messages) ? data.messages : [];
+      messagesLoaded = true;
+      renderMessages();
+
+      $("messageNotice").textContent = data.truncated
+        ? "Showing the latest 500 messages."
+        : `${messages.length} guest message(s) loaded.`;
+    } catch (error) {
+      handleError(error, "messageNotice");
+    }
+  }
+
+  function renderMessages() {
+    const counts = {
+      pending: 0,
+      approved: 0,
+      rejected: 0
+    };
+
+    messages.forEach(item => {
+      if (Object.hasOwn(counts, item.status)) {
+        counts[item.status]++;
+      }
+    });
+
+    $("messagePending").textContent = counts.pending;
+    $("messageApproved").textContent = counts.approved;
+    $("messageRejected").textContent = counts.rejected;
+
+    const filter = $("messageFilter").value;
+    const visible = messages.filter(item =>
+      filter === "all" || item.status === filter
+    );
+
+    const container = $("messages");
+    container.replaceChildren();
+
+    if (!visible.length) {
+      container.appendChild(
+        element("div", "empty", "No guest messages match this filter.")
+      );
+      return;
     }
 
-    $("loginForm").addEventListener("submit", async event => {
-      event.preventDefault();
-      $("loginMessage").textContent = "Signing in...";
+    for (const item of visible) {
+      const card = element("article", "item", "");
+      const details = element("div", "details", "");
 
-      try {
-        await request("login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password: $("password").value })
-        });
+      details.appendChild(
+        element("div", "guest", item.name || "Guest")
+      );
 
-        $("password").value = "";
-        $("loginMessage").textContent = "";
-        showDashboard();
-        await loadPhotos();
-      } catch (error) {
-        $("loginMessage").textContent = error.message;
+      const date = item.createdAt
+        ? new Date(item.createdAt).toLocaleString("en-IN")
+        : "Date unavailable";
+
+      details.appendChild(
+        element(
+          "div",
+          "meta",
+          `${item.category || "Wishes"} · ${date}`
+        )
+      );
+
+      details.appendChild(
+        element("span", "status", item.status)
+      );
+
+      details.appendChild(
+        element("p", "wish", item.message)
+      );
+
+      const actions = element("div", "actions", "");
+
+      async function moderate(decision) {
+        const buttons = actions.querySelectorAll("button");
+        buttons.forEach(button => button.disabled = true);
+        $("messageNotice").textContent = "Saving...";
+
+        try {
+          const result = await request("messages-moderate", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({
+              id:item.id,
+              decision
+            })
+          });
+
+          item.status = result.status;
+          renderMessages();
+          $("messageNotice").textContent =
+            `Message ${result.status}.`;
+        } catch (error) {
+          if (error.status === 401) {
+            handleError(error, "messageNotice");
+          } else {
+            $("messageNotice").textContent = error.message;
+            buttons.forEach(button => button.disabled = false);
+          }
+        }
       }
-    });
 
-    $("logout").addEventListener("click", async () => {
-      try {
-        await request("logout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: "{}"
-        });
-      } catch {}
+      if (item.status !== "approved") {
+        const approve = element("button", "approve", "Approve");
+        approve.addEventListener("click", () => moderate("approve"));
+        actions.appendChild(approve);
+      }
 
+      if (item.status !== "rejected") {
+        const reject = element("button", "reject", "Reject");
+        reject.addEventListener("click", () => moderate("reject"));
+        actions.appendChild(reject);
+      }
+
+      details.appendChild(actions);
+      card.appendChild(details);
+      container.appendChild(card);
+    }
+  }
+
+  $("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    $("loginMessage").textContent = "Signing in...";
+
+    try {
+      await request("login", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          password:$("password").value
+        })
+      });
+
+      $("password").value = "";
+      $("loginMessage").textContent = "";
+      showDashboard();
+      selectTab("photos");
+      await loadPhotos();
+    } catch (error) {
+      $("loginMessage").textContent = error.message;
+    }
+  });
+
+  $("logout").addEventListener("click", async () => {
+    try {
+      await request("logout", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:"{}"
+      });
+    } catch {}
+
+    showLogin();
+  });
+
+  $("photosTab").addEventListener("click", () => {
+    selectTab("photos");
+  });
+
+  $("messagesTab").addEventListener("click", () => {
+    selectTab("messages");
+  });
+
+  $("refreshPhotos").addEventListener("click", loadPhotos);
+  $("refreshMessages").addEventListener("click", loadMessages);
+  $("eventFilter").addEventListener("change", renderPhotos);
+  $("statusFilter").addEventListener("change", renderPhotos);
+  $("messageFilter").addEventListener("change", renderMessages);
+
+  (async () => {
+    try {
+      await request("session");
+      showDashboard();
+      selectTab("photos");
+      await loadPhotos();
+    } catch {
       showLogin();
-    });
-
-    $("refresh").addEventListener("click", loadPhotos);
-    $("eventFilter").addEventListener("change", render);
-    $("statusFilter").addEventListener("change", render);
-
-    (async () => {
-      try {
-        await request("session");
-        showDashboard();
-        await loadPhotos();
-      } catch {
-        showLogin();
-      }
-    })();
-  </script>
+    }
+  })();
+})();
+</script>
 </body>
 </html>

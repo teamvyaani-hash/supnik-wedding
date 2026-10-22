@@ -3,6 +3,7 @@ import { Redis } from "@upstash/redis";
 import { randomUUID, randomInt } from "node:crypto";
 
 const PREFIX = "ns:reception:v1:";
+
 const MISSIONS = [
   {
     id: "meet-other",
@@ -48,13 +49,53 @@ function reply(res, status, body) {
   return res.status(status).json(body);
 }
 
+// Supports both standard Upstash credentials and the
+// existing Vercel integration's prefixed credentials.
+// No credentials are hardcoded or exposed to the browser.
 function getRedis() {
-  return Redis.fromEnv();
+  const url =
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_URL ||
+    process.env.UPSTASH_REDIS_REST_URL ||
+    process.env.KV_REST_API_URL;
+
+  const token =
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN ||
+    process.env.UPSTASH_REDIS_REST_TOKEN ||
+    process.env.KV_REST_API_TOKEN;
+
+  if (!url || !token) {
+    throw new Error(
+      "Redis REST credentials are missing. Check Vercel environment variables."
+    );
+  }
+
+  let parsedUrl;
+
+  try {
+    parsedUrl = new URL(url);
+  } catch {
+    throw new Error(
+      "Redis REST URL is invalid. Check the configured Vercel environment variable."
+    );
+  }
+
+  if (parsedUrl.protocol !== "https:") {
+    throw new Error(
+      "Redis REST URL must use HTTPS."
+    );
+  }
+
+  return new Redis({
+    url,
+    token
+  });
 }
 
 async function getPlayer(redis, token) {
   if (!/^[0-9a-f-]{36}$/i.test(token)) return null;
+
   const player = await redis.hgetall(playerKey(token));
+
   return player?.id === token ? player : null;
 }
 
@@ -77,6 +118,7 @@ async function getLeaderboard(redis) {
   const players = await Promise.all(
     ids.map(async id => {
       const player = await redis.hgetall(playerKey(id));
+
       if (!player) return null;
 
       return {
@@ -103,6 +145,7 @@ export default async function handler(req, res) {
   }
 
   const origin = req.headers.origin;
+
   if (origin) {
     try {
       if (new URL(origin).host !== req.headers.host) {
@@ -135,6 +178,7 @@ export default async function handler(req, res) {
       }
 
       const forwarded = req.headers["x-forwarded-for"];
+
       const ip = clean(
         typeof forwarded === "string"
           ? forwarded.split(",")[0]
@@ -183,6 +227,7 @@ export default async function handler(req, res) {
       const player = { id, name, code };
 
       await redis.hset(playerKey(id), player);
+
       await redis.zadd(scoreKey, {
         score: 0,
         member: id

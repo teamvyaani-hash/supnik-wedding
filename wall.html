@@ -2,741 +2,974 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#120e17">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Wedding Wall | Nikhil & Supriya</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2b0d19">
+<meta name="robots" content="noindex, nofollow">
+<title>Our Wedding Wall | Nikhil & Supriya</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #170910;
+  --maroon: #391120;
+  --panel: #2a111c;
+  --gold: #e6c18a;
+  --cream: #fff7ea;
+  --muted: #c9afb8;
+  --border: rgba(230,193,138,.25);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: system-ui,-apple-system,Segoe UI,sans-serif;
+}
+button,a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; cursor: pointer; }
+button:focus-visible,a:focus-visible,
+[role=button]:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+.hidden { display: none !important; }
 
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #120e17;
-      --panel: #211925;
-      --gold: #e9c68c;
-      --cream: #fff7ec;
-      --muted: #c2b4bc;
-      --border: #4a3947;
-    }
+header {
+  position: relative;
+  overflow: hidden;
+  min-height: 440px;
+  padding: 54px 20px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    #743148 0%,
+    #35101f 46%,
+    #170910 87%
+  );
+}
+header:before,header:after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  width: 240px;
+  height: 240px;
+  border: 1px solid rgba(230,193,138,.2);
+  border-radius: 50%;
+  top: -125px;
+}
+header:before { left: -100px; }
+header:after { right: -100px; }
+.monogram {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  font: italic 30px Georgia,serif;
+  color: var(--gold);
+  margin-bottom: 25px;
+  box-shadow: 0 0 0 7px rgba(230,193,138,.05);
+}
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 11px;
+  color: var(--gold);
+  line-height: 1.8;
+}
+h1,h2 {
+  font-family: Georgia,'Times New Roman',serif;
+  font-weight: normal;
+}
+h1 {
+  font-size: clamp(48px,9vw,98px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin: 18px 0 8px;
+}
+.names {
+  font: italic clamp(22px,4vw,32px) Georgia,serif;
+  color: var(--gold);
+  margin: 12px 0 22px;
+}
+.subtitle {
+  color: #ead6d7;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.85;
+  font-size: 15px;
+}
+.ornament {
+  color: var(--gold);
+  letter-spacing: 10px;
+  margin-top: 28px;
+  font-size: 17px;
+}
+main {
+  width: min(1220px,92%);
+  margin: 0 auto;
+  padding-bottom: 100px;
+}
+.intro {
+  text-align: center;
+  margin: 15px auto 23px;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 15px 2px 27px;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar,
+.carousel::-webkit-scrollbar { display: none; }
+.filter {
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  background: transparent;
+  color: var(--cream);
+  padding: 12px 19px;
+  font-size: 13px;
+  transition: background .2s,border-color .2s;
+}
+.filter.active,.filter:hover {
+  background: var(--gold);
+  color: #301321;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 34px 4px 18px;
+}
+.section-heading h2 {
+  font-size: clamp(29px,5vw,47px);
+  margin: 0;
+}
+.section-heading p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.section-heading .kicker {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.carousel-wrap { position: relative; }
+.carousel {
+  display: flex;
+  gap: 17px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 6px 3px 23px;
+  scrollbar-width: none;
+}
+.slide {
+  position: relative;
+  flex: 0 0 min(72vw,480px);
+  scroll-snap-align: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--panel);
+  cursor: pointer;
+  transition: transform .25s,border-color .25s;
+}
+.slide:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+}
+.slide img {
+  display: block;
+  width: 100%;
+  height: clamp(330px,48vw,530px);
+  object-fit: cover;
+  background: #10070d;
+}
+.slide-info {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 60px 22px 20px;
+  background: linear-gradient(
+    transparent,rgba(13,5,9,.92)
+  );
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 10px;
+}
+.slide-info strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+.slide-info span {
+  color: var(--gold);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+}
+.carousel-controls {
+  display: flex;
+  gap: 9px;
+}
+.arrow {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--border);
+  width: 43px;
+  height: 43px;
+  border-radius: 50%;
+  font-size: 25px;
+}
+.arrow:hover {
+  background: var(--gold);
+  color: var(--maroon);
+}
+.gallery {
+  columns: 3 240px;
+  column-gap: 17px;
+  margin-top: 20px;
+}
+.tile {
+  break-inside: avoid;
+  margin-bottom: 17px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform .25s,border-color .25s;
+}
+.tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+}
+.tile img {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #10070d;
+  transition: transform .45s;
+}
+.tile:hover img { transform: scale(1.025); }
+.tile-info { padding: 14px 16px 16px; }
+.credit {
+  color: var(--cream);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.event-name {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-size: 10px;
+  margin-top: 7px;
+}
+.notice {
+  padding: 55px 20px;
+  text-align: center;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  line-height: 1.8;
+}
+.upload-link {
+  position: fixed;
+  bottom: max(19px,env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  text-decoration: none;
+  background: var(--gold);
+  color: #301321;
+  border-radius: 50px;
+  padding: 16px 26px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 8px 35px #000b;
+  white-space: nowrap;
+  letter-spacing: .2px;
+}
+.upload-link:hover { background: #ffe0aa; }
+dialog {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(10,4,8,.97);
+  color: var(--cream);
+}
+dialog::backdrop { background: #000e; }
+.viewer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 68px 15px 30px;
+  gap: 14px;
+}
+.viewer img {
+  max-width: 100%;
+  max-height: calc(100dvh - 235px);
+  object-fit: contain;
+  border: 1px solid rgba(230,193,138,.15);
+}
+.viewer-credit {
+  text-align: center;
+  font-size: 13px;
+  color: var(--gold);
+  line-height: 1.5;
+}
+.viewer-close {
+  position: absolute;
+  top: 15px;
+  right: 17px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 43px;
+  height: 43px;
+  background: #30202a;
+  color: white;
+  font-size: 24px;
+}
+.viewer-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.viewer-actions button,.download-button {
+  padding: 11px 17px;
+  border-radius: 30px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--cream);
+  font-size: 13px;
+  text-decoration: none;
+}
+.download-button {
+  background: var(--gold);
+  color: #301321;
+  border-color: var(--gold);
+  font-weight: 750;
+}
+.viewer-hint {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+}
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-family: Georgia,serif;
+  padding: 35px 15px 110px;
+  font-size: 14px;
+}
+footer .heart { color: var(--gold); }
 
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--cream);
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-
-    button, a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    button {
-      font: inherit;
-      cursor: pointer;
-    }
-
-    header {
-      padding: 25px 20px 30px;
-      text-align: center;
-      background: radial-gradient(
-        ellipse at top, #493044, var(--bg) 80%
-      );
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 11px;
-      color: var(--gold);
-    }
-
-    h1, h2 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: normal;
-    }
-
-    h1 {
-      font-size: clamp(43px, 9vw, 75px);
-      margin: 14px 0 8px;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      max-width: 520px;
-      margin: 0 auto 20px;
-      line-height: 1.7;
-    }
-
-    .names {
-      font-family: Georgia, serif;
-      color: var(--gold);
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
-    main {
-      width: min(1180px, 94%);
-      margin: auto;
-      padding-bottom: 100px;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 30px 4px 15px;
-    }
-
-    h2 {
-      font-size: clamp(28px, 5vw, 42px);
-      margin: 0;
-    }
-
-    .section-heading p {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .filters {
-      display: flex;
-      gap: 9px;
-      overflow-x: auto;
-      padding: 15px 2px 20px;
-      scrollbar-width: none;
-    }
-
-    .filters::-webkit-scrollbar { display: none; }
-
-    .filter {
-      flex: 0 0 auto;
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      background: var(--panel);
-      color: var(--cream);
-      padding: 11px 17px;
-      font-size: 13px;
-    }
-
-    .filter.active {
-      background: var(--gold);
-      color: #221521;
-      border-color: var(--gold);
-      font-weight: bold;
-    }
-
-    .carousel-wrap { position: relative; }
-
-    .carousel {
-      display: flex;
-      gap: 15px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      padding: 5px 2px 18px;
-      scrollbar-width: none;
-    }
-
-    .carousel::-webkit-scrollbar { display: none; }
-
-    .slide {
-      flex: 0 0 min(78vw, 450px);
-      scroll-snap-align: center;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 19px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .slide img {
-      display: block;
-      width: 100%;
-      height: clamp(280px, 46vw, 460px);
-      object-fit: cover;
-      background: #0b090d;
-    }
-
-    .slide-info {
-      padding: 14px 17px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .slide-info strong {
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .slide-info span {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: capitalize;
-    }
-
-    .carousel-controls {
-      display: flex;
-      gap: 10px;
-    }
-
-    .arrow {
-      background: var(--panel);
-      color: var(--gold);
-      border: 1px solid var(--border);
-      width: 39px;
-      height: 39px;
-      border-radius: 50%;
-      font-size: 20px;
-    }
-
-    .gallery {
-      columns: 3 220px;
-      column-gap: 14px;
-      margin-top: 15px;
-    }
-
-    .tile {
-      break-inside: avoid;
-      margin-bottom: 14px;
-      border-radius: 15px;
-      overflow: hidden;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      cursor: pointer;
-    }
-
-    .tile img {
-      width: 100%;
-      height: auto;
-      display: block;
-      background: #0b090d;
-    }
-
-    .tile-info {
-      padding: 12px 13px;
-    }
-
-    .credit {
-      color: var(--cream);
-      font-size: 13px;
-      overflow-wrap: anywhere;
-    }
-
-    .event-name {
-      color: var(--gold);
-      text-transform: capitalize;
-      font-size: 11px;
-      margin-top: 5px;
-    }
-
-    .notice {
-      padding: 45px 20px;
-      text-align: center;
-      color: var(--muted);
-      background: var(--panel);
-      border: 1px dashed var(--border);
-      border-radius: 17px;
-      line-height: 1.8;
-    }
-
-    .hidden { display: none !important; }
-
-    .upload-link {
-      position: fixed;
-      bottom: max(18px, env(safe-area-inset-bottom));
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      text-decoration: none;
-      background: var(--gold);
-      color: #241722;
-      border-radius: 50px;
-      padding: 15px 24px;
-      font-size: 14px;
-      font-weight: 750;
-      box-shadow: 0 8px 35px #0009;
-      white-space: nowrap;
-    }
-
-    dialog {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100dvh;
-      max-width: none;
-      max-height: none;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      background: #09080bef;
-      color: var(--cream);
-    }
-
-    dialog::backdrop { background: #000e; }
-
-    .viewer {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 15px 35px;
-      gap: 15px;
-    }
-
-    .viewer img {
-      max-width: 100%;
-      max-height: calc(100dvh - 180px);
-      object-fit: contain;
-    }
-
-    .viewer-credit {
-      text-align: center;
-      font-size: 14px;
-      color: var(--gold);
-    }
-
-    .viewer-close {
-      position: absolute;
-      top: 15px;
-      right: 17px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      width: 43px;
-      height: 43px;
-      background: #302632;
-      color: white;
-      font-size: 24px;
-    }
-
-    .viewer-nav {
-      display: flex;
-      gap: 20px;
-    }
-
-    .viewer-nav button {
-      padding: 10px 22px;
-      border-radius: 25px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: white;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-family: Georgia, serif;
-      padding: 35px 15px 115px;
-      font-size: 14px;
-    }
-
-    @media (max-width: 600px) {
-      .gallery {
-        columns: 2;
-        column-gap: 9px;
-      }
-
-      .tile { margin-bottom: 9px; }
-
-      .slide { flex-basis: 85vw; }
-
-      .slide img { height: 340px; }
-
-      .credit { font-size: 12px; }
-
-      .section-heading { align-items: center; }
-    }
-  </style>
+@media(max-width:600px) {
+  header {
+    min-height: 400px;
+    padding: 50px 20px 65px;
+  }
+  .filters { justify-content: flex-start; }
+  .gallery {
+    columns: 2;
+    column-gap: 9px;
+  }
+  .tile { margin-bottom: 9px; }
+  .tile-info { padding: 10px; }
+  .slide { flex-basis: 85vw; }
+  .slide img { height: 400px; }
+  .credit { font-size: 12px; }
+  .section-heading { align-items: center; }
+  .viewer img {
+    max-height: calc(100dvh - 250px);
+  }
+  .viewer-actions button,.download-button {
+    padding: 10px 13px;
+    font-size: 12px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html { scroll-behavior: auto; }
+  .slide,.tile,.tile img { transition: none; }
+  .carousel { scroll-behavior: auto; }
+}
+</style>
 </head>
-
 <body>
-  <header>
-    <div class="eyebrow">21 & 22 November 2026 · Chennai</div>
-    <h1>Our Wedding Wall</h1>
-    <div class="names">Nikhil & Supriya</div>
-    <p class="subtitle">
-      A thousand little moments, seen through the eyes of
-      the people who made our celebration unforgettable.
+<header>
+  <div class="monogram" aria-hidden="true">
+    N<span style="font-size:17px;padding:0 2px">&amp;</span>S
+  </div>
+  <div class="eyebrow">
+    21 &amp; 22 November 2026 · Chennai
+  </div>
+  <h1>Our Wedding Wall</h1>
+  <div class="names">Nikhil &amp; Supriya</div>
+  <p class="subtitle">
+    A thousand little moments, seen through the eyes
+    of the people who made our celebration unforgettable.
+  </p>
+  <div class="ornament" aria-hidden="true">✦ ❦ ✦</div>
+</header>
+
+<main>
+  <p class="intro">The celebration, through your eyes</p>
+
+  <nav class="filters" aria-label="Filter wedding photos">
+    <button class="filter active" data-event="all"
+      aria-pressed="true">All Moments</button>
+    <button class="filter" data-event="engagement"
+      aria-pressed="false">Engagement</button>
+    <button class="filter" data-event="reception"
+      aria-pressed="false">Reception</button>
+    <button class="filter" data-event="muhurtham"
+      aria-pressed="false">Muhurtham</button>
+  </nav>
+
+  <section id="featuredSection">
+    <div class="section-heading">
+      <div>
+        <span class="kicker">A little magic</span>
+        <h2>Featured Moments</h2>
+        <p>Swipe through our favourite memories</p>
+      </div>
+      <div class="carousel-controls">
+        <button class="arrow" id="previous"
+          aria-label="Previous featured photo">&#8249;</button>
+        <button class="arrow" id="next"
+          aria-label="Next featured photo">&#8250;</button>
+      </div>
+    </div>
+    <div class="carousel-wrap">
+      <div id="carousel" class="carousel"
+        aria-label="Featured photos"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-heading">
+      <div>
+        <span class="kicker">The story we share</span>
+        <h2>Through Your Eyes</h2>
+        <p>Every smile, every dance, every little memory.</p>
+      </div>
+    </div>
+    <div id="message" class="notice" role="status">
+      Loading wedding memories...
+    </div>
+    <div id="gallery" class="gallery"></div>
+  </section>
+</main>
+
+<a class="upload-link" href="/pov.html">
+  ＋ Share Your Moment
+</a>
+
+<dialog id="lightbox" aria-label="Photo viewer">
+  <button class="viewer-close" id="closeViewer"
+    aria-label="Close photo viewer">&times;</button>
+
+  <div class="viewer">
+    <img id="viewerImage" alt="Wedding photo">
+    <div class="viewer-credit" id="viewerCredit"></div>
+
+    <div class="viewer-actions">
+      <button id="viewerPrevious"
+        aria-label="Previous photo">&#8249; Previous</button>
+      <a id="downloadPhoto" class="download-button"
+        href="#" download>↓ Download Photo</a>
+      <button id="viewerNext"
+        aria-label="Next photo">Next &#8250;</button>
+    </div>
+
+    <p class="viewer-hint">
+      If your browser opens the photo instead,
+      long-press or save the image.
     </p>
-  </header>
+  </div>
+</dialog>
 
-  <main>
-    <div class="filters" aria-label="Filter wedding photos">
-      <button class="filter active" data-event="all">All Moments</button>
-      <button class="filter" data-event="engagement">Engagement</button>
-      <button class="filter" data-event="reception">Reception</button>
-      <button class="filter" data-event="muhurtham">Muhurtham</button>
-    </div>
+<footer>
+  Made with <span class="heart">♥</span> · Nikhil &amp; Supriya
+</footer>
 
-    <section id="featuredSection">
-      <div class="section-heading">
-        <div>
-          <h2>Featured Moments</h2>
-          <p>Swipe through the memories</p>
-        </div>
-        <div class="carousel-controls">
-          <button class="arrow" id="previous" aria-label="Previous photo">
-            &#8249;
-          </button>
-          <button class="arrow" id="next" aria-label="Next photo">
-            &#8250;
-          </button>
-        </div>
-      </div>
+<script>
+const API = "/api/wedding-wall?action=list";
 
-      <div id="carousel" class="carousel" aria-label="Featured photos"></div>
-    </section>
+const state = {
+  photos: [],
+  filtered: [],
+  event: "all",
+  viewerIndex: 0,
+  loaded: false
+};
 
-    <section>
-      <div class="section-heading">
-        <div>
-          <h2>Through Your Eyes</h2>
-          <p>Every smile, every dance, every little memory.</p>
-        </div>
-      </div>
+const $ = id => document.getElementById(id);
 
-      <div id="message" class="notice">Loading wedding memories...</div>
-      <div id="gallery" class="gallery"></div>
-    </section>
-  </main>
+function photoUrl(photo) {
+  return photo.imageUrl;
+}
 
-  <a class="upload-link" href="/pov.html">
-    + Share Your Moment
-  </a>
+function makeImage(photo, eager = false) {
+  const image = document.createElement("img");
+  image.src = photoUrl(photo);
+  image.alt =
+    `Wedding moment captured by ${photo.guestName || "Guest"}`;
+  image.loading = eager ? "eager" : "lazy";
+  image.decoding = "async";
+  return image;
+}
 
-  <dialog id="lightbox" aria-label="Photo viewer">
-    <button class="viewer-close" id="closeViewer" aria-label="Close">
-      &times;
-    </button>
+function text(tag, className, content) {
+  const element = document.createElement(tag);
+  element.className = className;
+  element.textContent = content;
+  return element;
+}
 
-    <div class="viewer">
-      <img id="viewerImage" alt="Wedding photo">
-      <div class="viewer-credit" id="viewerCredit"></div>
-      <div class="viewer-nav">
-        <button id="viewerPrevious">Previous</button>
-        <button id="viewerNext">Next</button>
-      </div>
-    </div>
-  </dialog>
+function safeFileName(photo) {
+  const event = (photo.event || "moment")
+    .replace(/[^a-z0-9-]/gi, "-")
+    .slice(0, 35);
 
-  <footer>
-    Made with love · Nikhil & Supriya
-  </footer>
+  const id = (photo.id || "photo")
+    .replace(/[^a-z0-9-]/gi, "-")
+    .slice(0, 50);
 
-  <script>
-    const API = "/api/wedding-wall?action=list";
+  return `Nikhil-Supriya-${event}-${id}.jpg`;
+}
 
-    const state = {
-      photos: [],
-      filtered: [],
-      event: "all",
-      viewerIndex: 0,
-      loaded: false
-    };
+function updateDownload(photo) {
+  const link = $("downloadPhoto");
+  link.href = photoUrl(photo);
+  link.download = safeFileName(photo);
+  link.setAttribute(
+    "aria-label",
+    `Download photo captured by ${photo.guestName || "Guest"}`
+  );
+}
 
-    const $ = id => document.getElementById(id);
+function showViewer(index) {
+  if (!state.filtered.length) return;
 
-    function photoUrl(photo) {
-      return photo.imageUrl;
-    }
+  state.viewerIndex =
+    (index + state.filtered.length) % state.filtered.length;
 
-    function makeImage(photo, eager = false) {
-      const image = document.createElement("img");
-      image.src = photoUrl(photo);
-      image.alt = `Wedding moment captured by ${photo.guestName || "Guest"}`;
-      image.loading = eager ? "eager" : "lazy";
-      image.decoding = "async";
-      return image;
-    }
+  updateViewer();
 
-    function text(tag, className, content) {
-      const element = document.createElement(tag);
-      element.className = className;
-      element.textContent = content;
-      return element;
-    }
+  if (!$("lightbox").open) {
+    $("lightbox").showModal();
+  }
+}
 
-    function showViewer(index) {
-      if (!state.filtered.length) return;
+function updateViewer() {
+  const photo = state.filtered[state.viewerIndex];
+  if (!photo) return;
 
-      state.viewerIndex = (
-        index + state.filtered.length
-      ) % state.filtered.length;
+  $("viewerImage").src = photoUrl(photo);
+  $("viewerImage").alt =
+    `Wedding photo captured by ${photo.guestName || "Guest"}`;
 
-      updateViewer();
+  $("viewerCredit").textContent =
+    `Captured by ${photo.guestName || "Guest"} · ${photo.event}`;
 
-      if (!$("lightbox").open) {
-        $("lightbox").showModal();
+  updateDownload(photo);
+}
+
+function moveViewer(direction) {
+  showViewer(state.viewerIndex + direction);
+}
+
+function renderCarousel() {
+  const carousel = $("carousel");
+  carousel.replaceChildren();
+
+  const selectedFeatured = state.filtered.filter(
+    photo => photo.featured === true
+  );
+
+  const featured = (
+    selectedFeatured.length
+      ? selectedFeatured
+      : state.filtered
+  ).slice(0, 10);
+
+  $("featuredSection").classList.toggle(
+    "hidden",
+    featured.length === 0
+  );
+
+  featured.forEach((photo, index) => {
+    const card = document.createElement("article");
+    card.className = "slide";
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", "Open featured photo");
+
+    card.appendChild(makeImage(photo, index === 0));
+
+    const info = document.createElement("div");
+    info.className = "slide-info";
+
+    info.appendChild(
+      text(
+        "strong",
+        "",
+        `Captured by ${photo.guestName || "Guest"}`
+      )
+    );
+
+    info.appendChild(text("span", "", photo.event));
+    card.appendChild(info);
+
+    const galleryIndex = state.filtered.findIndex(
+      item => item.id === photo.id
+    );
+
+    card.addEventListener(
+      "click",
+      () => showViewer(galleryIndex)
+    );
+
+    card.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        showViewer(galleryIndex);
       }
+    });
+
+    carousel.appendChild(card);
+  });
+}
+
+function renderGallery() {
+  const gallery = $("gallery");
+  const message = $("message");
+
+  gallery.replaceChildren();
+
+  if (!state.filtered.length) {
+    message.classList.remove("hidden");
+    message.textContent = state.loaded
+      ? "No approved photos here yet. Be the first to share a moment!"
+      : "Loading wedding memories...";
+    return;
+  }
+
+  message.classList.add("hidden");
+
+  state.filtered.forEach((photo, index) => {
+    const tile = document.createElement("article");
+    tile.className = "tile";
+    tile.tabIndex = 0;
+    tile.setAttribute("role", "button");
+    tile.setAttribute("aria-label", "View wedding photo");
+
+    tile.appendChild(makeImage(photo));
+
+    const info = document.createElement("div");
+    info.className = "tile-info";
+
+    info.appendChild(
+      text(
+        "div",
+        "credit",
+        `Captured by ${photo.guestName || "Guest"}`
+      )
+    );
+
+    info.appendChild(
+      text("div", "event-name", photo.event)
+    );
+
+    tile.appendChild(info);
+
+    tile.addEventListener(
+      "click",
+      () => showViewer(index)
+    );
+
+    tile.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        showViewer(index);
+      }
+    });
+
+    gallery.appendChild(tile);
+  });
+}
+
+function render() {
+  state.filtered = state.photos.filter(
+    photo =>
+      state.event === "all" ||
+      photo.event === state.event
+  );
+
+  renderCarousel();
+  renderGallery();
+}
+
+async function loadPhotos(silent = false) {
+  try {
+    const response = await fetch(API, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Gallery request failed");
     }
 
-    function updateViewer() {
-      const photo = state.filtered[state.viewerIndex];
-      if (!photo) return;
+    const data = await response.json();
 
-      $("viewerImage").src = photoUrl(photo);
-      $("viewerImage").alt =
-        `Wedding photo captured by ${photo.guestName || "Guest"}`;
-
-      $("viewerCredit").textContent =
-        `Captured by ${photo.guestName || "Guest"} · ${photo.event}`;
+    if (!Array.isArray(data.photos)) {
+      throw new Error("Invalid gallery response");
     }
 
-    function moveViewer(direction) {
-      showViewer(state.viewerIndex + direction);
+    const nextPhotos = data.photos.filter(
+      photo =>
+        typeof photo.id === "string" &&
+        typeof photo.imageUrl === "string" &&
+        typeof photo.event === "string"
+    );
+
+    const previousSignature = state.photos
+      .map(
+        photo =>
+          `${photo.id}:${photo.event}:${photo.featured}:${photo.imageUrl}:${photo.guestName}`
+      )
+      .join("|");
+
+    const nextSignature = nextPhotos
+      .map(
+        photo =>
+          `${photo.id}:${photo.event}:${photo.featured}:${photo.imageUrl}:${photo.guestName}`
+      )
+      .join("|");
+
+    state.photos = nextPhotos;
+    state.loaded = true;
+
+    if (!silent || previousSignature !== nextSignature) {
+      render();
+    }
+  } catch (error) {
+    if (!silent) {
+      $("message").classList.remove("hidden");
+      $("message").textContent =
+        "We couldn't load the gallery right now. Please try again.";
+    }
+  }
+}
+
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    state.event = button.dataset.event;
+
+    document.querySelectorAll(".filter").forEach(item => {
+      const active = item === button;
+      item.classList.toggle("active", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+
+    render();
+  });
+});
+
+function moveCarousel(direction) {
+  const carousel = $("carousel");
+  const firstSlide = carousel.querySelector(".slide");
+
+  if (!firstSlide) return;
+
+  const distance =
+    firstSlide.getBoundingClientRect().width + 17;
+
+  carousel.scrollBy({
+    left: direction * distance,
+    behavior: "smooth"
+  });
+}
+
+$("previous").addEventListener(
+  "click",
+  () => moveCarousel(-1)
+);
+
+$("next").addEventListener(
+  "click",
+  () => moveCarousel(1)
+);
+
+$("closeViewer").addEventListener(
+  "click",
+  () => $("lightbox").close()
+);
+
+$("viewerPrevious").addEventListener(
+  "click",
+  () => moveViewer(-1)
+);
+
+$("viewerNext").addEventListener(
+  "click",
+  () => moveViewer(1)
+);
+
+$("lightbox").addEventListener("click", event => {
+  if (event.target === $("lightbox")) {
+    $("lightbox").close();
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (!$("lightbox").open) return;
+
+  if (event.key === "ArrowLeft") {
+    moveViewer(-1);
+  }
+
+  if (event.key === "ArrowRight") {
+    moveViewer(1);
+  }
+});
+
+let touchStartX = null;
+
+$("lightbox").addEventListener(
+  "touchstart",
+  event => {
+    touchStartX =
+      event.changedTouches[0]?.screenX ?? null;
+  },
+  { passive: true }
+);
+
+$("lightbox").addEventListener(
+  "touchend",
+  event => {
+    if (touchStartX === null) return;
+
+    const endX =
+      event.changedTouches[0]?.screenX;
+
+    if (endX === undefined) return;
+
+    const difference = endX - touchStartX;
+
+    if (Math.abs(difference) > 60) {
+      moveViewer(difference < 0 ? 1 : -1);
     }
 
-    function renderCarousel() {
-      const carousel = $("carousel");
-      carousel.replaceChildren();
+    touchStartX = null;
+  },
+  { passive: true }
+);
 
-      // Show selected featured photos.
-      // Fall back to newest approved photos if none are featured.
-      const selectedFeatured = state.filtered.filter(
-        photo => photo.featured === true
+// Download the selected photo.
+// If cross-origin storage prevents downloading,
+// open the photo so guests can save it manually.
+$("downloadPhoto").addEventListener(
+  "click",
+  async event => {
+    event.preventDefault();
+
+    const photo = state.filtered[state.viewerIndex];
+    if (!photo) return;
+
+    const url = photoUrl(photo);
+    const newTab = window.open("", "_blank");
+
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Download unavailable");
+      }
+
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+
+      const anchor = document.createElement("a");
+      anchor.href = objectUrl;
+
+      const extension =
+        blob.type === "image/png"
+          ? "png"
+          : blob.type === "image/webp"
+            ? "webp"
+            : blob.type === "image/heic"
+              ? "heic"
+              : "jpg";
+
+      anchor.download = safeFileName(photo)
+        .replace(/\.jpg$/, `.${extension}`);
+
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+
+      if (newTab) {
+        newTab.close();
+      }
+
+      setTimeout(
+        () => URL.revokeObjectURL(objectUrl),
+        60000
       );
-
-      const featured = (
-        selectedFeatured.length > 0
-          ? selectedFeatured
-          : state.filtered
-      ).slice(0, 10);
-
-      $("featuredSection").classList.toggle(
-        "hidden",
-        featured.length === 0
-      );
-
-      featured.forEach((photo, index) => {
-        const card = document.createElement("article");
-        card.className = "slide";
-        card.tabIndex = 0;
-        card.setAttribute("role", "button");
-        card.setAttribute("aria-label", "Open featured photo");
-
-        card.appendChild(makeImage(photo, index === 0));
-
-        const info = document.createElement("div");
-        info.className = "slide-info";
-
-        info.appendChild(
-          text("strong", "", `Captured by ${photo.guestName || "Guest"}`)
-        );
-
-        info.appendChild(text("span", "", photo.event));
-        card.appendChild(info);
-
-        // Find the actual photo in the full filtered gallery.
-        const galleryIndex = state.filtered.findIndex(
-          item => item.id === photo.id
-        );
-
-        card.addEventListener("click", () => showViewer(galleryIndex));
-        card.addEventListener("keydown", event => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            showViewer(galleryIndex);
-          }
-        });
-
-        carousel.appendChild(card);
-      });
-    }
-
-    function renderGallery() {
-      const gallery = $("gallery");
-      const message = $("message");
-
-      gallery.replaceChildren();
-
-      if (!state.filtered.length) {
-        message.classList.remove("hidden");
-        message.textContent = state.loaded
-          ? "No approved photos here yet. Be the first to share a moment!"
-          : "Loading wedding memories...";
-        return;
-      }
-
-      message.classList.add("hidden");
-
-      state.filtered.forEach((photo, index) => {
-        const tile = document.createElement("article");
-        tile.className = "tile";
-        tile.tabIndex = 0;
-        tile.setAttribute("role", "button");
-        tile.setAttribute("aria-label", "View wedding photo");
-
-        tile.appendChild(makeImage(photo));
-
-        const info = document.createElement("div");
-        info.className = "tile-info";
-
-        info.appendChild(
-          text("div", "credit", `Captured by ${photo.guestName || "Guest"}`)
-        );
-
-        info.appendChild(
-          text("div", "event-name", photo.event)
-        );
-
-        tile.appendChild(info);
-
-        tile.addEventListener("click", () => showViewer(index));
-        tile.addEventListener("keydown", event => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            showViewer(index);
-          }
-        });
-
-        gallery.appendChild(tile);
-      });
-    }
-
-    function render() {
-      state.filtered = state.photos.filter(photo =>
-        state.event === "all" || photo.event === state.event
-      );
-
-      renderCarousel();
-      renderGallery();
-    }
-
-    async function loadPhotos(silent = false) {
-      try {
-        const response = await fetch(API, {
-          cache: "no-store"
-        });
-
-        if (!response.ok) {
-          throw new Error("Gallery request failed");
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data.photos)) {
-          throw new Error("Invalid gallery response");
-        }
-
-        const nextPhotos = data.photos.filter(photo =>
-          typeof photo.id === "string" &&
-          typeof photo.imageUrl === "string" &&
-          typeof photo.event === "string"
-        );
-
-        const previousSignature = state.photos
-          .map(photo => `${photo.id}:${photo.event}:${photo.featured}`)
-          .join("|");
-
-        const nextSignature = nextPhotos
-          .map(photo => `${photo.id}:${photo.event}:${photo.featured}`)
-          .join("|");
-
-        state.photos = nextPhotos;
-        state.loaded = true;
-
-        if (!silent || previousSignature !== nextSignature) {
-          render();
-        }
-      } catch (error) {
-        if (!silent) {
-          $("message").classList.remove("hidden");
-          $("message").textContent =
-            "We couldn't load the gallery right now. Please try again.";
-        }
+    } catch (error) {
+      if (newTab) {
+        newTab.location.href = url;
+      } else {
+        window.location.href = url;
       }
     }
+  }
+);
 
-    document.querySelectorAll(".filter").forEach(button => {
-      button.addEventListener("click", () => {
-        state.event = button.dataset.event;
+loadPhotos();
 
-        document.querySelectorAll(".filter").forEach(item => {
-          item.classList.toggle(
-            "active",
-            item === button
-          );
-        });
-
-        render();
-      });
-    });
-
-    function moveCarousel(direction) {
-      const carousel = $("carousel");
-      const firstSlide = carousel.querySelector(".slide");
-
-      if (!firstSlide) return;
-
-      const distance = firstSlide.getBoundingClientRect().width + 15;
-
-      carousel.scrollBy({
-        left: direction * distance,
-        behavior: "smooth"
-      });
-    }
-
-    $("previous").addEventListener("click", () => moveCarousel(-1));
-    $("next").addEventListener("click", () => moveCarousel(1));
-
-    $("closeViewer").addEventListener("click", () => {
-      $("lightbox").close();
-    });
-
-    $("viewerPrevious").addEventListener("click", () => moveViewer(-1));
-    $("viewerNext").addEventListener("click", () => moveViewer(1));
-
-    $("lightbox").addEventListener("click", event => {
-      if (event.target === $("lightbox")) {
-        $("lightbox").close();
-      }
-    });
-
-    document.addEventListener("keydown", event => {
-      if (!$("lightbox").open) return;
-
-      if (event.key === "ArrowLeft") moveViewer(-1);
-      if (event.key === "ArrowRight") moveViewer(1);
-    });
-
-    let touchStartX = null;
-
-    $("lightbox").addEventListener("touchstart", event => {
-      touchStartX = event.changedTouches[0]?.screenX ?? null;
-    }, { passive: true });
-
-    $("lightbox").addEventListener("touchend", event => {
-      if (touchStartX === null) return;
-
-      const endX = event.changedTouches[0]?.screenX;
-      if (endX === undefined) return;
-
-      const difference = endX - touchStartX;
-
-      if (Math.abs(difference) > 60) {
-        moveViewer(difference < 0 ? 1 : -1);
-      }
-
-      touchStartX = null;
-    }, { passive: true });
-
-    loadPhotos();
-
-    setInterval(() => {
-      if (
-        document.visibilityState === "visible" &&
-        !$("lightbox").open
-      ) {
-        loadPhotos(true);
-      }
-    }, 30000);
-  </script>
+setInterval(() => {
+  if (
+    document.visibilityState === "visible" &&
+    !$("lightbox").open
+  ) {
+    loadPhotos(true);
+  }
+}, 30000);
+</script>
 </body>
 </html>

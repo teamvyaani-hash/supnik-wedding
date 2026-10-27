@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#642d45">
+<title>Vendor Registration | Nikhil & Supriya</title>
+<style>
+:root{
+ --wine:#642d45;
+ --rose:#a55d76;
+ --cream:#fbf7f3;
+ --ink:#30242a;
+ --muted:#81757b;
+ --line:#ebdfe3;
+ --green:#21724f;
+ --red:#b73546;
+ font-family:system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:var(--cream);
+ color:var(--ink);
+}
+header{
+ background:var(--wine);
+ color:white;
+ padding:30px 20px;
+ text-align:center;
+}
+header .eyebrow{
+ font-size:11px;
+ letter-spacing:2px;
+}
+header h1{
+ font:normal 32px Georgia,serif;
+ margin:12px 0;
+}
+header p{
+ font-size:13px;
+ opacity:.85;
+ margin:0;
+}
+main{
+ max-width:650px;
+ margin:28px auto;
+ padding:0 16px 35px;
+}
+.card{
+ background:white;
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:26px;
+ margin-bottom:16px;
+}
+h2{
+ font-size:22px;
+ margin:0 0 10px;
+}
+h3{
+ font-size:17px;
+ margin:0 0 10px;
+}
+p{
+ line-height:1.6;
+}
+.muted{
+ color:var(--muted);
+ font-size:13px;
+}
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:15px;
+}
+label{
+ display:block;
+ font-size:13px;
+ font-weight:600;
+ margin-bottom:16px;
+}
+input,select{
+ display:block;
+ width:100%;
+ padding:12px;
+ margin-top:7px;
+ border:1px solid #d9cbd0;
+ border-radius:10px;
+ background:white;
+ color:var(--ink);
+ font:inherit;
+}
+input:focus,select:focus{
+ outline:2px solid var(--rose);
+ outline-offset:1px;
+}
+button{
+ font:inherit;
+ cursor:pointer;
+}
+.btn{
+ display:block;
+ width:100%;
+ background:var(--wine);
+ color:white;
+ border:0;
+ border-radius:11px;
+ padding:14px 18px;
+ font-weight:700;
+}
+.btn:disabled{
+ opacity:.55;
+ cursor:wait;
+}
+.info{
+ background:#faf1f5;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:15px;
+ font-size:14px;
+ line-height:1.6;
+ margin:16px 0 22px;
+}
+.status{
+ padding:14px;
+ border-radius:11px;
+ margin:16px 0;
+ font-size:14px;
+ line-height:1.6;
+}
+.status.error{
+ background:#fff0f1;
+ color:var(--red);
+ border:1px solid #f1cbd0;
+}
+.status.success{
+ background:#edf8f1;
+ color:var(--green);
+ border:1px solid #c5e5d0;
+}
+.hidden{display:none!important}
+footer{
+ text-align:center;
+ padding:10px 15px 30px;
+ font-size:12px;
+ color:var(--muted);
+}
+a{
+ color:var(--wine);
+ font-weight:600;
+}
+@media(max-width:600px){
+ header h1{font-size:27px}
+ .card{padding:19px}
+ .grid{grid-template-columns:1fr;gap:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="eyebrow">NIKHIL & SUPRIYA</div>
+ <h1>Wedding Vendor Registration</h1>
+ <p>
+  21–22 November 2026 · MGM Beach Resort, Chennai
+ </p>
+</header>
+
+<main>
+ <section class="card" id="registrationCard">
+  <h2>Join the Wedding Coordination Team</h2>
+  <p class="muted">
+   Register your individual account to coordinate
+   wedding preparations, update assigned tasks,
+   and receive important notifications.
+  </p>
+
+  <div class="info">
+   <strong>Registration requires approval.</strong>
+   <div>
+    After submitting your details, the wedding
+    administrator will review your request.
+    You can sign in only after your account
+    has been approved.
+   </div>
+  </div>
+
+  <form id="registrationForm">
+   <div class="grid">
+    <label>
+     Full Name
+     <input
+      id="fullName"
+      name="name"
+      maxlength="120"
+      autocomplete="name"
+      placeholder="Your full name"
+      required>
+    </label>
+
+    <label>
+     Vendor Team
+     <select
+      id="vendorTeam"
+      name="team"
+      required>
+      <option value="">Select your team</option>
+      <option value="Decor">Decor</option>
+      <option value="Photographer">
+       Photographer / Videographer
+      </option>
+      <option value="DJ">DJ / Entertainment</option>
+      <option value="Caterers">Caterers</option>
+      <option value="Hotel Staff">
+       Hotel / Venue Staff
+      </option>
+     </select>
+    </label>
+   </div>
+
+   <label>
+    Your Role / Designation
+    <input
+     id="position"
+     name="position"
+     maxlength="100"
+     placeholder="e.g. Event Manager, Photographer, Decor Lead"
+     required>
+   </label>
+
+   <div class="grid">
+    <label>
+     Email Address
+     <input
+      id="email"
+      name="email"
+      type="email"
+      maxlength="180"
+      autocomplete="email"
+      placeholder="name@company.com"
+      required>
+    </label>
+
+    <label>
+     Phone Number
+     <input
+      id="phone"
+      name="phone"
+      type="tel"
+      maxlength="25"
+      autocomplete="tel"
+      placeholder="+91 9876543210"
+      required>
+    </label>
+   </div>
+
+   <label>
+    Choose Username
+    <input
+     id="username"
+     name="username"
+     minlength="3"
+     maxlength="40"
+     pattern="[A-Za-z0-9_.-]{3,40}"
+     autocapitalize="none"
+     autocomplete="username"
+     placeholder="e.g. rahul.decor"
+     required>
+    <span class="muted">
+     3–40 characters. Letters, numbers, dots,
+     underscores and hyphens only.
+    </span>
+   </label>
+
+   <div class="grid">
+    <label>
+     Create Password
+     <input
+      id="password"
+      name="password"
+      type="password"
+      minlength="8"
+      maxlength="256"
+      autocomplete="new-password"
+      required>
+    </label>
+
+    <label>
+     Confirm Password
+     <input
+      id="confirmPassword"
+      name="confirmPassword"
+      type="password"
+      minlength="8"
+      maxlength="256"
+      autocomplete="new-password"
+      required>
+    </label>
+   </div>
+
+   <p class="muted">
+    Use your own login details. Do not share
+    passwords with other team members.
+    Each person should register separately.
+   </p>
+
+   <div id="formMessage"
+    class="status hidden"
+    role="alert"></div>
+
+   <button
+    id="submitButton"
+    class="btn"
+    type="submit">
+    Submit Registration Request
+   </button>
+  </form>
+ </section>
+
+ <section class="card hidden" id="successCard">
+  <h2>Registration Submitted</h2>
+
+  <div class="status success">
+   Your registration request has been received.
+  </div>
+
+  <p>
+   Your account is awaiting approval from
+   the wedding administrator.
+  </p>
+
+  <p>
+   Once approved, you can use your username
+   and password to sign in to the
+   Wedding Control Center.
+  </p>
+
+  <p class="muted">
+   Approval is not automatic. Please contact
+   your wedding coordinator to confirm
+   when your access is ready.
+  </p>
+
+  <a href="/wedding-control.html">
+   Go to Wedding Control Center
+  </a>
+ </section>
+</main>
+
+<footer>
+ Private wedding coordination portal ·
+ Nikhil & Supriya
+</footer>
+
+<script>
+const API="/api/wedding-register";
+
+const $=id=>document.getElementById(id);
+
+function showMessage(message,type="error"){
+ const element=$("formMessage");
+
+ element.textContent=message;
+ element.className="status "+type;
+}
+
+function clearMessage(){
+ $("formMessage").textContent="";
+ $("formMessage").className="status hidden";
+}
+
+$("registrationForm").addEventListener(
+ "submit",
+ async event=>{
+  event.preventDefault();
+  clearMessage();
+
+  const password=$("password").value;
+  const confirm=$("confirmPassword").value;
+
+  if(password!==confirm){
+   showMessage("Passwords do not match.");
+   return;
+  }
+
+  if(password.length<8){
+   showMessage(
+    "Password must be at least 8 characters."
+   );
+   return;
+  }
+
+  const payload={
+   action:"register",
+   name:$("fullName").value.trim(),
+   team:$("vendorTeam").value,
+   position:$("position").value.trim(),
+   email:$("email").value.trim(),
+   phone:$("phone").value.trim(),
+   username:$("username").value
+    .trim().toLowerCase(),
+   password
+  };
+
+  const button=$("submitButton");
+
+  button.disabled=true;
+  button.textContent="Submitting...";
+
+  try{
+   const response=await fetch(API,{
+    method:"POST",
+    headers:{
+     "Content-Type":"application/json"
+    },
+    body:JSON.stringify(payload)
+   });
+
+   let data;
+
+   try{
+    data=await response.json();
+   }catch{
+    throw Error(
+     "Unable to read the server response."
+    );
+   }
+
+   if(!response.ok){
+    throw Error(
+     data.error ||
+     "Registration could not be submitted."
+    );
+   }
+
+   $("registrationForm").reset();
+
+   $("registrationCard").classList.add(
+    "hidden"
+   );
+
+   $("successCard").classList.remove(
+    "hidden"
+   );
+
+   window.scrollTo(0,0);
+
+  }catch(error){
+   showMessage(error.message);
+  }finally{
+   button.disabled=false;
+   button.textContent=
+    "Submit Registration Request";
+  }
+ }
+);
+</script>
+</body>
+</html>

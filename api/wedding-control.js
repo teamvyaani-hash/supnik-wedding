@@ -1,22 +1,15 @@
 
 import { Redis } from "@upstash/redis";
 import {
-  randomBytes,
-  randomUUID,
-  scryptSync,
-  timingSafeEqual,
-  createHash
+  randomBytes, randomUUID, scryptSync,
+  timingSafeEqual, createHash
 } from "node:crypto";
 
 const PREFIX = "supnik:wedding-control:v2:";
 const SESSION_SECONDS = 12 * 60 * 60;
-
 const TEAMS = [
-  "Decor",
-  "Photographer",
-  "DJ",
-  "Caterers",
-  "Hotel Staff"
+  "Decor", "Photographer", "DJ",
+  "Caterers", "Hotel Staff"
 ];
 
 const INITIAL_TASKS = {
@@ -68,19 +61,15 @@ const INITIAL_TASKS = {
 };
 
 const STATUSES = [
-  "Pending",
-  "In progress",
-  "Blocked",
-  "Awaiting verification",
-  "Verified"
+  "Pending", "In progress", "Blocked",
+  "Awaiting verification", "Verified"
 ];
 
 const MAX_NOTIFICATIONS = 150;
 
 function clean(value, max = 200) {
   return typeof value === "string"
-    ? value.trim().slice(0, max)
-    : "";
+    ? value.trim().slice(0, max) : "";
 }
 
 function send(res, status, body) {
@@ -99,7 +88,7 @@ function redisClient() {
     process.env.KV_REST_API_TOKEN;
 
   if (!url || !token) {
-    throw new Error("Redis configuration missing");
+    throw Error("Redis configuration missing");
   }
 
   return new Redis({ url, token });
@@ -110,9 +99,7 @@ function key(type, id = "") {
 }
 
 function digest(value) {
-  return createHash("sha256")
-    .update(value)
-    .digest("hex");
+  return createHash("sha256").update(value).digest("hex");
 }
 
 function passwordHash(password, salt) {
@@ -122,18 +109,14 @@ function passwordHash(password, salt) {
 function secureEqual(a, b) {
   const x = Buffer.from(a);
   const y = Buffer.from(b);
-
-  return x.length === y.length &&
-    timingSafeEqual(x, y);
+  return x.length === y.length && timingSafeEqual(x, y);
 }
 
 function verifyPassword(password, user) {
   if (!user?.salt || !user?.hash) return false;
-
   try {
     return secureEqual(
-      passwordHash(password, user.salt),
-      user.hash
+      passwordHash(password, user.salt), user.hash
     );
   } catch {
     return false;
@@ -142,14 +125,10 @@ function verifyPassword(password, user) {
 
 function makeUser(id, name, role, vendor, password) {
   const salt = randomBytes(16).toString("hex");
-
   return {
-    id,
-    name,
-    role,
-    vendor,
-    salt,
+    id, name, role, vendor, salt,
     hash: passwordHash(password, salt),
+    sessionVersion: 0,
     createdAt: new Date().toISOString()
   };
 }
@@ -184,51 +163,37 @@ async function getUser(redis, id) {
 
 async function allUsers(redis) {
   const ids = await redis.smembers(key("userIds"));
-
   if (!ids?.length) return [];
-
   const users = await Promise.all(
     ids.map(id => getUser(redis, id))
   );
-
   return users.filter(Boolean);
 }
 
 async function initializeAdmin(redis) {
   const id = clean(
-    process.env.WC_ADMIN_USER,
-    40
+    process.env.WC_ADMIN_USER, 40
   ).toLowerCase();
 
-  const password =
-    process.env.WC_ADMIN_PASSWORD || "";
+  const password = process.env.WC_ADMIN_PASSWORD || "";
 
   if (!validUsername(id) ||
       !validPassword(password, 16)) {
-    throw new Error(
-      "WC_ADMIN_USER or WC_ADMIN_PASSWORD is missing or invalid"
-    );
+    throw Error("Admin configuration missing or invalid");
   }
 
   const created = await redis.set(
-    key("adminInitialized"),
-    "1",
-    { nx: true }
+    key("adminInitialized"), "1", { nx: true }
   );
 
   if (created === "OK" || created === true) {
     try {
       const existing = await getUser(redis, id);
-
       if (!existing) {
         const admin = makeUser(
-          id,
-          "Wedding Administrator",
-          "admin",
-          "",
-          password
+          id, "Wedding Administrator",
+          "admin", "", password
         );
-
         await redis.set(key("user", id), admin);
         await redis.sadd(key("userIds"), id);
       }
@@ -237,64 +202,64 @@ async function initializeAdmin(redis) {
       throw error;
     }
   }
-
   return id;
 }
 
-async function authenticate(req, redis) {
-  const authorization =
-    req.headers.authorization || "";
-
-  if (!authorization.startsWith("Bearer ")) {
-    return null;
-  }
-
+function bearerToken(req) {
+  const authorization = req.headers.authorization || "";
+  if (!authorization.startsWith("Bearer ")) return "";
   const token = authorization.slice(7);
+  return /^[a-f0-9]{64}$/.test(token) ? token : "";
+}
 
-  if (!/^[a-f0-9]{64}$/.test(token)) {
-    return null;
-  }
+async function authenticate(req, redis) {
+  const token = bearerToken(req);
+  if (!token) return null;
 
-  const userId = await redis.get(
+  const session = await redis.get(
     key("session", digest(token))
   );
+  if (!session) return null;
 
-  if (!userId) return null;
+  // Existing sessions from the previous version were
+  // stored as a username string. Preserve them until
+  // the account's password is reset.
+  const userId = typeof session === "string"
+    ? session : session.userId;
 
-  return getUser(redis, userId);
+  const user = await getUser(redis, userId);
+  if (!user) return null;
+
+  const version = Number(user.sessionVersion || 0);
+
+  if (typeof session === "string") {
+    if (version !== 0) return null;
+  } else if (Number(session.version) !== version) {
+    return null;
+  }
+
+  return user;
 }
 
 async function seedTasks(redis) {
   const created = await redis.set(
-    key("tasksInitialized"),
-    "1",
-    { nx: true }
+    key("tasksInitialized"), "1", { nx: true }
   );
 
-  if (created !== "OK" && created !== true) {
-    return;
-  }
+  if (created !== "OK" && created !== true) return;
 
   try {
     for (const [department, titles] of
       Object.entries(INITIAL_TASKS)) {
-
       for (const title of titles) {
         const id = randomUUID();
-
         const task = {
-          id,
-          department,
-          title,
-          owner: "",
-          due: "",
-          status: "Pending",
-          notes: "",
-          updatedBy: "",
-          updatedAt: "",
+          id, department, title,
+          owner: "", due: "",
+          status: "Pending", notes: "",
+          updatedBy: "", updatedAt: "",
           verifiedBy: ""
         };
-
         await redis.set(key("task", id), task);
         await redis.sadd(key("taskIds"), id);
       }
@@ -307,7 +272,6 @@ async function seedTasks(redis) {
 
 async function allTasks(redis) {
   const ids = await redis.smembers(key("taskIds"));
-
   if (!ids?.length) return [];
 
   const tasks = await Promise.all(
@@ -342,11 +306,7 @@ function canVerify(user, task, pocs) {
 }
 
 async function addNotification(
-  redis,
-  userId,
-  title,
-  message,
-  type = "info"
+  redis, userId, title, message, type = "info"
 ) {
   if (!userId) return;
 
@@ -360,53 +320,37 @@ async function addNotification(
   };
 
   const listKey = key("notifications", userId);
-
   await redis.lpush(listKey, notification);
   await redis.ltrim(listKey, 0, MAX_NOTIFICATIONS - 1);
 }
 
 async function notifyMany(
-  redis,
-  recipients,
-  title,
-  message,
-  type = "info"
+  redis, recipients, title, message, type = "info"
 ) {
   const ids = [...new Set(recipients.filter(Boolean))];
 
-  await Promise.all(
-    ids.map(id =>
-      addNotification(redis, id, title, message, type)
-    )
-  );
+  await Promise.all(ids.map(id =>
+    addNotification(redis, id, title, message, type)
+  ));
 }
 
 async function notificationsFor(redis, userId) {
   return (await redis.lrange(
     key("notifications", userId),
-    0,
-    MAX_NOTIFICATIONS - 1
+    0, MAX_NOTIFICATIONS - 1
   )) || [];
 }
 
 async function saveNotifications(redis, userId, list) {
   const listKey = key("notifications", userId);
-
   await redis.del(listKey);
-
-  if (list.length) {
-    await redis.rpush(listKey, ...list);
-  }
+  if (list.length) await redis.rpush(listKey, ...list);
 }
 
 async function taskRecipients(
-  redis,
-  task,
-  pocs,
-  includeVendors = true
+  redis, task, pocs, includeVendors = true
 ) {
   const users = await allUsers(redis);
-
   return users.filter(user =>
     user.role === "admin" ||
     user.id === task.owner ||
@@ -425,7 +369,6 @@ function rateIdentity(req) {
     req.socket?.remoteAddress ||
     "unknown"
   ).split(",")[0].trim();
-
   return digest(ip);
 }
 
@@ -436,21 +379,15 @@ async function checkLoginRate(redis, req, username) {
   );
 
   const count = await redis.incr(rateKey);
-
-  if (count === 1) {
-    await redis.expire(rateKey, 900);
-  }
-
+  if (count === 1) await redis.expire(rateKey, 900);
   return count <= 10;
 }
 
 async function clearLoginRate(redis, req, username) {
-  await redis.del(
-    key(
-      "loginAttempts",
-      digest(rateIdentity(req) + ":" + username)
-    )
-  );
+  await redis.del(key(
+    "loginAttempts",
+    digest(rateIdentity(req) + ":" + username)
+  ));
 }
 
 export default async function handler(req, res) {
@@ -464,7 +401,6 @@ export default async function handler(req, res) {
   }
 
   const origin = req.headers.origin;
-
   if (origin) {
     try {
       if (new URL(origin).host !== req.headers.host) {
@@ -484,10 +420,10 @@ export default async function handler(req, res) {
   try {
     const redis = redisClient();
 
+    // LOGIN
     if (action === "login") {
       const username = clean(
-        req.body?.username,
-        40
+        req.body?.username, 40
       ).toLowerCase();
 
       const password = req.body?.password;
@@ -500,16 +436,13 @@ export default async function handler(req, res) {
         });
       }
 
-      if (!(await checkLoginRate(
-        redis, req, username
-      ))) {
+      if (!(await checkLoginRate(redis, req, username))) {
         return send(res, 429, {
           error: "Too many attempts. Try again in 15 minutes."
         });
       }
 
       await initializeAdmin(redis);
-
       const user = await getUser(redis, username);
 
       if (!user || !verifyPassword(password, user)) {
@@ -524,7 +457,10 @@ export default async function handler(req, res) {
 
       await redis.set(
         key("session", digest(token)),
-        username,
+        {
+          userId: username,
+          version: Number(user.sessionVersion || 0)
+        },
         { ex: SESSION_SECONDS }
       );
 
@@ -542,6 +478,16 @@ export default async function handler(req, res) {
       });
     }
 
+    // LOGOUT
+    if (action === "logout") {
+      const token = bearerToken(req);
+      if (token) {
+        await redis.del(key("session", digest(token)));
+      }
+      return send(res, 200, { success: true });
+    }
+
+    // DASHBOARD
     if (action === "dashboard") {
       await seedTasks(redis);
 
@@ -574,6 +520,7 @@ export default async function handler(req, res) {
       });
     }
 
+    // CREATE ACCOUNT
     if (action === "createAccount") {
       if (user.role !== "admin") {
         return send(res, 403, {
@@ -583,10 +530,8 @@ export default async function handler(req, res) {
 
       const name = clean(req.body?.name, 120);
       const username = clean(
-        req.body?.username,
-        40
+        req.body?.username, 40
       ).toLowerCase();
-
       const role = clean(req.body?.role, 20);
       const vendor = clean(req.body?.vendor, 60);
       const password = req.body?.password;
@@ -601,28 +546,34 @@ export default async function handler(req, res) {
         });
       }
 
-      const existing = await getUser(redis, username);
-
-      if (existing) {
+      if (await getUser(redis, username)) {
         return send(res, 409, {
           error: "Username already exists"
         });
       }
 
       const account = makeUser(
-        username,
-        name,
-        role,
+        username, name, role,
         role === "vendor" ? vendor : "",
         password
       );
 
-      await redis.set(key("user", username), account);
+      // Prevent two simultaneous requests from
+      // overwriting the same username.
+      const created = await redis.set(
+        key("user", username), account, { nx: true }
+      );
+
+      if (created !== "OK" && created !== true) {
+        return send(res, 409, {
+          error: "Username already exists"
+        });
+      }
+
       await redis.sadd(key("userIds"), username);
 
       await addNotification(
-        redis,
-        username,
+        redis, username,
         "Welcome to Wedding Control",
         "Your wedding coordination account is ready."
       );
@@ -633,6 +584,72 @@ export default async function handler(req, res) {
       });
     }
 
+    // ADMIN-ONLY PASSWORD RESET
+    if (action === "resetAccountPassword") {
+      if (user.role !== "admin") {
+        return send(res, 403, {
+          error: "Only administrators can reset passwords"
+        });
+      }
+
+      const username = clean(
+        req.body?.username, 40
+      ).toLowerCase();
+
+      const password = req.body?.password;
+
+      if (!validUsername(username) ||
+          !validPassword(password, 8)) {
+        return send(res, 400, {
+          error: "Choose a password of at least 8 characters"
+        });
+      }
+
+      const target = await getUser(redis, username);
+
+      if (!target) {
+        return send(res, 404, {
+          error: "Account not found"
+        });
+      }
+
+      if (target.role === "admin") {
+        return send(res, 403, {
+          error: "Admin passwords cannot be reset here"
+        });
+      }
+
+      const salt = randomBytes(16).toString("hex");
+
+      // Preserve the account ID, role, vendor team,
+      // task assignments and notifications.
+      // Incrementing the session version invalidates
+      // all previously issued sessions for this user.
+      const updated = {
+        ...target,
+        salt,
+        hash: passwordHash(password, salt),
+        sessionVersion:
+          Number(target.sessionVersion || 0) + 1,
+        passwordUpdatedAt: new Date().toISOString()
+      };
+
+      await redis.set(key("user", username), updated);
+
+      await addNotification(
+        redis, username,
+        "Your password was updated",
+        "Your account password was reset by the wedding administrator. Sign in using your new password.",
+        "security"
+      );
+
+      return send(res, 200, {
+        success: true,
+        username
+      });
+    }
+
+    // CREATE TASK
     if (action === "createTask") {
       if (user.role === "vendor") {
         return send(res, 403, {
@@ -641,8 +658,7 @@ export default async function handler(req, res) {
       }
 
       const department = clean(
-        req.body?.department,
-        60
+        req.body?.department, 60
       );
       const title = clean(req.body?.title, 200);
       const due = clean(req.body?.due, 30);
@@ -657,7 +673,6 @@ export default async function handler(req, res) {
 
       if (owner) {
         const assigned = await getUser(redis, owner);
-
         if (!assigned || assigned.role === "vendor") {
           return send(res, 400, {
             error: "Invalid coordinator"
@@ -666,15 +681,9 @@ export default async function handler(req, res) {
       }
 
       const id = randomUUID();
-
       const task = {
-        id,
-        department,
-        title,
-        owner,
-        due,
-        status: "Pending",
-        notes: "",
+        id, department, title, owner, due,
+        status: "Pending", notes: "",
         updatedBy: user.name,
         updatedAt: new Date().toISOString(),
         verifiedBy: ""
@@ -684,14 +693,12 @@ export default async function handler(req, res) {
       await redis.sadd(key("taskIds"), id);
 
       const pocs = await getPocs(redis);
-
       const recipients = await taskRecipients(
         redis, task, pocs
       );
 
       await notifyMany(
-        redis,
-        recipients,
+        redis, recipients,
         "New task: " + title,
         department + " task has been created." +
         (due ? " Deadline: " + due : ""),
@@ -699,16 +706,17 @@ export default async function handler(req, res) {
       );
 
       return send(res, 200, {
-        success: true,
-        task
+        success: true, task
       });
     }
 
+    // UPDATE TASK
     if (action === "updateTask") {
       const id = clean(req.body?.id, 80);
       const patch = req.body?.patch;
 
-      if (!patch || typeof patch !== "object" ||
+      if (!patch ||
+          typeof patch !== "object" ||
           Array.isArray(patch)) {
         return send(res, 400, {
           error: "Invalid task update"
@@ -742,25 +750,17 @@ export default async function handler(req, res) {
       }
 
       const pocs = await getPocs(redis);
-
       const status = clean(
-        patch.status ?? task.status,
-        40
+        patch.status ?? task.status, 40
       );
-
       const owner = clean(
-        patch.owner ?? task.owner,
-        40
+        patch.owner ?? task.owner, 40
       );
-
       const due = clean(
-        patch.due ?? task.due,
-        30
+        patch.due ?? task.due, 30
       );
-
       const notes = clean(
-        patch.notes ?? task.notes,
-        2000
+        patch.notes ?? task.notes, 2000
       );
 
       if (!STATUSES.includes(status) ||
@@ -772,7 +772,6 @@ export default async function handler(req, res) {
 
       if (owner) {
         const assigned = await getUser(redis, owner);
-
         if (!assigned || assigned.role === "vendor") {
           return send(res, 400, {
             error: "Invalid task owner"
@@ -796,15 +795,11 @@ export default async function handler(req, res) {
 
       const updated = {
         ...task,
-        status,
-        owner,
-        due,
-        notes,
+        status, owner, due, notes,
         updatedBy: user.name,
         updatedAt: new Date().toISOString(),
         verifiedBy: status === "Verified"
-          ? user.name
-          : ""
+          ? user.name : ""
       };
 
       await redis.set(key("task", id), updated);
@@ -815,19 +810,16 @@ export default async function handler(req, res) {
 
       if (owner && owner !== task.owner) {
         await addNotification(
-          redis,
-          owner,
+          redis, owner,
           "Task assigned to you",
-          updated.title +
-          " — " + updated.department,
+          updated.title + " — " + updated.department,
           "assignment"
         );
       }
 
       if (due && due !== task.due) {
         await notifyMany(
-          redis,
-          recipients,
+          redis, recipients,
           "Deadline updated",
           updated.title + " — " + due,
           "deadline"
@@ -850,22 +842,19 @@ export default async function handler(req, res) {
         }
 
         await notifyMany(
-          redis,
-          recipients,
-          title,
-          updated.title +
-          " — " + updated.department +
-          " — " + status,
+          redis, recipients, title,
+          updated.title + " — " +
+          updated.department + " — " + status,
           type
         );
       }
 
       return send(res, 200, {
-        success: true,
-        task: updated
+        success: true, task: updated
       });
     }
 
+    // VENDOR POINTS OF CONTACT
     if (action === "setPoc") {
       if (user.role === "vendor") {
         return send(res, 403, {
@@ -874,18 +863,13 @@ export default async function handler(req, res) {
       }
 
       const department = clean(
-        req.body?.department,
-        60
+        req.body?.department, 60
       );
-
       const internal = clean(
-        req.body?.internal,
-        40
+        req.body?.internal, 40
       );
-
       const vendor = clean(
-        req.body?.vendor,
-        120
+        req.body?.vendor, 120
       );
 
       if (!TEAMS.includes(department)) {
@@ -896,7 +880,6 @@ export default async function handler(req, res) {
 
       if (internal) {
         const person = await getUser(redis, internal);
-
         if (!person || person.role === "vendor") {
           return send(res, 400, {
             error: "Invalid internal coordinator"
@@ -905,16 +888,13 @@ export default async function handler(req, res) {
       }
 
       const pocs = await getPocs(redis);
-
       pocs[department] = { internal, vendor };
-
       await redis.set(key("pocs"), pocs);
 
-      return send(res, 200, {
-        success: true
-      });
+      return send(res, 200, { success: true });
     }
 
+    // URGENT ALERT
     if (action === "urgentAlert") {
       if (user.role === "vendor") {
         return send(res, 403, {
@@ -923,13 +903,10 @@ export default async function handler(req, res) {
       }
 
       const audience = clean(
-        req.body?.audience,
-        60
+        req.body?.audience, 60
       );
-
       const message = clean(
-        req.body?.message,
-        500
+        req.body?.message, 500
       );
 
       if (!message ||
@@ -943,11 +920,9 @@ export default async function handler(req, res) {
 
       const recipients = users.filter(person => {
         if (audience === "all") return true;
-
         if (audience === "family") {
           return person.role !== "vendor";
         }
-
         return person.role === "admin" ||
           (
             person.role === "vendor" &&
@@ -956,8 +931,7 @@ export default async function handler(req, res) {
       }).map(person => person.id);
 
       await notifyMany(
-        redis,
-        recipients,
+        redis, recipients,
         "Urgent wedding update",
         user.name + ": " + message,
         "urgent"
@@ -969,45 +943,35 @@ export default async function handler(req, res) {
       });
     }
 
+    // MARK NOTIFICATION READ
     if (action === "markRead") {
       const id = clean(req.body?.id, 80);
-
       const list = await notificationsFor(
         redis, user.id
       );
-
       const updated = list.map(notification =>
         notification.id === id
-          ? {...notification, read: true}
+          ? { ...notification, read: true }
           : notification
       );
-
       await saveNotifications(
         redis, user.id, updated
       );
-
-      return send(res, 200, {
-        success: true
-      });
+      return send(res, 200, { success: true });
     }
 
+    // MARK ALL READ
     if (action === "markAllRead") {
       const list = await notificationsFor(
         redis, user.id
       );
-
       await saveNotifications(
-        redis,
-        user.id,
+        redis, user.id,
         list.map(notification => ({
-          ...notification,
-          read: true
+          ...notification, read: true
         }))
       );
-
-      return send(res, 200, {
-        success: true
-      });
+      return send(res, 200, { success: true });
     }
 
     return send(res, 400, {
@@ -1015,11 +979,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error(
-      "Wedding Control error:",
-      error.message
-    );
-
+    console.error("Wedding Control error:", error.message);
     return send(res, 500, {
       error: "Wedding Control is not configured or temporarily unavailable"
     });

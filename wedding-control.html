@@ -282,7 +282,6 @@ textarea{resize:vertical;min-height:65px}
 </main>
 
 <div id="toast" role="status"></div>
-
 <script>
 const API="/api/wedding-control";
 const DEPARTMENTS=[
@@ -573,8 +572,57 @@ $("loginForm").addEventListener("submit",async e=>{
 });
 
 $("logout").onclick=async()=>{
- try{await request("logout");}catch{}
+ const button=$("logout");
+ button.disabled=true;
+
+ try{
+  if("serviceWorker" in navigator&&
+     "PushManager" in window){
+
+   const registration=
+    await navigator.serviceWorker.getRegistration("/");
+
+   const subscription=registration
+    ?await registration.pushManager.getSubscription()
+    :null;
+
+   if(subscription&&token){
+    const response=await fetch("/api/wedding-push",{
+     method:"POST",
+     headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+token
+     },
+     body:JSON.stringify({
+      action:"unsubscribe",
+      endpoint:subscription.endpoint
+     })
+    });
+
+    if(!response.ok){
+     throw Error("Unable to unregister push notifications");
+    }
+
+    await subscription.unsubscribe();
+   }
+  }
+ }catch(error){
+  button.disabled=false;
+  toast(
+   "Could not disable notifications. " +
+   "Please try again before signing out."
+  );
+  return;
+ }
+
+ try{
+  await request("logout");
+ }catch(error){
+  console.warn("Logout request failed:",error.message);
+ }
+
  sessionStorage.removeItem("wc_token");
+ token="";
  location.reload();
 };
 
@@ -720,3 +768,4 @@ if(token){
 </script>
 </body>
 </html>
+

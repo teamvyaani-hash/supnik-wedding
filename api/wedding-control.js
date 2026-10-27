@@ -167,9 +167,9 @@ function validUsername(username) {
   return /^[a-z0-9_.-]{3,40}$/.test(username);
 }
 
-function validPassword(password) {
+function validPassword(password, minimum = 8) {
   return typeof password === "string" &&
-    password.length >= 16 &&
+    password.length >= minimum &&
     password.length <= 256;
 }
 
@@ -203,7 +203,8 @@ async function initializeAdmin(redis) {
   const password =
     process.env.WC_ADMIN_PASSWORD || "";
 
-  if (!validUsername(id) || !validPassword(password)) {
+  if (!validUsername(id) ||
+      !validPassword(password, 16)) {
     throw new Error(
       "WC_ADMIN_USER or WC_ADMIN_PASSWORD is missing or invalid"
     );
@@ -483,7 +484,6 @@ export default async function handler(req, res) {
   try {
     const redis = redisClient();
 
-    // LOGIN
     if (action === "login") {
       const username = clean(
         req.body?.username,
@@ -534,7 +534,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // ALL OTHER ACTIONS REQUIRE LOGIN
     const user = await authenticate(req, redis);
 
     if (!user) {
@@ -543,7 +542,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // DASHBOARD
     if (action === "dashboard") {
       await seedTasks(redis);
 
@@ -576,7 +574,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // CREATE FAMILY / VENDOR ACCOUNT
     if (action === "createAccount") {
       if (user.role !== "admin") {
         return send(res, 403, {
@@ -597,7 +594,7 @@ export default async function handler(req, res) {
       if (!name ||
           !validUsername(username) ||
           !["family", "vendor"].includes(role) ||
-          !validPassword(password) ||
+          !validPassword(password, 8) ||
           (role === "vendor" && !TEAMS.includes(vendor))) {
         return send(res, 400, {
           error: "Invalid account details"
@@ -636,7 +633,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // CREATE TASK
     if (action === "createTask") {
       if (user.role === "vendor") {
         return send(res, 403, {
@@ -708,7 +704,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // UPDATE TASK
     if (action === "updateTask") {
       const id = clean(req.body?.id, 80);
       const patch = req.body?.patch;
@@ -871,7 +866,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // UPDATE VENDOR POC
     if (action === "setPoc") {
       if (user.role === "vendor") {
         return send(res, 403, {
@@ -921,7 +915,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // URGENT BROADCAST
     if (action === "urgentAlert") {
       if (user.role === "vendor") {
         return send(res, 403, {
@@ -976,7 +969,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // MARK ONE NOTIFICATION AS READ
     if (action === "markRead") {
       const id = clean(req.body?.id, 80);
 
@@ -999,7 +991,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // MARK ALL NOTIFICATIONS AS READ
     if (action === "markAllRead") {
       const list = await notificationsFor(
         redis, user.id

@@ -8,785 +8,714 @@
 <title>SUPNIK | Wedding Control</title>
 <style>
 :root{
-  --wine:#642d45;
-  --rose:#a55d76;
-  --cream:#fbf7f3;
-  --ink:#30242a;
-  --muted:#81757b;
-  --line:#ebdfe3;
-  --green:#21724f;
-  --red:#b73546;
-  font-family:system-ui,-apple-system,sans-serif;
+ --wine:#642d45;--rose:#a55d76;--cream:#fbf7f3;
+ --ink:#30242a;--muted:#81757b;--line:#ebdfe3;
+ --green:#21724f;--red:#b73546;
+ font-family:system-ui,-apple-system,sans-serif
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--cream);color:var(--ink)}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-header{
-  background:var(--wine);
-  color:white;
-  padding:24px 20px;
-}
+header{background:var(--wine);color:white;padding:24px 20px}
 .header-inner{max-width:1200px;margin:auto}
-header h1{
-  font:normal 32px Georgia,serif;
-  margin:8px 0;
-}
+header h1{font:normal 32px Georgia,serif;margin:8px 0}
 header p{margin:0;opacity:.8;font-size:13px}
 main{max-width:1200px;margin:auto;padding:20px}
 .panel{
-  background:white;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:18px;
+ background:white;border:1px solid var(--line);
+ border-radius:16px;padding:20px;margin-bottom:18px
 }
 h2{font-size:20px;margin:0 0 14px}
 h3{font-size:16px;margin:0 0 8px}
 .muted{color:var(--muted);font-size:13px}
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:12px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+ gap:12px
 }
 label{display:block;font-size:13px;font-weight:600;margin-bottom:12px}
 input,select,textarea{
-  display:block;
-  width:100%;
-  padding:11px;
-  margin-top:6px;
-  border:1px solid #d9cbd0;
-  border-radius:9px;
-  background:white;
-  color:var(--ink);
+ display:block;width:100%;padding:11px;margin-top:6px;
+ border:1px solid #d9cbd0;border-radius:9px;
+ background:white;color:var(--ink)
 }
 textarea{resize:vertical;min-height:65px}
 .btn{
-  border:0;
-  border-radius:10px;
-  background:var(--wine);
-  color:white;
-  padding:11px 16px;
-  font-weight:600;
+ border:0;border-radius:10px;background:var(--wine);
+ color:white;padding:11px 16px;font-weight:600
 }
 .btn.secondary{background:#f1e7eb;color:var(--wine)}
 .btn.danger{background:var(--red)}
 .btn:disabled{opacity:.55}
 .row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
+ display:flex;align-items:center;justify-content:space-between;
+ gap:12px;flex-wrap:wrap
 }
 .stat{
-  border:1px solid var(--line);
-  background:white;
-  padding:18px;
-  border-radius:14px;
+ border:1px solid var(--line);background:white;
+ padding:18px;border-radius:14px
 }
 .stat strong{display:block;font-size:29px;margin-top:6px}
 .tag{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#f4eaf0;
-  color:var(--wine);
-  font-size:12px;
+ display:inline-block;padding:5px 9px;border-radius:20px;
+ background:#f4eaf0;color:var(--wine);font-size:12px
 }
-.task{
-  padding:16px 0;
-  border-top:1px solid var(--line);
-}
+.task{padding:16px 0;border-top:1px solid var(--line)}
 .task:first-child{border-top:0}
 .task-title{font-weight:700;margin-bottom:5px}
 .task-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-  margin-top:12px;
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:12px;margin-top:12px
 }
 .notice{
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:13px;
-  margin:10px 0;
+ border:1px solid var(--line);border-radius:12px;
+ padding:13px;margin:10px 0
 }
 .notice.unread{border-left:4px solid var(--rose)}
 .notice.urgent{border-left:4px solid var(--red)}
-.nav{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding:14px 0;
-}
+.nav{display:flex;gap:8px;overflow-x:auto;padding:14px 0}
 .nav button{
-  border:1px solid var(--line);
-  background:white;
-  border-radius:10px;
-  padding:11px 15px;
-  white-space:nowrap;
+ border:1px solid var(--line);background:white;
+ border-radius:10px;padding:11px 15px;white-space:nowrap
 }
 .nav button.active{background:var(--wine);color:white}
 .hidden{display:none!important}
 #login{max-width:430px;margin:45px auto}
 #toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#30242a;
-  color:white;
-  padding:13px 20px;
-  border-radius:12px;
-  display:none;
-  z-index:10;
-  max-width:90vw;
+ position:fixed;bottom:20px;left:50%;
+ transform:translateX(-50%);
+ background:#30242a;color:white;padding:13px 20px;
+ border-radius:12px;display:none;z-index:10;max-width:90vw
 }
 @media(max-width:650px){
-  main{padding:13px}
-  header h1{font-size:26px}
-  .panel{padding:15px}
-  .task-grid{grid-template-columns:1fr}
+ main{padding:13px}
+ header h1{font-size:26px}
+ .panel{padding:15px}
+ .task-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-
 <header>
 <div class="header-inner">
-  <div style="font-size:11px;letter-spacing:2px">
-    NIKHIL & SUPRIYA
-  </div>
-  <h1>Wedding Control Center</h1>
-  <p>21–22 November 2026 · MGM Beach Resort, Chennai</p>
+ <div style="font-size:11px;letter-spacing:2px">
+  NIKHIL & SUPRIYA
+ </div>
+ <h1>Wedding Control Center</h1>
+ <p>21–22 November 2026 · MGM Beach Resort, Chennai</p>
 </div>
 </header>
 
 <main>
-
 <section id="login" class="panel">
-  <h2>Private Team Login</h2>
-  <p class="muted">
-    For the couple, family coordinators, friends and vendors.
-  </p>
-  <form id="loginForm">
-    <label>Username
-      <input id="username" required autocomplete="username">
-    </label>
-    <label>Password
-      <input id="password" type="password"
-        required autocomplete="current-password">
-    </label>
-    <button class="btn" type="submit">Sign In</button>
-  </form>
-  <p id="loginMessage" style="color:var(--red)"></p>
+ <h2>Private Team Login</h2>
+ <p class="muted">For the couple, family, friends and vendors.</p>
+ <form id="loginForm">
+  <label>Username
+   <input id="username" required autocomplete="username">
+  </label>
+  <label>Password
+   <input id="password" type="password"
+    required autocomplete="current-password">
+  </label>
+  <button class="btn">Sign In</button>
+ </form>
+ <p id="loginMessage" style="color:var(--red)" role="alert"></p>
 </section>
 
 <div id="workspace" class="hidden">
-
-<div class="row">
+ <div class="row">
   <div>
-    <h2 id="greeting"></h2>
-    <p id="roleLabel" class="muted"></p>
+   <h2 id="greeting"></h2>
+   <p id="roleLabel" class="muted"></p>
   </div>
   <button class="btn secondary" id="logout">Sign Out</button>
-</div>
+ </div>
 
-<div class="nav">
+ <div class="nav">
   <button class="active" data-tab="overview">Overview</button>
   <button data-tab="tasks">Tasks</button>
-  <button data-tab="notifications" id="bell">
-    Notifications <span id="unreadCount"></span>
+  <button data-tab="notifications">
+   Notifications <span id="unreadCount"></span>
   </button>
   <button data-tab="team">Team & Vendors</button>
-</div>
+ </div>
 
-<div id="overviewTab">
+ <div id="overviewTab">
   <div id="stats" class="grid"></div>
 
   <section class="panel" style="margin-top:18px">
-    <h2>Attention Required</h2>
-    <div id="attention"></div>
+   <h2>Attention Required</h2>
+   <div id="attention"></div>
   </section>
 
-  <section class="panel">
-    <h2>Send Urgent Alert</h2>
-    <form id="alertForm">
-      <label>Send to
-        <select id="alertAudience">
-          <option value="all">All coordinators and vendors</option>
-          <option value="family">Family and friends</option>
-          <option value="Decor">Decor</option>
-          <option value="Photographer">Photographer</option>
-          <option value="DJ">DJ</option>
-          <option value="Caterers">Caterers</option>
-          <option value="Hotel Staff">Hotel Staff</option>
-        </select>
-      </label>
-      <label>Urgent message
-        <textarea id="alertText" required maxlength="500"
-          placeholder="Describe the urgent issue or schedule change"></textarea>
-      </label>
-      <button class="btn danger">Send Alert</button>
-    </form>
+  <section class="panel" id="alertPanel">
+   <h2>Send Urgent Alert</h2>
+   <form id="alertForm">
+    <label>Send to
+     <select id="alertAudience">
+      <option value="all">All coordinators and vendors</option>
+      <option value="family">Family and friends</option>
+      <option value="Decor">Decor</option>
+      <option value="Photographer">Photographer</option>
+      <option value="DJ">DJ</option>
+      <option value="Caterers">Caterers</option>
+      <option value="Hotel Staff">Hotel Staff</option>
+     </select>
+    </label>
+    <label>Urgent message
+     <textarea id="alertText" required maxlength="500"></textarea>
+    </label>
+    <button class="btn danger">Send Alert</button>
+   </form>
   </section>
-</div>
+ </div>
 
-<div id="tasksTab" class="hidden">
+ <div id="tasksTab" class="hidden">
   <section class="panel">
-    <div class="row">
-      <h2>Task Management</h2>
-      <select id="taskFilter" style="max-width:220px">
-        <option value="">All Teams</option>
-      </select>
-    </div>
-    <div id="taskList"></div>
+   <div class="row">
+    <h2>Task Management</h2>
+    <select id="taskFilter" style="max-width:220px">
+     <option value="">All Teams</option>
+    </select>
+   </div>
+   <div id="taskList"></div>
   </section>
 
   <section class="panel" id="addTaskPanel">
-    <h2>Create New Task</h2>
-    <form id="addTaskForm">
-      <div class="grid">
-        <label>Vendor Team
-          <select id="newDepartment"></select>
-        </label>
-        <label>Task Name
-          <input id="newTitle" required maxlength="200">
-        </label>
-        <label>Deadline
-          <input id="newDue" type="datetime-local">
-        </label>
-        <label>Assign to
-          <select id="newOwner"></select>
-        </label>
-      </div>
-      <button class="btn">Create Task</button>
-    </form>
-  </section>
-</div>
-
-<div id="notificationsTab" class="hidden">
-  <section class="panel">
-    <div class="row">
-      <h2>Notification Center</h2>
-      <button class="btn secondary" id="markAllRead">
-        Mark All Read
-      </button>
+   <h2>Create New Task</h2>
+   <form id="addTaskForm">
+    <div class="grid">
+     <label>Vendor Team
+      <select id="newDepartment"></select>
+     </label>
+     <label>Task Name
+      <input id="newTitle" required maxlength="200">
+     </label>
+     <label>Deadline
+      <input id="newDue" type="datetime-local">
+     </label>
+     <label>Assign to
+      <select id="newOwner"></select>
+     </label>
     </div>
-    <div id="notificationList"></div>
+    <button class="btn">Create Task</button>
+   </form>
   </section>
-</div>
+ </div>
 
-<div id="teamTab" class="hidden">
+ <div id="notificationsTab" class="hidden">
   <section class="panel">
-    <h2>Vendor Coordination</h2>
-    <div id="vendorCards" class="grid"></div>
+   <div class="row">
+    <h2>Notification Center</h2>
+    <button class="btn secondary" id="markAllRead">
+     Mark All Read
+    </button>
+   </div>
+   <div id="notificationList"></div>
+  </section>
+ </div>
+
+ <div id="teamTab" class="hidden">
+  <section class="panel">
+   <h2>Vendor Coordination</h2>
+   <div id="vendorCards" class="grid"></div>
   </section>
 
   <section class="panel" id="accountPanel">
-    <h2>Create Family / Vendor Account</h2>
-    <p class="muted">
-      Family and vendor passwords must contain at least 8 characters.
-    </p>
-    <form id="accountForm">
-      <div class="grid">
-        <label>Full Name
-          <input id="accountName" required>
-        </label>
-        <label>Username
-          <input id="accountUsername" required>
-        </label>
-        <label>Role
-          <select id="accountRole">
-            <option value="family">Family / Friend</option>
-            <option value="vendor">Vendor</option>
-          </select>
-        </label>
-        <label>Vendor Team
-          <select id="accountVendor"></select>
-        </label>
-        <label>Temporary Password
-          <input id="accountPassword" type="password"
-            required minlength="8" maxlength="256"
-            autocomplete="new-password">
-        </label>
-      </div>
-      <button class="btn">Create Account</button>
-    </form>
+   <h2>Create Family / Vendor Account</h2>
+   <p class="muted">Minimum password: 8 characters.</p>
+   <form id="accountForm">
+    <div class="grid">
+     <label>Full Name
+      <input id="accountName" required maxlength="120">
+     </label>
+     <label>Username
+      <input id="accountUsername" required maxlength="40">
+     </label>
+     <label>Role
+      <select id="accountRole">
+       <option value="family">Family / Friend</option>
+       <option value="vendor">Vendor</option>
+      </select>
+     </label>
+     <label>Vendor Team
+      <select id="accountVendor"></select>
+     </label>
+     <label>Temporary Password
+      <input id="accountPassword" type="password"
+       required minlength="8" maxlength="256"
+       autocomplete="new-password">
+     </label>
+    </div>
+    <button class="btn">Create Account</button>
+   </form>
   </section>
-</div>
 
+  <section class="panel" id="resetPanel">
+   <h2>Reset Family / Vendor Password</h2>
+   <p class="muted">
+    Admin only. Select an existing account and set a new password.
+    The person's tasks and assignments will be preserved.
+   </p>
+   <form id="resetForm">
+    <label>Select Account
+     <select id="resetAccount" required></select>
+    </label>
+    <label>New Password
+     <input id="resetPassword" type="password"
+      minlength="8" maxlength="256"
+      autocomplete="new-password" required>
+    </label>
+    <label>Confirm New Password
+     <input id="resetConfirm" type="password"
+      minlength="8" maxlength="256"
+      autocomplete="new-password" required>
+    </label>
+    <button class="btn" type="submit">Reset Password</button>
+   </form>
+   <p id="resetMessage" role="status"></p>
+  </section>
+ </div>
 </div>
 </main>
 
 <div id="toast" role="status"></div>
 
 <script>
-const API = "/api/wedding-control";
-const DEPARTMENTS = [
-  "Decor","Photographer","DJ","Caterers","Hotel Staff"
+const API="/api/wedding-control";
+const DEPARTMENTS=[
+ "Decor","Photographer","DJ","Caterers","Hotel Staff"
 ];
 
-let token = sessionStorage.getItem("wc_token") || "";
-let me = null;
-let tasks = [];
-let people = [];
-let pocs = {};
-let notifications = [];
+let token=sessionStorage.getItem("wc_token")||"";
+let me=null,tasks=[],people=[],pocs={},notifications=[];
 
-const $ = id => document.getElementById(id);
-
-const escapeHTML = value => String(value ?? "").replace(
-  /[&<>"']/g,
-  c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[c])
+const $=id=>document.getElementById(id);
+const escapeHTML=value=>String(value??"").replace(
+ /[&<>"']/g,
+ c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ }[c])
 );
 
-function toast(message) {
-  $("toast").textContent = message;
-  $("toast").style.display = "block";
-  setTimeout(() => $("toast").style.display = "none", 3500);
+function toast(message){
+ $("toast").textContent=message;
+ $("toast").style.display="block";
+ setTimeout(()=>$("toast").style.display="none",3500);
 }
 
-async function request(action, payload = {}) {
-  const response = await fetch(API, {
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      ...(token ? {"Authorization":"Bearer " + token} : {})
-    },
-    body:JSON.stringify({action,...payload})
-  });
-
-  let data;
-  try {
-    data = await response.json();
-  } catch {
-    throw Error("Server returned an invalid response");
-  }
-
-  if (!response.ok) {
-    throw Error(data.error || "Request failed");
-  }
-
-  return data;
+async function request(action,payload={}){
+ const response=await fetch(API,{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   ...(token?{"Authorization":"Bearer "+token}:{})
+  },
+  body:JSON.stringify({action,...payload})
+ });
+ let data;
+ try{data=await response.json();}
+ catch{throw Error("Server returned an invalid response");}
+ if(!response.ok)throw Error(data.error||"Request failed");
+ return data;
 }
 
-function options(items, selected = "") {
-  return items.map(item => {
-    const value = typeof item === "string" ? item : item.id;
-    const name = typeof item === "string" ? item : item.name;
-
-    return `<option value="${escapeHTML(value)}"
-      ${value === selected ? "selected" : ""}>
-      ${escapeHTML(name)}
-    </option>`;
-  }).join("");
+function options(items,selected=""){
+ return items.map(item=>{
+  const value=typeof item==="string"?item:item.id;
+  const name=typeof item==="string"?item:item.name;
+  return `<option value="${escapeHTML(value)}"
+   ${value===selected?"selected":""}>
+   ${escapeHTML(name)}
+  </option>`;
+ }).join("");
 }
 
-function ownerOptions(selected = "") {
-  return `<option value="">Unassigned</option>` +
-    options(people.filter(p => p.role !== "vendor"), selected);
+function ownerOptions(selected=""){
+ return `<option value="">Unassigned</option>`+
+  options(people.filter(p=>p.role!=="vendor"),selected);
 }
 
-function showTab(name) {
-  ["overview","tasks","notifications","team"].forEach(tab => {
-    $(tab + "Tab").classList.toggle("hidden",tab !== name);
-  });
-
-  document.querySelectorAll("[data-tab]").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.tab === name
-    );
-  });
+function showTab(name){
+ ["overview","tasks","notifications","team"].forEach(tab=>{
+  $(tab+"Tab").classList.toggle("hidden",tab!==name);
+ });
+ document.querySelectorAll("[data-tab]").forEach(button=>{
+  button.classList.toggle("active",button.dataset.tab===name);
+ });
 }
 
-function renderStats() {
-  const statuses = [
-    ["Total Tasks",tasks.length],
-    ["In Progress",tasks.filter(t =>
-      t.status === "In progress").length],
-    ["Awaiting Verification",tasks.filter(t =>
-      t.status === "Awaiting verification").length],
-    ["Verified",tasks.filter(t =>
-      t.status === "Verified").length],
-    ["Blocked",tasks.filter(t =>
-      t.status === "Blocked").length]
-  ];
+function renderStats(){
+ const statuses=[
+  ["Total Tasks",tasks.length],
+  ["In Progress",tasks.filter(t=>t.status==="In progress").length],
+  ["Awaiting Verification",tasks.filter(t=>
+   t.status==="Awaiting verification").length],
+  ["Verified",tasks.filter(t=>t.status==="Verified").length],
+  ["Blocked",tasks.filter(t=>t.status==="Blocked").length]
+ ];
+ $("stats").innerHTML=statuses.map(([name,count])=>`
+  <div class="stat">
+   <span class="muted">${name}</span>
+   <strong>${count}</strong>
+  </div>
+ `).join("");
 
-  $("stats").innerHTML = statuses.map(([name,count]) => `
-    <div class="stat">
-      <span class="muted">${name}</span>
-      <strong>${count}</strong>
+ const attention=tasks.filter(t=>
+  t.status==="Blocked"||
+  t.status==="Awaiting verification"
+ );
+ $("attention").innerHTML=attention.length
+  ?attention.map(t=>`
+   <div class="notice">
+    <strong>${escapeHTML(t.title)}</strong>
+    <div class="muted">
+     ${escapeHTML(t.department)} · ${escapeHTML(t.status)}
     </div>
+   </div>
+  `).join("")
+  :`<p class="muted">No urgent task issues right now.</p>`;
+}
+
+function canVerifyLocally(task){
+ return me.role==="admin"||
+  (me.role==="family"&&(
+   task.owner===me.id||
+   pocs[task.department]?.internal===me.id
+  ));
+}
+
+function renderTasks(){
+ const vendor=me.role==="vendor";
+ const selected=$("taskFilter").value;
+ $("taskFilter").innerHTML=
+  `<option value="">All Teams</option>`+
+  options([...new Set(tasks.map(t=>t.department))],selected);
+ $("taskFilter").value=selected;
+
+ $("newDepartment").innerHTML=options(DEPARTMENTS);
+ $("newOwner").innerHTML=ownerOptions();
+ $("addTaskPanel").classList.toggle("hidden",vendor);
+
+ const shown=tasks.filter(t=>!selected||t.department===selected);
+ $("taskList").innerHTML=shown.length
+  ?shown.map(t=>{
+   const statuses=[
+    "Pending","In progress","Blocked",
+    "Awaiting verification"
+   ];
+   if(canVerifyLocally(t)||t.status==="Verified"){
+    statuses.push("Verified");
+   }
+   return `
+    <div class="task">
+     <div class="row">
+      <div>
+       <div class="task-title">${escapeHTML(t.title)}</div>
+       <span class="tag">${escapeHTML(t.department)}</span>
+      </div>
+      <span class="muted">${escapeHTML(t.status)}</span>
+     </div>
+     <div class="task-grid">
+      <label>Status
+       <select data-task="${escapeHTML(t.id)}"
+        data-field="status"
+        ${vendor&&t.status==="Verified"?"disabled":""}>
+        ${options(statuses,t.status)}
+       </select>
+      </label>
+      <label>Assigned Coordinator
+       <select data-task="${escapeHTML(t.id)}"
+        data-field="owner" ${vendor?"disabled":""}>
+        ${ownerOptions(t.owner)}
+       </select>
+      </label>
+      <label>Deadline
+       <input type="datetime-local"
+        data-task="${escapeHTML(t.id)}" data-field="due"
+        value="${escapeHTML(t.due||"")}"
+        ${vendor?"disabled":""}>
+      </label>
+     </div>
+     <label>Progress Notes
+      <textarea data-task="${escapeHTML(t.id)}"
+       data-field="notes"
+       ${vendor&&t.status==="Verified"?"disabled":""}>${escapeHTML(t.notes||"")}</textarea>
+     </label>
+     <div class="row">
+      <span class="muted">
+       ${t.updatedBy
+        ?"Last updated by "+escapeHTML(t.updatedBy)
+        :"No updates yet"}
+      </span>
+      <button class="btn" data-save="${escapeHTML(t.id)}"
+       ${vendor&&t.status==="Verified"?"disabled":""}>
+       Save Update
+      </button>
+     </div>
+    </div>
+   `;
+  }).join("")
+  :`<p class="muted">No tasks found.</p>`;
+}
+
+function renderNotifications(){
+ const unread=notifications.filter(n=>!n.read);
+ $("unreadCount").textContent=
+  unread.length?`(${unread.length})`:"";
+ $("notificationList").innerHTML=notifications.length
+  ?notifications.map(n=>`
+   <div class="notice ${n.read?"":"unread"}
+    ${n.type==="urgent"?"urgent":""}">
+    <div class="row">
+     <strong>${escapeHTML(n.title)}</strong>
+     ${n.read?"":`
+      <button class="btn secondary"
+       data-read="${escapeHTML(n.id)}">Mark Read</button>
+     `}
+    </div>
+    <p>${escapeHTML(n.message)}</p>
+    <span class="muted">${escapeHTML(n.createdAt||"")}</span>
+   </div>
+  `).join("")
+  :`<p class="muted">No notifications yet.</p>`;
+}
+
+function renderTeam(){
+ const vendor=me.role==="vendor";
+ $("accountPanel").classList.toggle(
+  "hidden",me.role!=="admin"
+ );
+ $("resetPanel").classList.toggle(
+  "hidden",me.role!=="admin"
+ );
+ $("accountVendor").innerHTML=options(DEPARTMENTS);
+
+ const eligible=people.filter(p=>p.role!=="admin");
+ $("resetAccount").innerHTML=eligible.length
+  ?eligible.map(p=>`
+   <option value="${escapeHTML(p.id)}">
+    ${escapeHTML(p.name)} (${escapeHTML(p.id)})
+    — ${escapeHTML(p.role==="vendor"?p.vendor:"Family")}
+   </option>
+  `).join("")
+  :`<option value="">No accounts yet</option>`;
+
+ $("vendorCards").innerHTML=
+  (vendor?[me.vendor]:DEPARTMENTS).map(d=>`
+   <div class="stat">
+    <h3>${escapeHTML(d)}</h3>
+    <label>Internal Coordinator
+     <select data-department="${escapeHTML(d)}"
+      data-poc-field="internal" ${vendor?"disabled":""}>
+      ${ownerOptions(pocs[d]?.internal||"")}
+     </select>
+    </label>
+    <label>Vendor POC
+     <input data-department="${escapeHTML(d)}"
+      data-poc-field="vendor"
+      value="${escapeHTML(pocs[d]?.vendor||"")}"
+      ${vendor?"disabled":""}>
+    </label>
+    ${vendor?"":`
+     <button class="btn secondary"
+      data-save-poc="${escapeHTML(d)}">Save Contacts</button>
+    `}
+   </div>
   `).join("");
-
-  const attention = tasks.filter(t =>
-    t.status === "Blocked" ||
-    t.status === "Awaiting verification"
-  );
-
-  $("attention").innerHTML = attention.length
-    ? attention.map(t => `
-      <div class="notice">
-        <strong>${escapeHTML(t.title)}</strong>
-        <div class="muted">
-          ${escapeHTML(t.department)} ·
-          ${escapeHTML(t.status)}
-        </div>
-      </div>
-    `).join("")
-    : `<p class="muted">No urgent task issues right now.</p>`;
 }
 
-function renderTasks() {
-  const vendor = me.role === "vendor";
-  const selected = $("taskFilter").value;
-
-  $("taskFilter").innerHTML =
-    `<option value="">All Teams</option>` +
-    options(
-      [...new Set(tasks.map(t => t.department))],
-      selected
-    );
-
-  $("taskFilter").value = selected;
-
-  $("newDepartment").innerHTML = options(DEPARTMENTS);
-  $("newOwner").innerHTML = ownerOptions();
-
-  $("addTaskPanel").classList.toggle("hidden",vendor);
-
-  const shown = tasks.filter(t =>
-    !selected || t.department === selected
-  );
-
-  $("taskList").innerHTML = shown.length
-    ? shown.map(t => `
-      <div class="task">
-        <div class="row">
-          <div>
-            <div class="task-title">${escapeHTML(t.title)}</div>
-            <span class="tag">${escapeHTML(t.department)}</span>
-          </div>
-          <span class="muted">
-            ${escapeHTML(t.status)}
-          </span>
-        </div>
-
-        <div class="task-grid">
-          <label>Status
-            <select data-task="${escapeHTML(t.id)}"
-              data-field="status">
-              ${options(
-                [
-                  "Pending",
-                  "In progress",
-                  "Blocked",
-                  "Awaiting verification",
-                  ...(me.role === "admin" ? ["Verified"] : [])
-                ],
-                t.status
-              )}
-            </select>
-          </label>
-
-          <label>Assigned Coordinator
-            <select data-task="${escapeHTML(t.id)}"
-              data-field="owner"
-              ${vendor ? "disabled" : ""}>
-              ${ownerOptions(t.owner)}
-            </select>
-          </label>
-
-          <label>Deadline
-            <input type="datetime-local"
-              data-task="${escapeHTML(t.id)}"
-              data-field="due"
-              value="${escapeHTML(t.due || "")}"
-              ${vendor ? "disabled" : ""}>
-          </label>
-        </div>
-
-        <label>Progress Notes
-          <textarea data-task="${escapeHTML(t.id)}"
-            data-field="notes">${escapeHTML(t.notes || "")}</textarea>
-        </label>
-
-        <div class="row">
-          <span class="muted">
-            ${t.updatedBy
-              ? "Last updated by " + escapeHTML(t.updatedBy)
-              : "No updates yet"}
-          </span>
-          <button class="btn" data-save="${escapeHTML(t.id)}">
-            Save Update
-          </button>
-        </div>
-      </div>
-    `).join("")
-    : `<p class="muted">No tasks found.</p>`;
+function render(){
+ $("login").classList.add("hidden");
+ $("workspace").classList.remove("hidden");
+ $("greeting").textContent="Welcome, "+me.name;
+ $("roleLabel").textContent=
+  me.role==="admin"?"Wedding Administrator":
+  me.role==="vendor"?"Vendor · "+me.vendor:
+  "Family / Friend Coordinator";
+ $("alertPanel").classList.toggle(
+  "hidden",me.role==="vendor"
+ );
+ renderStats();
+ renderTasks();
+ renderNotifications();
+ renderTeam();
 }
 
-function renderNotifications() {
-  const unread = notifications.filter(n => !n.read);
-
-  $("unreadCount").textContent =
-    unread.length ? `(${unread.length})` : "";
-
-  $("notificationList").innerHTML = notifications.length
-    ? notifications.map(n => `
-      <div class="notice
-        ${n.read ? "" : "unread"}
-        ${n.type === "urgent" ? "urgent" : ""}">
-        <div class="row">
-          <strong>${escapeHTML(n.title)}</strong>
-          ${n.read ? "" : `
-            <button class="btn secondary"
-              data-read="${escapeHTML(n.id)}">
-              Mark Read
-            </button>
-          `}
-        </div>
-        <p>${escapeHTML(n.message)}</p>
-        <span class="muted">
-          ${escapeHTML(n.createdAt || "")}
-        </span>
-      </div>
-    `).join("")
-    : `<p class="muted">No notifications yet.</p>`;
+async function load(){
+ const data=await request("dashboard");
+ me=data.user;
+ tasks=data.tasks||[];
+ people=data.people||[];
+ pocs=data.pocs||{};
+ notifications=data.notifications||[];
+ render();
 }
 
-function renderTeam() {
-  const vendor = me.role === "vendor";
-
-  $("accountPanel").classList.toggle(
-    "hidden",
-    me.role !== "admin"
-  );
-
-  $("accountVendor").innerHTML = options(DEPARTMENTS);
-
-  $("vendorCards").innerHTML =
-    (vendor ? [me.vendor] : DEPARTMENTS).map(d => `
-      <div class="stat">
-        <h3>${escapeHTML(d)}</h3>
-
-        <label>Internal Coordinator
-          <select data-department="${escapeHTML(d)}"
-            data-poc-field="internal"
-            ${vendor ? "disabled" : ""}>
-            ${ownerOptions(pocs[d]?.internal || "")}
-          </select>
-        </label>
-
-        <label>Vendor POC
-          <input data-department="${escapeHTML(d)}"
-            data-poc-field="vendor"
-            value="${escapeHTML(pocs[d]?.vendor || "")}"
-            ${vendor ? "disabled" : ""}>
-        </label>
-
-        ${vendor ? "" : `
-          <button class="btn secondary"
-            data-save-poc="${escapeHTML(d)}">
-            Save Contacts
-          </button>
-        `}
-      </div>
-    `).join("");
-}
-
-function render() {
-  $("login").classList.add("hidden");
-  $("workspace").classList.remove("hidden");
-
-  $("greeting").textContent = "Welcome, " + me.name;
-  $("roleLabel").textContent =
-    me.role === "admin" ? "Wedding Administrator" :
-    me.role === "vendor" ? "Vendor · " + me.vendor :
-    "Family / Friend Coordinator";
-
-  $("alertForm").classList.toggle(
-    "hidden",
-    me.role === "vendor"
-  );
-
-  renderStats();
-  renderTasks();
-  renderNotifications();
-  renderTeam();
-}
-
-async function load() {
-  const data = await request("dashboard");
-
-  me = data.user;
-  tasks = data.tasks || [];
-  people = data.people || [];
-  pocs = data.pocs || {};
-  notifications = data.notifications || [];
-
-  render();
-}
-
-$("loginForm").addEventListener("submit",async e => {
-  e.preventDefault();
-  $("loginMessage").textContent = "";
-
-  try {
-    const result = await request("login",{
-      username:$("username").value.trim(),
-      password:$("password").value
-    });
-
-    token = result.token;
-    sessionStorage.setItem("wc_token",token);
-    $("password").value = "";
-
-    await load();
-  } catch(error) {
-    $("loginMessage").textContent = error.message;
-  }
-});
-
-$("logout").onclick = () => {
-  sessionStorage.removeItem("wc_token");
-  location.reload();
-};
-
-document.querySelectorAll("[data-tab]").forEach(button => {
-  button.onclick = () => showTab(button.dataset.tab);
-});
-
-$("taskFilter").onchange = renderTasks;
-
-$("addTaskForm").onsubmit = async e => {
-  e.preventDefault();
-
-  try {
-    await request("createTask",{
-      department:$("newDepartment").value,
-      title:$("newTitle").value,
-      due:$("newDue").value,
-      owner:$("newOwner").value
-    });
-
-    $("addTaskForm").reset();
-    await load();
-    toast("Task created successfully");
-  } catch(error) {
-    toast(error.message);
-  }
-};
-
-$("alertForm").onsubmit = async e => {
-  e.preventDefault();
-
-  try {
-    await request("urgentAlert",{
-      audience:$("alertAudience").value,
-      message:$("alertText").value
-    });
-
-    $("alertText").value = "";
-    await load();
-    toast("Urgent alert sent");
-  } catch(error) {
-    toast(error.message);
-  }
-};
-
-$("accountForm").onsubmit = async e => {
-  e.preventDefault();
-
-  try {
-    await request("createAccount",{
-      name:$("accountName").value,
-      username:$("accountUsername").value,
-      role:$("accountRole").value,
-      vendor:$("accountVendor").value,
-      password:$("accountPassword").value
-    });
-
-    $("accountForm").reset();
-    await load();
-    toast("Account created successfully");
-  } catch(error) {
-    toast(error.message);
-  }
-};
-
-$("markAllRead").onclick = async () => {
-  try {
-    await request("markAllRead");
-    await load();
-  } catch(error) {
-    toast(error.message);
-  }
-};
-
-document.addEventListener("click",async e => {
-  const taskId = e.target.dataset.save;
-  const pocDepartment = e.target.dataset.savePoc;
-  const notificationId = e.target.dataset.read;
-
-  try {
-    if (taskId) {
-      const patch = {};
-
-      document.querySelectorAll("[data-task]").forEach(el => {
-        if (el.dataset.task === taskId && !el.disabled) {
-          patch[el.dataset.field] = el.value;
-        }
-      });
-
-      await request("updateTask",{id:taskId,patch});
-      await load();
-      toast("Task updated");
-    }
-
-    if (pocDepartment) {
-      const fields = [
-        ...document.querySelectorAll("[data-department]")
-      ].filter(el => el.dataset.department === pocDepartment);
-
-      const values = Object.fromEntries(
-        fields.map(el => [el.dataset.pocField,el.value])
-      );
-
-      await request("setPoc",{
-        department:pocDepartment,
-        ...values
-      });
-
-      await load();
-      toast("Contacts saved");
-    }
-
-    if (notificationId) {
-      await request("markRead",{id:notificationId});
-      await load();
-    }
-  } catch(error) {
-    toast(error.message);
-  }
-});
-
-if (token) {
-  load().catch(() => {
-    sessionStorage.removeItem("wc_token");
-    token = "";
-    $("login").classList.remove("hidden");
-    $("workspace").classList.add("hidden");
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ $("loginMessage").textContent="";
+ try{
+  const result=await request("login",{
+   username:$("username").value.trim(),
+   password:$("password").value
   });
+  token=result.token;
+  sessionStorage.setItem("wc_token",token);
+  $("password").value="";
+  await load();
+ }catch(error){
+  $("loginMessage").textContent=error.message;
+ }
+});
+
+$("logout").onclick=async()=>{
+ try{await request("logout");}catch{}
+ sessionStorage.removeItem("wc_token");
+ location.reload();
+};
+
+document.querySelectorAll("[data-tab]").forEach(button=>{
+ button.onclick=()=>showTab(button.dataset.tab);
+});
+$("taskFilter").onchange=renderTasks;
+
+$("addTaskForm").onsubmit=async e=>{
+ e.preventDefault();
+ try{
+  await request("createTask",{
+   department:$("newDepartment").value,
+   title:$("newTitle").value,
+   due:$("newDue").value,
+   owner:$("newOwner").value
+  });
+  $("addTaskForm").reset();
+  await load();
+  toast("Task created successfully");
+ }catch(error){toast(error.message);}
+};
+
+$("alertForm").onsubmit=async e=>{
+ e.preventDefault();
+ try{
+  await request("urgentAlert",{
+   audience:$("alertAudience").value,
+   message:$("alertText").value
+  });
+  $("alertText").value="";
+  await load();
+  toast("Urgent alert sent");
+ }catch(error){toast(error.message);}
+};
+
+$("accountForm").onsubmit=async e=>{
+ e.preventDefault();
+ try{
+  await request("createAccount",{
+   name:$("accountName").value,
+   username:$("accountUsername").value,
+   role:$("accountRole").value,
+   vendor:$("accountVendor").value,
+   password:$("accountPassword").value
+  });
+  $("accountForm").reset();
+  await load();
+  toast("Account created successfully");
+ }catch(error){toast(error.message);}
+};
+
+$("resetForm").onsubmit=async e=>{
+ e.preventDefault();
+ const username=$("resetAccount").value;
+ const password=$("resetPassword").value;
+ const confirm=$("resetConfirm").value;
+ const message=$("resetMessage");
+
+ message.textContent="";
+ if(password!==confirm){
+  message.textContent="Passwords do not match.";
+  return;
+ }
+ if(!username){
+  message.textContent="Select an account.";
+  return;
+ }
+ if(!window.confirm(
+  "Reset the password for "+username+
+  "? Their existing sessions will be signed out."
+ ))return;
+
+ const button=e.submitter;
+ if(button)button.disabled=true;
+ try{
+  await request("resetAccountPassword",{
+   username,password
+  });
+  $("resetPassword").value="";
+  $("resetConfirm").value="";
+  message.textContent=
+   "Password updated successfully for "+username+".";
+  toast("Password reset successful");
+ }catch(error){
+  message.textContent=error.message;
+ }finally{
+  if(button)button.disabled=false;
+ }
+};
+
+$("markAllRead").onclick=async()=>{
+ try{
+  await request("markAllRead");
+  await load();
+ }catch(error){toast(error.message);}
+};
+
+document.addEventListener("click",async e=>{
+ const taskId=e.target.dataset.save;
+ const pocDepartment=e.target.dataset.savePoc;
+ const notificationId=e.target.dataset.read;
+ try{
+  if(taskId){
+   const patch={};
+   document.querySelectorAll("[data-task]").forEach(el=>{
+    if(el.dataset.task===taskId&&!el.disabled){
+     patch[el.dataset.field]=el.value;
+    }
+   });
+   await request("updateTask",{id:taskId,patch});
+   await load();
+   toast("Task updated");
+  }
+  if(pocDepartment){
+   const fields=[
+    ...document.querySelectorAll("[data-department]")
+   ].filter(el=>el.dataset.department===pocDepartment);
+   const values=Object.fromEntries(
+    fields.map(el=>[el.dataset.pocField,el.value])
+   );
+   await request("setPoc",{
+    department:pocDepartment,...values
+   });
+   await load();
+   toast("Contacts saved");
+  }
+  if(notificationId){
+   await request("markRead",{id:notificationId});
+   await load();
+  }
+ }catch(error){toast(error.message);}
+});
+
+if(token){
+ load().catch(()=>{
+  sessionStorage.removeItem("wc_token");
+  token="";
+  $("login").classList.remove("hidden");
+  $("workspace").classList.add("hidden");
+ });
 }
 </script>
 </body>

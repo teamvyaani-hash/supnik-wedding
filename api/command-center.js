@@ -117,9 +117,9 @@ function checkPassword(password, record) {
   }
 }
 
-function tokenHash(token) {
+function tokenHash(value) {
   return createHash("sha256")
-    .update(token)
+    .update(value)
     .digest("hex");
 }
 
@@ -164,6 +164,116 @@ async function authenticate(req, redis) {
   return await getUser(redis, id);
 }
 
+async function ensureAdmin(redis) {
+  const id = clean(process.env.CC_ADMIN_USER, 80);
+  const password = process.env.CC_ADMIN_PASSWORD || "";
+
+  if (!id || password.length < 16) {
+    throw new Error(
+      "CC_ADMIN_USER and CC_ADMIN_PASSWORD must be configured. " +
+      "Admin password must contain at least 16 characters."
+    );
+  }
+
+  const existing = await getUser(redis, id);
+
+  if (existing) return;
+
+  const salt = randomBytes(16).toString("hex");
+
+  const admin = {
+    id,
+    name: "Wedding Admin",
+    role: "admin",
+    vendor: "",
+    salt,
+    hash: hashPassword(password, salt)
+  };
+
+  await redis.set(userKey(id), admin);
+  await redis.sadd(PREFIX + "userIds", id);
+}
+
+async function resetAdminPassword(redis, secret) {
+  const configuredSecret =
+    process.env.CC_ADMIN_RESET_SECRET || "";
+
+  const adminId = clean(process.env.CC_ADMIN_USER, 80);
+  const newPassword = process.env.CC_ADMIN_PASSWORD || "";
+
+  if (
+    configuredSecret.length < 32 ||
+    !adminId ||
+    newPassword.length < 16 ||
+    typeof secret !== "string"
+  ) {
+    throw new Error("Password reset is not configured");
+  }
+
+  const supplied = Buffer.from(secret);
+  const expected = Buffer.from(configuredSecret);
+
+  if (
+    supplied.length !== expected.length ||
+    !timingSafeEqual(supplied, expected)
+  ) {
+    return false;
+  }
+
+  const resetKey = PREFIX + "adminResetUsed:" +
+    tokenHash(configuredSecret);
+
+  const claimed = await redis.set(
+    resetKey,
+    "1",
+    { nx: true }
+  );
+
+  if (claimed !== "OK" && claimed !== true) {
+    return false;
+  }
+
+  const existing = await getUser(redis, adminId);
+  const salt = randomBytes(16).toString("hex");
+
+  await redis.set(userKey(adminId), {
+    id: adminId,
+    name: existing?.name || "Wedding Admin",
+    role: "admin",
+    vendor: "",
+    salt,
+    hash: hashPassword(newPassword, salt)
+  });
+
+  await redis.sadd(PREFIX + "userIds", adminId);
+
+  return true;
+}
+
+function permitted(user, task) {
+  return user.role !== "vendor" ||
+    task.department === user.vendor;
+}
+
+function validDepartment(department) {
+  return DEPARTMENTS.includes(department);
+}
+
+function validDue(due) {
+  return !due ||
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(due);
+}
+
+function validStatus(status) {
+  return [
+    "Pending",
+    "In progress",
+    "Blocked",
+    "Awaiting verification",
+    "Verified"
+  ].includes(status);
+}
+
 async function seedTasks(redis) {
   const seeded = await redis.set(
     PREFIX + "seeded",
@@ -174,7 +284,10 @@ async function seedTasks(redis) {
   if (seeded !== "OK" && seeded !== true) return;
 
   try {
-    for (const [department, titles] of Object.entries(INITIAL_TASKS)) {
+    for (
+      const [department, titles]
+      of Object.entries(INITIAL_TASKS)
+    ) {
       for (const title of titles) {
         const id = randomUUID();
 
@@ -229,65 +342,14 @@ async function getPeople(redis) {
     .map(publicUser);
 }
 
-async function ensureAdmin(redis) {
-  const id = clean(process.env.CC_ADMIN_USER, 80);
-  const password = process.env.CC_ADMIN_PASSWORD || "";
-
-  if (!id || password.length < 16) {
-    throw new Error(
-      "CC_ADMIN_USER and CC_ADMIN_PASSWORD must be configured. " +
-      "Admin password must contain at least 16 characters."
-    );
-  }
-
-  const existing = await getUser(redis, id);
-
-  if (existing) return;
-
-  const salt = randomBytes(16).toString("hex");
-
-  await redis.set(userKey(id), {
-    id,
-    name: "Wedding Admin",
-    role: "admin",
-    vendor: "",
-    salt,
-    hash: hashPassword(password, salt)
-  });
-
-  await redis.sadd(PREFIX + "userIds", id);
-}
-
-function permitted(user, task) {
-  return user.role !== "vendor" ||
-    task.department === user.vendor;
-}
-
-function validDepartment(department) {
-  return DEPARTMENTS.includes(department);
-}
-
-function validDue(due) {
-  return !due ||
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(due);
-}
-
-function validStatus(status) {
-  return [
-    "Pending",
-    "In progress",
-    "Blocked",
-    "Awaiting verification",
-    "Verified"
-  ].includes(status);
-}
-
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   res.setHeader("X-Content-Type-Options", "nosniff");
 
   if (req.method !== "POST") {
-    return reply(res, 405, { error: "POST required" });
+    return reply(res, 405, {
+      error: "POST required"
+    });
   }
 
   const origin = req.headers.origin;
@@ -295,10 +357,14 @@ export default async function handler(req, res) {
   if (origin) {
     try {
       if (new URL(origin).host !== req.headers.host) {
-        return reply(res, 403, { error: "Origin rejected" });
+        return reply(res, 403, {
+          error: "Origin rejected"
+        });
       }
     } catch {
-      return reply(res, 403, { error: "Origin rejected" });
+      return reply(res, 403, {
+        error: "Origin rejected"
+      });
     }
   }
 
@@ -307,6 +373,56 @@ export default async function handler(req, res) {
   try {
     const redis = redisClient();
 
+    // One-time administrator password recovery
+    if (action === "resetAdminPassword") {
+      const secret = req.body?.secret;
+
+      if (typeof secret !== "string" ||
+          secret.length > 256) {
+        return reply(res, 400, {
+          error: "Invalid reset request"
+        });
+      }
+
+      const ip = clean(
+        String(req.headers["x-forwarded-for"] || "")
+          .split(",")[0],
+        100
+      );
+
+      const rateKey = PREFIX + "resetRate:" +
+        tokenHash(ip);
+
+      const attempts = await redis.incr(rateKey);
+
+      if (attempts === 1) {
+        await redis.expire(rateKey, 900);
+      }
+
+      if (attempts > 5) {
+        return reply(res, 429, {
+          error: "Too many reset attempts"
+        });
+      }
+
+      const success = await resetAdminPassword(
+        redis,
+        secret
+      );
+
+      if (!success) {
+        return reply(res, 403, {
+          error: "Invalid or already used reset code"
+        });
+      }
+
+      return reply(res, 200, {
+        success: true,
+        message: "Admin password updated successfully"
+      });
+    }
+
+    // Login
     if (action === "login") {
       const id = clean(req.body?.id, 80);
       const password = req.body?.password;
@@ -371,6 +487,7 @@ export default async function handler(req, res) {
       });
     }
 
+    // Dashboard data
     if (action === "list") {
       await seedTasks(redis);
 
@@ -402,6 +519,7 @@ export default async function handler(req, res) {
       });
     }
 
+    // Create task
     if (action === "addTask") {
       if (user.role === "vendor") {
         return reply(res, 403, {
@@ -409,7 +527,11 @@ export default async function handler(req, res) {
         });
       }
 
-      const department = clean(req.body?.department, 60);
+      const department = clean(
+        req.body?.department,
+        60
+      );
+
       const title = clean(req.body?.title);
       const due = clean(req.body?.due, 30);
 
@@ -441,6 +563,7 @@ export default async function handler(req, res) {
       return reply(res, 200, { task });
     }
 
+    // Update task
     if (action === "updateTask") {
       const id = clean(req.body?.id, 80);
       const patch = req.body?.patch;
@@ -504,7 +627,10 @@ export default async function handler(req, res) {
         });
       }
 
-      const due = clean(patch.due ?? task.due, 30);
+      const due = clean(
+        patch.due ?? task.due,
+        30
+      );
 
       if (!validDue(due)) {
         return reply(res, 400, {
@@ -518,9 +644,13 @@ export default async function handler(req, res) {
       );
 
       if (owner) {
-        const ownerUser = await getUser(redis, owner);
+        const ownerUser = await getUser(
+          redis,
+          owner
+        );
 
-        if (!ownerUser || ownerUser.role === "vendor") {
+        if (!ownerUser ||
+            ownerUser.role === "vendor") {
           return reply(res, 400, {
             error: "Choose a valid family or friend"
           });
@@ -550,6 +680,7 @@ export default async function handler(req, res) {
       });
     }
 
+    // Assign internal and vendor POCs
     if (action === "setPoc") {
       if (user.role === "vendor") {
         return reply(res, 403, {
@@ -579,9 +710,13 @@ export default async function handler(req, res) {
       }
 
       if (internal) {
-        const person = await getUser(redis, internal);
+        const person = await getUser(
+          redis,
+          internal
+        );
 
-        if (!person || person.role === "vendor") {
+        if (!person ||
+            person.role === "vendor") {
           return reply(res, 400, {
             error: "Invalid internal POC"
           });
@@ -596,7 +731,10 @@ export default async function handler(req, res) {
         vendor
       };
 
-      await redis.set(PREFIX + "pocs", pocs);
+      await redis.set(
+        PREFIX + "pocs",
+        pocs
+      );
 
       return reply(res, 200, {
         success: true
@@ -608,10 +746,14 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("Command Center:", error.message);
+    console.error(
+      "Command Center:",
+      error.message
+    );
 
     return reply(res, 500, {
-      error: "Command Center is not configured or temporarily unavailable"
+      error:
+        "Command Center is not configured or temporarily unavailable"
     });
   }
 }

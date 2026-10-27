@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#642d45">
+<title>Vendor Approvals | SUPNIK</title>
+<style>
+:root{
+ --wine:#642d45;--cream:#fbf7f3;
+ --ink:#30242a;--muted:#81757b;
+ --line:#ebdfe3;--red:#b73546;
+ --green:#21724f;
+ font-family:system-ui,-apple-system,sans-serif
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink)}
+header{background:var(--wine);color:white;padding:24px 20px}
+header>div{max-width:1000px;margin:auto}
+header h1{font:normal 30px Georgia,serif;margin:8px 0}
+header p{font-size:13px;opacity:.85}
+main{max-width:1000px;margin:auto;padding:20px}
+.panel{
+ background:white;border:1px solid var(--line);
+ border-radius:16px;padding:20px;margin-bottom:18px
+}
+h2{font-size:20px;margin:0 0 12px}
+h3{font-size:16px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+.row{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;flex-wrap:wrap
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:14px
+}
+.item{
+ border:1px solid var(--line);
+ border-radius:12px;padding:15px;margin:12px 0
+}
+.item p{margin:6px 0;overflow-wrap:anywhere}
+button,select{font:inherit}
+button{cursor:pointer}
+.btn{
+ border:0;border-radius:9px;padding:10px 15px;
+ background:var(--wine);color:white;font-weight:600
+}
+.btn.secondary{background:#f1e7eb;color:var(--wine)}
+.btn.danger{background:var(--red)}
+.btn:disabled{opacity:.5;cursor:wait}
+select{
+ width:100%;padding:11px;border:1px solid #d9cbd0;
+ border-radius:9px;background:white;margin:8px 0
+}
+a{color:var(--wine)}
+.back{color:white}
+.hidden{display:none!important}
+.status{
+ border:1px solid var(--line);padding:12px;
+ border-radius:10px;margin-bottom:16px
+}
+@media(max-width:600px){
+ main{padding:12px}
+ .panel{padding:15px}
+ header h1{font-size:25px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div>
+  <div style="font-size:11px;letter-spacing:2px">
+   NIKHIL & SUPRIYA
+  </div>
+  <h1>Vendor Registrations & SPOCs</h1>
+  <p>Wedding Control Center · Administrator</p>
+  <a class="back" href="/wedding-control.html">
+   Back to Wedding Control Center
+  </a>
+ </div>
+</header>
+
+<main>
+ <div id="status" class="status" role="status">
+  Checking administrator access...
+ </div>
+
+ <div id="content" class="hidden">
+  <section class="panel">
+   <div class="row">
+    <div>
+     <h2>Pending Registrations</h2>
+     <p class="muted">
+      Only the wedding administrator can approve
+      or reject new vendor accounts.
+     </p>
+    </div>
+    <button class="btn secondary" id="refresh">
+     Refresh
+    </button>
+   </div>
+   <div id="requests"></div>
+  </section>
+
+  <section class="panel">
+   <h2>Vendor Teams & Primary SPOCs</h2>
+   <p class="muted">
+    Select one approved member as the primary
+    point of contact for each team.
+   </p>
+   <div id="teams" class="grid"></div>
+  </section>
+
+  <section class="panel">
+   <h2>Approved Vendor Members</h2>
+   <div id="members"></div>
+  </section>
+ </div>
+</main>
+
+<script>
+const API="/api/wedding-register";
+const CONTROL_API="/api/wedding-control";
+const TEAMS=[
+ "Decor","Photographer","DJ","Caterers","Hotel Staff"
+];
+
+const $=id=>document.getElementById(id);
+
+const escapeHTML=value=>String(value??"").replace(
+ /[&<>"']/g,
+ c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ }[c])
+);
+
+let token=sessionStorage.getItem("wc_token")||"";
+let members=[],leads={},requests=[];
+
+function status(message){
+ $("status").textContent=message;
+}
+
+async function post(api,action,payload={}){
+ const response=await fetch(api,{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   ...(token?{
+    "Authorization":"Bearer "+token
+   }:{})
+  },
+  body:JSON.stringify({action,...payload})
+ });
+
+ let data;
+
+ try{
+  data=await response.json();
+ }catch{
+  throw Error("Invalid server response");
+ }
+
+ if(!response.ok){
+  throw Error(data.error||"Request failed");
+ }
+
+ return data;
+}
+
+async function checkAccess(){
+ if(!token){
+  throw Error(
+   "Please sign in as nick in the Wedding Control Center, then return to this page in the same tab."
+  );
+ }
+
+ const data=await post(CONTROL_API,"dashboard");
+
+ if(data.user?.role!=="admin"){
+  throw Error(
+   "Access denied. Only the wedding administrator can manage vendor registrations."
+  );
+ }
+}
+
+function renderRequests(){
+ $("requests").innerHTML=requests.length
+  ?requests.map(request=>`
+   <div class="item">
+    <div class="row">
+     <h3>${escapeHTML(request.name)}</h3>
+     <strong>${escapeHTML(request.team)}</strong>
+    </div>
+    <p>
+     <strong>Role:</strong>
+     ${escapeHTML(request.position)}
+    </p>
+    <p>
+     <strong>Username:</strong>
+     ${escapeHTML(request.username)}
+    </p>
+    <p>
+     <strong>Email:</strong>
+     ${escapeHTML(request.email)}
+    </p>
+    <p>
+     <strong>Phone:</strong>
+     ${escapeHTML(request.phone)}
+    </p>
+    <p class="muted">
+     Submitted:
+     ${escapeHTML(request.createdAt)}
+    </p>
+    <div class="row">
+     <button class="btn"
+      data-action="approve"
+      data-username="${escapeHTML(request.username)}">
+      Approve
+     </button>
+     <button class="btn danger"
+      data-action="reject"
+      data-username="${escapeHTML(request.username)}">
+      Reject
+     </button>
+    </div>
+   </div>
+  `).join("")
+  :`<p class="muted">
+    No pending vendor registrations.
+   </p>`;
+}
+
+function renderTeams(){
+ $("teams").innerHTML=TEAMS.map(team=>{
+  const people=members.filter(
+   person=>person.team===team
+  );
+
+  const selected=leads[team]||"";
+
+  return `
+   <div class="item">
+    <h3>${escapeHTML(team)}</h3>
+    <p class="muted">
+     ${people.length} approved member(s)
+    </p>
+    <label for="lead-${TEAMS.indexOf(team)}">
+     Primary Vendor SPOC
+    </label>
+    <select id="lead-${TEAMS.indexOf(team)}"
+     data-team="${escapeHTML(team)}">
+     <option value="">Not assigned</option>
+     ${people.map(person=>`
+      <option value="${escapeHTML(person.id)}"
+       ${person.id===selected?"selected":""}>
+       ${escapeHTML(person.name)}
+       (${escapeHTML(person.id)})
+      </option>
+     `).join("")}
+    </select>
+    <button class="btn secondary"
+     data-save-lead="${escapeHTML(team)}">
+     Save SPOC
+    </button>
+   </div>
+  `;
+ }).join("");
+}
+
+function renderMembers(){
+ $("members").innerHTML=members.length
+  ?members.map(person=>`
+   <div class="item">
+    <div class="row">
+     <strong>${escapeHTML(person.name)}</strong>
+     <span>${escapeHTML(person.team)}</span>
+    </div>
+    <p class="muted">
+     Username: ${escapeHTML(person.id)}
+    </p>
+    ${person.position?`
+     <p>Role: ${escapeHTML(person.position)}</p>
+    `:""}
+    ${person.email?`
+     <p>Email: ${escapeHTML(person.email)}</p>
+    `:""}
+    ${person.phone?`
+     <p>Phone: ${escapeHTML(person.phone)}</p>
+    `:""}
+    ${leads[person.team]===person.id?`
+     <strong>Primary SPOC</strong>
+    `:""}
+   </div>
+  `).join("")
+  :`<p class="muted">
+    No approved vendor accounts yet.
+   </p>`;
+}
+
+function render(){
+ renderRequests();
+ renderTeams();
+ renderMembers();
+}
+
+async function load(){
+ const data=await post(API,"list");
+
+ requests=data.requests||[];
+ members=data.members||[];
+ leads=data.leads||{};
+
+ render();
+
+ status(
+  requests.length+
+  " pending registration(s) · "+
+  members.length+
+  " approved vendor account(s)"
+ );
+}
+
+$("refresh").onclick=async()=>{
+ try{
+  await load();
+ }catch(error){
+  status(error.message);
+ }
+};
+
+document.addEventListener("click",async event=>{
+ const action=event.target.dataset.action;
+ const username=event.target.dataset.username;
+ const team=event.target.dataset.saveLead;
+
+ if(!action&&!team)return;
+
+ const button=event.target;
+ button.disabled=true;
+
+ try{
+  if(action){
+   const request=requests.find(
+    item=>item.username===username
+   );
+
+   if(!request)return;
+
+   const verb=action==="approve"
+    ?"approve":"reject";
+
+   if(!confirm(
+    "Are you sure you want to "+verb+
+    " "+request.name+
+    " ("+request.team+")?"
+   )){
+    return;
+   }
+
+   await post(API,action,{username});
+
+  }else if(team){
+   const select=[
+    ...document.querySelectorAll("[data-team]")
+   ].find(element=>element.dataset.team===team);
+
+   await post(API,"setLead",{
+    team,
+    username:select?.value||""
+   });
+  }
+
+  await load();
+
+ }catch(error){
+  status(error.message);
+ }finally{
+  button.disabled=false;
+ }
+});
+
+(async()=>{
+ try{
+  await checkAccess();
+  $("content").classList.remove("hidden");
+  await load();
+ }catch(error){
+  $("content").classList.add("hidden");
+  status(error.message);
+ }
+})();
+</script>
+</body>
+</html>

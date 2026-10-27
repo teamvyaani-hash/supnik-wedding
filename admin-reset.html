@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Wedding Command Center | Admin Recovery</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #fbf7f4;
+  color: #39252d;
+  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px 24px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(50,20,35,.08);
+}
+
+h1 {
+  font-family: Georgia, serif;
+  color: #642c43;
+  font-size: 28px;
+}
+
+p {
+  color: #786a70;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 22px 0 8px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d8c9c9;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background: #762f49;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+#message {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.success { color: #167447; }
+.error { color: #b42336; }
+
+a {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  color: #762f49;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div style="font-size:12px;letter-spacing:2px;color:#956578">
+    NIKHIL & SUPRIYA
+  </div>
+
+  <h1>Admin Password Recovery</h1>
+
+  <p>
+    Reset the Wedding Command Center administrator
+    password to the current password configured
+    privately in Vercel.
+  </p>
+
+  <form id="resetForm">
+    <label for="secret">Private reset secret</label>
+
+    <input
+      id="secret"
+      type="password"
+      autocomplete="off"
+      spellcheck="false"
+      required
+      minlength="32"
+      placeholder="Enter your reset secret"
+    >
+
+    <button id="resetButton" type="submit">
+      Reset Admin Password
+    </button>
+  </form>
+
+  <div id="message" role="status" aria-live="polite"></div>
+
+  <a href="/command-center.html">
+    Return to Command Center
+  </a>
+</div>
+
+<script>
+const form = document.getElementById("resetForm");
+const button = document.getElementById("resetButton");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const secret = document.getElementById("secret").value;
+
+  if (secret.length < 32) {
+    message.textContent =
+      "The reset secret must contain at least 32 characters.";
+    message.className = "error";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Resetting...";
+  message.textContent = "";
+
+  try {
+    const response = await fetch("/api/command-center", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action: "resetAdminPassword",
+        secret
+      })
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success) {
+      message.className = "success";
+      message.textContent =
+        "Password reset successful! You can now sign in " +
+        "using your admin username and the password " +
+        "currently saved in Vercel.";
+
+      form.reset();
+      button.textContent = "Reset Complete";
+    } else {
+      message.className = "error";
+      message.textContent =
+        result.error || "Password reset failed.";
+      button.disabled = false;
+      button.textContent = "Reset Admin Password";
+    }
+  } catch (error) {
+    message.className = "error";
+    message.textContent =
+      "Connection error. Please try again.";
+
+    button.disabled = false;
+    button.textContent = "Reset Admin Password";
+  }
+});
+</script>
+
+</body>
+</html>

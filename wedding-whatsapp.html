@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#642d45">
+<title>Wedding WhatsApp Center | SUPNIK</title>
+<style>
+:root{
+ --wine:#642d45;
+ --cream:#fbf7f3;
+ --ink:#30242a;
+ --muted:#81757b;
+ --line:#ebdfe3;
+ --green:#21724f;
+ font-family:system-ui,-apple-system,sans-serif
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:var(--cream);
+ color:var(--ink)
+}
+header{
+ background:var(--wine);
+ color:white;
+ padding:28px 20px
+}
+.header-inner{
+ max-width:850px;
+ margin:auto
+}
+header h1{
+ font:normal 30px Georgia,serif;
+ margin:10px 0
+}
+header p{
+ margin:0;
+ font-size:13px;
+ opacity:.85
+}
+main{
+ max-width:850px;
+ margin:24px auto;
+ padding:0 15px
+}
+.panel{
+ background:white;
+ border:1px solid var(--line);
+ border-radius:16px;
+ padding:22px;
+ margin-bottom:16px
+}
+h2{font-size:20px;margin:0 0 12px}
+p{line-height:1.6}
+.muted{color:var(--muted);font-size:13px}
+label{
+ display:block;
+ font-size:13px;
+ font-weight:600;
+ margin:14px 0
+}
+input,select,textarea{
+ display:block;
+ width:100%;
+ margin-top:7px;
+ padding:12px;
+ border:1px solid #d9cbd0;
+ border-radius:10px;
+ background:white;
+ color:var(--ink);
+ font:inherit
+}
+textarea{
+ min-height:220px;
+ resize:vertical;
+ line-height:1.6
+}
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:14px
+}
+.btn{
+ display:inline-block;
+ border:0;
+ border-radius:10px;
+ padding:13px 18px;
+ background:var(--wine);
+ color:white;
+ font:inherit;
+ font-weight:600;
+ cursor:pointer;
+ text-decoration:none
+}
+.btn.secondary{
+ background:#f1e7eb;
+ color:var(--wine)
+}
+.btn.whatsapp{
+ background:var(--green)
+}
+.btn:disabled{
+ opacity:.5;
+ cursor:not-allowed
+}
+.actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-top:16px
+}
+.note{
+ background:#edf8f1;
+ border:1px solid #c5e5d0;
+ padding:14px;
+ border-radius:10px;
+ font-size:13px;
+ line-height:1.6
+}
+.error{
+ color:#b73546;
+ font-size:13px
+}
+.hidden{display:none!important}
+a{color:var(--wine)}
+@media(max-width:600px){
+ .grid{grid-template-columns:1fr;gap:0}
+ .panel{padding:17px}
+ header h1{font-size:25px}
+ .actions .btn{flex:1;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="header-inner">
+  <div style="font-size:11px;letter-spacing:2px">
+   NIKHIL & SUPRIYA
+  </div>
+  <h1>Wedding WhatsApp Center</h1>
+  <p>
+   21–22 November 2026 · MGM Beach Resort, Chennai
+  </p>
+ </div>
+</header>
+
+<main>
+ <section class="panel" id="accessPanel">
+  <h2>Administrator Access</h2>
+  <p id="accessMessage" class="muted">
+   Checking your Wedding Control Center session...
+  </p>
+  <a href="/wedding-control.html">
+   Return to Wedding Control Center
+  </a>
+ </section>
+
+ <div id="workspace" class="hidden">
+  <section class="panel">
+   <h2>Prepare WhatsApp Message</h2>
+   <p class="muted">
+    Choose the message, personalize it, and open
+    WhatsApp when you're ready.
+   </p>
+
+   <div class="grid">
+    <label>
+     Vendor Team
+     <select id="team">
+      <option value="Decor">Decor</option>
+      <option value="Photographer">Photographer</option>
+      <option value="DJ">DJ</option>
+      <option value="Caterers">Caterers</option>
+      <option value="Hotel Staff">Hotel Staff</option>
+     </select>
+    </label>
+
+    <label>
+     Message Type
+     <select id="type">
+      <option value="approval">
+       Account Approved
+      </option>
+      <option value="task">
+       Task Reminder
+      </option>
+      <option value="deadline">
+       Deadline Follow-Up
+      </option>
+      <option value="urgent">
+       Urgent Wedding Alert
+      </option>
+      <option value="custom">
+       Custom Message
+      </option>
+     </select>
+    </label>
+   </div>
+
+   <div class="grid">
+    <label>
+     Recipient Name
+     <input
+      id="recipient"
+      maxlength="120"
+      placeholder="e.g. Rahul">
+    </label>
+
+    <label>
+     WhatsApp Number
+     <input
+      id="phone"
+      type="tel"
+      placeholder="+91 9876543210">
+    </label>
+   </div>
+
+   <label>
+    Task / Update Details
+    <input
+     id="details"
+     maxlength="500"
+     placeholder="e.g. Confirm stage decor setup by 20 Nov">
+   </label>
+
+   <label>
+    WhatsApp Message
+    <textarea id="message"></textarea>
+   </label>
+
+   <div class="actions">
+    <button class="btn secondary"
+     id="generate" type="button">
+     Generate Message
+    </button>
+
+    <button class="btn secondary"
+     id="copy" type="button">
+     Copy Message
+    </button>
+
+    <button class="btn whatsapp"
+     id="openWhatsApp" type="button">
+     Open WhatsApp
+    </button>
+   </div>
+
+   <p id="feedback" class="muted" role="status"></p>
+  </section>
+
+  <section class="panel">
+   <h2>How It Works</h2>
+   <div class="note">
+    WhatsApp will open a chat with the selected
+    recipient and a prefilled message.
+    You must press <strong>Send</strong> in WhatsApp.
+    This tool does not automatically send messages
+    or access your WhatsApp conversations.
+   </div>
+   <p class="muted">
+    Phone numbers should include the country code.
+    For Indian numbers, use +91 followed by the
+    10-digit mobile number.
+   </p>
+  </section>
+ </div>
+</main>
+
+<script>
+const CONTROL_API="/api/wedding-control";
+
+const $=id=>document.getElementById(id);
+
+const token=sessionStorage.getItem("wc_token")||"";
+
+const templates={
+ approval:({name,team})=>
+`Hi ${name},
+
+Your access to Nikhil & Supriya's Wedding Control Center has been approved!
+
+Team: ${team}
+
+You can now sign in using the username and password you registered with.
+
+Login: https://supnik.in/wedding-control.html
+
+Please enable notifications after signing in so you don't miss important wedding updates.
+
+Thank you for being part of our wedding team!`,
+
+ task:({name,team,details})=>
+`Hi ${name},
+
+A quick reminder regarding the wedding preparations.
+
+Team: ${team}
+
+Task: ${details||"Please review your pending tasks."}
+
+Please check the Wedding Control Center and update your progress.
+
+Dashboard: https://supnik.in/wedding-control.html
+
+Thanks!`,
+
+ deadline:({name,team,details})=>
+`Hi ${name},
+
+Following up on an upcoming wedding deadline.
+
+Team: ${team}
+
+${details||"Please review your assigned tasks and deadlines."}
+
+Kindly confirm the current status and flag any blockers as soon as possible.
+
+Dashboard: https://supnik.in/wedding-control.html
+
+Thank you!`,
+
+ urgent:({name,team,details})=>
+`Hi ${name},
+
+URGENT — Wedding Coordination Update
+
+Team: ${team}
+
+${details||"Please contact the wedding coordinator immediately."}
+
+Please acknowledge this message and take the necessary action.
+
+Wedding Control Center:
+https://supnik.in/wedding-control.html`,
+
+ custom:({name,team,details})=>
+`Hi ${name},
+
+${details||"Sharing a quick wedding coordination update."}
+
+Team: ${team}
+
+Thank you,
+Nikhil & Supriya's Wedding Team`
+};
+
+function generate(){
+ const name=$("recipient").value.trim()||"Team";
+ const team=$("team").value;
+ const details=$("details").value.trim();
+ const type=$("type").value;
+
+ $("message").value=templates[type]({
+  name,team,details
+ });
+
+ $("feedback").textContent=
+  "Message ready. Review before sending.";
+}
+
+function normalizePhone(raw){
+ const digits=raw.replace(/\D/g,"");
+
+ if(!digits)return "";
+
+ if(digits.length===10){
+  return "91"+digits;
+ }
+
+ if(digits.length>=11&&digits.length<=15){
+  return digits;
+ }
+
+ return "";
+}
+
+$("generate").onclick=generate;
+
+$("type").onchange=generate;
+$("team").onchange=generate;
+
+$("copy").onclick=async()=>{
+ const message=$("message").value.trim();
+
+ if(!message){
+  $("feedback").textContent=
+   "Generate or enter a message first.";
+  return;
+ }
+
+ try{
+  await navigator.clipboard.writeText(message);
+  $("feedback").textContent="Message copied.";
+ }catch{
+  $("message").focus();
+  $("message").select();
+  $("feedback").textContent=
+   "Select and copy the message manually.";
+ }
+};
+
+$("openWhatsApp").onclick=()=>{
+ const phone=normalizePhone(
+  $("phone").value.trim()
+ );
+
+ const message=$("message").value.trim();
+
+ if(!phone){
+  $("feedback").textContent=
+   "Enter a valid WhatsApp number with country code.";
+  return;
+ }
+
+ if(!message){
+  $("feedback").textContent=
+   "Please generate or enter a message.";
+  return;
+ }
+
+ const url=
+  "https://wa.me/"+phone+
+  "?text="+encodeURIComponent(message);
+
+ window.open(
+  url,
+  "_blank",
+  "noopener,noreferrer"
+ );
+
+ $("feedback").textContent=
+  "WhatsApp opened. Review the chat and press Send.";
+};
+
+async function checkAccess(){
+ if(!token){
+  $("accessMessage").textContent=
+   "Please sign in as the wedding administrator first.";
+  return;
+ }
+
+ try{
+  const response=await fetch(CONTROL_API,{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json",
+    "Authorization":"Bearer "+token
+   },
+   body:JSON.stringify({
+    action:"dashboard"
+   })
+  });
+
+  const data=await response.json();
+
+  if(!response.ok||data.user?.role!=="admin"){
+   throw Error("Administrator access required.");
+  }
+
+  $("accessPanel").classList.add("hidden");
+  $("workspace").classList.remove("hidden");
+
+  generate();
+
+ }catch(error){
+  $("accessMessage").textContent=error.message;
+ }
+}
+
+checkAccess();
+</script>
+</body>
+</html>

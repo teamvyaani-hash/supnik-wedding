@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#642d45">
+<title>Wedding Control | Push Notifications</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #fbf7f3;
+  color: #30242a;
+  font-family: system-ui, sans-serif;
+}
+header {
+  background: #642d45;
+  color: white;
+  padding: 28px 20px;
+  text-align: center;
+}
+header h1 {
+  font: normal 30px Georgia, serif;
+  margin: 8px 0;
+}
+main {
+  max-width: 520px;
+  margin: 35px auto;
+  padding: 0 16px;
+}
+.card {
+  background: white;
+  border: 1px solid #ebdfe3;
+  border-radius: 16px;
+  padding: 24px;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #642d45;
+  color: white;
+  font: 600 15px system-ui;
+  cursor: pointer;
+  margin: 12px 0;
+}
+button:disabled { opacity: .5; }
+.secondary {
+  background: #f1e7eb;
+  color: #642d45;
+}
+p { line-height: 1.6; }
+#status { font-weight: 600; }
+a { color: #642d45; }
+</style>
+</head>
+<body>
+<header>
+  <div>NIKHIL & SUPRIYA</div>
+  <h1>Wedding Notifications</h1>
+  <div>Private Vendor & Family Coordination</div>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Enable Push Notifications</h2>
+    <p>
+      Receive wedding coordination alerts,
+      task updates and approval notifications
+      on this device.
+    </p>
+
+    <p id="status" role="status">
+      Checking your device...
+    </p>
+
+    <button id="enable" disabled>
+      Enable Notifications
+    </button>
+
+    <button id="disable" class="secondary" disabled>
+      Disable Notifications
+    </button>
+
+    <p>
+      <a href="/wedding-control.html">
+        Back to Wedding Control Center
+      </a>
+    </p>
+  </div>
+</main>
+
+<script>
+const API = "/api/wedding-push";
+const token = sessionStorage.getItem("wc_token");
+
+const statusElement = document.getElementById("status");
+const enableButton = document.getElementById("enable");
+const disableButton = document.getElementById("disable");
+
+function status(message) {
+  statusElement.textContent = message;
+}
+
+async function api(action, payload = {}) {
+  const response = await fetch(API, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ action, ...payload })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Request failed");
+  }
+
+  return data;
+}
+
+function toUint8Array(base64) {
+  const padding = "=".repeat(
+    (4 - base64.length % 4) % 4
+  );
+
+  const decoded = atob(
+    (base64 + padding)
+      .replace(/-/g, "+")
+      .replace(/_/g, "/")
+  );
+
+  return Uint8Array.from(
+    decoded,
+    character => character.charCodeAt(0)
+  );
+}
+
+let registration;
+
+async function initialize() {
+  if (!token) {
+    status(
+      "Please sign in to Wedding Control Center first, " +
+      "then open this page in the same browser tab."
+    );
+    return;
+  }
+
+  if (!("serviceWorker" in navigator) ||
+      !("PushManager" in window) ||
+      !("Notification" in window)) {
+    status(
+      "Push notifications are not supported in this " +
+      "browser. Try Chrome or a supported installed app."
+    );
+    return;
+  }
+
+  try {
+    await api("config");
+
+    registration = await navigator.serviceWorker.register(
+      "/wedding-sw.js",
+      { scope: "/" }
+    );
+
+    await navigator.serviceWorker.ready;
+
+    const subscription =
+      await registration.pushManager.getSubscription();
+
+    if (subscription) {
+      await api("subscribe", {
+        subscription: subscription.toJSON()
+      });
+
+      status("Notifications are enabled on this device.");
+      disableButton.disabled = false;
+    } else {
+      status("Notifications are not enabled yet.");
+    }
+
+    if (Notification.permission !== "denied") {
+      enableButton.disabled = false;
+    } else {
+      status(
+        "Notifications are blocked in your browser settings."
+      );
+    }
+
+  } catch (error) {
+    status(error.message);
+  }
+}
+
+enableButton.addEventListener("click", async () => {
+  enableButton.disabled = true;
+
+  try {
+    const permission =
+      await Notification.requestPermission();
+
+    if (permission !== "granted") {
+      throw new Error(
+        "Notification permission was not granted."
+      );
+    }
+
+    const config = await api("config");
+
+    let subscription =
+      await registration.pushManager.getSubscription();
+
+    if (!subscription) {
+      subscription =
+        await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey:
+            toUint8Array(config.publicKey)
+        });
+    }
+
+    await api("subscribe", {
+      subscription: subscription.toJSON()
+    });
+
+    status("Notifications enabled successfully!");
+    disableButton.disabled = false;
+
+  } catch (error) {
+    status(error.message);
+
+    if (Notification.permission !== "denied") {
+      enableButton.disabled = false;
+    }
+  }
+});
+
+disableButton.addEventListener("click", async () => {
+  disableButton.disabled = true;
+
+  try {
+    const subscription =
+      await registration.pushManager.getSubscription();
+
+    if (subscription) {
+      await api("unsubscribe", {
+        endpoint: subscription.endpoint
+      });
+
+      await subscription.unsubscribe();
+    }
+
+    status("Notifications disabled on this device.");
+    enableButton.disabled = false;
+
+  } catch (error) {
+    status(error.message);
+    disableButton.disabled = false;
+  }
+});
+
+initialize();
+</script>
+</body>
+</html>

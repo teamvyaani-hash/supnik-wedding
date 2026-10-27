@@ -286,6 +286,9 @@ textarea{resize:vertical;min-height:65px}
 
   <section class="panel" id="accountPanel">
     <h2>Create Family / Vendor Account</h2>
+    <p class="muted">
+      Family and vendor passwords must contain at least 8 characters.
+    </p>
     <form id="accountForm">
       <div class="grid">
         <label>Full Name
@@ -305,7 +308,8 @@ textarea{resize:vertical;min-height:65px}
         </label>
         <label>Temporary Password
           <input id="accountPassword" type="password"
-            required minlength="16">
+            required minlength="8" maxlength="256"
+            autocomplete="new-password">
         </label>
       </div>
       <button class="btn">Create Account</button>

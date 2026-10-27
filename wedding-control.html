@@ -175,6 +175,8 @@ textarea{resize:vertical;min-height:65px}
    Notifications <span id="unreadCount"></span>
   </button>
   <button data-tab="team">Team & Vendors</button>
+  <button data-tab="whatsapp" id="whatsappNav"
+   class="hidden">WhatsApp</button>
  </div>
 
  <div id="overviewTab">
@@ -280,7 +282,6 @@ textarea{resize:vertical;min-height:65px}
  </div>
 
  <div id="teamTab" class="hidden">
-
   <section class="panel approval-panel hidden"
    id="vendorApprovalPanel">
    <h2>Vendor Registrations & Approvals</h2>
@@ -359,10 +360,14 @@ textarea{resize:vertical;min-height:65px}
    <p id="resetMessage" role="status"></p>
   </section>
  </div>
+
+ <div id="whatsappTab" class="hidden"></div>
 </div>
 </main>
 
 <div id="toast" role="status"></div>
+
+<script src="/wedding-whatsapp-component.js"></script>
 
 <script>
 const API="/api/wedding-control";
@@ -643,9 +648,25 @@ function ownerOptions(selected=""){
 }
 
 function showTab(name){
- ["overview","tasks","notifications","team"].forEach(tab=>{
-  $(tab+"Tab").classList.toggle("hidden",tab!==name);
- });
+ const allowed=["overview","tasks","notifications","team"];
+ const canWhatsApp=me&&(
+  me.role==="admin"||me.role==="family"
+ );
+
+ if(canWhatsApp){
+  allowed.push("whatsapp");
+ }
+
+ if(!allowed.includes(name)){
+  name="overview";
+ }
+
+ ["overview","tasks","notifications","team","whatsapp"]
+  .forEach(tab=>{
+   $(tab+"Tab").classList.toggle(
+    "hidden",tab!==name
+   );
+  });
 
  document.querySelectorAll("[data-tab]").forEach(button=>{
   button.classList.toggle(
@@ -655,6 +676,16 @@ function showTab(name){
 
  if(name==="notifications"&&me){
   refreshPushStatus();
+ }
+
+ if(name==="whatsapp"&&canWhatsApp){
+  window.weddingControlRole=me.role;
+
+  if(window.WeddingWhatsApp){
+   window.WeddingWhatsApp.init();
+  }else{
+   toast("WhatsApp component is unavailable.");
+  }
  }
 }
 
@@ -913,6 +944,21 @@ function render(){
   "hidden",me.role==="vendor"
  );
 
+ const canWhatsApp=
+  me.role==="admin"||me.role==="family";
+
+ $("whatsappNav").classList.toggle(
+  "hidden",!canWhatsApp
+ );
+
+ window.weddingControlRole=canWhatsApp
+  ?me.role
+  :null;
+
+ if(!canWhatsApp){
+  $("whatsappTab").classList.add("hidden");
+ }
+
  renderStats();
  renderTasks();
  renderNotifications();
@@ -1009,6 +1055,7 @@ $("logout").onclick=async()=>{
 
  sessionStorage.removeItem("wc_token");
  token="";
+ window.weddingControlRole=null;
  location.reload();
 };
 
@@ -1199,6 +1246,7 @@ if(token){
  load().catch(()=>{
   sessionStorage.removeItem("wc_token");
   token="";
+  window.weddingControlRole=null;
 
   $("login").classList.remove("hidden");
   $("workspace").classList.add("hidden");

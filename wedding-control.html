@@ -107,6 +107,15 @@ textarea{resize:vertical;min-height:65px}
  font-weight:600;
  color:var(--wine)
 }
+.approval-panel{
+ background:linear-gradient(135deg,#fff,#faf0f4);
+ border:1px solid #e5cdd6
+}
+.approval-link{
+ display:inline-block;
+ text-decoration:none;
+ margin-top:8px
+}
 @media(max-width:650px){
  main{padding:13px}
  header h1{font-size:26px}
@@ -142,6 +151,12 @@ textarea{resize:vertical;min-height:65px}
   <button class="btn">Sign In</button>
  </form>
  <p id="loginMessage" style="color:var(--red)" role="alert"></p>
+ <p class="muted">
+  Vendor team member?
+  <a href="/wedding-vendor-register.html">
+   Request an account
+  </a>
+ </p>
 </section>
 
 <div id="workspace" class="hidden">
@@ -265,6 +280,25 @@ textarea{resize:vertical;min-height:65px}
  </div>
 
  <div id="teamTab" class="hidden">
+
+  <section class="panel approval-panel hidden"
+   id="vendorApprovalPanel">
+   <h2>Vendor Registrations & Approvals</h2>
+   <p class="muted">
+    Review new vendor registrations, approve or reject
+    accounts, view approved vendor members and designate
+    the primary SPOC for each team.
+   </p>
+   <p class="muted">
+    Only the wedding administrator can approve accounts.
+    Vendor SPOCs cannot approve new members.
+   </p>
+   <a class="btn approval-link"
+    href="/wedding-vendor-admin.html">
+    Manage Vendor Registrations
+   </a>
+  </section>
+
   <section class="panel">
    <h2>Vendor Coordination</h2>
    <div id="vendorCards" class="grid"></div>
@@ -329,7 +363,7 @@ textarea{resize:vertical;min-height:65px}
 </main>
 
 <div id="toast" role="status"></div>
- 
+
 <script>
 const API="/api/wedding-control";
 const PUSH_API="/api/wedding-push";
@@ -803,6 +837,10 @@ function renderNotifications(){
 function renderTeam(){
  const vendor=me.role==="vendor";
 
+ $("vendorApprovalPanel").classList.toggle(
+  "hidden",me.role!=="admin"
+ );
+
  $("accountPanel").classList.toggle(
   "hidden",me.role!=="admin"
  );
@@ -1169,4 +1207,3 @@ if(token){
 </script>
 </body>
 </html>
-

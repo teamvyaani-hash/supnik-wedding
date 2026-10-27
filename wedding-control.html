@@ -88,11 +88,31 @@ textarea{resize:vertical;min-height:65px}
  background:#30242a;color:white;padding:13px 20px;
  border-radius:12px;display:none;z-index:10;max-width:90vw
 }
+.push-settings{
+ background:#fbf7f9;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:16px;
+ margin-bottom:18px
+}
+.push-settings p{line-height:1.5}
+.push-actions{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-top:12px
+}
+.push-status{
+ font-size:14px;
+ font-weight:600;
+ color:var(--wine)
+}
 @media(max-width:650px){
  main{padding:13px}
  header h1{font-size:26px}
  .panel{padding:15px}
  .task-grid{grid-template-columns:1fr}
+ .push-actions .btn{flex:1}
 }
 </style>
 </head>
@@ -207,6 +227,33 @@ textarea{resize:vertical;min-height:65px}
 
  <div id="notificationsTab" class="hidden">
   <section class="panel">
+   <h2>Notification Settings</h2>
+   <div class="push-settings">
+    <p class="muted">
+     Receive task assignments, verification requests,
+     status updates and urgent wedding alerts
+     directly on this device.
+    </p>
+    <p id="pushStatus" class="push-status" role="status">
+     Checking notification settings...
+    </p>
+    <div class="push-actions">
+     <button type="button" class="btn"
+      id="enablePush" disabled>
+      Enable Notifications
+     </button>
+     <button type="button" class="btn secondary"
+      id="disablePush" disabled>
+      Disable Notifications
+     </button>
+    </div>
+    <p class="muted">
+     Each device must enable notifications separately.
+     Signing out will disconnect this device from
+     your account's push notifications.
+    </p>
+   </div>
+
    <div class="row">
     <h2>Notification Center</h2>
     <button class="btn secondary" id="markAllRead">
@@ -282,16 +329,21 @@ textarea{resize:vertical;min-height:65px}
 </main>
 
 <div id="toast" role="status"></div>
+ 
 <script>
 const API="/api/wedding-control";
+const PUSH_API="/api/wedding-push";
 const DEPARTMENTS=[
  "Decor","Photographer","DJ","Caterers","Hotel Staff"
 ];
 
 let token=sessionStorage.getItem("wc_token")||"";
 let me=null,tasks=[],people=[],pocs={},notifications=[];
+let pushRegistration=null;
+let pushBusy=false;
 
 const $=id=>document.getElementById(id);
+
 const escapeHTML=value=>String(value??"").replace(
  /[&<>"']/g,
  c=>({
@@ -315,12 +367,230 @@ async function request(action,payload={}){
   },
   body:JSON.stringify({action,...payload})
  });
+
  let data;
- try{data=await response.json();}
- catch{throw Error("Server returned an invalid response");}
- if(!response.ok)throw Error(data.error||"Request failed");
+ try{
+  data=await response.json();
+ }catch{
+  throw Error("Server returned an invalid response");
+ }
+
+ if(!response.ok){
+  throw Error(data.error||"Request failed");
+ }
  return data;
 }
+
+async function pushRequest(action,payload={}){
+ if(!token){
+  throw Error("Please sign in first.");
+ }
+
+ const response=await fetch(PUSH_API,{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   "Authorization":"Bearer "+token
+  },
+  body:JSON.stringify({action,...payload})
+ });
+
+ let data;
+ try{
+  data=await response.json();
+ }catch{
+  throw Error("Invalid notification server response");
+ }
+
+ if(!response.ok){
+  throw Error(data.error||"Notification request failed");
+ }
+
+ return data;
+}
+
+function toUint8Array(base64){
+ const padding="=".repeat(
+  (4-base64.length%4)%4
+ );
+
+ const decoded=atob(
+  (base64+padding)
+   .replace(/-/g,"+")
+   .replace(/_/g,"/")
+ );
+
+ return Uint8Array.from(
+  decoded,
+  character=>character.charCodeAt(0)
+ );
+}
+
+function pushSupported(){
+ return "serviceWorker" in navigator &&
+  "PushManager" in window &&
+  "Notification" in window;
+}
+
+function pushStatus(message){
+ $("pushStatus").textContent=message;
+}
+
+function pushButtons(enabled){
+ $("enablePush").disabled=pushBusy||
+  enabled||Notification.permission==="denied";
+
+ $("disablePush").disabled=pushBusy||!enabled;
+}
+
+async function getPushRegistration(){
+ if(!pushRegistration){
+  pushRegistration=
+   await navigator.serviceWorker.register(
+    "/wedding-sw.js",
+    {scope:"/"}
+   );
+ }
+ await navigator.serviceWorker.ready;
+ return pushRegistration;
+}
+
+async function refreshPushStatus(){
+ if(!pushSupported()){
+  pushStatus(
+   "This browser does not support push notifications."
+  );
+  $("enablePush").disabled=true;
+  $("disablePush").disabled=true;
+  return;
+ }
+
+ if(Notification.permission==="denied"){
+  pushStatus(
+   "Notifications are blocked. Allow them in your " +
+   "browser's site settings."
+  );
+  $("enablePush").disabled=true;
+  $("disablePush").disabled=true;
+  return;
+ }
+
+ try{
+  const registration=await getPushRegistration();
+  const subscription=
+   await registration.pushManager.getSubscription();
+
+  if(subscription){
+   await pushRequest("subscribe",{
+    subscription:subscription.toJSON()
+   });
+
+   pushStatus(
+    "Notifications are enabled on this device."
+   );
+   pushButtons(true);
+  }else{
+   pushStatus(
+    "Notifications are currently disabled on this device."
+   );
+   pushButtons(false);
+  }
+ }catch(error){
+  pushStatus(error.message);
+  $("enablePush").disabled=false;
+  $("disablePush").disabled=true;
+ }
+}
+
+async function enablePush(){
+ if(pushBusy)return;
+ pushBusy=true;
+ $("enablePush").disabled=true;
+ $("disablePush").disabled=true;
+
+ try{
+  if(!pushSupported()){
+   throw Error(
+    "Push notifications are not supported on this browser."
+   );
+  }
+
+  const permission=await Notification.requestPermission();
+
+  if(permission!=="granted"){
+   throw Error(
+    "Notification permission was not granted."
+   );
+  }
+
+  const config=await pushRequest("config");
+  const registration=await getPushRegistration();
+
+  let subscription=
+   await registration.pushManager.getSubscription();
+
+  if(!subscription){
+   subscription=await registration.pushManager.subscribe({
+    userVisibleOnly:true,
+    applicationServerKey:toUint8Array(config.publicKey)
+   });
+  }
+
+  await pushRequest("subscribe",{
+   subscription:subscription.toJSON()
+  });
+
+  pushStatus("Notifications enabled successfully!");
+  toast("Push notifications enabled");
+
+ }catch(error){
+  pushStatus(error.message);
+ }finally{
+  pushBusy=false;
+  if(pushSupported()){
+   await refreshPushStatus();
+  }
+ }
+}
+
+async function disablePush(){
+ if(pushBusy)return;
+ pushBusy=true;
+ $("enablePush").disabled=true;
+ $("disablePush").disabled=true;
+
+ try{
+  if(!pushSupported()){
+   throw Error("Push notifications are unavailable.");
+  }
+
+  const registration=await getPushRegistration();
+  const subscription=
+   await registration.pushManager.getSubscription();
+
+  if(subscription){
+   await pushRequest("unsubscribe",{
+    endpoint:subscription.endpoint
+   });
+
+   await subscription.unsubscribe();
+  }
+
+  pushStatus("Notifications disabled on this device.");
+  toast("Push notifications disabled");
+
+ }catch(error){
+  pushStatus(error.message);
+ }finally{
+  pushBusy=false;
+  if(pushSupported()){
+   await refreshPushStatus();
+  }
+ }
+}
+
+$("enablePush").onclick=enablePush;
+$("disablePush").onclick=disablePush;
 
 function options(items,selected=""){
  return items.map(item=>{
@@ -342,20 +612,32 @@ function showTab(name){
  ["overview","tasks","notifications","team"].forEach(tab=>{
   $(tab+"Tab").classList.toggle("hidden",tab!==name);
  });
+
  document.querySelectorAll("[data-tab]").forEach(button=>{
-  button.classList.toggle("active",button.dataset.tab===name);
+  button.classList.toggle(
+   "active",button.dataset.tab===name
+  );
  });
+
+ if(name==="notifications"&&me){
+  refreshPushStatus();
+ }
 }
 
 function renderStats(){
  const statuses=[
   ["Total Tasks",tasks.length],
-  ["In Progress",tasks.filter(t=>t.status==="In progress").length],
-  ["Awaiting Verification",tasks.filter(t=>
-   t.status==="Awaiting verification").length],
-  ["Verified",tasks.filter(t=>t.status==="Verified").length],
-  ["Blocked",tasks.filter(t=>t.status==="Blocked").length]
+  ["In Progress",
+   tasks.filter(t=>t.status==="In progress").length],
+  ["Awaiting Verification",
+   tasks.filter(t=>
+    t.status==="Awaiting verification").length],
+  ["Verified",
+   tasks.filter(t=>t.status==="Verified").length],
+  ["Blocked",
+   tasks.filter(t=>t.status==="Blocked").length]
  ];
+
  $("stats").innerHTML=statuses.map(([name,count])=>`
   <div class="stat">
    <span class="muted">${name}</span>
@@ -367,16 +649,20 @@ function renderStats(){
   t.status==="Blocked"||
   t.status==="Awaiting verification"
  );
+
  $("attention").innerHTML=attention.length
   ?attention.map(t=>`
    <div class="notice">
     <strong>${escapeHTML(t.title)}</strong>
     <div class="muted">
-     ${escapeHTML(t.department)} · ${escapeHTML(t.status)}
+     ${escapeHTML(t.department)} ·
+     ${escapeHTML(t.status)}
     </div>
    </div>
   `).join("")
-  :`<p class="muted">No urgent task issues right now.</p>`;
+  :`<p class="muted">
+    No urgent task issues right now.
+   </p>`;
 }
 
 function canVerifyLocally(task){
@@ -390,34 +676,53 @@ function canVerifyLocally(task){
 function renderTasks(){
  const vendor=me.role==="vendor";
  const selected=$("taskFilter").value;
+
  $("taskFilter").innerHTML=
   `<option value="">All Teams</option>`+
-  options([...new Set(tasks.map(t=>t.department))],selected);
- $("taskFilter").value=selected;
+  options(
+   [...new Set(tasks.map(t=>t.department))],
+   selected
+  );
 
+ $("taskFilter").value=selected;
  $("newDepartment").innerHTML=options(DEPARTMENTS);
  $("newOwner").innerHTML=ownerOptions();
+
  $("addTaskPanel").classList.toggle("hidden",vendor);
 
- const shown=tasks.filter(t=>!selected||t.department===selected);
+ const shown=tasks.filter(t=>
+  !selected||t.department===selected
+ );
+
  $("taskList").innerHTML=shown.length
   ?shown.map(t=>{
    const statuses=[
-    "Pending","In progress","Blocked",
+    "Pending",
+    "In progress",
+    "Blocked",
     "Awaiting verification"
    ];
+
    if(canVerifyLocally(t)||t.status==="Verified"){
     statuses.push("Verified");
    }
+
    return `
     <div class="task">
      <div class="row">
       <div>
-       <div class="task-title">${escapeHTML(t.title)}</div>
-       <span class="tag">${escapeHTML(t.department)}</span>
+       <div class="task-title">
+        ${escapeHTML(t.title)}
+       </div>
+       <span class="tag">
+        ${escapeHTML(t.department)}
+       </span>
       </div>
-      <span class="muted">${escapeHTML(t.status)}</span>
+      <span class="muted">
+       ${escapeHTML(t.status)}
+      </span>
      </div>
+
      <div class="task-grid">
       <label>Status
        <select data-task="${escapeHTML(t.id)}"
@@ -426,31 +731,37 @@ function renderTasks(){
         ${options(statuses,t.status)}
        </select>
       </label>
+
       <label>Assigned Coordinator
        <select data-task="${escapeHTML(t.id)}"
         data-field="owner" ${vendor?"disabled":""}>
         ${ownerOptions(t.owner)}
        </select>
       </label>
+
       <label>Deadline
        <input type="datetime-local"
-        data-task="${escapeHTML(t.id)}" data-field="due"
+        data-task="${escapeHTML(t.id)}"
+        data-field="due"
         value="${escapeHTML(t.due||"")}"
         ${vendor?"disabled":""}>
       </label>
      </div>
+
      <label>Progress Notes
       <textarea data-task="${escapeHTML(t.id)}"
        data-field="notes"
        ${vendor&&t.status==="Verified"?"disabled":""}>${escapeHTML(t.notes||"")}</textarea>
      </label>
+
      <div class="row">
       <span class="muted">
        ${t.updatedBy
         ?"Last updated by "+escapeHTML(t.updatedBy)
         :"No updates yet"}
       </span>
-      <button class="btn" data-save="${escapeHTML(t.id)}"
+      <button class="btn"
+       data-save="${escapeHTML(t.id)}"
        ${vendor&&t.status==="Verified"?"disabled":""}>
        Save Update
       </button>
@@ -463,8 +774,10 @@ function renderTasks(){
 
 function renderNotifications(){
  const unread=notifications.filter(n=>!n.read);
+
  $("unreadCount").textContent=
   unread.length?`(${unread.length})`:"";
+
  $("notificationList").innerHTML=notifications.length
   ?notifications.map(n=>`
    <div class="notice ${n.read?"":"unread"}
@@ -473,11 +786,15 @@ function renderNotifications(){
      <strong>${escapeHTML(n.title)}</strong>
      ${n.read?"":`
       <button class="btn secondary"
-       data-read="${escapeHTML(n.id)}">Mark Read</button>
+       data-read="${escapeHTML(n.id)}">
+       Mark Read
+      </button>
      `}
     </div>
     <p>${escapeHTML(n.message)}</p>
-    <span class="muted">${escapeHTML(n.createdAt||"")}</span>
+    <span class="muted">
+     ${escapeHTML(n.createdAt||"")}
+    </span>
    </div>
   `).join("")
   :`<p class="muted">No notifications yet.</p>`;
@@ -485,20 +802,28 @@ function renderNotifications(){
 
 function renderTeam(){
  const vendor=me.role==="vendor";
+
  $("accountPanel").classList.toggle(
   "hidden",me.role!=="admin"
  );
+
  $("resetPanel").classList.toggle(
   "hidden",me.role!=="admin"
  );
+
  $("accountVendor").innerHTML=options(DEPARTMENTS);
 
  const eligible=people.filter(p=>p.role!=="admin");
+
  $("resetAccount").innerHTML=eligible.length
   ?eligible.map(p=>`
    <option value="${escapeHTML(p.id)}">
-    ${escapeHTML(p.name)} (${escapeHTML(p.id)})
-    — ${escapeHTML(p.role==="vendor"?p.vendor:"Family")}
+    ${escapeHTML(p.name)}
+    (${escapeHTML(p.id)})
+    —
+    ${escapeHTML(
+     p.role==="vendor"?p.vendor:"Family"
+    )}
    </option>
   `).join("")
   :`<option value="">No accounts yet</option>`;
@@ -507,21 +832,27 @@ function renderTeam(){
   (vendor?[me.vendor]:DEPARTMENTS).map(d=>`
    <div class="stat">
     <h3>${escapeHTML(d)}</h3>
+
     <label>Internal Coordinator
      <select data-department="${escapeHTML(d)}"
-      data-poc-field="internal" ${vendor?"disabled":""}>
+      data-poc-field="internal"
+      ${vendor?"disabled":""}>
       ${ownerOptions(pocs[d]?.internal||"")}
      </select>
     </label>
+
     <label>Vendor POC
      <input data-department="${escapeHTML(d)}"
       data-poc-field="vendor"
       value="${escapeHTML(pocs[d]?.vendor||"")}"
       ${vendor?"disabled":""}>
     </label>
+
     ${vendor?"":`
      <button class="btn secondary"
-      data-save-poc="${escapeHTML(d)}">Save Contacts</button>
+      data-save-poc="${escapeHTML(d)}">
+      Save Contacts
+     </button>
     `}
    </div>
   `).join("");
@@ -530,14 +861,20 @@ function renderTeam(){
 function render(){
  $("login").classList.add("hidden");
  $("workspace").classList.remove("hidden");
+
  $("greeting").textContent="Welcome, "+me.name;
+
  $("roleLabel").textContent=
-  me.role==="admin"?"Wedding Administrator":
-  me.role==="vendor"?"Vendor · "+me.vendor:
-  "Family / Friend Coordinator";
+  me.role==="admin"
+   ?"Wedding Administrator"
+   :me.role==="vendor"
+    ?"Vendor · "+me.vendor
+    :"Family / Friend Coordinator";
+
  $("alertPanel").classList.toggle(
   "hidden",me.role==="vendor"
  );
+
  renderStats();
  renderTasks();
  renderNotifications();
@@ -546,26 +883,32 @@ function render(){
 
 async function load(){
  const data=await request("dashboard");
+
  me=data.user;
  tasks=data.tasks||[];
  people=data.people||[];
  pocs=data.pocs||{};
  notifications=data.notifications||[];
+
  render();
 }
 
 $("loginForm").addEventListener("submit",async e=>{
  e.preventDefault();
  $("loginMessage").textContent="";
+
  try{
   const result=await request("login",{
    username:$("username").value.trim(),
    password:$("password").value
   });
+
   token=result.token;
   sessionStorage.setItem("wc_token",token);
+
   $("password").value="";
   await load();
+
  }catch(error){
   $("loginMessage").textContent=error.message;
  }
@@ -587,7 +930,7 @@ $("logout").onclick=async()=>{
     :null;
 
    if(subscription&&token){
-    const response=await fetch("/api/wedding-push",{
+    const response=await fetch(PUSH_API,{
      method:"POST",
      headers:{
       "Content-Type":"application/json",
@@ -600,12 +943,15 @@ $("logout").onclick=async()=>{
     });
 
     if(!response.ok){
-     throw Error("Unable to unregister push notifications");
+     throw Error(
+      "Unable to unregister push notifications"
+     );
     }
 
     await subscription.unsubscribe();
    }
   }
+
  }catch(error){
   button.disabled=false;
   toast(
@@ -618,7 +964,9 @@ $("logout").onclick=async()=>{
  try{
   await request("logout");
  }catch(error){
-  console.warn("Logout request failed:",error.message);
+  console.warn(
+   "Logout request failed:",error.message
+  );
  }
 
  sessionStorage.removeItem("wc_token");
@@ -629,10 +977,12 @@ $("logout").onclick=async()=>{
 document.querySelectorAll("[data-tab]").forEach(button=>{
  button.onclick=()=>showTab(button.dataset.tab);
 });
+
 $("taskFilter").onchange=renderTasks;
 
 $("addTaskForm").onsubmit=async e=>{
  e.preventDefault();
+
  try{
   await request("createTask",{
    department:$("newDepartment").value,
@@ -640,27 +990,37 @@ $("addTaskForm").onsubmit=async e=>{
    due:$("newDue").value,
    owner:$("newOwner").value
   });
+
   $("addTaskForm").reset();
   await load();
   toast("Task created successfully");
- }catch(error){toast(error.message);}
+
+ }catch(error){
+  toast(error.message);
+ }
 };
 
 $("alertForm").onsubmit=async e=>{
  e.preventDefault();
+
  try{
   await request("urgentAlert",{
    audience:$("alertAudience").value,
    message:$("alertText").value
   });
+
   $("alertText").value="";
   await load();
   toast("Urgent alert sent");
- }catch(error){toast(error.message);}
+
+ }catch(error){
+  toast(error.message);
+ }
 };
 
 $("accountForm").onsubmit=async e=>{
  e.preventDefault();
+
  try{
   await request("createAccount",{
    name:$("accountName").value,
@@ -669,28 +1029,36 @@ $("accountForm").onsubmit=async e=>{
    vendor:$("accountVendor").value,
    password:$("accountPassword").value
   });
+
   $("accountForm").reset();
   await load();
   toast("Account created successfully");
- }catch(error){toast(error.message);}
+
+ }catch(error){
+  toast(error.message);
+ }
 };
 
 $("resetForm").onsubmit=async e=>{
  e.preventDefault();
+
  const username=$("resetAccount").value;
  const password=$("resetPassword").value;
  const confirm=$("resetConfirm").value;
  const message=$("resetMessage");
 
  message.textContent="";
+
  if(password!==confirm){
   message.textContent="Passwords do not match.";
   return;
  }
+
  if(!username){
   message.textContent="Select an account.";
   return;
  }
+
  if(!window.confirm(
   "Reset the password for "+username+
   "? Their existing sessions will be signed out."
@@ -698,17 +1066,23 @@ $("resetForm").onsubmit=async e=>{
 
  const button=e.submitter;
  if(button)button.disabled=true;
+
  try{
   await request("resetAccountPassword",{
    username,password
   });
+
   $("resetPassword").value="";
   $("resetConfirm").value="";
+
   message.textContent=
    "Password updated successfully for "+username+".";
+
   toast("Password reset successful");
+
  }catch(error){
   message.textContent=error.message;
+
  }finally{
   if(button)button.disabled=false;
  }
@@ -718,49 +1092,76 @@ $("markAllRead").onclick=async()=>{
  try{
   await request("markAllRead");
   await load();
- }catch(error){toast(error.message);}
+
+ }catch(error){
+  toast(error.message);
+ }
 };
 
 document.addEventListener("click",async e=>{
  const taskId=e.target.dataset.save;
  const pocDepartment=e.target.dataset.savePoc;
  const notificationId=e.target.dataset.read;
+
  try{
   if(taskId){
    const patch={};
+
    document.querySelectorAll("[data-task]").forEach(el=>{
     if(el.dataset.task===taskId&&!el.disabled){
      patch[el.dataset.field]=el.value;
     }
    });
-   await request("updateTask",{id:taskId,patch});
+
+   await request("updateTask",{
+    id:taskId,patch
+   });
+
    await load();
    toast("Task updated");
   }
+
   if(pocDepartment){
    const fields=[
     ...document.querySelectorAll("[data-department]")
-   ].filter(el=>el.dataset.department===pocDepartment);
-   const values=Object.fromEntries(
-    fields.map(el=>[el.dataset.pocField,el.value])
+   ].filter(el=>
+    el.dataset.department===pocDepartment
    );
+
+   const values=Object.fromEntries(
+    fields.map(el=>[
+     el.dataset.pocField,
+     el.value
+    ])
+   );
+
    await request("setPoc",{
-    department:pocDepartment,...values
+    department:pocDepartment,
+    ...values
    });
+
    await load();
    toast("Contacts saved");
   }
+
   if(notificationId){
-   await request("markRead",{id:notificationId});
+   await request("markRead",{
+    id:notificationId
+   });
+
    await load();
   }
- }catch(error){toast(error.message);}
+
+ }catch(error){
+  toast(error.message);
+ }
 });
 
 if(token){
  load().catch(()=>{
   sessionStorage.removeItem("wc_token");
   token="";
+
   $("login").classList.remove("hidden");
   $("workspace").classList.add("hidden");
  });

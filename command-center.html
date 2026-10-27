@@ -1,0 +1,481 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SUPNIK | Wedding Command Center</title>
+<style>
+:root{
+  font-family:system-ui,-apple-system,sans-serif;
+  color:#39252d;
+  background:#fbf7f4
+}
+*{box-sizing:border-box}
+body{margin:0}
+header{
+  background:#642c43;
+  color:white;
+  padding:22px max(20px,5vw)
+}
+h1{
+  font-family:Georgia,serif;
+  font-size:30px;
+  margin:5px 0
+}
+main{max-width:1150px;margin:auto;padding:24px}
+button{
+  cursor:pointer;
+  background:#762f49;
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:10px 14px
+}
+button:disabled{opacity:.5}
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  border:1px solid #d8c9c9;
+  border-radius:8px;
+  background:white
+}
+label{
+  display:grid;
+  gap:6px;
+  font-size:13px;
+  font-weight:600
+}
+section,.card{
+  background:white;
+  border:1px solid #eadede;
+  border-radius:14px;
+  padding:18px;
+  margin:15px 0
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px
+}
+.card{margin:0}
+.muted{color:#83747a;font-size:13px}
+.bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap
+}
+.task{
+  border-top:1px solid #eee4e4;
+  padding:15px 0;
+  display:grid;
+  grid-template-columns:minmax(160px,2fr) repeat(3,minmax(120px,1fr));
+  gap:10px;
+  align-items:center
+}
+.task:first-child{border-top:0}
+.error{color:#a02b35}
+#app{display:none}
+#login{max-width:420px;margin:40px auto}
+.small{font-size:12px}
+textarea{resize:vertical}
+@media(max-width:700px){
+  .task{grid-template-columns:1fr 1fr}
+  .task>div:first-child{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div style="font-size:11px;letter-spacing:2px">
+    NIKHIL & SUPRIYA · 21–22 NOVEMBER 2026
+  </div>
+  <h1>Wedding Command Center</h1>
+  <div style="font-size:13px">
+    MGM Beach Resort · ECR Chennai
+  </div>
+</header>
+
+<main>
+<section id="login">
+  <h2>Team sign in</h2>
+  <p class="muted">
+    Private access for the couple, coordinators and vendors.
+  </p>
+  <form id="loginForm">
+    <label>Username
+      <input id="username" required autocomplete="username">
+    </label>
+    <br>
+    <label>Password
+      <input id="password" type="password" required
+        autocomplete="current-password">
+    </label>
+    <br>
+    <button>Sign in</button>
+  </form>
+  <p id="loginError" class="error"></p>
+</section>
+
+<div id="app">
+  <div class="bar">
+    <div>
+      <h2 id="welcome"></h2>
+      <p class="muted" id="roleDesc"></p>
+    </div>
+    <button id="logout">Sign out</button>
+  </div>
+
+  <div id="stats" class="grid"></div>
+
+  <section>
+    <div class="bar">
+      <h2>Vendor coordination</h2>
+      <span class="muted">
+        Main internal POC + vendor POC
+      </span>
+    </div>
+    <div id="vendors" class="grid"></div>
+  </section>
+
+  <section>
+    <div class="bar">
+      <h2>Tasks</h2>
+      <select id="filter" style="max-width:220px"></select>
+    </div>
+    <div id="tasks"></div>
+  </section>
+
+  <section id="addBox">
+    <h2>Add a task</h2>
+    <form id="addForm" class="grid">
+      <label>Vendor
+        <select id="addDepartment"></select>
+      </label>
+      <label>Task
+        <input id="addTitle" required maxlength="200">
+      </label>
+      <label>Deadline
+        <input id="addDue" type="datetime-local">
+      </label>
+      <div style="align-self:end">
+        <button>Add task</button>
+      </div>
+    </form>
+  </section>
+
+  <p class="muted small">
+    Vendors can update progress and notes for their own team only.
+    Family and friends coordinate assignments.
+    Final approval belongs to the couple.
+  </p>
+</div>
+</main>
+
+<script>
+const departments = [
+  'Decor',
+  'Photographer',
+  'DJ',
+  'Caterers',
+  'Hotel Staff'
+];
+
+let token = sessionStorage.getItem('cc_token') || '';
+let user = null;
+let tasks = [];
+let pocs = {};
+let people = [];
+
+const $ = id => document.getElementById(id);
+
+const esc = s => String(s ?? '').replace(
+  /[&<>"']/g,
+  c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[c])
+);
+
+async function api(action, data = {}) {
+  const res = await fetch('/api/command-center', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      ...(token ? {Authorization:'Bearer ' + token} : {})
+    },
+    body:JSON.stringify({action,...data})
+  });
+
+  const obj = await res.json();
+
+  if (!res.ok) {
+    throw Error(obj.error || 'Request failed');
+  }
+
+  return obj;
+}
+
+function option(value, label, selected) {
+  return `<option value="${esc(value)}"
+    ${value === selected ? 'selected' : ''}>
+    ${esc(label)}
+  </option>`;
+}
+
+function peopleOptions(selected) {
+  return option('', 'Unassigned', selected) +
+    people.map(p => option(p.id, p.name, selected)).join('');
+}
+
+function render() {
+  const vendor = user.role === 'vendor';
+
+  $('login').style.display = 'none';
+  $('app').style.display = 'block';
+
+  $('welcome').textContent = `Welcome, ${user.name}`;
+
+  $('roleDesc').textContent = vendor
+    ? `Vendor workspace · ${user.vendor}`
+    : user.role === 'admin'
+      ? 'Full administration and final verification'
+      : 'Family / friend coordination';
+
+  $('addBox').style.display = vendor ? 'none' : 'block';
+
+  const statuses = [
+    'Pending',
+    'In progress',
+    'Awaiting verification',
+    'Verified'
+  ];
+
+  $('stats').innerHTML = statuses.map(status => `
+    <div class="card">
+      <div class="muted">${status}</div>
+      <h2>${tasks.filter(t => t.status === status).length}</h2>
+    </div>
+  `).join('');
+
+  $('filter').innerHTML =
+    option('', 'All vendors', $('filter').value) +
+    [...new Set(tasks.map(t => t.department))]
+      .map(d => option(d, d, $('filter').value))
+      .join('');
+
+  $('addDepartment').innerHTML = departments
+    .map(d => option(d, d, ''))
+    .join('');
+
+  $('vendors').innerHTML =
+    (vendor ? [user.vendor] : departments).map(d => `
+      <div class="card">
+        <h3>${esc(d)}</h3>
+
+        ${vendor
+          ? '<div class="muted">Your assigned vendor team</div>'
+          : `
+          <label>Family / friend POC
+            <select data-poc="${esc(d)}" data-field="internal">
+              ${peopleOptions(pocs[d]?.internal || '')}
+            </select>
+          </label>
+          <br>
+          <label>Vendor POC name
+            <input
+              data-poc="${esc(d)}"
+              data-field="vendor"
+              value="${esc(pocs[d]?.vendor || '')}"
+              maxlength="120">
+          </label>
+          <br>
+          <button data-savepoc="${esc(d)}">Save POCs</button>
+          `
+        }
+      </div>
+    `).join('');
+
+  const shown = tasks.filter(t =>
+    !$('filter').value ||
+    t.department === $('filter').value
+  );
+
+  $('tasks').innerHTML = shown.length
+    ? shown.map(t => `
+      <div class="task">
+        <div>
+          <strong>${esc(t.title)}</strong>
+          <div class="muted">
+            ${esc(t.department)}
+            ${t.updatedBy
+              ? ' · Updated by ' + esc(t.updatedBy)
+              : ' · Not updated yet'}
+          </div>
+        </div>
+
+        <div>
+          <label>Status
+            <select data-task="${esc(t.id)}" data-field="status">
+              ${[
+                'Pending',
+                'In progress',
+                'Blocked',
+                'Awaiting verification',
+                ...(user.role === 'admin' ? ['Verified'] : [])
+              ].map(s => option(s, s, t.status)).join('')}
+            </select>
+          </label>
+        </div>
+
+        <div>
+          ${vendor
+            ? `
+              <div class="muted">Deadline</div>
+              ${esc(t.due || 'Not set')}
+            `
+            : `
+              <label>Task owner
+                <select data-task="${esc(t.id)}" data-field="owner">
+                  ${peopleOptions(t.owner)}
+                </select>
+              </label>
+              <label style="margin-top:7px">Deadline
+                <input
+                  type="datetime-local"
+                  data-task="${esc(t.id)}"
+                  data-field="due"
+                  value="${esc(t.due || '')}">
+              </label>
+            `
+          }
+        </div>
+
+        <div>
+          <label>Progress notes
+            <textarea rows="2"
+              data-task="${esc(t.id)}"
+              data-field="notes">${esc(t.notes || '')}</textarea>
+          </label>
+          <button style="margin-top:8px"
+            data-save="${esc(t.id)}">
+            Save update
+          </button>
+        </div>
+      </div>
+    `).join('')
+    : '<p class="muted">No tasks found.</p>';
+}
+
+async function load() {
+  const data = await api('list');
+
+  user = data.user;
+  tasks = data.tasks;
+  pocs = data.pocs;
+  people = data.people;
+
+  render();
+}
+
+$('loginForm').onsubmit = async e => {
+  e.preventDefault();
+  $('loginError').textContent = '';
+
+  try {
+    const result = await api('login', {
+      id:$('username').value.trim(),
+      password:$('password').value
+    });
+
+    token = result.token;
+    sessionStorage.setItem('cc_token', token);
+    $('password').value = '';
+
+    await load();
+  } catch (err) {
+    $('loginError').textContent = err.message;
+  }
+};
+
+$('logout').onclick = () => {
+  sessionStorage.removeItem('cc_token');
+  token = '';
+  location.reload();
+};
+
+$('filter').onchange = render;
+
+$('addForm').onsubmit = async e => {
+  e.preventDefault();
+
+  try {
+    await api('addTask', {
+      department:$('addDepartment').value,
+      title:$('addTitle').value,
+      due:$('addDue').value
+    });
+
+    $('addTitle').value = '';
+    $('addDue').value = '';
+
+    await load();
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
+document.addEventListener('click', async e => {
+  const id = e.target.dataset.save;
+  const department = e.target.dataset.savepoc;
+
+  try {
+    if (id) {
+      const patch = {};
+
+      document.querySelectorAll('[data-task]').forEach(el => {
+        if (el.dataset.task === id) {
+          patch[el.dataset.field] = el.value;
+        }
+      });
+
+      await api('updateTask', {id,patch});
+      await load();
+    }
+
+    if (department) {
+      const fields = [
+        ...document.querySelectorAll('[data-poc]')
+      ].filter(el => el.dataset.poc === department);
+
+      await api('setPoc', {
+        department,
+        ...Object.fromEntries(
+          fields.map(el => [el.dataset.field,el.value])
+        )
+      });
+
+      await load();
+    }
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
+if (token) {
+  load().catch(() => {
+    sessionStorage.removeItem('cc_token');
+    token = '';
+    $('login').style.display = 'block';
+  });
+}
+</script>
+
+</body>
+</html>

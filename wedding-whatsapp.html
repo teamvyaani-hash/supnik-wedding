@@ -119,10 +119,6 @@ textarea{
  font-size:13px;
  line-height:1.6
 }
-.error{
- color:#b73546;
- font-size:13px
-}
 .hidden{display:none!important}
 a{color:var(--wine)}
 @media(max-width:600px){
@@ -162,8 +158,8 @@ a{color:var(--wine)}
   <section class="panel">
    <h2>Prepare WhatsApp Message</h2>
    <p class="muted">
-    Choose the message, personalize it, and open
-    WhatsApp when you're ready.
+    Choose an approved vendor or enter contact
+    details manually. Review the message before sending.
    </p>
 
    <div class="grid">
@@ -179,28 +175,29 @@ a{color:var(--wine)}
     </label>
 
     <label>
-     Message Type
-     <select id="type">
-      <option value="approval">
-       Account Approved
-      </option>
-      <option value="task">
-       Task Reminder
-      </option>
-      <option value="deadline">
-       Deadline Follow-Up
-      </option>
-      <option value="urgent">
-       Urgent Wedding Alert
-      </option>
-      <option value="custom">
-       Custom Message
-      </option>
+     Approved Vendor
+     <select id="vendor">
+      <option value="">Manual entry</option>
      </select>
     </label>
    </div>
 
+   <p id="directoryStatus" class="muted" role="status">
+    Loading approved vendor contacts...
+   </p>
+
    <div class="grid">
+    <label>
+     Message Type
+     <select id="type">
+      <option value="approval">Account Approved</option>
+      <option value="task">Task Reminder</option>
+      <option value="deadline">Deadline Follow-Up</option>
+      <option value="urgent">Urgent Wedding Alert</option>
+      <option value="custom">Custom Message</option>
+     </select>
+    </label>
+
     <label>
      Recipient Name
      <input
@@ -208,22 +205,22 @@ a{color:var(--wine)}
       maxlength="120"
       placeholder="e.g. Rahul">
     </label>
-
-    <label>
-     WhatsApp Number
-     <input
-      id="phone"
-      type="tel"
-      placeholder="+91 9876543210">
-    </label>
    </div>
+
+   <label>
+    WhatsApp Number
+    <input
+     id="phone"
+     type="tel"
+     placeholder="+91 9876543210">
+   </label>
 
    <label>
     Task / Update Details
     <input
      id="details"
      maxlength="500"
-     placeholder="e.g. Confirm stage decor setup by 20 Nov">
+     placeholder="e.g. Confirm stage decor by 20 Nov">
    </label>
 
    <label>
@@ -232,6 +229,11 @@ a{color:var(--wine)}
    </label>
 
    <div class="actions">
+    <button class="btn secondary"
+     id="refresh" type="button">
+     Refresh Vendors
+    </button>
+
     <button class="btn secondary"
      id="generate" type="button">
      Generate Message
@@ -254,27 +256,35 @@ a{color:var(--wine)}
   <section class="panel">
    <h2>How It Works</h2>
    <div class="note">
-    WhatsApp will open a chat with the selected
-    recipient and a prefilled message.
-    You must press <strong>Send</strong> in WhatsApp.
-    This tool does not automatically send messages
-    or access your WhatsApp conversations.
+    Select an approved vendor to fill in their
+    name and registered phone number automatically.
+    WhatsApp opens with your prepared message,
+    but you must press <strong>Send</strong>.
+    No messages are sent automatically.
    </div>
    <p class="muted">
-    Phone numbers should include the country code.
-    For Indian numbers, use +91 followed by the
-    10-digit mobile number.
+    Existing vendor accounts may not have saved phone
+    numbers. You can enter those numbers manually.
+    Indian numbers can be entered with +91 or as
+    a 10-digit mobile number.
    </p>
+   <a href="/wedding-control.html">
+    Back to Wedding Control Center
+   </a>
   </section>
  </div>
 </main>
 
 <script>
 const CONTROL_API="/api/wedding-control";
+const REGISTER_API="/api/wedding-register";
 
 const $=id=>document.getElementById(id);
 
 const token=sessionStorage.getItem("wc_token")||"";
+
+let members=[];
+let leads={};
 
 const templates={
  approval:({name,team})=>
@@ -377,10 +387,119 @@ function normalizePhone(raw){
  return "";
 }
 
+function renderVendors(){
+ const team=$("team").value;
+ const selected=$("vendor").value;
+
+ const teamMembers=members.filter(
+  person=>person.team===team
+ );
+
+ $("vendor").replaceChildren(
+  new Option("Manual entry","")
+ );
+
+ for(const person of teamMembers){
+  const isLead=leads[team]===person.id;
+  const suffix=isLead?" (Primary SPOC)":"";
+
+  $("vendor").add(
+   new Option(
+    person.name+" ("+person.id+")"+suffix,
+    person.id
+   )
+  );
+ }
+
+ if(teamMembers.some(p=>p.id===selected)){
+  $("vendor").value=selected;
+ }else{
+  $("vendor").value="";
+ }
+
+ $("directoryStatus").textContent=
+  teamMembers.length+
+  " approved member(s) in "+team+
+  ". Select a member or use manual entry.";
+}
+
+function selectVendor(){
+ const username=$("vendor").value;
+
+ if(!username){
+  $("recipient").value="";
+  $("phone").value="";
+  generate();
+  return;
+ }
+
+ const person=members.find(
+  item=>item.id===username
+ );
+
+ if(!person)return;
+
+ $("recipient").value=person.name||"";
+ $("phone").value=person.phone||"";
+
+ if(!person.phone){
+  $("feedback").textContent=
+   "This vendor has no saved phone number. Enter it manually.";
+ }
+
+ generate();
+}
+
+async function loadVendors(){
+ $("directoryStatus").textContent=
+  "Refreshing approved vendor directory...";
+
+ const response=await fetch(REGISTER_API,{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   "Authorization":"Bearer "+token
+  },
+  body:JSON.stringify({action:"list"})
+ });
+
+ const data=await response.json();
+
+ if(!response.ok){
+  throw Error(
+   data.error||"Unable to load approved vendors."
+  );
+ }
+
+ members=Array.isArray(data.members)
+  ?data.members
+  :[];
+
+ leads=data.leads||{};
+
+ renderVendors();
+}
+
+$("team").onchange=()=>{
+ renderVendors();
+ $("recipient").value="";
+ $("phone").value="";
+ generate();
+};
+
+$("vendor").onchange=selectVendor;
+$("type").onchange=generate;
 $("generate").onclick=generate;
 
-$("type").onchange=generate;
-$("team").onchange=generate;
+$("refresh").onclick=async()=>{
+ try{
+  await loadVendors();
+  $("feedback").textContent=
+   "Vendor directory refreshed.";
+ }catch(error){
+  $("directoryStatus").textContent=error.message;
+ }
+};
 
 $("copy").onclick=async()=>{
  const message=$("message").value.trim();
@@ -464,6 +583,12 @@ async function checkAccess(){
   $("workspace").classList.remove("hidden");
 
   generate();
+
+  try{
+   await loadVendors();
+  }catch(error){
+   $("directoryStatus").textContent=error.message;
+  }
 
  }catch(error){
   $("accessMessage").textContent=error.message;

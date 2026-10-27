@@ -1,5 +1,6 @@
 
 import { Redis } from "@upstash/redis";
+import webpush from "web-push";
 import {
   randomBytes, randomUUID, scryptSync,
   timingSafeEqual, createHash
@@ -221,9 +222,6 @@ async function authenticate(req, redis) {
   );
   if (!session) return null;
 
-  // Existing sessions from the previous version were
-  // stored as a username string. Preserve them until
-  // the account's password is reset.
   const userId = typeof session === "string"
     ? session : session.userId;
 
@@ -305,6 +303,101 @@ function canVerify(user, task, pocs) {
     );
 }
 
+// Browser push is best-effort and does not
+// interrupt existing in-app notifications.
+let pushConfigured = false;
+
+function configurePush() {
+  if (pushConfigured) return true;
+
+  const publicKey = process.env.VAPID_PUBLIC_KEY;
+  const privateKey = process.env.VAPID_PRIVATE_KEY;
+  const subject = process.env.VAPID_SUBJECT;
+
+  if (!publicKey || !privateKey || !subject) {
+    return false;
+  }
+
+  try {
+    webpush.setVapidDetails(
+      subject, publicKey, privateKey
+    );
+    pushConfigured = true;
+    return true;
+  } catch (error) {
+    console.error(
+      "Wedding push configuration failed:",
+      error.message
+    );
+    return false;
+  }
+}
+
+async function sendDevicePush(
+  redis, userId, title, message, type = "info"
+) {
+  try {
+    if (!configurePush()) return;
+
+    const deviceSet = key("pushDevices", userId);
+    const deviceIds = await redis.smembers(deviceSet);
+
+    if (!deviceIds?.length) return;
+
+    const payload = JSON.stringify({
+      title,
+      body: message,
+      tag: type + ":" + randomUUID()
+    });
+
+    await Promise.all(deviceIds.map(async deviceId => {
+      const deviceKey = key(
+        "pushSubscription",
+        userId + ":" + deviceId
+      );
+
+      try {
+        const subscription = await redis.get(deviceKey);
+
+        if (!subscription?.endpoint ||
+            !subscription?.keys) {
+          await redis.srem(deviceSet, deviceId);
+          return;
+        }
+
+        await webpush.sendNotification(
+          subscription,
+          payload,
+          {
+            TTL: type === "urgent" ? 3600 : 86400,
+            timeout: 5000
+          }
+        );
+      } catch (error) {
+        if (
+          error?.statusCode === 404 ||
+          error?.statusCode === 410
+        ) {
+          await Promise.all([
+            redis.del(deviceKey),
+            redis.srem(deviceSet, deviceId)
+          ]);
+        } else {
+          console.error(
+            "Wedding push delivery failed:",
+            error?.statusCode || error?.message
+          );
+        }
+      }
+    }));
+  } catch (error) {
+    console.error(
+      "Wedding push unavailable:",
+      error.message
+    );
+  }
+}
+
 async function addNotification(
   redis, userId, title, message, type = "info"
 ) {
@@ -322,6 +415,14 @@ async function addNotification(
   const listKey = key("notifications", userId);
   await redis.lpush(listKey, notification);
   await redis.ltrim(listKey, 0, MAX_NOTIFICATIONS - 1);
+
+  await sendDevicePush(
+    redis,
+    userId,
+    notification.title,
+    notification.message,
+    notification.type
+  );
 }
 
 async function notifyMany(
@@ -558,8 +659,6 @@ export default async function handler(req, res) {
         password
       );
 
-      // Prevent two simultaneous requests from
-      // overwriting the same username.
       const created = await redis.set(
         key("user", username), account, { nx: true }
       );
@@ -621,10 +720,6 @@ export default async function handler(req, res) {
 
       const salt = randomBytes(16).toString("hex");
 
-      // Preserve the account ID, role, vendor team,
-      // task assignments and notifications.
-      // Incrementing the session version invalidates
-      // all previously issued sessions for this user.
       const updated = {
         ...target,
         salt,
@@ -985,3 +1080,4 @@ export default async function handler(req, res) {
     });
   }
 }
+

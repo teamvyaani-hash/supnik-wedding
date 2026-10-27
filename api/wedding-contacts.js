@@ -1,12 +1,8 @@
 
 import { Redis } from "@upstash/redis";
-import {
-  createHash,
-  randomUUID
-} from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 
 const PREFIX = "supnik:wedding-control:v2:";
-
 const CATEGORIES = ["Friends", "Family"];
 
 function key(type, id = "") {
@@ -54,9 +50,7 @@ async function authenticate(req, redis) {
 
   const token = auth.slice(7);
 
-  if (!/^[a-f0-9]{64}$/.test(token)) {
-    return null;
-  }
+  if (!/^[a-f0-9]{64}$/.test(token)) return null;
 
   const session = await redis.get(
     key("session", digest(token))
@@ -76,16 +70,12 @@ async function authenticate(req, redis) {
 
   if (!user) return null;
 
-  const version = Number(
-    user.sessionVersion || 0
-  );
+  const version = Number(user.sessionVersion || 0);
 
   if (typeof session === "string") {
     if (version !== 0) return null;
-  } else {
-    if (Number(session.version) !== version) {
-      return null;
-    }
+  } else if (Number(session.version) !== version) {
+    return null;
   }
 
   return user;
@@ -129,6 +119,30 @@ async function listContacts(redis) {
     );
 }
 
+async function listVendors(redis) {
+  const ids = await redis.smembers(key("userIds"));
+
+  if (!ids?.length) return [];
+
+  const users = await Promise.all(
+    ids.map(id => redis.get(key("user", id)))
+  );
+
+  return users
+    .filter(user => user?.role === "vendor")
+    .map(user => ({
+      id: user.id,
+      name: user.name,
+      phone: user.phone || "",
+      team: user.vendor || "",
+      position: user.position || ""
+    }))
+    .sort((a, b) =>
+      a.team.localeCompare(b.team) ||
+      a.name.localeCompare(b.name)
+    );
+}
+
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   res.setHeader(
@@ -146,9 +160,7 @@ export default async function handler(req, res) {
 
   if (origin) {
     try {
-      if (
-        new URL(origin).host !== req.headers.host
-      ) {
+      if (new URL(origin).host !== req.headers.host) {
         return send(res, 403, {
           error: "Request origin rejected."
         });
@@ -170,8 +182,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // Vendors are never allowed to access
-    // the WhatsApp contact directory.
     if (
       user.role !== "admin" &&
       user.role !== "family"
@@ -181,24 +191,25 @@ export default async function handler(req, res) {
       });
     }
 
-    const action = clean(
-      req.body?.action, 30
-    );
+    const action = clean(req.body?.action, 30);
 
-    // Admin and family coordinators
-    // can view contacts for messaging.
+    // Admin and family coordinators can
+    // view contacts for WhatsApp messaging.
     if (action === "list") {
-      const contacts = await listContacts(redis);
+      const [contacts, vendors] = await Promise.all([
+        listContacts(redis),
+        listVendors(redis)
+      ]);
 
       return send(res, 200, {
         success: true,
         contacts,
+        vendors,
         canManage: user.role === "admin"
       });
     }
 
-    // Only the administrator can
-    // create, edit or delete contacts.
+    // Only admin can change saved contacts.
     if (user.role !== "admin") {
       return send(res, 403, {
         error:
@@ -208,22 +219,10 @@ export default async function handler(req, res) {
 
     if (action === "save") {
       const id = clean(req.body?.id, 80);
-
-      const name = clean(
-        req.body?.name, 120
-      );
-
-      const phone = clean(
-        req.body?.phone, 25
-      );
-
-      const category = clean(
-        req.body?.category, 30
-      );
-
-      const notes = clean(
-        req.body?.notes, 500
-      );
+      const name = clean(req.body?.name, 120);
+      const phone = clean(req.body?.phone, 25);
+      const category = clean(req.body?.category, 30);
+      const notes = clean(req.body?.notes, 500);
 
       if (
         !name ||
